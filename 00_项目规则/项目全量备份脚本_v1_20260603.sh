@@ -2,8 +2,9 @@
 set -euo pipefail
 
 ROOT_DIR="/Users/xuyunfeng/Documents/k12"
-BACKUP_DIR="$ROOT_DIR/outputs/项目全量备份仓库_v1_20260603"
-LOG_FILE="$ROOT_DIR/outputs/项目全量备份记录_v1_20260603.md"
+CODEX_K12_DIR="/Users/xuyunfeng/Documents/codex-k12"
+BACKUP_DIR="$CODEX_K12_DIR/项目全量备份仓库_v1_20260603"
+LOG_FILE="$CODEX_K12_DIR/项目全量备份记录_v1_20260603.md"
 NODE_NAME="${1:-节点备份}"
 
 DATE_COMPACT="$(date '+%Y%m%d')"
@@ -12,7 +13,7 @@ TIMESTAMP="$(date '+%Y-%m-%d %H:%M:%S')"
 COMMIT_MESSAGE="节点备份 ${NODE_NAME} ${DATE_COMPACT} ${TIME_COMPACT}"
 
 mkdir -p "$BACKUP_DIR"
-mkdir -p "$ROOT_DIR/outputs"
+mkdir -p "$CODEX_K12_DIR"
 
 if [ ! -d "$BACKUP_DIR/.git" ]; then
   git -C "$BACKUP_DIR" init >/dev/null
@@ -80,6 +81,7 @@ cat > "$BACKUP_DIR/项目全量备份_还原说明_v1_20260603.md" <<'EOF'
 
 - 本仓库不包含项目外部下载目录中的原始文件正文，除非文件已复制进 k12 项目目录。
 - `流程资产_模板仓库` 用于流程复用；本仓库用于当前项目还原。
+- 本仓库正式保存于 `/Users/xuyunfeng/Documents/codex-k12/`；`/Users/xuyunfeng/Documents/k12/outputs/项目全量备份仓库_v1_20260603/` 仅作为历史快照保留。
 EOF
 
 if [ ! -f "$LOG_FILE" ]; then
