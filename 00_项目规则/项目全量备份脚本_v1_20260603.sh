@@ -103,8 +103,9 @@ if git -C "$BACKUP_DIR" diff --cached --quiet; then
   RESULT="无变化，未生成新提交"
   COMMIT_HASH="-"
 else
+  git -C "$BACKUP_DIR" commit -m "$COMMIT_MESSAGE" >/dev/null
+  COMMIT_HASH="$(git -C "$BACKUP_DIR" rev-parse --short HEAD)"
   RESULT="已提交"
-  COMMIT_HASH="提交后生成"
 fi
 
 printf '| %s | %s | %s | %s | %s | 无 | 成功则无需用户处理 |\n' \
@@ -114,11 +115,9 @@ sync_path "$LOG_FILE" "$BACKUP_DIR/outputs/项目全量备份记录_v1_20260603.
 git -C "$BACKUP_DIR" add -A
 
 if git -C "$BACKUP_DIR" diff --cached --quiet; then
-  RESULT="无变化，未生成新提交"
-  COMMIT_HASH="-"
+  :
 else
-  git -C "$BACKUP_DIR" commit -m "$COMMIT_MESSAGE" >/dev/null
-  COMMIT_HASH="$(git -C "$BACKUP_DIR" rev-parse --short HEAD)"
+  git -C "$BACKUP_DIR" commit -m "$COMMIT_MESSAGE 记录更新" >/dev/null
 fi
 
 echo "项目全量备份完成：$RESULT $COMMIT_HASH"
