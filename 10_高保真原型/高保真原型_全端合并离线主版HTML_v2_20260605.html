@@ -2239,18 +2239,26 @@
           buttons.forEach((btn) => btn.classList.toggle('active', btn.dataset.prototypeTarget === target));
         }
         function openEmbedded(target) {
-          if (!frameReady) {
-            frame.srcdoc = srcdoc;
-            frameReady = true;
-          }
           document.body.classList.add('prototype-embedded');
           embed.classList.add('active');
           activateButton(target);
           const payload = workspaceMap[target];
-          const send = () => frame.contentWindow && frame.contentWindow.postMessage({ type: 'switch-workspace', ...payload }, '*');
-          frame.onload = send;
+          const send = () => {
+            if (frame.contentWindow && payload) frame.contentWindow.postMessage({ type: 'switch-workspace', ...payload }, '*');
+          };
+          frame.onload = () => {
+            send();
+            setTimeout(send, 80);
+          };
+          if (!frameReady) {
+            frameReady = true;
+            frame.srcdoc = srcdoc;
+          } else {
+            send();
+          }
           setTimeout(send, 160);
           setTimeout(send, 520);
+          setTimeout(send, 1000);
         }
         function openLingbang(client) {
           document.body.classList.remove('prototype-embedded');
