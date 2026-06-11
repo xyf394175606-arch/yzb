@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>高保真原型_全端合并离线主版HTML_v2_20260605</title>
+    <title>高保真原型_交互式原型说明_v1_20260608</title>
     <style>
       * { box-sizing: border-box; }
       body {
@@ -1410,18 +1410,26 @@
       }
       .prototype-main-note {
         position: fixed;
-        left: 50%;
-        bottom: 12px;
+        right: 352px;
+        bottom: 16px;
         z-index: 1000;
-        transform: translateX(-50%);
-        width: min(760px, calc(100vw - 24px));
-        padding: 8px 12px;
-        border-radius: 999px;
+        width: min(680px, calc(100vw - 400px));
+        min-width: 320px;
+        padding: 10px 14px;
+        border-radius: 14px;
         background: rgba(15, 23, 42, .82);
         color: #fff;
         font-size: 12px;
-        text-align: center;
+        line-height: 1.5;
+        text-align: left;
         box-shadow: 0 10px 28px rgba(15, 23, 42, .18);
+        opacity: 1;
+        transition: opacity .32s ease, transform .32s ease;
+      }
+      .prototype-main-note.hidden-once {
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(10px);
       }
       .prototype-embed {
         position: fixed;
@@ -1443,11 +1451,483 @@
       }
       body.prototype-embedded .phone { display: none; }
       body.prototype-embedded .prototype-main-note { display: none; }
+      body.annotation-placement { cursor: crosshair; }
+      body.annotation-dragging,
+      body.annotation-dragging * { user-select: none !important; }
+      .annotation-toolbar {
+        position: fixed;
+        right: 16px;
+        bottom: 16px;
+        z-index: 1300;
+        width: min(320px, calc(100vw - 20px));
+        padding: 12px;
+        border: 1px solid rgba(15, 23, 42, .12);
+        border-radius: 16px;
+        background: rgba(255, 255, 255, .96);
+        box-shadow: 0 20px 44px rgba(15, 23, 42, .18);
+        backdrop-filter: blur(14px);
+        display: grid;
+        gap: 10px;
+      }
+      .annotation-toolbar.is-dragging {
+        cursor: grabbing;
+        transition: none;
+      }
+      .annotation-toolbar.is-collapsed {
+        width: min(240px, calc(100vw - 20px));
+        padding: 10px;
+        gap: 0;
+      }
+      .annotation-toolbar-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        align-items: center;
+        cursor: grab;
+        touch-action: none;
+      }
+      .annotation-toolbar.is-dragging .annotation-toolbar-head { cursor: grabbing; }
+      .annotation-toolbar-head-main {
+        min-width: 0;
+      }
+      .annotation-toolbar-title {
+        font-size: 14px;
+        font-weight: 900;
+        color: #111827;
+      }
+      .annotation-toolbar-drag-hint {
+        margin-top: 2px;
+        color: #94a3b8;
+        font-size: 11px;
+        font-weight: 700;
+      }
+      .annotation-toolbar-controls {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        flex-shrink: 0;
+      }
+      .annotation-toolbar-body {
+        display: grid;
+        gap: 10px;
+      }
+      .annotation-toolbar.is-collapsed .annotation-toolbar-body {
+        display: none;
+      }
+      .annotation-toolbar-search {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 8px;
+        align-items: center;
+      }
+      .annotation-toolbar-search input {
+        width: 100%;
+        min-height: 38px;
+        padding: 0 12px;
+        border: 1px solid #d7e2f2;
+        border-radius: 10px;
+        background: #fff;
+        color: #111827;
+        font-size: 13px;
+      }
+      .annotation-search-panel {
+        display: none;
+        max-height: 220px;
+        overflow: auto;
+        padding: 6px;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        background: #fff;
+      }
+      .annotation-search-panel.active { display: grid; gap: 6px; }
+      .annotation-search-empty {
+        padding: 12px;
+        color: #64748b;
+        font-size: 12px;
+        text-align: center;
+      }
+      .annotation-search-item {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        background: #fff;
+        text-align: left;
+        display: grid;
+        gap: 5px;
+        cursor: pointer;
+      }
+      .annotation-search-item:hover {
+        border-color: #bfdbfe;
+        background: #f8fbff;
+      }
+      .annotation-search-top {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .annotation-search-id {
+        color: #dc2626;
+        font-size: 12px;
+        font-weight: 900;
+      }
+      .annotation-search-page {
+        color: #64748b;
+        font-size: 11px;
+      }
+      .annotation-search-name {
+        color: #111827;
+        font-size: 13px;
+        font-weight: 800;
+      }
+      .annotation-search-summary {
+        color: #475569;
+        font-size: 12px;
+        line-height: 1.55;
+      }
+      .annotation-toolbar-state,
+      .annotation-toolbar-foot {
+        color: #64748b;
+        font-size: 12px;
+        line-height: 1.5;
+      }
+      .annotation-toolbar-actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+      }
+      .annotation-toolbar button {
+        min-height: 38px;
+        padding: 0 12px;
+        border: 1px solid #d7e2f2;
+        border-radius: 10px;
+        background: #f8fbff;
+        color: #1f2937;
+        font-size: 12px;
+        font-weight: 800;
+        cursor: pointer;
+      }
+      .annotation-toolbar button.primary {
+        background: #dc2626;
+        border-color: #dc2626;
+        color: #fff;
+      }
+      .annotation-toolbar button.warn {
+        background: #fff7ed;
+        border-color: #fdba74;
+        color: #c2410c;
+      }
+      .annotation-toolbar button.ghost {
+        background: #fff;
+        border-color: #d7e2f2;
+        color: #475569;
+      }
+      .annotation-placement-tip {
+        position: fixed;
+        left: 50%;
+        top: 76px;
+        transform: translateX(-50%);
+        z-index: 1350;
+        display: none;
+        min-width: 280px;
+        max-width: calc(100vw - 24px);
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: rgba(17, 24, 39, .92);
+        color: #fff;
+        text-align: center;
+        font-size: 12px;
+        font-weight: 800;
+        box-shadow: 0 16px 36px rgba(15, 23, 42, .24);
+      }
+      .annotation-placement-tip.active { display: block; }
+      .annotation-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 1250;
+        pointer-events: none;
+      }
+      .annotation-marker {
+        position: fixed;
+        min-height: 34px;
+        padding: 0 12px;
+        border: 0;
+        border-radius: 999px;
+        background: #dc2626;
+        color: #fff;
+        font-size: 13px;
+        font-weight: 900;
+        line-height: 34px;
+        white-space: nowrap;
+        box-shadow: 0 10px 24px rgba(220, 38, 38, .28);
+        pointer-events: auto;
+        cursor: grab;
+      }
+      .annotation-marker.custom {
+        background: #ea580c;
+        box-shadow: 0 10px 24px rgba(234, 88, 12, .24);
+      }
+      .annotation-marker.dragging { cursor: grabbing; }
+      .annotation-dialog {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        z-index: 1400;
+        width: min(460px, calc(100vw - 24px));
+        max-height: min(72vh, 760px);
+        display: none;
+        grid-template-rows: auto 1fr auto;
+        border: 1px solid rgba(15, 23, 42, .12);
+        border-radius: 16px;
+        background: rgba(255, 255, 255, .98);
+        box-shadow: 0 28px 60px rgba(15, 23, 42, .22);
+        overflow: hidden;
+      }
+      .annotation-dialog.active { display: grid; }
+      .annotation-dialog-head {
+        padding: 14px 16px;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 12px;
+        align-items: center;
+        border-bottom: 1px solid #e5e7eb;
+        background: #f8fafc;
+        cursor: move;
+      }
+      .annotation-dialog-id {
+        color: #dc2626;
+        font-size: 12px;
+        font-weight: 900;
+      }
+      .annotation-dialog-name {
+        margin-top: 4px;
+        color: #111827;
+        font-size: 16px;
+        font-weight: 900;
+      }
+      .annotation-dialog-title-input {
+        width: 100%;
+        min-height: 40px;
+        margin-top: 6px;
+        padding: 0 10px;
+        border: 1px solid #dbe3ef;
+        border-radius: 10px;
+        background: #fff;
+        color: #111827;
+        font-size: 15px;
+        font-weight: 800;
+      }
+      .annotation-dialog-close {
+        width: 34px;
+        height: 34px;
+        border: 0;
+        border-radius: 999px;
+        background: #e5e7eb;
+        color: #111827;
+        font-size: 18px;
+        cursor: pointer;
+      }
+      .annotation-dialog-body {
+        overflow: auto;
+        padding: 16px;
+        color: #1f2937;
+        font-size: 14px;
+        line-height: 1.7;
+        background: #fff;
+      }
+      .annotation-dialog-body h1,
+      .annotation-dialog-body h2,
+      .annotation-dialog-body h3 {
+        margin: 0 0 10px;
+        color: #111827;
+        line-height: 1.35;
+      }
+      .annotation-dialog-body h1 { font-size: 20px; }
+      .annotation-dialog-body h2 { font-size: 17px; }
+      .annotation-dialog-body h3 { font-size: 15px; }
+      .annotation-dialog-body p,
+      .annotation-dialog-body ul,
+      .annotation-dialog-body ol,
+      .annotation-dialog-body blockquote,
+      .annotation-dialog-body pre {
+        margin: 0 0 12px;
+      }
+      .annotation-dialog-body ul,
+      .annotation-dialog-body ol {
+        padding-left: 22px;
+      }
+      .annotation-dialog-body blockquote {
+        padding-left: 12px;
+        border-left: 3px solid #fecaca;
+        color: #475569;
+      }
+      .annotation-dialog-body code {
+        padding: 2px 6px;
+        border-radius: 6px;
+        background: #f1f5f9;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 12px;
+      }
+      .annotation-dialog-body pre {
+        padding: 12px;
+        border-radius: 10px;
+        background: #0f172a;
+        color: #e2e8f0;
+        overflow: auto;
+      }
+      .annotation-dialog-body pre code {
+        padding: 0;
+        background: transparent;
+        color: inherit;
+      }
+      .annotation-dialog-editor {
+        width: 100%;
+        min-height: 280px;
+        border: 1px solid #dbe3ef;
+        border-radius: 12px;
+        padding: 12px;
+        resize: vertical;
+        color: #111827;
+        font-size: 14px;
+        line-height: 1.65;
+        font-family: inherit;
+      }
+      .annotation-dialog-foot {
+        padding: 14px 16px;
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+        border-top: 1px solid #e5e7eb;
+        background: #f8fafc;
+      }
+      .annotation-dialog-hint {
+        color: #64748b;
+        font-size: 12px;
+        line-height: 1.45;
+      }
+      .annotation-dialog-actions {
+        display: flex;
+        gap: 8px;
+      }
+      .annotation-dialog-actions button {
+        min-height: 36px;
+        padding: 0 12px;
+        border: 1px solid #d7e2f2;
+        border-radius: 10px;
+        background: #fff;
+        color: #111827;
+        font-size: 12px;
+        font-weight: 800;
+        cursor: pointer;
+      }
+      .annotation-dialog-actions button.primary {
+        background: #dc2626;
+        border-color: #dc2626;
+        color: #fff;
+      }
+      .annotation-mobile-sheet {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1450;
+        display: none;
+        grid-template-rows: auto auto 1fr auto;
+        max-height: 72vh;
+        border-radius: 20px 20px 0 0;
+        background: rgba(255, 255, 255, .99);
+        box-shadow: 0 -20px 48px rgba(15, 23, 42, .22);
+        overflow: hidden;
+      }
+      .annotation-mobile-sheet.active { display: grid; }
+      .annotation-mobile-handle {
+        width: 40px;
+        height: 4px;
+        margin: 10px auto 0;
+        border-radius: 999px;
+        background: #cbd5e1;
+      }
+      .annotation-mobile-head {
+        padding: 10px 14px 12px;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 10px;
+        align-items: start;
+        border-bottom: 1px solid #e5e7eb;
+      }
+      .annotation-mobile-body {
+        overflow: auto;
+        padding: 14px;
+        color: #1f2937;
+        font-size: 14px;
+        line-height: 1.7;
+      }
+      .annotation-mobile-foot {
+        padding: 12px 14px calc(12px + env(safe-area-inset-bottom));
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        align-items: center;
+        border-top: 1px solid #e5e7eb;
+        background: #f8fafc;
+      }
+      .annotation-mobile-actions {
+        display: flex;
+        gap: 8px;
+      }
+      .annotation-mobile-actions button {
+        min-height: 36px;
+        padding: 0 12px;
+        border: 1px solid #d7e2f2;
+        border-radius: 10px;
+        background: #fff;
+        color: #111827;
+        font-size: 12px;
+        font-weight: 800;
+        cursor: pointer;
+      }
+      .annotation-mobile-actions button.primary {
+        background: #dc2626;
+        border-color: #dc2626;
+        color: #fff;
+      }
       body { padding-top: 62px; }
       @media (max-width: 640px) {
         .prototype-switcher { grid-template-columns: 1fr; }
         .prototype-switcher-title { text-align: center; }
         .prototype-embed { inset: 104px 8px 8px; }
+        .annotation-placement-tip { top: 116px; }
+        .annotation-toolbar {
+          right: 8px;
+          left: 8px;
+          bottom: 8px;
+          width: auto;
+        }
+        .prototype-main-note {
+          right: 8px;
+          left: 8px;
+          bottom: 226px;
+          width: auto;
+          min-width: 0;
+        }
+        .annotation-toolbar-head {
+          align-items: start;
+        }
+        .annotation-toolbar-actions {
+          grid-template-columns: 1fr 1fr;
+        }
+        .annotation-dialog {
+          width: calc(100vw - 16px);
+          max-height: 76vh;
+        }
+        .annotation-marker {
+          min-height: 24px;
+          padding: 0 8px;
+          line-height: 24px;
+          font-size: 11px;
+        }
         body { padding-top: 104px; }
       }
 
@@ -1457,7 +1937,7 @@
   <body>
     
     <div class="prototype-switcher" aria-label="全端原型切换">
-      <div class="prototype-switcher-title">全端原型 · 领榜离线版为主</div>
+      <div class="prototype-switcher-title">全端原型 · 交互式说明版</div>
       <div class="prototype-switcher-actions">
         <button class="active" data-prototype-target="lb-parent">领榜家长端</button>
         <button data-prototype-target="lb-teacher">领榜教师端</button>
@@ -1468,7 +1948,66 @@
       </div>
     </div>
     <div class="prototype-embed" id="prototypeEmbed"><iframe id="workspaceFrame" title="其他端原型"></iframe></div>
-    <div class="prototype-main-note">当前展示为领榜离线原型主版；切换到后台或优坐标时，会在同一文件内打开对应端原型。</div>
+    <div class="prototype-main-note">当前展示为领榜离线原型主版；切换到后台或优坐标时，会在同一文件内打开对应端原型。右下角支持新增标注、Markdown 说明、HTML/JSON 导入导出。</div>
+    <div class="annotation-placement-tip" id="annotationPlacementTip">标注放置模式已开启，请点击当前原型中的任意字段、按钮、卡片或表格区域。</div>
+    <div class="annotation-overlay" id="annotationOverlay"></div>
+    <div class="annotation-toolbar" id="annotationToolbar">
+      <div class="annotation-toolbar-head" id="annotationToolbarDragHandle">
+        <div class="annotation-toolbar-head-main">
+          <div class="annotation-toolbar-title">交互式原型说明</div>
+          <div class="annotation-toolbar-drag-hint">拖动面板避让原型内容</div>
+        </div>
+        <div class="annotation-toolbar-controls">
+          <button type="button" class="ghost" id="annotationToolbarCollapse" onclick="event.stopPropagation();var t=this.closest('#annotationToolbar');var c=t.classList.toggle('is-collapsed');this.textContent=c?'展开':'收起';try{var k='k12-interactive-prototype-toolbar-ui-v1';var s=JSON.parse(localStorage.getItem(k)||'{}');s.collapsed=c;localStorage.setItem(k,JSON.stringify(s));}catch(e){}">收起</button>
+          <button type="button" class="warn" id="annotationPlacementToggle">新增标注</button>
+        </div>
+      </div>
+      <div class="annotation-toolbar-body" id="annotationToolbarBody">
+        <div class="annotation-toolbar-search">
+          <input type="search" id="annotationSearchInput" placeholder="搜索标注 ID / 标题 / 页面 / Markdown 内容" />
+          <button type="button" id="annotationToggleVisibility">隐藏标注</button>
+        </div>
+        <div class="annotation-search-panel" id="annotationSearchPanel"></div>
+        <div class="annotation-toolbar-state" id="annotationToolbarState">当前可对六端原型做编号标注、拖动避让、Markdown 说明编辑，并导出带注释的新版 HTML。</div>
+        <div class="annotation-toolbar-actions">
+          <button type="button" id="annotationPickHtml">选择 HTML 文件</button>
+          <button type="button" id="annotationExportHtml">导出新版 HTML</button>
+          <button type="button" id="annotationImportJson">导入 JSON</button>
+          <button type="button" id="annotationExportJson">导出 JSON</button>
+        </div>
+        <div class="annotation-toolbar-foot">默认标注会随页面切换自动显示；拖动标记不会触发说明弹窗。JSON 仅用于迁移，HTML 是主交付文件。</div>
+      </div>
+      <input type="file" id="annotationJsonInput" accept="application/json" hidden />
+    </div>
+    <div class="annotation-dialog" id="annotationDialog" aria-hidden="true">
+      <div class="annotation-dialog-head" id="annotationDialogDragHandle">
+        <div class="annotation-dialog-title">
+          <div class="annotation-dialog-id" id="annotationDialogId"></div>
+          <div class="annotation-dialog-name" id="annotationDialogName"></div>
+        </div>
+        <button type="button" class="annotation-dialog-close" id="annotationDialogClose">×</button>
+      </div>
+      <div class="annotation-dialog-body" id="annotationDialogBody"></div>
+      <div class="annotation-dialog-foot">
+        <div class="annotation-dialog-hint" id="annotationDialogHint">查看模式下可直接阅读 Markdown 说明。</div>
+        <div class="annotation-dialog-actions" id="annotationDialogActions"></div>
+      </div>
+    </div>
+    <div class="annotation-mobile-sheet" id="annotationMobileSheet" aria-hidden="true">
+      <div class="annotation-mobile-handle"></div>
+      <div class="annotation-mobile-head">
+        <div class="annotation-dialog-title">
+          <div class="annotation-dialog-id" id="annotationMobileId"></div>
+          <div class="annotation-dialog-name" id="annotationMobileName"></div>
+        </div>
+        <button type="button" class="annotation-dialog-close" id="annotationMobileClose">×</button>
+      </div>
+      <div class="annotation-mobile-body" id="annotationMobileBody"></div>
+      <div class="annotation-mobile-foot">
+        <div class="annotation-dialog-hint" id="annotationMobileHint">移动端查看模式。</div>
+        <div class="annotation-mobile-actions" id="annotationMobileActions"></div>
+      </div>
+    </div>
 
     <main class="phone">
       <div class="status"><span>23:58</span><span>5G 100%</span></div>
@@ -1951,6 +2490,12 @@
         if (page === "creatorCenter") renderCreatorCenter();
         document.querySelector(".screen").scrollTop = 0;
         window.scrollTo(0, 0);
+        window.dispatchEvent(new CustomEvent("prototype-page-change", {
+          detail: {
+            surface: currentClient === "teacher" ? "lb-teacher" : "lb-parent",
+            pageId: page
+          }
+        }));
       }
       let toastTimer;
       function showToast(text) {
@@ -2235,1977 +2780,6 @@
           'uz-teacher': { workspace: 'uzTeacher', page: 'uzTeacherHome' },
           'uz-admin': { workspace: 'uzAdmin', page: 'uzAdminHome' }
         };
-        const uzCreatorPages = ['uzCreatorCenter', 'uzCreatorPoster', 'uzCreatorInviteRecords', 'uzCreatorCommission', 'uzCreatorWithdrawApply', 'uzCreatorWithdrawRecords', 'uzCreatorRules', 'uzCreatorTeam'];
-        const uzCreatorCardMap = {
-          parent: {
-            heroKicker: '优坐标 · 创客中心',
-            heroTitle: '邀请报名与分销收益',
-            heroSub: '适用于家长端的报名推广、会员转化和课程分享。',
-            profileDesc: '邀请报名 / 分销收益',
-            summary: [
-              { value: '¥18,620', label: '累计收益' },
-              { value: '¥3,480', label: '可提现' },
-              { value: '¥1,260', label: '待审核' },
-              { value: '86', label: '团队人数' }
-            ],
-            trend: [
-              { value: '32', label: '推荐订单' },
-              { value: '19', label: '会员转化' },
-              { value: '27', label: '家长拉新' }
-            ],
-            posterCards: [
-              { type: 'parentSignup', icon: '家', title: '邀请家长报名', desc: '分享试听与报名页' },
-              { type: 'teacherJoin', icon: '师', title: '邀请老师入驻', desc: '推荐教师加入平台' },
-              { type: 'partner', icon: '合', title: '招商合伙人', desc: '分销招商拓展合作' },
-              { type: 'member', icon: '会', title: '邀请购买会员', desc: '会员卡与课程套餐' }
-            ],
-            inviteRows: [
-              ['家长线索', '李妈妈', '已提交数学试听报名', '待跟进'],
-              ['会员购买', '王同学家长', '卓越会员年卡', '已转佣'],
-              ['老师邀请', '徐老师', '已提交入驻资料', '审核中'],
-              ['合伙人', '碑林校区王老师', '招商会已报名', '跟进中']
-            ],
-            commissionRows: [
-              ['产品订单', 'COURSE-240609-18', '候选佣金', '¥168'],
-              ['会员卡订单', 'VIP-240608-09', '可提现', '¥398'],
-              ['拉新家长注册', 'REG-P-240607-12', '已到账', '¥30'],
-              ['课消提成', 'LESSON-240606-22', '已冲正', '¥-48']
-            ],
-            teamRows: [
-              ['一星团队', '32人', '家长推广为主', '本月收益 ¥4,820'],
-              ['二星团队', '12人', '会员转化稳定', '本月收益 ¥2,130'],
-              ['合作伙伴', '4人', '招商线索推进中', '本月收益 ¥1,260']
-            ],
-            posterTitlePrefix: '优坐标海报',
-            posterSubtitle: '围绕报名、会员、课程与分销关系的统一推广素材。',
-            identityTag: '家长视角'
-          },
-          teacher: {
-            heroKicker: '优坐标 · 创客中心',
-            heroTitle: '邀请报名与教师推广收益',
-            heroSub: '适用于教师端的邀约报名、老师入驻和课消提成推广。',
-            profileDesc: '邀请报名 / 分销收益',
-            summary: [
-              { value: '¥12,360', label: '累计收益' },
-              { value: '¥2,140', label: '可提现' },
-              { value: '¥860', label: '待审核' },
-              { value: '48', label: '团队人数' }
-            ],
-            trend: [
-              { value: '21', label: '推荐订单' },
-              { value: '15', label: '老师入驻' },
-              { value: '36', label: '课消提成' }
-            ],
-            posterCards: [
-              { type: 'parentSignup', icon: '报', title: '邀请家长报名', desc: '推荐试听与报名页' },
-              { type: 'teacherJoin', icon: '师', title: '邀请老师入驻', desc: '同行推荐入驻平台' },
-              { type: 'partner', icon: '合', title: '招商合伙人', desc: '校区与合作老师扩展' },
-              { type: 'course', icon: '课', title: '邀请购买课程', desc: '课程包与课消转化' }
-            ],
-            inviteRows: [
-              ['家长报名', '赵家长', '试听报名已提交', '待确认'],
-              ['老师入驻', '陈老师', '已完成资质上传', '已通过'],
-              ['课程购买', '高一物理班', '课包已支付', '可结算'],
-              ['合伙人', '张校长', '招商会预约中', '跟进中']
-            ],
-            commissionRows: [
-              ['老师关联产品订单', 'COURSE-240609-07', '候选佣金', '¥128'],
-              ['拉新老师注册', 'REG-T-240608-03', '可提现', '¥80'],
-              ['课消提成', 'LESSON-240607-31', '已到账', '¥216'],
-              ['会员卡订单', 'VIP-240606-18', '待结算', '¥260']
-            ],
-            teamRows: [
-              ['一星团队', '18人', '教师推广与转介绍', '本月收益 ¥2,980'],
-              ['二星团队', '9人', '课程成交贡献高', '本月收益 ¥1,420'],
-              ['合作老师', '6人', '入驻后持续接单', '本月收益 ¥980']
-            ],
-            posterTitlePrefix: '优坐标推广海报',
-            posterSubtitle: '围绕教师入驻、课程购买与课消提成的推广素材。',
-            identityTag: '教师视角'
-          }
-        };
-        function getCurrentSurface() {
-          return buttons.find((btn) => btn.classList.contains('active'))?.dataset.prototypeTarget || 'lb-parent';
-        }
-        function isUzUserSurface(surface) {
-          return surface === 'uz-parent' || surface === 'uz-teacher';
-        }
-        function getUzClient(surface) {
-          return surface === 'uz-teacher' ? 'teacher' : 'parent';
-        }
-        function getUzCreatorConfig(surface) {
-          return uzCreatorCardMap[getUzClient(surface)];
-        }
-        function injectUzCreatorStyles(doc) {
-          if (doc.getElementById('uzCreatorRuntimeStyle')) return;
-          const style = doc.createElement('style');
-          style.id = 'uzCreatorRuntimeStyle';
-          style.textContent = `
-            .uz-creator-entry {
-              border-radius: 16px;
-              background: linear-gradient(135deg, #2f6df6, #69a1ff);
-              color: #fff;
-              padding: 14px;
-              margin-top: 12px;
-              box-shadow: 0 10px 24px rgba(47, 109, 246, .18);
-              cursor: pointer;
-            }
-            .uz-creator-entry-head {
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              gap: 10px;
-            }
-            .uz-creator-entry-title { font-size: 16px; font-weight: 900; }
-            .uz-creator-entry-tag {
-              min-width: 68px;
-              height: 26px;
-              padding: 0 10px;
-              border-radius: 999px;
-              display: grid;
-              place-items: center;
-              background: rgba(255,255,255,.18);
-              font-size: 11px;
-              font-weight: 800;
-            }
-            .uz-creator-entry-sub { margin-top: 6px; font-size: 12px; line-height: 1.5; opacity: .95; }
-            .uz-creator-entry-stats {
-              margin-top: 12px;
-              display: grid;
-              grid-template-columns: repeat(3, 1fr);
-              gap: 8px;
-            }
-            .uz-creator-entry-stats div {
-              min-height: 54px;
-              padding: 10px 8px;
-              border-radius: 12px;
-              background: rgba(255,255,255,.12);
-              text-align: center;
-            }
-            .uz-creator-entry-stats strong {
-              display: block;
-              font-size: 14px;
-              font-weight: 900;
-            }
-            .uz-creator-entry-stats span {
-              display: block;
-              margin-top: 4px;
-              font-size: 11px;
-              opacity: .92;
-            }
-            .uz-creator-runtime {
-              display: none;
-              min-height: 100%;
-              background: #f4f7fb;
-              padding-bottom: 88px;
-            }
-            .uz-creator-runtime.active { display: block; }
-            .uz-creator-page {
-              display: none;
-              padding: 12px 12px 96px;
-              gap: 12px;
-            }
-            .uz-creator-page.active { display: grid; }
-            .uz-creator-top {
-              position: sticky;
-              top: 0;
-              z-index: 4;
-              min-height: 72px;
-              padding: 30px 74px 10px;
-              border-bottom: 1px solid rgba(17, 24, 39, .08);
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              background: rgba(247, 247, 247, .94);
-              backdrop-filter: blur(14px);
-            }
-            .uz-creator-top strong {
-              font-size: 16px;
-              line-height: 22px;
-              font-weight: 800;
-            }
-            .uz-creator-back {
-              position: absolute;
-              left: 14px;
-              bottom: 12px;
-              border: 0;
-              background: transparent;
-              color: #1f2937;
-              font-size: 14px;
-              font-weight: 700;
-            }
-            .uz-creator-chip {
-              position: absolute;
-              right: 10px;
-              bottom: 9px;
-              min-width: 62px;
-              height: 28px;
-              padding: 0 10px;
-              border-radius: 999px;
-              display: grid;
-              place-items: center;
-              background: rgba(255,255,255,.82);
-              border: 1px solid rgba(17, 24, 39, .1);
-              color: #2f6df6;
-              font-size: 11px;
-              font-weight: 800;
-            }
-            .uz-creator-hero {
-              position: relative;
-              overflow: hidden;
-              min-height: 148px;
-              padding: 18px 16px;
-              border-radius: 18px;
-              background: linear-gradient(135deg, #2156d9, #63a3ff);
-              color: #fff;
-              box-shadow: 0 16px 28px rgba(47, 109, 246, .18);
-            }
-            .uz-creator-hero::after {
-              content: "";
-              position: absolute;
-              right: -28px;
-              top: -24px;
-              width: 112px;
-              height: 112px;
-              border-radius: 50%;
-              background: rgba(255,255,255,.14);
-            }
-            .uz-creator-hero small { display: block; font-size: 12px; opacity: .9; font-weight: 700; }
-            .uz-creator-hero strong { display: block; margin-top: 8px; font-size: 28px; line-height: 1.12; font-weight: 900; }
-            .uz-creator-hero span { display: block; margin-top: 8px; font-size: 13px; line-height: 1.5; max-width: 280px; }
-            .uz-creator-summary {
-              margin-top: -16px;
-              display: grid;
-              grid-template-columns: repeat(2, 1fr);
-              gap: 8px;
-              position: relative;
-              z-index: 1;
-            }
-            .uz-creator-summary .card,
-            .uz-creator-card,
-            .uz-creator-list,
-            .uz-creator-notice,
-            .uz-creator-section {
-              border: 1px solid rgba(15, 23, 42, .08);
-              border-radius: 16px;
-              background: #fff;
-              box-shadow: 0 8px 20px rgba(15, 23, 42, .05);
-            }
-            .uz-creator-summary .card {
-              padding: 12px;
-            }
-            .uz-creator-summary .card strong {
-              display: block;
-              color: #2f6df6;
-              font-size: 22px;
-              font-weight: 900;
-            }
-            .uz-creator-summary .card span {
-              display: block;
-              margin-top: 4px;
-              color: #6b7280;
-              font-size: 12px;
-            }
-            .uz-creator-section {
-              padding: 14px;
-            }
-            .uz-creator-section-head {
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              gap: 10px;
-              font-size: 14px;
-              font-weight: 900;
-              color: #111827;
-              margin-bottom: 10px;
-            }
-            .uz-creator-link {
-              border: 0;
-              background: transparent;
-              color: #6b7280;
-              font-size: 12px;
-              font-weight: 700;
-            }
-            .uz-creator-grid {
-              display: grid;
-              grid-template-columns: repeat(4, 1fr);
-              gap: 8px;
-            }
-            .uz-creator-grid button {
-              border: 0;
-              background: #f8fbff;
-              border-radius: 14px;
-              padding: 10px 6px;
-              text-align: center;
-              color: #111827;
-              min-height: 92px;
-            }
-            .uz-creator-grid button i {
-              display: grid;
-              place-items: center;
-              width: 36px;
-              height: 36px;
-              margin: 0 auto 8px;
-              border-radius: 12px;
-              background: #eaf1ff;
-              color: #2f6df6;
-              font-style: normal;
-              font-weight: 900;
-            }
-            .uz-creator-grid button strong {
-              display: block;
-              font-size: 12px;
-              font-weight: 800;
-            }
-            .uz-creator-grid button span {
-              display: block;
-              margin-top: 4px;
-              color: #94a3b8;
-              font-size: 10px;
-              line-height: 1.35;
-            }
-            .uz-creator-trend {
-              display: grid;
-              grid-template-columns: repeat(3, 1fr);
-              gap: 8px;
-            }
-            .uz-creator-trend div {
-              min-height: 72px;
-              padding: 12px 10px;
-              border-radius: 14px;
-              background: #f8fafc;
-            }
-            .uz-creator-trend strong {
-              display: block;
-              font-size: 20px;
-              font-weight: 900;
-              color: #111827;
-            }
-            .uz-creator-trend span {
-              display: block;
-              margin-top: 6px;
-              color: #6b7280;
-              font-size: 11px;
-            }
-            .uz-creator-list {
-              overflow: hidden;
-            }
-            .uz-creator-row {
-              display: grid;
-              grid-template-columns: minmax(0, 1fr) auto;
-              gap: 10px;
-              align-items: center;
-              padding: 13px 14px;
-              border-bottom: 1px solid rgba(15, 23, 42, .08);
-            }
-            .uz-creator-row:last-child { border-bottom: 0; }
-            .uz-creator-row strong {
-              display: block;
-              font-size: 13px;
-              color: #111827;
-              font-weight: 800;
-            }
-            .uz-creator-row span {
-              display: block;
-              margin-top: 4px;
-              color: #6b7280;
-              font-size: 12px;
-              line-height: 1.45;
-            }
-            .uz-creator-badge {
-              min-width: 66px;
-              padding: 6px 10px;
-              border-radius: 999px;
-              text-align: center;
-              font-size: 11px;
-              font-weight: 800;
-              color: #2f6df6;
-              background: #eaf1ff;
-            }
-            .uz-creator-badge.amber { color: #b45309; background: #fff7ed; }
-            .uz-creator-badge.green { color: #15803d; background: #ecfdf5; }
-            .uz-creator-badge.rose { color: #be123c; background: #fff1f2; }
-            .uz-creator-notice {
-              padding: 14px;
-              background: #eff6ff;
-            }
-            .uz-creator-notice strong {
-              display: block;
-              color: #1d4ed8;
-              font-size: 13px;
-              font-weight: 900;
-            }
-            .uz-creator-notice span,
-            .uz-creator-notice li {
-              color: #475569;
-              font-size: 12px;
-              line-height: 1.6;
-            }
-            .uz-creator-notice ul {
-              margin: 8px 0 0;
-              padding-left: 16px;
-            }
-            .uz-creator-poster {
-              min-height: 178px;
-              padding: 16px;
-              border-radius: 18px;
-              background: linear-gradient(135deg, #0f766e, #2f6df6);
-              color: #fff;
-            }
-            .uz-creator-poster small {
-              display: block;
-              font-size: 12px;
-              opacity: .92;
-              font-weight: 700;
-            }
-            .uz-creator-poster strong {
-              display: block;
-              margin-top: 8px;
-              font-size: 26px;
-              line-height: 1.15;
-              font-weight: 900;
-            }
-            .uz-creator-poster span {
-              display: block;
-              margin-top: 10px;
-              font-size: 13px;
-              line-height: 1.55;
-              max-width: 270px;
-            }
-            .uz-creator-qr-box {
-              margin-top: 14px;
-              padding: 14px;
-              text-align: center;
-            }
-            .uz-creator-qr {
-              width: 132px;
-              height: 132px;
-              margin: 0 auto 10px;
-              border-radius: 16px;
-              background: linear-gradient(135deg, #dbeafe, #eff6ff);
-              display: grid;
-              place-items: center;
-              color: #2f6df6;
-              font-size: 14px;
-              font-weight: 900;
-            }
-            .uz-creator-action {
-              width: 100%;
-              height: 44px;
-              border: 0;
-              border-radius: 12px;
-              background: #2f6df6;
-              color: #fff;
-              font-size: 14px;
-              font-weight: 900;
-            }
-            .uz-creator-actions {
-              display: grid;
-              grid-template-columns: 1fr 1fr;
-              gap: 8px;
-            }
-            .uz-creator-actions button {
-              height: 42px;
-              border-radius: 12px;
-              font-size: 13px;
-              font-weight: 800;
-            }
-            .uz-creator-actions .ghost {
-              border: 1px solid rgba(15, 23, 42, .12);
-              background: #fff;
-              color: #334155;
-            }
-            .uz-creator-actions .primary {
-              border: 0;
-              background: #2f6df6;
-              color: #fff;
-            }
-            .uz-home-plan-toggle {
-              width: 100%;
-              min-height: 40px;
-              border: 1px solid rgba(47, 109, 246, .14);
-              border-radius: 12px;
-              background: #eff6ff;
-              color: #1d4ed8;
-              font-size: 13px;
-              font-weight: 800;
-            }
-            .uz-home-plan-panel {
-              display: none;
-              padding: 14px;
-              border: 1px solid rgba(47, 109, 246, .12);
-              border-radius: 16px;
-              background: #f8fbff;
-              color: #334155;
-              box-shadow: 0 8px 20px rgba(15, 23, 42, .04);
-            }
-            .uz-home-plan-panel.active { display: block; }
-            .uz-home-plan-panel h4 {
-              margin: 0 0 10px;
-              color: #111827;
-              font-size: 15px;
-              font-weight: 900;
-            }
-            .uz-home-plan-panel p,
-            .uz-home-plan-panel li,
-            .uz-home-plan-panel td,
-            .uz-home-plan-panel th {
-              font-size: 12px;
-              line-height: 1.6;
-            }
-            .uz-home-plan-panel ul {
-              margin: 8px 0 0;
-              padding-left: 18px;
-            }
-            .uz-home-plan-table {
-              width: 100%;
-              margin-top: 10px;
-              border-collapse: collapse;
-              overflow: hidden;
-              border-radius: 12px;
-              background: #fff;
-            }
-            .uz-home-plan-table th,
-            .uz-home-plan-table td {
-              padding: 9px 10px;
-              border-bottom: 1px solid rgba(15, 23, 42, .08);
-              text-align: left;
-              vertical-align: top;
-            }
-            .uz-home-plan-table th {
-              background: #eef4ff;
-              color: #1d4ed8;
-              font-weight: 800;
-            }
-            .uz-home-hero {
-              position: relative;
-              overflow: hidden;
-              min-height: 156px;
-              padding: 18px 16px;
-              border-radius: 18px;
-              background: linear-gradient(135deg, #0f8c79, #2f6df6);
-              color: #fff;
-              box-shadow: 0 16px 30px rgba(25, 99, 188, .18);
-            }
-            .uz-home-hero::after {
-              content: "";
-              position: absolute;
-              right: -24px;
-              top: -16px;
-              width: 108px;
-              height: 108px;
-              border-radius: 50%;
-              background: rgba(255,255,255,.14);
-            }
-            .uz-home-hero small {
-              display: block;
-              font-size: 12px;
-              font-weight: 700;
-              opacity: .92;
-            }
-            .uz-home-hero strong {
-              display: block;
-              margin-top: 8px;
-              font-size: 28px;
-              line-height: 1.15;
-              font-weight: 900;
-              max-width: 230px;
-            }
-            .uz-home-hero span {
-              display: block;
-              margin-top: 8px;
-              max-width: 260px;
-              font-size: 13px;
-              line-height: 1.55;
-            }
-            .uz-home-metrics {
-              margin-top: -18px;
-              display: grid;
-              grid-template-columns: repeat(3, 1fr);
-              gap: 8px;
-              position: relative;
-              z-index: 1;
-            }
-            .uz-home-metric {
-              padding: 12px 10px;
-              border-radius: 14px;
-              background: #fff;
-              box-shadow: 0 8px 20px rgba(15, 23, 42, .06);
-              text-align: center;
-            }
-            .uz-home-metric strong {
-              display: block;
-              color: #111827;
-              font-size: 18px;
-              font-weight: 900;
-            }
-            .uz-home-metric span {
-              display: block;
-              margin-top: 4px;
-              color: #64748b;
-              font-size: 11px;
-            }
-            .uz-home-section {
-              padding: 14px;
-              border-radius: 16px;
-              background: #fff;
-              box-shadow: 0 8px 20px rgba(15, 23, 42, .05);
-            }
-            .uz-home-section-head {
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              gap: 10px;
-              margin-bottom: 10px;
-            }
-            .uz-home-section-head strong {
-              color: #111827;
-              font-size: 14px;
-              font-weight: 900;
-            }
-            .uz-home-section-head button {
-              border: 0;
-              background: transparent;
-              color: #64748b;
-              font-size: 12px;
-              font-weight: 700;
-            }
-            .uz-home-action-grid {
-              display: grid;
-              grid-template-columns: repeat(4, 1fr);
-              gap: 8px;
-            }
-            .uz-home-action-grid button {
-              border: 0;
-              border-radius: 14px;
-              padding: 10px 6px;
-              min-height: 88px;
-              background: #f8fbff;
-              text-align: center;
-              color: #111827;
-            }
-            .uz-home-action-grid i {
-              display: grid;
-              place-items: center;
-              width: 36px;
-              height: 36px;
-              margin: 0 auto 8px;
-              border-radius: 12px;
-              background: #eaf1ff;
-              color: #2f6df6;
-              font-style: normal;
-              font-weight: 900;
-            }
-            .uz-home-action-grid strong {
-              display: block;
-              font-size: 12px;
-              font-weight: 800;
-            }
-            .uz-home-action-grid span {
-              display: block;
-              margin-top: 4px;
-              color: #94a3b8;
-              font-size: 10px;
-              line-height: 1.35;
-            }
-            .uz-home-tasks {
-              display: grid;
-              gap: 8px;
-            }
-            .uz-home-task {
-              display: grid;
-              grid-template-columns: minmax(0, 1fr) auto;
-              gap: 10px;
-              align-items: center;
-              padding: 12px 0;
-              border-bottom: 1px solid rgba(15, 23, 42, .08);
-            }
-            .uz-home-task:last-child { border-bottom: 0; }
-            .uz-home-task strong {
-              display: block;
-              color: #111827;
-              font-size: 13px;
-              font-weight: 800;
-            }
-            .uz-home-task span {
-              display: block;
-              margin-top: 4px;
-              color: #64748b;
-              font-size: 12px;
-              line-height: 1.5;
-            }
-            .uz-home-task b {
-              min-width: 56px;
-              padding: 6px 10px;
-              border-radius: 999px;
-              background: #eef4ff;
-              color: #1d4ed8;
-              text-align: center;
-              font-size: 11px;
-              font-weight: 800;
-            }
-            .uz-home-cards {
-              display: grid;
-              gap: 8px;
-            }
-            .uz-home-card {
-              border: 1px solid rgba(15, 23, 42, .08);
-              border-radius: 14px;
-              padding: 12px;
-              background: #fff;
-            }
-            .uz-home-card-head {
-              display: flex;
-              justify-content: space-between;
-              align-items: flex-start;
-              gap: 8px;
-            }
-            .uz-home-card-head strong {
-              display: block;
-              color: #111827;
-              font-size: 13px;
-              font-weight: 850;
-            }
-            .uz-home-card-head span {
-              display: block;
-              margin-top: 4px;
-              color: #64748b;
-              font-size: 12px;
-              line-height: 1.45;
-            }
-            .uz-home-tag {
-              min-width: 56px;
-              padding: 5px 8px;
-              border-radius: 999px;
-              background: #ecfdf5;
-              color: #15803d;
-              text-align: center;
-              font-size: 11px;
-              font-weight: 800;
-            }
-            .uz-home-tag.amber {
-              background: #fff7ed;
-              color: #b45309;
-            }
-            .uz-home-card-meta {
-              margin-top: 10px;
-              display: grid;
-              grid-template-columns: repeat(3, 1fr);
-              gap: 6px;
-            }
-            .uz-home-card-meta div {
-              padding: 8px;
-              border-radius: 12px;
-              background: #f8fafc;
-            }
-            .uz-home-card-meta strong {
-              display: block;
-              color: #111827;
-              font-size: 13px;
-              font-weight: 800;
-            }
-            .uz-home-card-meta span {
-              display: block;
-              margin-top: 4px;
-              color: #64748b;
-              font-size: 11px;
-            }
-            .uz-home-flow {
-              display: grid;
-              gap: 10px;
-            }
-            .uz-home-flow-item {
-              display: grid;
-              grid-template-columns: 24px 1fr;
-              gap: 10px;
-              align-items: start;
-            }
-            .uz-home-flow-item i {
-              width: 24px;
-              height: 24px;
-              border-radius: 999px;
-              background: #eaf1ff;
-              color: #1d4ed8;
-              display: grid;
-              place-items: center;
-              font-style: normal;
-              font-size: 12px;
-              font-weight: 900;
-            }
-            .uz-home-flow-item strong {
-              display: block;
-              color: #111827;
-              font-size: 13px;
-              font-weight: 800;
-            }
-            .uz-home-flow-item span {
-              display: block;
-              margin-top: 4px;
-              color: #64748b;
-              font-size: 12px;
-              line-height: 1.5;
-            }
-            .uz-parent-stage {
-              display: grid;
-              gap: 14px;
-            }
-            .uz-parent-plan-panel {
-              display: none;
-              padding: 14px;
-              border: 1px solid rgba(47, 109, 246, .12);
-              border-radius: 16px;
-              background: #f8fbff;
-              color: #334155;
-              box-shadow: 0 8px 20px rgba(15, 23, 42, .04);
-            }
-            .uz-parent-plan-panel.active { display: block; }
-            .uz-parent-plan-panel h4 {
-              margin: 0 0 10px;
-              color: #111827;
-              font-size: 15px;
-              font-weight: 900;
-            }
-            .uz-parent-plan-panel p,
-            .uz-parent-plan-panel li,
-            .uz-parent-plan-panel td,
-            .uz-parent-plan-panel th {
-              font-size: 12px;
-              line-height: 1.6;
-            }
-            .uz-parent-plan-panel ul {
-              margin: 8px 0 0;
-              padding-left: 18px;
-            }
-            .uz-parent-plan-table {
-              width: 100%;
-              margin-top: 10px;
-              border-collapse: collapse;
-              border-radius: 12px;
-              overflow: hidden;
-              background: #fff;
-            }
-            .uz-parent-plan-table th,
-            .uz-parent-plan-table td {
-              padding: 9px 10px;
-              border-bottom: 1px solid rgba(15, 23, 42, .08);
-              text-align: left;
-              vertical-align: top;
-            }
-            .uz-parent-plan-table th {
-              background: #eef4ff;
-              color: #1d4ed8;
-              font-weight: 800;
-            }
-            .uz-parent-phone {
-              max-width: 398px;
-              margin: 0 auto;
-            }
-            .uz-parent-phone .mobile-bottom {
-              grid-template-columns: repeat(4, 1fr);
-            }
-            .uz-parent-chip-row {
-              display: flex;
-              gap: 6px;
-              overflow-x: auto;
-              padding-bottom: 2px;
-            }
-            .uz-parent-chip {
-              white-space: nowrap;
-              min-height: 30px;
-              padding: 6px 10px;
-              border-radius: 999px;
-              background: #edf4ff;
-              color: #1d4ed8;
-              font-size: 11px;
-              font-weight: 800;
-            }
-            .uz-parent-card {
-              border: 1px solid rgba(15, 23, 42, .08);
-              border-radius: 16px;
-              background: #fff;
-              padding: 14px;
-              box-shadow: 0 8px 20px rgba(15, 23, 42, .05);
-            }
-            .uz-parent-card-head {
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              gap: 10px;
-              margin-bottom: 10px;
-            }
-            .uz-parent-card-head strong {
-              color: #111827;
-              font-size: 14px;
-              font-weight: 900;
-            }
-            .uz-parent-card-head button {
-              border: 0;
-              background: transparent;
-              color: #64748b;
-              font-size: 12px;
-              font-weight: 700;
-            }
-            .uz-parent-profile {
-              display: grid;
-              grid-template-columns: 54px 1fr auto;
-              gap: 12px;
-              align-items: center;
-            }
-            .uz-parent-avatar {
-              width: 54px;
-              height: 54px;
-              border-radius: 16px;
-              background: linear-gradient(135deg, #2f6df6, #67a5ff);
-              color: #fff;
-              display: grid;
-              place-items: center;
-              font-size: 22px;
-              font-weight: 900;
-            }
-            .uz-parent-profile strong {
-              display: block;
-              color: #111827;
-              font-size: 15px;
-              font-weight: 900;
-            }
-            .uz-parent-profile span {
-              display: block;
-              margin-top: 4px;
-              color: #64748b;
-              font-size: 12px;
-              line-height: 1.45;
-            }
-            .uz-parent-badge {
-              min-width: 64px;
-              padding: 6px 10px;
-              border-radius: 999px;
-              text-align: center;
-              background: #ecfdf5;
-              color: #15803d;
-              font-size: 11px;
-              font-weight: 800;
-            }
-            .uz-parent-badge.amber {
-              background: #fff7ed;
-              color: #b45309;
-            }
-            .uz-parent-badge.blue {
-              background: #eff6ff;
-              color: #1d4ed8;
-            }
-            .uz-parent-grid-2 {
-              display: grid;
-              grid-template-columns: repeat(2, 1fr);
-              gap: 8px;
-            }
-            .uz-parent-grid-3 {
-              display: grid;
-              grid-template-columns: repeat(3, 1fr);
-              gap: 8px;
-            }
-            .uz-parent-stat-box,
-            .uz-parent-soft-box {
-              padding: 10px;
-              border-radius: 14px;
-              background: #f8fafc;
-            }
-            .uz-parent-stat-box strong,
-            .uz-parent-soft-box strong {
-              display: block;
-              color: #111827;
-              font-size: 16px;
-              font-weight: 850;
-            }
-            .uz-parent-stat-box span,
-            .uz-parent-soft-box span {
-              display: block;
-              margin-top: 4px;
-              color: #64748b;
-              font-size: 11px;
-              line-height: 1.45;
-            }
-            .uz-parent-list {
-              display: grid;
-              gap: 8px;
-            }
-            .uz-parent-list-item {
-              display: grid;
-              grid-template-columns: minmax(0, 1fr) auto;
-              gap: 10px;
-              align-items: center;
-              padding: 12px 0;
-              border-bottom: 1px solid rgba(15, 23, 42, .08);
-            }
-            .uz-parent-list-item:last-child { border-bottom: 0; }
-            .uz-parent-list-item strong {
-              display: block;
-              color: #111827;
-              font-size: 13px;
-              font-weight: 850;
-            }
-            .uz-parent-list-item span {
-              display: block;
-              margin-top: 4px;
-              color: #64748b;
-              font-size: 12px;
-              line-height: 1.5;
-            }
-            .uz-parent-action-grid {
-              display: grid;
-              grid-template-columns: repeat(4, 1fr);
-              gap: 8px;
-            }
-            .uz-parent-action-grid button {
-              border: 0;
-              border-radius: 14px;
-              min-height: 88px;
-              padding: 10px 6px;
-              background: #f8fbff;
-              text-align: center;
-              color: #111827;
-            }
-            .uz-parent-action-grid i {
-              display: grid;
-              place-items: center;
-              width: 36px;
-              height: 36px;
-              margin: 0 auto 8px;
-              border-radius: 12px;
-              background: #eaf1ff;
-              color: #2f6df6;
-              font-style: normal;
-              font-weight: 900;
-            }
-            .uz-parent-action-grid strong {
-              display: block;
-              font-size: 12px;
-              font-weight: 800;
-            }
-            .uz-parent-action-grid span {
-              display: block;
-              margin-top: 4px;
-              color: #94a3b8;
-              font-size: 10px;
-              line-height: 1.35;
-            }
-            .uz-parent-detail-note {
-              padding: 12px;
-              border-radius: 14px;
-              background: #eff6ff;
-              color: #334155;
-              font-size: 12px;
-              line-height: 1.6;
-            }
-            .uz-parent-bottom-actions {
-              display: grid;
-              gap: 8px;
-            }
-            .uz-parent-bottom-actions button {
-              min-height: 44px;
-              border-radius: 12px;
-              font-size: 14px;
-              font-weight: 850;
-            }
-            .uz-parent-bottom-actions .primary {
-              border: 0;
-              background: #2f6df6;
-              color: #fff;
-            }
-            .uz-parent-bottom-actions .ghost {
-              border: 1px solid rgba(15, 23, 42, .12);
-              background: #fff;
-              color: #334155;
-            }
-          `;
-          doc.head.appendChild(style);
-        }
-        const uzParentPagePlans = {
-          uzParentHome: {
-            title: '页面方案：优坐标家长端首页',
-            intro: '首页是 B2C 购买与服务入口，不再承接领榜式发布需求。首屏优先回答“先找老师还是先选课程”“我当前订单推进到哪一步”。',
-            rows: [
-              ['主入口区', 'Required', 'Home', '找老师、选课程、看会员权益三个主动作。'],
-              ['服务承诺', 'Required', 'Trust', '强调顾问协助选老师、约课和排课跟进。'],
-              ['推荐内容', 'Required', 'Decision', '推荐老师、热门产品帮助快速进入决策。'],
-              ['创客中心', 'Optional', 'Secondary', '保留次级收益入口，不抢首页主链路。']
-            ],
-            bullets: [
-              '主路径：首页 → 找老师 / 选课程 / 看会员权益。',
-              '字段取舍：首页不展示后台配置字段，不出现发布需求类语义。',
-              '前端依赖：老师推荐、热门产品、会员状态、当前订单摘要、顾问服务说明。'
-            ]
-          },
-          uzTeacherList: {
-            title: '页面方案：老师列表',
-            intro: '老师列表页承接“我想先看老师再决定”，重点是筛选、比较和快速进入详情，不在列表页展开冗长履历。',
-            rows: [
-              ['筛选区', 'Required', 'Filter', '科目、年级、授课方式、价格带。'],
-              ['老师卡片', 'Required', 'List', '核心能力、评分、价格、可约状态。'],
-              ['比较信息', 'Required', 'Decision', '用统一字段帮助横向比较。'],
-              ['快捷动作', 'Optional', 'Operate', '查看详情、咨询顾问。']
-            ],
-            bullets: [
-              '主路径：首页 → 老师列表 → 老师详情。',
-              '字段取舍：列表页只保留决定性字段，详细适配理由放详情页。',
-              '前端依赖：老师列表、筛选项、标签、价格、排期摘要。'
-            ]
-          },
-          uzTeacherDetail: {
-            title: '页面方案：老师详情',
-            intro: '老师详情页负责“确认是否继续看这个老师的产品与服务”，要把资质、适配度、排期和家长反馈一次讲清。',
-            rows: [
-              ['老师头部', 'Required', 'Identity', '老师身份、科目、评分、认证、可约状态。'],
-              ['适配说明', 'Required', 'Decision', '为什么适合当前孩子或阶段。'],
-              ['排期与方式', 'Required', 'Schedule', '最近可约时段、线上/线下方式。'],
-              ['进入关联产品', 'Required', 'Operate', '进入老师可售产品承接页。']
-            ],
-            bullets: [
-              '主路径：老师列表 → 老师详情 → 老师关联产品。',
-              '字段取舍：详情页强调适配理由，不在这里完成购买。',
-              '前端依赖：老师资料、排期、评价摘要、关联产品入口。'
-            ]
-          },
-          uzTeacherProduct: {
-            title: '页面方案：老师关联产品',
-            intro: '这是按老师购买的承接页，职责是把该老师对应的试听包、课程包、服务包展开，让家长决定买哪一种。',
-            rows: [
-              ['产品列表', 'Required', 'Selection', '同一老师下的可售课程与服务包。'],
-              ['场景说明', 'Required', 'Explain', '告诉家长不同包适合什么阶段。'],
-              ['权益摘要', 'Required', 'Compare', '次数、有效期、顾问协助、试听权益。'],
-              ['下单入口', 'Required', 'Operate', '进入订单详情。']
-            ],
-            bullets: [
-              '主路径：老师详情 → 老师关联产品 → 订单详情。',
-              '字段取舍：只展示当前老师相关的可售产品，不混入平台全部产品。',
-              '前端依赖：关联产品列表、价格、权益、购买状态。'
-            ]
-          },
-          uzProductList: {
-            title: '页面方案：产品列表',
-            intro: '产品列表页承接“不先选老师，先看平台课程服务”的路径，负责把平台热门课程、试听包和服务包做清晰分流。',
-            rows: [
-              ['分类筛选', 'Required', 'Filter', '科目、适用年级、类型、价格带。'],
-              ['产品卡片', 'Required', 'List', '产品价值、适用对象、价格、转化标签。'],
-              ['服务承诺', 'Optional', 'Trust', '顾问协助、排课跟进、退改单说明。'],
-              ['查看详情', 'Required', 'Operate', '进入产品详情。']
-            ],
-            bullets: [
-              '主路径：首页 → 产品列表 → 产品详情。',
-              '字段取舍：列表页突出“适合谁”和“买完得到什么”，不展开完整规则。',
-              '前端依赖：产品列表、分类、价格、标签、销量或热门度。'
-            ]
-          },
-          uzProductDetail: {
-            title: '页面方案：产品详情',
-            intro: '产品详情页承接直接购买路径，核心是把产品价值、权益、适用对象和购买后流程说明清楚。',
-            rows: [
-              ['价值头图', 'Required', 'Overview', '一句话说明产品适合谁、能解决什么。'],
-              ['权益明细', 'Required', 'Explain', '服务内容、次数、有效期。'],
-              ['适用说明', 'Required', 'Decide', '避免买错产品。'],
-              ['购买动作', 'Required', 'Operate', '进入订单详情或咨询顾问。']
-            ],
-            bullets: [
-              '主路径：产品列表 → 产品详情 → 订单详情。',
-              '字段取舍：产品详情不承接会员开通结果，不混合订单对象。',
-              '前端依赖：产品详情、权益、价格、咨询开关、推荐关系。'
-            ]
-          },
-          uzMemberCard: {
-            title: '页面方案：会员卡',
-            intro: '会员卡页负责“买前决策”，需要把普通会员与卓越会员的权益差异、适用场景和购买理由表达清楚。',
-            rows: [
-              ['会员档位', 'Required', 'Compare', '普通会员、卓越会员差异对比。'],
-              ['权益说明', 'Required', 'Explain', '优惠购课、课时机会、顾问服务说明。'],
-              ['适用场景', 'Required', 'Decision', '什么类型家庭适合买哪档。'],
-              ['开通入口', 'Required', 'Operate', '进入会员结果页。']
-            ],
-            bullets: [
-              '主路径：首页 → 会员卡页 → 会员权益结果页。',
-              '字段取舍：买前页不混入过多已购记录，重点放在选择和理解权益。',
-              '前端依赖：会员档位、价格、权益说明、开通状态。'
-            ]
-          },
-          uzMemberResult: {
-            title: '页面方案：会员权益结果',
-            intro: '会员结果页承接“买后状态”，告诉家长会员是否生效、剩余权益是多少，以及下一步可以去哪里使用这些权益。',
-            rows: [
-              ['开通结果', 'Required', 'Result', '成功状态、到账时间、生效提醒。'],
-              ['剩余权益', 'Required', 'Overview', '可用次数、可抵扣额度、有效期。'],
-              ['使用入口', 'Required', 'Operate', '去找老师、去选课程、查看订单。'],
-              ['续费提醒', 'Optional', 'Secondary', '到期前提醒。']
-            ],
-            bullets: [
-              '主路径：会员卡页 → 会员权益结果页。',
-              '字段取舍：这里展示买后权益，不再重复买前完整对比。',
-              '前端依赖：开通结果、会员状态、权益次数、有效期。'
-            ]
-          },
-          uzOrderDetail: {
-            title: '页面方案：订单详情',
-            intro: '订单详情是统一的购买后对象页，既要有订单本身信息，也要把约课、老师安排和顾问推进状态讲清楚。',
-            rows: [
-              ['订单头部', 'Required', 'Object', '订单编号、购买对象、金额、支付状态。'],
-              ['服务状态', 'Required', 'Progress', '待约课、已约课、待排课、已安排。'],
-              ['关键节点', 'Required', 'Timeline', '支付、顾问联系、时间确认、老师安排。'],
-              ['顾问说明', 'Required', 'Support', '当前推进人、下一步动作、联系入口。']
-            ],
-            bullets: [
-              '主路径：老师/产品/会员购买后统一进入订单详情。',
-              '字段取舍：订单详情既展示订单对象，也展示服务状态，不再只是抽象进度。',
-              '前端依赖：订单详情、约课状态、上课安排、顾问信息、支付状态。'
-            ]
-          }
-        };
-        const uzParentTeachers = [
-          { id: 't1', name: '李老师', subject: '初中数学', price: '¥180/课时', score: '4.9', tags: ['中考提分', '支持上门', '近 30 天 8 次试听'], summary: '3 年 1 对 1 教学经验 · 距离 2.4km · 续课率 92%' },
-          { id: 't2', name: '陈老师', subject: '小学英语', price: '¥150/课时', score: '4.8', tags: ['启蒙阅读', '线上试听', '热门老师'], summary: '擅长阅读提升 · 近期预约 16 次 · 支持作业陪练' },
-          { id: 't3', name: '王老师', subject: '物理提升', price: '¥210/课时', score: '4.9', tags: ['理科专题', '周末可约', '顾问推荐'], summary: '善于查漏补缺 · 支持阶段测评 · 家长复购率高' }
-        ];
-        const uzParentProducts = [
-          { id: 'p1', title: '数学试听体验包', price: '¥199', target: '初一到初三', desc: '1 次试听 + 1 次学习建议 + 顾问跟进', tag: '试听首选' },
-          { id: 'p2', title: '初中数学提优服务包', price: '¥599', target: '提优与阶段提升', desc: '3 次试听撮合 + 学习规划建议 + 老师推荐', tag: '热门产品' },
-          { id: 'p3', title: '英语阅读成长包', price: '¥399', target: '小学英语', desc: '阅读测评 + 2 次陪练建议 + 课程顾问协助', tag: '家长常买' }
-        ];
-        const uzTeacherProductMap = {
-          t1: ['p1', 'p2'],
-          t2: ['p3', 'p1'],
-          t3: ['p2']
-        };
-        function getUzParentState(win) {
-          if (!win.__uzParentState) {
-            win.__uzParentState = {
-              currentPage: 'uzParentHome',
-              selectedTeacherId: 't1',
-              selectedProductId: 'p2',
-              lastOrderSource: 'uzProductDetail',
-              lastMemberSource: 'uzMemberCard'
-            };
-          }
-          return win.__uzParentState;
-        }
-        function normalizeUzParentPageId(pageId) {
-          const legacyMap = {
-            uzTeacher: 'uzTeacherList',
-            uzProduct: 'uzProductList',
-            uzMember: 'uzMemberCard',
-            uzOrder: 'uzOrderDetail'
-          };
-          return legacyMap[pageId] || pageId;
-        }
-        function buildUzParentPlanPanel(pageId) {
-          const plan = uzParentPagePlans[normalizeUzParentPageId(pageId)] || uzParentPagePlans.uzParentHome;
-          return `
-            <div class="uz-parent-plan-panel" data-uz-parent-plan-panel="${pageId}">
-              <h4>${plan.title}</h4>
-              <p>${plan.intro}</p>
-              <table class="uz-parent-plan-table">
-                <thead><tr><th>模块</th><th>优先级</th><th>类型</th><th>存在理由</th></tr></thead>
-                <tbody>${plan.rows.map((row) => `<tr><td>${row[0]}</td><td>${row[1]}</td><td>${row[2]}</td><td>${row[3]}</td></tr>`).join('')}</tbody>
-              </table>
-              <ul>${plan.bullets.map((item) => `<li>${item}</li>`).join('')}</ul>
-            </div>
-          `;
-        }
-        function buildUzParentPhoneFrame(title, rightText, body, bottom = '') {
-          return `
-            <div class="mobile-shell uz-parent-phone">
-              <div class="mobile-top"><span>${title === '家长首页' ? '西安' : '返回'}</span><strong>${title}</strong><span>${rightText}</span></div>
-              <section class="mobile-body">${body}</section>
-              ${bottom}
-            </div>
-          `;
-        }
-        function buildUzParentBottom(active) {
-          const tabs = [
-            ['uzParentHome', '首', '首页'],
-            ['uzTeacherList', '师', '老师'],
-            ['uzProductList', '课', '课程'],
-            ['uzOrderDetail', '单', '订单']
-          ];
-          return `<nav class="mobile-bottom">${tabs.map(([page, icon, label]) => `<button class="${page === active ? 'active' : ''}" type="button" data-uz-parent-page="${page}"><span class="tab-icon">${icon}</span>${label}</button>`).join('')}</nav>`;
-        }
-        function buildTeacherRows(ids) {
-          return ids.map((id) => {
-            const item = uzParentTeachers.find((teacher) => teacher.id === id);
-            if (!item) return '';
-            return `
-              <div class="uz-parent-list-item">
-                <div>
-                  <strong>${item.name} · ${item.subject}</strong>
-                  <span>${item.summary}</span>
-                </div>
-                <button class="btn" type="button" data-uz-teacher-id="${item.id}">查看</button>
-              </div>
-            `;
-          }).join('');
-        }
-        function buildProductRows(ids, source) {
-          return ids.map((id) => {
-            const item = uzParentProducts.find((product) => product.id === id);
-            if (!item) return '';
-            return `
-              <div class="uz-parent-list-item">
-                <div>
-                  <strong>${item.title}</strong>
-                  <span>${item.target} · ${item.desc}</span>
-                </div>
-                <button class="btn" type="button" data-uz-product-id="${item.id}" data-uz-product-source="${source}">查看</button>
-              </div>
-            `;
-          }).join('');
-        }
-        function buildUzParentHomeScreen() {
-          const body = `
-            <section class="uz-home-hero">
-              <small>优坐标家长端 · B2C 购买与服务入口</small>
-              <strong>先选老师或课程，再由顾问继续帮你把服务推进下去</strong>
-              <span>找老师、选课程、看会员权益和查看订单推进都集中在首页，不再混入发布需求类入口。</span>
-            </section>
-            <section class="uz-home-metrics">
-              <div class="uz-home-metric"><strong>12</strong><span>附近可约老师</span></div>
-              <div class="uz-home-metric"><strong>6</strong><span>热门课程可选</span></div>
-              <div class="uz-home-metric"><strong>1</strong><span>订单待约课</span></div>
-            </section>
-            <section class="uz-parent-card">
-              <div class="uz-parent-card-head"><strong>立即开始</strong><button type="button" data-page="profile">我的资料</button></div>
-              <div class="uz-parent-action-grid">
-                <button type="button" data-uz-parent-page="uzTeacherList"><i>师</i><strong>找老师</strong><span>先筛选再看老师详情</span></button>
-                <button type="button" data-uz-parent-page="uzProductList"><i>课</i><strong>选课程</strong><span>直接浏览平台热门课程</span></button>
-                <button type="button" data-uz-member-action="open-card"><i>会</i><strong>会员权益</strong><span>比较档位后再决定开通</span></button>
-                <button type="button" data-uz-home-open-creator="true"><i>创</i><strong>创客中心</strong><span>分享报名与收益入口</span></button>
-              </div>
-            </section>
-            <section class="uz-parent-card">
-              <div class="uz-parent-card-head"><strong>当前订单推进</strong><button type="button" data-uz-order-entry="uzParentHome">查看订单</button></div>
-              <div class="uz-parent-list">
-                <div class="uz-parent-list-item"><div><strong>订单 UZ-20260609-018 待约课</strong><span>顾问已在 10:30 联系家长，待确认周六 14:00 的试听时间后进入老师安排。</span></div><div class="uz-parent-badge amber">待约课</div></div>
-                <div class="uz-parent-list-item"><div><strong>会员可抵扣已生效</strong><span>卓越会员当前可抵扣 ¥1,980，购买课程时支付页将自动展示可用额度。</span></div><div class="uz-parent-badge blue">已生效</div></div>
-              </div>
-            </section>
-            <section class="uz-parent-card">
-              <div class="uz-parent-card-head"><strong>推荐老师</strong><button type="button" data-uz-parent-page="uzTeacherList">更多老师</button></div>
-              <div class="uz-home-cards">
-                <div class="uz-home-card">
-                  <div class="uz-home-card-head"><div><strong>李老师 · 初中数学</strong><span>3 年 1 对 1 教学经验 · 距离 2.4km · 最近 30 天 8 次试听</span></div><div class="uz-home-tag">可约</div></div>
-                  <div class="uz-home-card-meta"><div><strong>4.9</strong><span>家长评分</span></div><div><strong>92%</strong><span>续课率</span></div><div><strong>¥180</strong><span>参考课时费</span></div></div>
-                  <div class="uz-parent-bottom-actions" style="margin-top:10px;"><button class="ghost" type="button" data-uz-teacher-id="t1">查看详情</button></div>
-                </div>
-                <div class="uz-home-card">
-                  <div class="uz-home-card-head"><div><strong>陈老师 · 小学英语</strong><span>擅长启蒙与阅读提升 · 支持线上试听与作业陪练</span></div><div class="uz-home-tag amber">热门</div></div>
-                  <div class="uz-home-card-meta"><div><strong>4.8</strong><span>家长评分</span></div><div><strong>16</strong><span>近期预约</span></div><div><strong>¥150</strong><span>参考课时费</span></div></div>
-                  <div class="uz-parent-bottom-actions" style="margin-top:10px;"><button class="ghost" type="button" data-uz-teacher-id="t2">查看详情</button></div>
-                </div>
-              </div>
-            </section>
-            <section class="uz-parent-card">
-              <div class="uz-parent-card-head"><strong>热门课程</strong><button type="button" data-uz-parent-page="uzProductList">全部课程</button></div>
-              <div class="uz-parent-list">
-                <div class="uz-parent-list-item"><div><strong>初中数学提优服务包</strong><span>3 次试听撮合 + 学习规划建议 + 顾问跟进，适合先看老师再定长期安排。</span></div><button class="btn" type="button" data-uz-product-id="p2" data-uz-product-source="uzParentHome">查看</button></div>
-                <div class="uz-parent-list-item"><div><strong>英语阅读成长包</strong><span>阅读测评 + 2 次陪练建议，适合小学英语阅读提升家庭。</span></div><button class="btn" type="button" data-uz-product-id="p3" data-uz-product-source="uzParentHome">查看</button></div>
-              </div>
-            </section>
-          `;
-          return buildUzParentPhoneFrame('家长首页', '消息', body, buildUzParentBottom('uzParentHome'));
-        }
-        function buildUzParentTeacherListScreen() {
-          const body = `
-            <section class="uz-parent-card">
-              <div class="uz-parent-card-head"><strong>筛选条件</strong><button type="button" data-uz-parent-page="uzParentHome">返回首页</button></div>
-              <div class="uz-parent-grid-2">
-                <div class="uz-parent-soft-box"><strong>初中数学</strong><span>目标科目</span></div>
-                <div class="uz-parent-soft-box"><strong>¥120-220/课时</strong><span>价格带</span></div>
-              </div>
-              <div class="uz-parent-chip-row">
-                <span class="uz-parent-chip">支持上门</span>
-                <span class="uz-parent-chip">周末可约</span>
-                <span class="uz-parent-chip">顾问推荐</span>
-              </div>
-            </section>
-            <section class="uz-parent-card">
-              <div class="uz-parent-card-head"><strong>可选老师</strong><button type="button" data-toast="筛选已按综合推荐排序">排序</button></div>
-              <div class="uz-parent-list">${buildTeacherRows(['t1', 't2', 't3'])}</div>
-            </section>
-          `;
-          return buildUzParentPhoneFrame('老师列表', '筛选', body, buildUzParentBottom('uzTeacherList'));
-        }
-        function buildUzParentTeacherDetailScreen(teacher) {
-          const body = `
-            <div class="uz-parent-profile">
-              <div class="uz-parent-avatar">师</div>
-              <div><strong>${teacher.name} · ${teacher.subject}</strong><span>实名认证 · ${teacher.summary} · 支持上门/线上试听</span></div>
-              <div class="uz-parent-badge">可约</div>
-            </div>
-            <div class="uz-parent-chip-row">
-              ${teacher.tags.map((tag) => `<span class="uz-parent-chip">${tag}</span>`).join('')}
-              <span class="uz-parent-chip">家长评分 ${teacher.score}</span>
-            </div>
-            <section class="uz-parent-card">
-              <div class="uz-parent-card-head"><strong>为什么适合当前需求</strong><button type="button" data-uz-parent-back="uzTeacherList">返回列表</button></div>
-              <div class="uz-parent-grid-3">
-                <div class="uz-parent-stat-box"><strong>92%</strong><span>续课率</span></div>
-                <div class="uz-parent-stat-box"><strong>${teacher.price.replace('/课时', '')}</strong><span>参考课时费</span></div>
-                <div class="uz-parent-stat-box"><strong>2.4km</strong><span>距离家长</span></div>
-              </div>
-              <div class="uz-parent-detail-note" style="margin-top:10px;">当前老师适合“先试听、再安排长期课程”的家庭。顾问会根据孩子阶段、区域与时间继续协助匹配具体产品与排课方式。</div>
-            </section>
-            <section class="uz-parent-card">
-              <div class="uz-parent-card-head"><strong>可约时段</strong><button type="button" data-uz-order-entry="uzTeacherDetail">查看订单状态</button></div>
-              <div class="uz-parent-grid-2">
-                <div class="uz-parent-soft-box"><strong>周六 14:00</strong><span>最近可安排试听</span></div>
-                <div class="uz-parent-soft-box"><strong>周日 09:30</strong><span>支持正式排课</span></div>
-              </div>
-            </section>
-            <section class="uz-parent-card">
-              <div class="uz-parent-card-head"><strong>家长关注字段</strong><button type="button" data-uz-member-action="open-card">会员权益</button></div>
-              <div class="uz-parent-list">
-                <div class="uz-parent-list-item"><div><strong>授课方式</strong><span>支持线下上门与线上陪练，首节可预约试听。</span></div><div class="uz-parent-badge blue">说明</div></div>
-                <div class="uz-parent-list-item"><div><strong>最近反馈</strong><span>家长提到讲题耐心、作业纠错细，适合基础薄弱学生。</span></div><div class="uz-parent-badge blue">反馈</div></div>
-              </div>
-            </section>
-            <div class="uz-parent-bottom-actions">
-              <button class="primary" type="button" data-toast="已发起试听预约">预约试听</button>
-              <button class="ghost" type="button" data-uz-parent-page="uzTeacherProduct">查看老师可售产品</button>
-            </div>
-          `;
-          return buildUzParentPhoneFrame('老师详情', '预约', body, buildUzParentBottom('uzTeacherList'));
-        }
-        function buildUzParentTeacherProductScreen(teacher) {
-          const ids = uzTeacherProductMap[teacher.id] || ['p1'];
-          const body = `
-            <section class="uz-parent-card">
-              <div class="uz-parent-card-head"><strong>${teacher.name} 的可售产品</strong><button type="button" data-uz-parent-back="uzTeacherDetail">老师详情</button></div>
-              <div class="uz-parent-detail-note">按老师购买路径下，先看这个老师当前可售的试听包、课程包和顾问服务包，再决定购买哪个产品。</div>
-            </section>
-            <section class="uz-parent-card">
-              <div class="uz-parent-card-head"><strong>推荐选择</strong><button type="button" data-toast="顾问会根据孩子情况继续协助选包">顾问建议</button></div>
-              <div class="uz-parent-list">${buildProductRows(ids, 'uzTeacherProduct')}</div>
-            </section>
-          `;
-          return buildUzParentPhoneFrame('老师关联产品', '购买', body, buildUzParentBottom('uzTeacherList'));
-        }
-        function buildUzParentProductListScreen() {
-          const body = `
-            <section class="uz-parent-card">
-              <div class="uz-parent-card-head"><strong>课程分类</strong><button type="button" data-uz-parent-page="uzParentHome">返回首页</button></div>
-              <div class="uz-parent-chip-row">
-                <span class="uz-parent-chip">试听包</span>
-                <span class="uz-parent-chip">提优课程</span>
-                <span class="uz-parent-chip">顾问服务包</span>
-                <span class="uz-parent-chip">会员可抵扣</span>
-              </div>
-            </section>
-            <section class="uz-parent-card">
-              <div class="uz-parent-card-head"><strong>热门产品</strong><button type="button" data-toast="已按家长购买热度排序">排序</button></div>
-              <div class="uz-parent-list">${buildProductRows(['p1', 'p2', 'p3'], 'uzProductList')}</div>
-            </section>
-          `;
-          return buildUzParentPhoneFrame('产品列表', '筛选', body, buildUzParentBottom('uzProductList'));
-        }
-        function buildUzParentProductDetailScreen(product) {
-          const body = `
-            <section class="uz-parent-card">
-              <div class="uz-parent-card-head"><strong>${product.title}</strong><button type="button" data-uz-parent-back="uzProductList">返回列表</button></div>
-              <div class="uz-parent-detail-note">${product.target} · ${product.desc}。适合想直接购买产品、再由顾问协助约课和排课的家庭。</div>
-              <div class="uz-parent-grid-3" style="margin-top:10px;">
-                <div class="uz-parent-stat-box"><strong>${product.price}</strong><span>当前价格</span></div>
-                <div class="uz-parent-stat-box"><strong>30天</strong><span>服务有效期</span></div>
-                <div class="uz-parent-stat-box"><strong>3次</strong><span>试听撮合</span></div>
-              </div>
-            </section>
-            <section class="uz-parent-card">
-              <div class="uz-parent-card-head"><strong>包含权益</strong><button type="button" data-uz-member-action="open-card">会员对比</button></div>
-              <div class="uz-parent-list">
-                <div class="uz-parent-list-item"><div><strong>老师推荐服务</strong><span>根据孩子年级、科目、区域和预算推荐合适老师。</span></div><div class="uz-parent-badge blue">包含</div></div>
-                <div class="uz-parent-list-item"><div><strong>试听撮合</strong><span>支持 3 次试听安排，客服协助确认时间和反馈。</span></div><div class="uz-parent-badge blue">包含</div></div>
-                <div class="uz-parent-list-item"><div><strong>学习建议</strong><span>根据试听与家长沟通结果给出初步学习安排建议。</span></div><div class="uz-parent-badge blue">包含</div></div>
-              </div>
-            </section>
-            <section class="uz-parent-card">
-              <div class="uz-parent-card-head"><strong>适用说明</strong><button type="button" data-uz-order-entry="uzProductDetail">购买后流程</button></div>
-              <div class="uz-parent-grid-2">
-                <div class="uz-parent-soft-box"><strong>适用对象</strong><span>希望快速完成老师筛选并需要平台协助的家长。</span></div>
-                <div class="uz-parent-soft-box"><strong>不含内容</strong><span>不直接承诺正式开课结果，仍以老师与家长确认后为准。</span></div>
-              </div>
-            </section>
-            <div class="uz-parent-bottom-actions">
-              <button class="primary" type="button" data-uz-order-entry="uzProductDetail">立即购买</button>
-              <button class="ghost" type="button" data-toast="已唤起顾问咨询">咨询课程顾问</button>
-            </div>
-          `;
-          return buildUzParentPhoneFrame('产品详情', '购买', body, buildUzParentBottom('uzProductList'));
-        }
-        function buildUzParentMemberCardScreen() {
-          const body = `
-            <section class="uz-parent-card">
-              <div class="uz-parent-card-head"><strong>会员档位</strong><button type="button" data-uz-parent-page="uzParentHome">返回首页</button></div>
-              <div class="uz-parent-grid-3" style="margin-top:10px;">
-                <div class="uz-parent-stat-box"><strong>¥299</strong><span>基础会员</span></div>
-                <div class="uz-parent-stat-box"><strong>¥599</strong><span>卓越会员</span></div>
-                <div class="uz-parent-stat-box"><strong>100 节</strong><span>卓越会员购课机会</span></div>
-              </div>
-            </section>
-            <section class="uz-parent-card">
-              <div class="uz-parent-card-head"><strong>会员包对比</strong><button type="button" data-toast="卓越会员适合多科长期购课家庭">选择建议</button></div>
-              <div class="uz-parent-grid-2">
-                <div class="uz-parent-soft-box"><strong>基础会员 ¥299</strong><span>适合先试用，含 1 次老师推荐和 1 次试听协助。</span></div>
-                <div class="uz-parent-soft-box"><strong>卓越会员 ¥599</strong><span>适合长期找老师和排课家庭，含更高抵扣额度。</span></div>
-              </div>
-            </section>
-            <section class="uz-parent-card">
-              <div class="uz-parent-card-head"><strong>权益使用规则</strong><button type="button" data-uz-order-entry="uzMemberCard">历史订单</button></div>
-              <div class="uz-parent-list">
-                <div class="uz-parent-list-item"><div><strong>抵扣说明</strong><span>仅在指定产品与会员场景下生效，支付页展示可抵扣金额。</span></div><div class="uz-parent-badge blue">规则</div></div>
-                <div class="uz-parent-list-item"><div><strong>到期提醒</strong><span>到期前 5 天开始在首页和会员页提示续费。</span></div><div class="uz-parent-badge amber">提醒</div></div>
-              </div>
-            </section>
-            <div class="uz-parent-bottom-actions">
-              <button class="primary" type="button" data-uz-member-action="open-result">立即开通卓越会员</button>
-              <button class="ghost" type="button" data-uz-parent-page="uzParentHome">回到首页</button>
-            </div>
-          `;
-          return buildUzParentPhoneFrame('会员卡', '开通', body, buildUzParentBottom('uzProductList'));
-        }
-        function buildUzParentMemberResultScreen() {
-          const body = `
-            <section class="uz-parent-card">
-              <div class="uz-parent-card-head"><strong>卓越会员开通成功</strong><button type="button" data-uz-parent-back="uzMemberCard">会员卡页</button></div>
-              <div class="uz-parent-profile">
-                <div class="uz-parent-avatar">会</div>
-                <div><strong>卓越会员 · 剩余 365 天</strong><span>已生效，可用于购课抵扣、老师推荐和试听撮合。</span></div>
-                <div class="uz-parent-badge blue">已生效</div>
-              </div>
-            </section>
-            <section class="uz-parent-card">
-              <div class="uz-parent-card-head"><strong>当前权益</strong><button type="button" data-uz-parent-page="uzTeacherList">去找老师</button></div>
-              <div class="uz-parent-grid-3">
-                <div class="uz-parent-stat-box"><strong>2 次</strong><span>老师推荐</span></div>
-                <div class="uz-parent-stat-box"><strong>1 次</strong><span>试听撮合</span></div>
-                <div class="uz-parent-stat-box"><strong>¥1,980</strong><span>可抵扣额度</span></div>
-              </div>
-            </section>
-            <section class="uz-parent-card">
-              <div class="uz-parent-card-head"><strong>下一步去哪</strong><button type="button" data-uz-order-entry="uzMemberResult">查看订单</button></div>
-              <div class="uz-parent-list">
-                <div class="uz-parent-list-item"><div><strong>去找老师</strong><span>先筛老师，再看该老师可售产品与试听安排。</span></div><button class="btn" type="button" data-uz-parent-page="uzTeacherList">进入</button></div>
-                <div class="uz-parent-list-item"><div><strong>去选课程</strong><span>直接浏览平台课程与服务包，顾问后续继续跟进约课。</span></div><button class="btn" type="button" data-uz-parent-page="uzProductList">进入</button></div>
-              </div>
-            </section>
-            <div class="uz-parent-bottom-actions">
-              <button class="primary" type="button" data-uz-parent-page="uzTeacherList">去找老师</button>
-              <button class="ghost" type="button" data-uz-parent-page="uzProductList">去选课程</button>
-            </div>
-          `;
-          return buildUzParentPhoneFrame('会员权益结果', '完成', body, buildUzParentBottom('uzProductList'));
-        }
-        function buildUzParentOrderDetailScreen() {
-          const body = `
-            <section class="uz-parent-card">
-              <div class="uz-parent-card-head"><strong>订单 UZ-20260609-018</strong><button type="button" data-uz-parent-back="last-order-source">返回来源</button></div>
-              <div class="uz-parent-profile">
-                <div class="uz-parent-avatar">单</div>
-                <div><strong>初中数学提优服务包</strong><span>支付成功 · 订单金额 ¥599 · 顾问将继续协助约课与老师安排。</span></div>
-                <div class="uz-parent-badge amber">待约课</div>
-              </div>
-            </section>
-            <section class="uz-parent-card">
-              <div class="uz-parent-card-head"><strong>服务状态</strong><button type="button" data-toast="顾问已收到提醒">催一下顾问</button></div>
-              <div class="uz-parent-grid-3">
-                <div class="uz-parent-stat-box"><strong>已支付</strong><span>订单状态</span></div>
-                <div class="uz-parent-stat-box"><strong>待约课</strong><span>约课状态</span></div>
-                <div class="uz-parent-stat-box"><strong>待安排</strong><span>上课安排</span></div>
-              </div>
-            </section>
-            <section class="uz-parent-card">
-              <div class="uz-parent-card-head"><strong>关键节点</strong><button type="button" data-uz-teacher-id="t1">查看老师</button></div>
-              <div class="uz-home-flow">
-                <div class="uz-home-flow-item"><i>1</i><div><strong>06-09 10:12 支付成功</strong><span>已购买初中数学提优服务包，订单进入顾问跟进阶段。</span></div></div>
-                <div class="uz-home-flow-item"><i>2</i><div><strong>06-09 10:30 顾问已联系</strong><span>顾问已联系家长确认孩子情况与可约时间。</span></div></div>
-                <div class="uz-home-flow-item"><i>3</i><div><strong>待确认试听时间</strong><span>建议确认周六 14:00，确认后进入老师安排与上课准备。</span></div></div>
-              </div>
-            </section>
-            <section class="uz-parent-card">
-              <div class="uz-parent-card-head"><strong>顾问推进说明</strong><button type="button" data-uz-member-action="open-card">会员权益</button></div>
-              <div class="uz-parent-list">
-                <div class="uz-parent-list-item"><div><strong>当前负责人</strong><span>顾问小陈 · 已同步老师候选与试听安排，若时间冲突会继续协调替换老师。</span></div><div class="uz-parent-badge blue">推进中</div></div>
-                <div class="uz-parent-list-item"><div><strong>下一步动作</strong><span>家长确认试听时间后，平台安排老师并在订单内更新上课信息。</span></div><div class="uz-parent-badge amber">待确认</div></div>
-              </div>
-            </section>
-            <div class="uz-parent-bottom-actions">
-              <button class="primary" type="button" data-toast="已确认周六 14:00 试听">确认周六 14:00 试听</button>
-              <button class="ghost" type="button" data-toast="已通知顾问重新协调时间">联系顾问重排</button>
-            </div>
-          `;
-          return buildUzParentPhoneFrame('订单详情', '客服', body, buildUzParentBottom('uzOrderDetail'));
-        }
-        function buildUzParentPage(pageId) {
-          const normalizedPageId = normalizeUzParentPageId(pageId);
-          const win = frame.contentWindow;
-          const state = getUzParentState(win || window);
-          const teacher = uzParentTeachers.find((item) => item.id === state.selectedTeacherId) || uzParentTeachers[0];
-          const product = uzParentProducts.find((item) => item.id === state.selectedProductId) || uzParentProducts[0];
-          const screens = {
-            uzParentHome: { title: '家长首页', subtitle: '找老师 / 选课程 / 看会员权益 / 查看订单推进', screen: buildUzParentHomeScreen() },
-            uzTeacherList: { title: '老师列表', subtitle: '按科目、价格、授课方式筛选老师', screen: buildUzParentTeacherListScreen() },
-            uzTeacherDetail: { title: '老师详情', subtitle: '老师资质、适配理由、排期与购买前判断', screen: buildUzParentTeacherDetailScreen(teacher) },
-            uzTeacherProduct: { title: '老师关联产品', subtitle: '按老师购买试听包、课程包与服务包', screen: buildUzParentTeacherProductScreen(teacher) },
-            uzProductList: { title: '产品列表', subtitle: '直接浏览平台课程与服务包', screen: buildUzParentProductListScreen() },
-            uzProductDetail: { title: '产品详情', subtitle: '产品价值、权益、适用对象与购买动作', screen: buildUzParentProductDetailScreen(product) },
-            uzMemberCard: { title: '会员卡', subtitle: '会员档位、权益差异、适用场景与开通入口', screen: buildUzParentMemberCardScreen() },
-            uzMemberResult: { title: '会员权益结果', subtitle: '开通结果、剩余权益与后续使用入口', screen: buildUzParentMemberResultScreen() },
-            uzOrderDetail: { title: '订单详情', subtitle: '订单对象、约课状态、上课安排与顾问推进', screen: buildUzParentOrderDetailScreen() }
-          };
-          const current = screens[normalizedPageId] || screens.uzParentHome;
-          return `
-            <div class="page-head">
-              <div>
-                <h1 class="page-title">${current.title}</h1>
-                <div class="page-sub">${current.subtitle}</div>
-              </div>
-            </div>
-            <div class="content uz-parent-stage">
-              <button class="uz-home-plan-toggle" type="button" data-uz-parent-plan-toggle="${normalizedPageId}">显示页面方案</button>
-              ${buildUzParentPlanPanel(normalizedPageId)}
-              ${current.screen}
-            </div>
-          `;
-        }
-        function makeBadge(status) {
-          const tone = status.includes('到账') || status.includes('通过') ? 'green' : status.includes('冲正') || status.includes('驳回') ? 'rose' : status.includes('待') || status.includes('审核') || status.includes('跟进') ? 'amber' : '';
-          return `<div class="uz-creator-badge${tone ? ` ${tone}` : ''}">${status}</div>`;
-        }
-        function buildUzCreatorPages(surface) {
-          const config = getUzCreatorConfig(surface);
-          const heroCards = config.summary.map((item) => `<div class="card"><strong>${item.value}</strong><span>${item.label}</span></div>`).join('');
-          const quickCards = config.posterCards.map((item) => `<button type="button" data-uz-creator-open="${item.type}"><i>${item.icon}</i><strong>${item.title}</strong><span>${item.desc}</span></button>`).join('');
-          const trendCards = config.trend.map((item) => `<div><strong>${item.value}</strong><span>${item.label}</span></div>`).join('');
-          const inviteRows = config.inviteRows.map((item) => `<div class="uz-creator-row"><div><strong>${item[0]} · ${item[1]}</strong><span>${item[2]}</span></div>${makeBadge(item[3])}</div>`).join('');
-          const commissionRows = config.commissionRows.map((item) => `<div class="uz-creator-row"><div><strong>${item[0]} · ${item[1]}</strong><span>${item[2]}</span></div>${makeBadge(item[3])}</div>`).join('');
-          const teamRows = config.teamRows.map((item) => `<div class="uz-creator-row"><div><strong>${item[0]} · ${item[1]}</strong><span>${item[2]}</span></div>${makeBadge(item[3])}</div>`).join('');
-          const posterButtons = config.posterCards.map((item) => `<div class="uz-creator-row"><div><strong>${item.title}</strong><span>${item.desc}</span></div><button class="uz-creator-link" data-uz-creator-poster="${item.type}">查看</button></div>`).join('');
-          return `
-            <div class="uz-creator-page active" data-uz-creator-page="uzCreatorCenter">
-              <div class="uz-creator-top"><button class="uz-creator-back" type="button" data-uz-creator-back="profile">‹ 返回</button><strong>创客中心</strong><div class="uz-creator-chip">${config.identityTag}</div></div>
-              <section class="uz-creator-hero"><small>${config.heroKicker}</small><strong>${config.heroTitle}</strong><span>${config.heroSub}</span></section>
-              <section class="uz-creator-summary">${heroCards}</section>
-              <section class="uz-creator-section"><div class="uz-creator-section-head"><span>快捷入口</span><button class="uz-creator-link" type="button" data-uz-creator-open-page="uzCreatorRules">规则说明</button></div><div class="uz-creator-grid">${quickCards}</div></section>
-              <section class="uz-creator-section"><div class="uz-creator-section-head"><span>转化概览</span><button class="uz-creator-link" type="button" data-uz-creator-open-page="uzCreatorCommission">佣金明细</button></div><div class="uz-creator-trend">${trendCards}</div></section>
-              <section class="uz-creator-notice"><strong>MVP 范围</strong><span>优坐标分销、提现、佣金结算进入 MVP。所有用户可成为分销员，比例与奖励口径以后台配置为准。</span></section>
-            </div>
-            <div class="uz-creator-page" data-uz-creator-page="uzCreatorPoster">
-              <div class="uz-creator-top"><button class="uz-creator-back" type="button" data-uz-creator-back="uzCreatorCenter">‹ 返回</button><strong>海报详情</strong><div class="uz-creator-chip">${config.identityTag}</div></div>
-              <section class="uz-creator-poster"><small>${config.posterTitlePrefix}</small><strong id="uzCreatorPosterTitle">邀请家长报名</strong><span id="uzCreatorPosterSub">${config.posterSubtitle}</span></section>
-              <section class="uz-creator-list">${posterButtons}</section>
-              <section class="uz-creator-card uz-creator-qr-box"><div class="uz-creator-qr">专属海报码</div><button class="uz-creator-action" type="button" data-toast="已生成优坐标推广海报">生成专属推广海报</button><span style="display:block;margin-top:8px;color:#64748b;font-size:12px;line-height:1.5;">海报支持邀请家长报名、老师入驻、招商合伙人及课程/会员购买场景。</span></section>
-              <section class="uz-creator-actions"><button class="ghost" type="button" data-toast="海报已保存">保存海报</button><button class="primary" type="button" data-toast="已唤起微信分享">微信分享</button></section>
-            </div>
-            <div class="uz-creator-page" data-uz-creator-page="uzCreatorInviteRecords">
-              <div class="uz-creator-top"><button class="uz-creator-back" type="button" data-uz-creator-back="uzCreatorCenter">‹ 返回</button><strong>邀请记录</strong><div class="uz-creator-chip">${config.identityTag}</div></div>
-              <section class="uz-creator-notice"><strong>推荐来源</strong><span>按家长、老师、合伙人、会员购买、课程购买等来源汇总，便于后续跟进与转化。</span></section>
-              <section class="uz-creator-list">${inviteRows}</section>
-            </div>
-            <div class="uz-creator-page" data-uz-creator-page="uzCreatorCommission">
-              <div class="uz-creator-top"><button class="uz-creator-back" type="button" data-uz-creator-back="uzCreatorCenter">‹ 返回</button><strong>佣金明细</strong><div class="uz-creator-chip">${config.identityTag}</div></div>
-              <section class="uz-creator-notice"><strong>佣金口径</strong><ul><li>产品订单、会员卡订单、老师关联产品订单。</li><li>拉新家长注册、拉新老师注册、课消提成。</li><li>支付成功生成候选佣金，订单完成或课消完成后转可结算。</li></ul></section>
-              <section class="uz-creator-list">${commissionRows}</section>
-            </div>
-            <div class="uz-creator-page" data-uz-creator-page="uzCreatorWithdrawApply">
-              <div class="uz-creator-top"><button class="uz-creator-back" type="button" data-uz-creator-back="uzCreatorCenter">‹ 返回</button><strong>提现申请</strong><div class="uz-creator-chip">${config.identityTag}</div></div>
-              <section class="uz-creator-summary"><div class="card"><strong>${config.summary[1].value}</strong><span>当前可提现</span></div><div class="card"><strong>T+3</strong><span>预计到账</span></div></section>
-              <section class="uz-creator-notice"><strong>到账说明</strong><span>提交申请后进入后台审核，审核通过后按打款配置处理。比例、门槛和提现周期以后台分销配置为准。</span></section>
-              <section class="uz-creator-actions"><button class="ghost" type="button" data-uz-creator-open-page="uzCreatorWithdrawRecords">查看提现记录</button><button class="primary" type="button" data-toast="提现申请已提交">申请提现</button></section>
-            </div>
-            <div class="uz-creator-page" data-uz-creator-page="uzCreatorWithdrawRecords">
-              <div class="uz-creator-top"><button class="uz-creator-back" type="button" data-uz-creator-back="uzCreatorCenter">‹ 返回</button><strong>提现记录</strong><div class="uz-creator-chip">${config.identityTag}</div></div>
-              <section class="uz-creator-list">
-                <div class="uz-creator-row"><div><strong>WD-240609-01</strong><span>¥1,200 · 提现到微信零钱</span></div>${makeBadge('审核中')}</div>
-                <div class="uz-creator-row"><div><strong>WD-240605-08</strong><span>¥860 · 2026-06-06 14:20 已打款</span></div>${makeBadge('已到账')}</div>
-                <div class="uz-creator-row"><div><strong>WD-240603-11</strong><span>¥300 · 驳回原因：收款信息待补充</span></div>${makeBadge('已驳回')}</div>
-              </section>
-            </div>
-            <div class="uz-creator-page" data-uz-creator-page="uzCreatorRules">
-              <div class="uz-creator-top"><button class="uz-creator-back" type="button" data-uz-creator-back="uzCreatorCenter">‹ 返回</button><strong>规则说明</strong><div class="uz-creator-chip">${config.identityTag}</div></div>
-              <section class="uz-creator-notice"><strong>分销规则</strong><ul><li>优坐标分销、提现、佣金进入 MVP。</li><li>所有用户可成为分销员，具体比例按后台配置。</li><li>支付成功先生成候选佣金，订单完成或课消完成后转可结算。</li><li>退款、退单或冲正场景将失效或回退佣金。</li></ul></section>
-              <section class="uz-creator-notice"><strong>角色说明</strong><span>家长端与教师端共用一套创客中心页面结构，仅在入口文案、统计说明、推荐对象示例和身份标签上做轻量差异。</span></section>
-            </div>
-            <div class="uz-creator-page" data-uz-creator-page="uzCreatorTeam">
-              <div class="uz-creator-top"><button class="uz-creator-back" type="button" data-uz-creator-back="uzCreatorCenter">‹ 返回</button><strong>团队与等级</strong><div class="uz-creator-chip">${config.identityTag}</div></div>
-              <section class="uz-creator-notice"><strong>团队关系</strong><span>展示一星、二星团队及合作关系，用于查看邀请层级、收益概览和最近转化情况。</span></section>
-              <section class="uz-creator-list">${teamRows}</section>
-            </div>
-          `;
-        }
-        function ensureUzCreatorRuntime(doc, surface) {
-          const phone = doc.querySelector('.phone');
-          const screen = doc.querySelector('.screen');
-          if (!phone || !screen) return null;
-          let runtimeRoot = doc.getElementById('uzCreatorRuntimeRoot');
-          if (!runtimeRoot) {
-            runtimeRoot = doc.createElement('div');
-            runtimeRoot.id = 'uzCreatorRuntimeRoot';
-            runtimeRoot.className = 'uz-creator-runtime';
-            screen.appendChild(runtimeRoot);
-          }
-          runtimeRoot.dataset.surface = surface;
-          runtimeRoot.innerHTML = buildUzCreatorPages(surface);
-          return runtimeRoot;
-        }
-        function ensureUzCreatorEntry(doc, surface) {
-          const profilePage = doc.querySelector('.page[data-page="profile"]');
-          if (!profilePage) return;
-          let anchor = profilePage.querySelector('.profile-account-card');
-          if (!anchor) anchor = profilePage.querySelector('.mini-cells') || profilePage.firstElementChild;
-          if (!anchor) return;
-          let entry = doc.getElementById('uzCreatorEntry');
-          if (!entry) {
-            entry = doc.createElement('section');
-            entry.id = 'uzCreatorEntry';
-            entry.className = 'uz-creator-entry';
-            anchor.insertAdjacentElement('afterend', entry);
-          }
-          const config = getUzCreatorConfig(surface);
-          entry.dataset.uzCreatorEntry = 'true';
-          entry.innerHTML = `
-            <div class="uz-creator-entry-head">
-              <div class="uz-creator-entry-title">创客中心</div>
-              <div class="uz-creator-entry-tag">${config.identityTag}</div>
-            </div>
-            <div class="uz-creator-entry-sub">${config.profileDesc}</div>
-            <div class="uz-creator-entry-stats">
-              <div><strong>${config.summary[0].value}</strong><span>${config.summary[0].label}</span></div>
-              <div><strong>${config.summary[1].value}</strong><span>${config.summary[1].label}</span></div>
-              <div><strong>${config.trend[0].value}</strong><span>${config.trend[0].label}</span></div>
-            </div>
-          `;
-        }
-        function openUzCreatorPage(doc, pageId, options = {}) {
-          const runtimeRoot = doc.getElementById('uzCreatorRuntimeRoot');
-          const phone = doc.querySelector('.phone');
-          const screen = doc.querySelector('.screen');
-          if (!runtimeRoot || !phone || !screen) return;
-          phone.dataset.uzCreatorActive = 'true';
-          runtimeRoot.classList.add('active');
-          runtimeRoot.querySelectorAll('.uz-creator-page').forEach((page) => {
-            page.classList.toggle('active', page.dataset.uzCreatorPage === pageId);
-          });
-          doc.querySelectorAll('.page').forEach((page) => {
-            page.style.display = 'none';
-            page.classList.remove('active');
-          });
-          const tabbar = doc.getElementById('mainTabbar');
-          if (tabbar) tabbar.style.display = 'none';
-          phone.classList.add('no-tab');
-          runtimeRoot.dataset.currentPage = pageId;
-          if (!options.keepOrigin) runtimeRoot.dataset.originPage = options.originPage || 'profile';
-          screen.scrollTop = 0;
-        }
-        function closeUzCreatorRuntime(doc) {
-          const runtimeRoot = doc.getElementById('uzCreatorRuntimeRoot');
-          const phone = doc.querySelector('.phone');
-          if (!runtimeRoot || !phone) return;
-          phone.dataset.uzCreatorActive = 'false';
-          runtimeRoot.classList.remove('active');
-          const originPage = runtimeRoot.dataset.originPage || 'profile';
-          const tabbar = doc.getElementById('mainTabbar');
-          if (tabbar) tabbar.style.display = '';
-          if (phone.classList.contains('no-tab')) phone.classList.remove('no-tab');
-          if (typeof frame.contentWindow?.openPage === 'function') {
-            frame.contentWindow.openPage(originPage);
-          } else {
-            const targetPage = doc.querySelector(`.page[data-page="${originPage}"]`) || doc.querySelector('.page[data-page="profile"]');
-            doc.querySelectorAll('.page').forEach((page) => {
-              page.style.display = '';
-              page.classList.toggle('active', page === targetPage);
-            });
-          }
-        }
-        function updateUzPosterPage(doc, surface, type) {
-          const config = getUzCreatorConfig(surface);
-          const cards = config.posterCards;
-          const current = cards.find((item) => item.type === type) || cards[0];
-          const titleNode = doc.getElementById('uzCreatorPosterTitle');
-          const subNode = doc.getElementById('uzCreatorPosterSub');
-          if (titleNode) titleNode.textContent = current.title;
-          if (subNode) subNode.textContent = `${current.desc}。${config.posterSubtitle}`;
-        }
-        function bindUzCreatorEvents(doc, surface) {
-          if (doc.body.dataset.uzCreatorBound === 'true') return;
-          doc.body.dataset.uzCreatorBound = 'true';
-          doc.body.addEventListener('click', (event) => {
-            const entry = event.target.closest('[data-uz-creator-entry]');
-            if (entry) {
-              event.preventDefault();
-              event.stopPropagation();
-              openUzCreatorPage(doc, 'uzCreatorCenter', { originPage: 'profile' });
-              return;
-            }
-            const back = event.target.closest('[data-uz-creator-back]');
-            if (back) {
-              event.preventDefault();
-              const target = back.dataset.uzCreatorBack;
-              if (target === 'profile') closeUzCreatorRuntime(doc);
-              else openUzCreatorPage(doc, target, { keepOrigin: true });
-              return;
-            }
-            const quickPoster = event.target.closest('[data-uz-creator-open]');
-            if (quickPoster) {
-              event.preventDefault();
-              updateUzPosterPage(doc, surface, quickPoster.dataset.uzCreatorOpen);
-              openUzCreatorPage(doc, 'uzCreatorPoster', { keepOrigin: true });
-              return;
-            }
-            const posterView = event.target.closest('[data-uz-creator-poster]');
-            if (posterView) {
-              event.preventDefault();
-              updateUzPosterPage(doc, surface, posterView.dataset.uzCreatorPoster);
-              openUzCreatorPage(doc, 'uzCreatorPoster', { keepOrigin: true });
-              return;
-            }
-            const pageLink = event.target.closest('[data-uz-creator-open-page]');
-            if (pageLink) {
-              event.preventDefault();
-              openUzCreatorPage(doc, pageLink.dataset.uzCreatorOpenPage, { keepOrigin: true });
-            }
-          }, true);
-        }
-        function enhanceUzCreatorCenter(surface = getCurrentSurface()) {
-          if (!isUzUserSurface(surface)) return;
-          const doc = frame.contentDocument;
-          if (!doc || !doc.body) return;
-          injectUzCreatorStyles(doc);
-          ensureUzCreatorEntry(doc, surface);
-          ensureUzCreatorRuntime(doc, surface);
-          updateUzPosterPage(doc, surface, getUzCreatorConfig(surface).posterCards[0].type);
-          bindUzCreatorEvents(doc, surface);
-        }
-        function renderUzParentWorkspace(doc, pageId) {
-          const root = doc.getElementById('pageRoot');
-          if (!root) return;
-          const normalizedPageId = normalizeUzParentPageId(pageId);
-          const activePage = ['uzParentHome', 'uzTeacherList', 'uzTeacherDetail', 'uzTeacherProduct', 'uzProductList', 'uzProductDetail', 'uzMemberCard', 'uzMemberResult', 'uzOrderDetail'].includes(normalizedPageId) ? normalizedPageId : 'uzParentHome';
-          root.innerHTML = buildUzParentPage(activePage);
-        }
-        function navigateUzParent(doc, pageId) {
-          const normalizedPageId = normalizeUzParentPageId(pageId);
-          const win = frame.contentWindow;
-          if (!win) return;
-          const state = getUzParentState(win);
-          state.currentPage = normalizedPageId;
-          win.__uzParentCurrentPage = normalizedPageId;
-          if (typeof win.setPage === 'function') win.setPage(normalizedPageId);
-          else renderUzParentWorkspace(doc, normalizedPageId);
-        }
-        function bindUzParentWorkspace(doc, surface) {
-          if (doc.body.dataset.uzParentBound === 'true') return;
-          doc.body.dataset.uzParentBound = 'true';
-          doc.body.addEventListener('click', (event) => {
-            const win = frame.contentWindow;
-            const state = getUzParentState(win || window);
-            const toggle = event.target.closest('[data-uz-parent-plan-toggle]');
-            if (toggle) {
-              const pageId = toggle.dataset.uzParentPlanToggle;
-              const panel = doc.querySelector(`[data-uz-parent-plan-panel="${pageId}"]`);
-              if (panel) {
-                const active = panel.classList.toggle('active');
-                toggle.textContent = active ? '隐藏页面方案' : '显示页面方案';
-              }
-              return;
-            }
-            const nav = event.target.closest('[data-uz-parent-page]');
-            if (nav) {
-              event.preventDefault();
-              navigateUzParent(doc, nav.dataset.uzParentPage);
-              return;
-            }
-            const teacherEntry = event.target.closest('[data-uz-teacher-id]');
-            if (teacherEntry) {
-              event.preventDefault();
-              state.selectedTeacherId = teacherEntry.dataset.uzTeacherId;
-              navigateUzParent(doc, 'uzTeacherDetail');
-              return;
-            }
-            const productEntry = event.target.closest('[data-uz-product-id]');
-            if (productEntry) {
-              event.preventDefault();
-              state.selectedProductId = productEntry.dataset.uzProductId;
-              state.lastOrderSource = normalizeUzParentPageId(productEntry.dataset.uzProductSource || 'uzProductDetail');
-              navigateUzParent(doc, 'uzProductDetail');
-              return;
-            }
-            const memberAction = event.target.closest('[data-uz-member-action]');
-            if (memberAction) {
-              event.preventDefault();
-              const action = memberAction.dataset.uzMemberAction;
-              if (action === 'open-card') {
-                state.lastMemberSource = state.currentPage || 'uzParentHome';
-                navigateUzParent(doc, 'uzMemberCard');
-              } else if (action === 'open-result') {
-                state.lastMemberSource = 'uzMemberCard';
-                navigateUzParent(doc, 'uzMemberResult');
-              }
-              return;
-            }
-            const orderEntry = event.target.closest('[data-uz-order-entry]');
-            if (orderEntry) {
-              event.preventDefault();
-              state.lastOrderSource = normalizeUzParentPageId(orderEntry.dataset.uzOrderEntry || state.currentPage || 'uzParentHome');
-              navigateUzParent(doc, 'uzOrderDetail');
-              return;
-            }
-            const back = event.target.closest('[data-uz-parent-back]');
-            if (back) {
-              event.preventDefault();
-              const target = back.dataset.uzParentBack;
-              if (target === 'last-order-source') navigateUzParent(doc, state.lastOrderSource || 'uzParentHome');
-              else if (target === 'last-member-source') navigateUzParent(doc, state.lastMemberSource || 'uzParentHome');
-              else navigateUzParent(doc, target);
-              return;
-            }
-            const creatorButton = event.target.closest('[data-uz-home-open-creator]');
-            if (creatorButton) {
-              ensureUzCreatorEntry(doc, surface);
-              ensureUzCreatorRuntime(doc, surface);
-              updateUzPosterPage(doc, surface, getUzCreatorConfig(surface).posterCards[0].type);
-              openUzCreatorPage(doc, 'uzCreatorCenter', { originPage: 'uzParentHome' });
-            }
-          }, true);
-        }
-        function enhanceUzParentHome(surface = getCurrentSurface()) {
-          if (surface !== 'uz-parent') return;
-          const doc = frame.contentDocument;
-          if (!doc || !doc.body) return;
-          injectUzCreatorStyles(doc);
-          bindUzParentWorkspace(doc, surface);
-          const win = frame.contentWindow;
-          const state = getUzParentState(win || window);
-          if (win && !win.__uzParentWrapped) {
-            win.__uzParentWrapped = true;
-            win.__uzParentCurrentPage = state.currentPage || 'uzParentHome';
-            const rawSetPage = typeof win.setPage === 'function' ? win.setPage.bind(win) : null;
-            const rawSetWorkspace = typeof win.setWorkspace === 'function' ? win.setWorkspace.bind(win) : null;
-            if (rawSetPage) {
-              win.setPage = function(page) {
-                const normalizedPageId = normalizeUzParentPageId(page);
-                state.currentPage = normalizedPageId;
-                win.__uzParentCurrentPage = normalizedPageId;
-                const result = rawSetPage(normalizedPageId);
-                window.setTimeout(() => renderUzParentWorkspace(doc, normalizedPageId), 0);
-                return result;
-              };
-            }
-            if (rawSetWorkspace) {
-              win.setWorkspace = function(key) {
-                const result = rawSetWorkspace(key);
-                if (key === 'uzParent') {
-                  state.currentPage = 'uzParentHome';
-                  win.__uzParentCurrentPage = 'uzParentHome';
-                  window.setTimeout(() => renderUzParentWorkspace(doc, 'uzParentHome'), 0);
-                }
-                return result;
-              };
-            }
-          }
-          renderUzParentWorkspace(doc, state.currentPage || win?.__uzParentCurrentPage || 'uzParentHome');
-        }
         function activateButton(target) {
           buttons.forEach((btn) => btn.classList.toggle('active', btn.dataset.prototypeTarget === target));
         }
@@ -4215,25 +2789,11 @@
           activateButton(target);
           const payload = workspaceMap[target];
           const send = () => {
-            if (frame.contentWindow && payload) {
-              frame.contentWindow.postMessage({ type: 'switch-workspace', ...payload }, '*');
-              if (isUzUserSurface(target)) {
-                setTimeout(() => enhanceUzCreatorCenter(target), 90);
-                setTimeout(() => enhanceUzCreatorCenter(target), 260);
-                setTimeout(() => enhanceUzCreatorCenter(target), 760);
-              }
-              if (target === 'uz-parent') {
-                setTimeout(() => enhanceUzParentHome(target), 110);
-                setTimeout(() => enhanceUzParentHome(target), 320);
-                setTimeout(() => enhanceUzParentHome(target), 900);
-              }
-            }
+            if (frame.contentWindow && payload) frame.contentWindow.postMessage({ type: 'switch-workspace', ...payload }, '*');
           };
           frame.onload = () => {
             send();
             setTimeout(send, 80);
-            setTimeout(() => enhanceUzCreatorCenter(target), 140);
-            setTimeout(() => enhanceUzParentHome(target), 180);
           };
           if (!frameReady) {
             frameReady = true;
@@ -4260,6 +2820,1173 @@
             else openEmbedded(target);
           });
         });
+      })();
+    </script>
+    <script id="prototypeData" type="application/json">
+      {
+        "title": "高保真原型_交互式原型说明_v1_20260608",
+        "version": "v1",
+        "updatedAt": "2026-06-08T00:00:00.000Z",
+        "annotations": {
+          "1.1": {
+            "name": "六端切换总入口",
+            "surface": "lb-parent",
+            "selector": ".prototype-switcher-actions",
+            "markdown": "## 六端切换总入口\n\n用于在六个端之间切换当前展示视图。\n\n### 交互规则\n- 点击按钮后切换当前展示端。\n- 进入后台或优坐标端时，通过同一 HTML 内嵌方式打开。\n- 切换后标注会自动重新定位。"
+          },
+          "1.2": {
+            "name": "家长端首页快捷入口",
+            "surface": "lb-parent",
+            "pageId": "home",
+            "selector": ".page.active .grid4",
+            "markdown": "## 家长端首页快捷入口\n\n覆盖首页核心功能入口，例如请家教、了解老师、家教订单。\n\n### 验收标准\n- 入口点击后有跳转或明确反馈。\n- 图标与文案保持移动端统一视觉规范。"
+          },
+          "1.3": {
+            "name": "家长端学段学科筛选",
+            "surface": "lb-parent",
+            "pageId": "home",
+            "selector": ".page.active .subject-panel",
+            "markdown": "## 家长端学段学科筛选\n\n用于快速定位不同学段与学科的老师或服务。\n\n### 交互说明\n- 学段切换后联动学科标签。\n- 学科点击后进入带筛选条件的老师列表。"
+          },
+          "1.4": {
+            "name": "教师端底部导航",
+            "surface": "lb-teacher",
+            "pageId": "latestOrders",
+            "selector": ".tabbar.teacher-tabs",
+            "markdown": "## 教师端底部导航\n\n教师端保留较少但高频的主导航入口，强调抢单、我的接单和个人中心。"
+          },
+          "2.1": {
+            "name": "后台左侧导航",
+            "surface": "lb-admin",
+            "selector": "#sideNav",
+            "markdown": "## 后台左侧导航\n\n后台左侧导航承载分组菜单与页面入口。\n\n### 验收标准\n- 当前页面高亮。\n- 切换页面后顶部标题、标签栏与主内容同步变化。"
+          },
+          "2.2": {
+            "name": "后台顶部操作栏",
+            "surface": "lb-admin",
+            "selector": ".lb-admin-topbar",
+            "markdown": "## 后台顶部操作栏\n\n包含菜单搜索、常用图标、身份信息，是统一后台工作台范式的重要锚点。"
+          },
+          "2.3": {
+            "name": "后台标签栏",
+            "surface": "lb-admin",
+            "selector": "#lbAdminTabs",
+            "markdown": "## 后台标签栏\n\n用于显示已打开页面，并支持关闭当前标签。\n\n### 验收标准\n- 当前标签高亮。\n- 非最后一个标签支持关闭。\n- 关闭后自动切到相邻标签。"
+          },
+          "2.4": {
+            "name": "后台页面主体",
+            "surface": "lb-admin",
+            "selector": "#pageRoot",
+            "markdown": "## 后台页面主体\n\n承载筛选区、操作按钮、表格、弹窗和状态说明。进入不同后台页面时，此区域内容会切换。"
+          },
+          "3.1": {
+            "name": "优坐标家长端页面主体",
+            "surface": "uz-parent",
+            "selector": "#pageRoot",
+            "markdown": "## 优坐标家长端页面主体\n\n用于承载家长端首页卡片、服务说明和操作入口，可继续按页面细化标注。"
+          },
+          "3.2": {
+            "name": "优坐标教师端页面主体",
+            "surface": "uz-teacher",
+            "selector": "#pageRoot",
+            "markdown": "## 优坐标教师端页面主体\n\n用于展示教师端流程页面，包括接单、排课、个人中心等原型内容。"
+          },
+          "4.1": {
+            "name": "优坐标后台统一骨架",
+            "surface": "uz-admin",
+            "selector": ".layout",
+            "markdown": "## 优坐标后台统一骨架\n\n优坐标后台已经并入统一后台皮肤，必须与领榜后台保持相同的顶栏、侧栏、标签栏、筛选区和表格卡片范式。"
+          },
+          "4.2": {
+            "name": "优坐标后台主内容区",
+            "surface": "uz-admin",
+            "selector": "#pageRoot",
+            "markdown": "## 优坐标后台主内容区\n\n这里承载当前优坐标后台页面的字段、筛选条件、表格列和弹窗入口。\n\n> 当前已补齐 41 个后台页面入口，后续可以继续做更细粒度标注。"
+          }
+        },
+        "customMarkers": [],
+        "markerPositions": {}
+      }
+    </script>
+    <script>
+      (function() {
+        const STORAGE_KEY = 'k12-interactive-prototype-doc-v2';
+        const NOTE_SEEN_KEY = 'k12-interactive-prototype-main-note-seen-v1';
+        const TOOLBAR_UI_KEY = 'k12-interactive-prototype-toolbar-ui-v1';
+        const toolbarState = document.getElementById('annotationToolbarState');
+        const toolbar = document.getElementById('annotationToolbar');
+        const toolbarDragHandle = document.getElementById('annotationToolbarDragHandle');
+        const toolbarCollapse = document.getElementById('annotationToolbarCollapse');
+        const mainNote = document.querySelector('.prototype-main-note');
+        const overlay = document.getElementById('annotationOverlay');
+        const dialog = document.getElementById('annotationDialog');
+        const dialogId = document.getElementById('annotationDialogId');
+        const dialogName = document.getElementById('annotationDialogName');
+        const dialogBody = document.getElementById('annotationDialogBody');
+        const dialogHint = document.getElementById('annotationDialogHint');
+        const dialogActions = document.getElementById('annotationDialogActions');
+        const dialogClose = document.getElementById('annotationDialogClose');
+        const dialogDragHandle = document.getElementById('annotationDialogDragHandle');
+        const mobileSheet = document.getElementById('annotationMobileSheet');
+        const mobileId = document.getElementById('annotationMobileId');
+        const mobileName = document.getElementById('annotationMobileName');
+        const mobileBody = document.getElementById('annotationMobileBody');
+        const mobileHint = document.getElementById('annotationMobileHint');
+        const mobileActions = document.getElementById('annotationMobileActions');
+        const mobileClose = document.getElementById('annotationMobileClose');
+        const placementTip = document.getElementById('annotationPlacementTip');
+        const placementToggle = document.getElementById('annotationPlacementToggle');
+        const visibilityToggle = document.getElementById('annotationToggleVisibility');
+        const searchInput = document.getElementById('annotationSearchInput');
+        const searchPanel = document.getElementById('annotationSearchPanel');
+        const jsonInput = document.getElementById('annotationJsonInput');
+        const exportJsonButton = document.getElementById('annotationExportJson');
+        const importJsonButton = document.getElementById('annotationImportJson');
+        const exportHtmlButton = document.getElementById('annotationExportHtml');
+        const pickHtmlButton = document.getElementById('annotationPickHtml');
+        const switchButtons = Array.from(document.querySelectorAll('[data-prototype-target]'));
+        const frame = document.getElementById('workspaceFrame');
+        const defaultDialogPosition = { left: Math.max(12, window.innerWidth / 2 - 230), top: Math.max(88, window.innerHeight / 2 - 220) };
+        const appState = {
+          placementMode: false,
+          activeId: null,
+          editMode: false,
+          dialogDraft: '',
+          titleDraft: '',
+          markers: {},
+          dialogPosition: { ...defaultDialogPosition },
+          fileHandle: null,
+          markersVisible: true,
+          searchQuery: '',
+          searchResults: [],
+          deletedIds: [],
+          routeScrollMap: {},
+          attachedFrameDocument: null
+        };
+
+        function parseEmbeddedData() {
+          const el = document.getElementById('prototypeData');
+          try {
+            return JSON.parse(el.textContent);
+          } catch (error) {
+            console.error('Failed to parse embedded prototypeData', error);
+            return {
+              title: document.title,
+              version: 'v1',
+              updatedAt: new Date().toISOString(),
+              annotations: {},
+              customMarkers: [],
+              markerPositions: {},
+              deletedIds: [],
+              markersVisible: true,
+              pageState: {}
+            };
+          }
+        }
+
+        function cloneData(data) {
+          return JSON.parse(JSON.stringify(data));
+        }
+
+        function upgradeDataShape(data) {
+          const upgraded = cloneData(data);
+          upgraded.annotations = upgraded.annotations || {};
+          upgraded.customMarkers = Array.isArray(upgraded.customMarkers) ? upgraded.customMarkers : [];
+          upgraded.markerPositions = upgraded.markerPositions || {};
+          upgraded.deletedIds = Array.isArray(upgraded.deletedIds) ? upgraded.deletedIds : [];
+          upgraded.pageState = upgraded.pageState || {};
+          Object.keys(upgraded.annotations).forEach((id) => {
+            const annotation = upgraded.annotations[id];
+            if (!annotation.id) annotation.id = id;
+            annotation.surface = annotation.surface || 'lb-parent';
+            annotation.name = annotation.name || '未命名标注';
+            annotation.markdown = normalizeMarkdown(annotation);
+          });
+          return upgraded;
+        }
+
+        function loadData() {
+          const base = upgradeDataShape(parseEmbeddedData());
+          let local = null;
+          try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (raw) local = upgradeDataShape(JSON.parse(raw));
+          } catch (error) {
+            console.error('Failed to parse local prototype data', error);
+          }
+          if (!local) return base;
+          const merged = cloneData(base);
+          merged.annotations = Object.assign({}, merged.annotations, local.annotations || {});
+          merged.customMarkers = Array.isArray(local.customMarkers) ? local.customMarkers : merged.customMarkers;
+          merged.markerPositions = Object.assign({}, merged.markerPositions, local.markerPositions || {});
+          merged.deletedIds = Array.isArray(local.deletedIds) ? local.deletedIds : merged.deletedIds;
+          merged.markersVisible = typeof local.markersVisible === 'boolean' ? local.markersVisible : true;
+          merged.pageState = Object.assign({}, merged.pageState, local.pageState || {});
+          if (local.updatedAt) merged.updatedAt = local.updatedAt;
+          return merged;
+        }
+
+        let prototypeData = loadData();
+        appState.markersVisible = prototypeData.markersVisible !== false;
+
+        function loadToolbarUi() {
+          try {
+            const raw = localStorage.getItem(TOOLBAR_UI_KEY);
+            return raw ? JSON.parse(raw) : {};
+          } catch (error) {
+            console.error('Failed to parse toolbar ui state', error);
+            return {};
+          }
+        }
+
+        function saveToolbarUi(nextState) {
+          try {
+            const current = loadToolbarUi();
+            localStorage.setItem(TOOLBAR_UI_KEY, JSON.stringify(Object.assign({}, current, nextState)));
+          } catch (error) {
+            console.error('Failed to persist toolbar ui state', error);
+          }
+        }
+
+        function clampToolbarPosition(left, top) {
+          if (!toolbar) return { left, top };
+          const width = toolbar.offsetWidth || 240;
+          const height = toolbar.offsetHeight || 54;
+          return {
+            left: Math.min(window.innerWidth - width - 8, Math.max(8, left)),
+            top: Math.min(window.innerHeight - height - 8, Math.max(8, top))
+          };
+        }
+
+        function applyToolbarUiState() {
+          if (!toolbar) return;
+          const state = loadToolbarUi();
+          const collapsed = state.collapsed === true;
+          toolbar.classList.toggle('is-collapsed', collapsed);
+          if (toolbarCollapse) toolbarCollapse.textContent = collapsed ? '展开' : '收起';
+          if (Number.isFinite(state.left) && Number.isFinite(state.top)) {
+            const next = clampToolbarPosition(state.left, state.top);
+            toolbar.style.left = `${next.left}px`;
+            toolbar.style.top = `${next.top}px`;
+            toolbar.style.right = 'auto';
+            toolbar.style.bottom = 'auto';
+          }
+        }
+
+        function setToolbarCollapsed(collapsed) {
+          if (!toolbar) return;
+          toolbar.classList.toggle('is-collapsed', collapsed);
+          if (toolbarCollapse) toolbarCollapse.textContent = collapsed ? '展开' : '收起';
+          saveToolbarUi({ collapsed });
+          const rect = toolbar.getBoundingClientRect();
+          const next = clampToolbarPosition(rect.left, rect.top);
+          toolbar.style.left = `${next.left}px`;
+          toolbar.style.top = `${next.top}px`;
+          toolbar.style.right = 'auto';
+          toolbar.style.bottom = 'auto';
+          saveToolbarUi({ left: next.left, top: next.top });
+        }
+
+        function setupToolbarInteractions() {
+          if (!toolbar || !toolbarDragHandle) return;
+          toolbar.dataset.toolbarReady = 'true';
+          applyToolbarUiState();
+          toolbar.addEventListener('click', (event) => {
+            if (event.target && event.target.closest && event.target.closest('#annotationToolbarCollapse')) {
+              event.stopPropagation();
+              setToolbarCollapsed(!toolbar.classList.contains('is-collapsed'));
+            }
+          });
+          let dragging = false;
+          let offsetX = 0;
+          let offsetY = 0;
+          toolbarDragHandle.addEventListener('pointerdown', (event) => {
+            if (event.target.closest('button, input')) return;
+            dragging = true;
+            const rect = toolbar.getBoundingClientRect();
+            offsetX = event.clientX - rect.left;
+            offsetY = event.clientY - rect.top;
+            toolbar.classList.add('is-dragging');
+            document.body.classList.add('annotation-dragging');
+            toolbarDragHandle.setPointerCapture(event.pointerId);
+          });
+          toolbarDragHandle.addEventListener('pointermove', (event) => {
+            if (!dragging) return;
+            const next = clampToolbarPosition(event.clientX - offsetX, event.clientY - offsetY);
+            toolbar.style.left = `${next.left}px`;
+            toolbar.style.top = `${next.top}px`;
+            toolbar.style.right = 'auto';
+            toolbar.style.bottom = 'auto';
+          });
+          toolbarDragHandle.addEventListener('pointerup', (event) => {
+            if (!dragging) return;
+            dragging = false;
+            toolbar.classList.remove('is-dragging');
+            document.body.classList.remove('annotation-dragging');
+            toolbarDragHandle.releasePointerCapture(event.pointerId);
+            const rect = toolbar.getBoundingClientRect();
+            saveToolbarUi({ left: rect.left, top: rect.top });
+          });
+          window.addEventListener('resize', () => {
+            const rect = toolbar.getBoundingClientRect();
+            const next = clampToolbarPosition(rect.left, rect.top);
+            toolbar.style.left = `${next.left}px`;
+            toolbar.style.top = `${next.top}px`;
+            toolbar.style.right = 'auto';
+            toolbar.style.bottom = 'auto';
+            saveToolbarUi({ left: next.left, top: next.top });
+          });
+        }
+
+        function saveData(skipRender) {
+          prototypeData.updatedAt = new Date().toISOString();
+          prototypeData.markersVisible = appState.markersVisible;
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(prototypeData));
+          const dataEl = document.getElementById('prototypeData');
+          if (dataEl) dataEl.textContent = JSON.stringify(prototypeData, null, 2);
+          writeBackToSelectedHtml();
+          if (!skipRender) {
+            runSearch();
+            renderMarkers();
+          }
+        }
+
+        function setupMainNoteOnce() {
+          if (!mainNote) return;
+          let seen = false;
+          try {
+            seen = localStorage.getItem(NOTE_SEEN_KEY) === '1';
+          } catch (error) {
+            console.error('Failed to read main note state', error);
+          }
+          if (seen) {
+            mainNote.classList.add('hidden-once');
+            return;
+          }
+          window.setTimeout(() => {
+            mainNote.classList.add('hidden-once');
+            try {
+              localStorage.setItem(NOTE_SEEN_KEY, '1');
+            } catch (error) {
+              console.error('Failed to persist main note state', error);
+            }
+          }, 2600);
+        }
+
+        async function writeBackToSelectedHtml() {
+          if (!appState.fileHandle) return;
+          try {
+            const writable = await appState.fileHandle.createWritable();
+            await writable.write(document.documentElement.outerHTML);
+            await writable.close();
+          } catch (error) {
+            console.error('Failed to write html file', error);
+          }
+        }
+
+        function getCurrentSurface() {
+          const active = document.querySelector('[data-prototype-target].active');
+          return active ? active.dataset.prototypeTarget : 'lb-parent';
+        }
+
+        function isMobileSurface(surface = getCurrentSurface()) {
+          return surface === 'lb-parent' || surface === 'lb-teacher' || surface === 'uz-parent' || surface === 'uz-teacher';
+        }
+
+        function pageNameForSurface(surface) {
+          const map = {
+            'lb-parent': '领榜家长端',
+            'lb-teacher': '领榜教师端',
+            'lb-admin': '领榜后台',
+            'uz-parent': '优坐标家长端',
+            'uz-teacher': '优坐标教师端',
+            'uz-admin': '优坐标后台'
+          };
+          return map[surface] || surface;
+        }
+
+        function getActivePageId(surface = getCurrentSurface()) {
+          if (surface === 'lb-parent' || surface === 'lb-teacher') {
+            const page = document.querySelector('.screen .page.active');
+            return page ? (page.dataset.page || 'root') : 'root';
+          }
+          const surfaceDoc = getSurfaceDocument(surface);
+          if (!surfaceDoc) return 'root';
+          const root = surfaceDoc.querySelector('#pageRoot');
+          if (root && surfaceDoc.body && surfaceDoc.body.dataset && surfaceDoc.body.dataset.current) return surfaceDoc.body.dataset.current;
+          return 'root';
+        }
+
+        function getSurfaceDocument(surface) {
+          if (surface === 'lb-parent' || surface === 'lb-teacher') return document;
+          if (frame && frame.contentDocument) return frame.contentDocument;
+          return null;
+        }
+
+        function pageKey(surface, pageId) {
+          return `${surface}::${pageId || 'root'}`;
+        }
+
+        function ensurePageState(surface = getCurrentSurface(), pageId = getActivePageId(surface)) {
+          const key = pageKey(surface, pageId);
+          if (!prototypeData.pageState[key]) {
+            prototypeData.pageState[key] = { scrollTop: 0 };
+          }
+          return prototypeData.pageState[key];
+        }
+
+        function getRectForAnnotation(annotation) {
+          const surfaceDoc = getSurfaceDocument(annotation.surface);
+          if (!surfaceDoc) return null;
+          const target = surfaceDoc.querySelector(annotation.selector);
+          if (!target) return null;
+          const rect = target.getBoundingClientRect();
+          if (surfaceDoc === document) return rect;
+          const frameRect = frame.getBoundingClientRect();
+          return {
+            left: frameRect.left + rect.left,
+            top: frameRect.top + rect.top,
+            right: frameRect.left + rect.right,
+            bottom: frameRect.top + rect.bottom,
+            width: rect.width,
+            height: rect.height
+          };
+        }
+
+        function escapeHtml(value) {
+          return String(value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+        }
+
+        function normalizeMarkdown(annotation) {
+          if (annotation.markdown) return annotation.markdown;
+          const fields = ['purpose', 'displayRule', 'interactionRule', 'dataRule', 'permissionRule', 'exceptionRule', 'acceptance'];
+          const labels = {
+            purpose: '用途',
+            displayRule: '展示规则',
+            interactionRule: '交互规则',
+            dataRule: '数据规则',
+            permissionRule: '权限规则',
+            exceptionRule: '异常规则',
+            acceptance: '验收标准'
+          };
+          const parts = [];
+          fields.forEach((key) => {
+            if (annotation[key]) parts.push(`## ${labels[key]}\n\n${annotation[key]}`);
+          });
+          return parts.join('\n\n');
+        }
+
+        function renderMarkdown(markdown) {
+          const lines = escapeHtml(markdown || '').split('\n');
+          const blocks = [];
+          let inList = false;
+          let inCode = false;
+          let codeBuffer = [];
+          function closeList() {
+            if (inList) {
+              blocks.push('</ul>');
+              inList = false;
+            }
+          }
+          function closeCode() {
+            if (inCode) {
+              blocks.push(`<pre><code>${codeBuffer.join('\n')}</code></pre>`);
+              inCode = false;
+              codeBuffer = [];
+            }
+          }
+          lines.forEach((line) => {
+            if (line.startsWith('```')) {
+              closeList();
+              if (inCode) closeCode();
+              else inCode = true;
+              return;
+            }
+            if (inCode) {
+              codeBuffer.push(line);
+              return;
+            }
+            if (!line.trim()) {
+              closeList();
+              blocks.push('');
+              return;
+            }
+            if (line.startsWith('### ')) {
+              closeList();
+              blocks.push(`<h3>${inlineMarkdown(line.slice(4))}</h3>`);
+              return;
+            }
+            if (line.startsWith('## ')) {
+              closeList();
+              blocks.push(`<h2>${inlineMarkdown(line.slice(3))}</h2>`);
+              return;
+            }
+            if (line.startsWith('# ')) {
+              closeList();
+              blocks.push(`<h1>${inlineMarkdown(line.slice(2))}</h1>`);
+              return;
+            }
+            if (line.startsWith('> ')) {
+              closeList();
+              blocks.push(`<blockquote>${inlineMarkdown(line.slice(2))}</blockquote>`);
+              return;
+            }
+            if (/^- /.test(line)) {
+              if (!inList) {
+                blocks.push('<ul>');
+                inList = true;
+              }
+              blocks.push(`<li>${inlineMarkdown(line.slice(2))}</li>`);
+              return;
+            }
+            closeList();
+            blocks.push(`<p>${inlineMarkdown(line)}</p>`);
+          });
+          closeList();
+          closeCode();
+          return blocks.join('');
+        }
+
+        function inlineMarkdown(text) {
+          return text
+            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+            .replace(/`([^`]+)`/g, '<code>$1</code>');
+        }
+
+        function buildAnnotationPageId(annotation) {
+          return annotation.pageId || 'root';
+        }
+
+        function getVisibleAnnotations() {
+          const currentSurface = getCurrentSurface();
+          const currentPageId = getActivePageId(currentSurface);
+          return Object.entries(prototypeData.annotations)
+            .map(([id, data]) => ({ id, ...data }))
+            .filter((item) => item.surface === currentSurface)
+            .filter((item) => !prototypeData.deletedIds.includes(item.id))
+            .filter((item) => {
+              const annotationPageId = buildAnnotationPageId(item);
+              return annotationPageId === 'root' || annotationPageId === currentPageId;
+            });
+        }
+
+        function getMarkerPosition(annotation, rect) {
+          const key = annotation.id;
+          const saved = prototypeData.markerPositions[key];
+          if (saved) {
+            if (typeof saved.offsetLeft === 'number' && typeof saved.offsetTop === 'number') {
+              return {
+                left: rect.left + saved.offsetLeft,
+                top: rect.top + saved.offsetTop
+              };
+            }
+            if (typeof saved.left === 'number' && typeof saved.top === 'number') {
+              const offsetLeft = Math.round(saved.left - rect.left);
+              const offsetTop = Math.round(saved.top - rect.top);
+              prototypeData.markerPositions[key] = Object.assign({}, saved, { offsetLeft, offsetTop });
+              return {
+                left: rect.left + offsetLeft,
+                top: rect.top + offsetTop
+              };
+            }
+          }
+          return { left: rect.left + 12, top: rect.top + 10 };
+        }
+
+        function persistMarkerPosition(annotation, left, top, rect) {
+          const anchorRect = rect || getRectForAnnotation(annotation);
+          const offsetLeft = anchorRect ? Math.round(left - anchorRect.left) : Math.round(left);
+          const offsetTop = anchorRect ? Math.round(top - anchorRect.top) : Math.round(top);
+          prototypeData.markerPositions[annotation.id] = {
+            left: Math.round(left),
+            top: Math.round(top),
+            offsetLeft,
+            offsetTop,
+            pageId: buildAnnotationPageId(annotation),
+            surface: annotation.surface
+          };
+          saveData(true);
+          renderMarkers();
+        }
+
+        function renderMarkers() {
+          overlay.innerHTML = '';
+          appState.markers = {};
+          visibilityToggle.textContent = appState.markersVisible ? '隐藏标注' : '显示标注';
+          const currentSurface = getCurrentSurface();
+          if (!appState.markersVisible) {
+            toolbarState.textContent = `当前展示端：${currentSurface}。标注已隐藏，搜索和数据不会受影响。`;
+            return;
+          }
+          const annotations = getVisibleAnnotations();
+          annotations.forEach((annotation) => {
+            const rect = getRectForAnnotation(annotation);
+            if (!rect) return;
+            const marker = document.createElement('button');
+            marker.type = 'button';
+            marker.className = `annotation-marker${/^C/.test(annotation.id) ? ' custom' : ''}`;
+            marker.textContent = annotation.id;
+            const pos = getMarkerPosition(annotation, rect);
+            marker.style.left = `${pos.left}px`;
+            marker.style.top = `${pos.top}px`;
+            addMarkerInteractions(marker, annotation, rect);
+            overlay.appendChild(marker);
+            appState.markers[annotation.id] = marker;
+          });
+          toolbarState.textContent = appState.placementMode
+            ? `当前为新增标注模式，点击 ${currentSurface} 原型中的一个区域即可创建新标注。`
+            : `当前展示端：${currentSurface}，当前页面：${getActivePageId(currentSurface)}。可拖动标记避让，可点开查看或编辑说明。`;
+        }
+
+        function addMarkerInteractions(marker, annotation, rect) {
+          let dragging = false;
+          let moved = false;
+          let offsetX = 0;
+          let offsetY = 0;
+          marker.addEventListener('pointerdown', (event) => {
+            dragging = true;
+            moved = false;
+            offsetX = event.clientX - marker.offsetLeft;
+            offsetY = event.clientY - marker.offsetTop;
+            marker.classList.add('dragging');
+            document.body.classList.add('annotation-dragging');
+            marker.setPointerCapture(event.pointerId);
+          });
+          marker.addEventListener('pointermove', (event) => {
+            if (!dragging) return;
+            moved = true;
+            const minLeft = rect.left - 8;
+            const maxLeft = rect.right - marker.offsetWidth + 8;
+            const nextLeft = Math.min(maxLeft, Math.max(minLeft, event.clientX - offsetX));
+            const nextTop = Math.min(rect.bottom - marker.offsetHeight, Math.max(rect.top, event.clientY - offsetY));
+            marker.style.left = `${nextLeft}px`;
+            marker.style.top = `${nextTop}px`;
+          });
+          marker.addEventListener('pointerup', (event) => {
+            if (!dragging) return;
+            dragging = false;
+            marker.classList.remove('dragging');
+            document.body.classList.remove('annotation-dragging');
+            marker.releasePointerCapture(event.pointerId);
+            if (moved) {
+              persistMarkerPosition(annotation, parseFloat(marker.style.left), parseFloat(marker.style.top), rect);
+              return;
+            }
+            openAnnotation(annotation.id, false);
+          });
+        }
+
+        function getAnnotation(id) {
+          return prototypeData.annotations[id];
+        }
+
+        function isNarrowViewport() {
+          return window.innerWidth <= 640 || isMobileSurface();
+        }
+
+        function openAnnotation(id, editMode) {
+          const annotation = getAnnotation(id);
+          if (!annotation || prototypeData.deletedIds.includes(id)) return;
+          appState.activeId = id;
+          appState.editMode = !!editMode;
+          appState.dialogDraft = normalizeMarkdown(annotation);
+          appState.titleDraft = annotation.name || '未命名标注';
+          if (isNarrowViewport()) openMobileSheet();
+          else openDesktopDialog();
+        }
+
+        function syncAnnotationStateForCurrentPage() {
+          const activeId = appState.activeId;
+          if (!activeId) {
+            renderMarkers();
+            return;
+          }
+          const annotation = getAnnotation(activeId);
+          const currentSurface = getCurrentSurface();
+          const currentPageId = getActivePageId(currentSurface);
+          const shouldStayVisible = annotation
+            && annotation.surface === currentSurface
+            && !prototypeData.deletedIds.includes(activeId)
+            && (buildAnnotationPageId(annotation) === 'root' || buildAnnotationPageId(annotation) === currentPageId);
+          if (!shouldStayVisible) {
+            closePanels();
+          }
+          renderMarkers();
+        }
+
+        function openDesktopDialog() {
+          dialog.classList.add('active');
+          dialog.setAttribute('aria-hidden', 'false');
+          dialog.style.left = `${appState.dialogPosition.left}px`;
+          dialog.style.top = `${appState.dialogPosition.top}px`;
+          dialog.style.transform = 'none';
+          mobileSheet.classList.remove('active');
+          mobileSheet.setAttribute('aria-hidden', 'true');
+          renderDialogContent('desktop');
+        }
+
+        function openMobileSheet() {
+          mobileSheet.classList.add('active');
+          mobileSheet.setAttribute('aria-hidden', 'false');
+          dialog.classList.remove('active');
+          dialog.setAttribute('aria-hidden', 'true');
+          renderDialogContent('mobile');
+        }
+
+        function closePanels() {
+          dialog.classList.remove('active');
+          dialog.setAttribute('aria-hidden', 'true');
+          mobileSheet.classList.remove('active');
+          mobileSheet.setAttribute('aria-hidden', 'true');
+          appState.activeId = null;
+          appState.editMode = false;
+        }
+
+        function saveAnnotationEdits() {
+          const annotation = getAnnotation(appState.activeId);
+          if (!annotation) return;
+          annotation.name = (appState.titleDraft || '未命名标注').trim();
+          annotation.markdown = appState.dialogDraft;
+          saveData();
+          appState.editMode = false;
+          if (isNarrowViewport()) renderDialogContent('mobile');
+          else renderDialogContent('desktop');
+        }
+
+        function deleteActiveAnnotation() {
+          const annotation = getAnnotation(appState.activeId);
+          if (!annotation) return;
+          const confirmed = window.confirm(`确认删除标注 ${annotation.id}「${annotation.name || '未命名标注'}」吗？删除后将移除标记、说明内容和已保存位置。`);
+          if (!confirmed) return;
+          prototypeData.deletedIds = Array.from(new Set([].concat(prototypeData.deletedIds || [], annotation.id)));
+          delete prototypeData.annotations[annotation.id];
+          delete prototypeData.markerPositions[annotation.id];
+          prototypeData.customMarkers = (prototypeData.customMarkers || []).filter((item) => item.id !== annotation.id);
+          closePanels();
+          saveData();
+        }
+
+        function renderDialogContent(mode) {
+          const annotation = getAnnotation(appState.activeId);
+          if (!annotation) return;
+          const isMobile = mode === 'mobile';
+          const idNode = isMobile ? mobileId : dialogId;
+          const nameNode = isMobile ? mobileName : dialogName;
+          const bodyNode = isMobile ? mobileBody : dialogBody;
+          const hintNode = isMobile ? mobileHint : dialogHint;
+          const actionsNode = isMobile ? mobileActions : dialogActions;
+          idNode.textContent = annotation.id || appState.activeId;
+          actionsNode.innerHTML = '';
+          if (appState.editMode) {
+            nameNode.innerHTML = `<input class="annotation-dialog-title-input" id="${isMobile ? 'annotationMobileTitleInput' : 'annotationDialogTitleInput'}" value="${escapeHtml(appState.titleDraft)}" />`;
+            bodyNode.innerHTML = `<textarea class="annotation-dialog-editor" id="${isMobile ? 'annotationMobileEditor' : 'annotationDialogEditor'}"></textarea>`;
+            const titleInput = document.getElementById(isMobile ? 'annotationMobileTitleInput' : 'annotationDialogTitleInput');
+            const editor = document.getElementById(isMobile ? 'annotationMobileEditor' : 'annotationDialogEditor');
+            titleInput.value = appState.titleDraft;
+            editor.value = appState.dialogDraft;
+            titleInput.addEventListener('input', () => { appState.titleDraft = titleInput.value; });
+            editor.addEventListener('input', () => { appState.dialogDraft = editor.value; });
+            hintNode.textContent = isMobile ? '移动端编辑模式：可修改标题和 Markdown 说明。' : '编辑模式：可修改标题和 Markdown 说明。';
+            const save = document.createElement('button');
+            save.type = 'button';
+            save.className = 'primary';
+            save.textContent = '保存';
+            save.onclick = saveAnnotationEdits;
+            const cancel = document.createElement('button');
+            cancel.type = 'button';
+            cancel.textContent = '取消';
+            cancel.onclick = () => {
+              appState.editMode = false;
+              appState.titleDraft = annotation.name || '未命名标注';
+              appState.dialogDraft = normalizeMarkdown(annotation);
+              renderDialogContent(mode);
+            };
+            actionsNode.appendChild(save);
+            actionsNode.appendChild(cancel);
+          } else {
+            nameNode.textContent = annotation.name || '未命名标注';
+            bodyNode.innerHTML = renderMarkdown(normalizeMarkdown(annotation));
+            hintNode.textContent = isMobile ? '移动端查看模式。' : '查看模式：可编辑或删除当前标注。';
+            const edit = document.createElement('button');
+            edit.type = 'button';
+            edit.textContent = '编辑';
+            edit.onclick = () => {
+              appState.editMode = true;
+              renderDialogContent(mode);
+            };
+            const remove = document.createElement('button');
+            remove.type = 'button';
+            remove.textContent = '删除';
+            remove.onclick = deleteActiveAnnotation;
+            actionsNode.appendChild(edit);
+            actionsNode.appendChild(remove);
+          }
+        }
+
+        function nextCustomId() {
+          const used = Object.keys(prototypeData.annotations)
+            .filter((id) => /^C\d+$/.test(id))
+            .map((id) => Number(id.slice(1)));
+          const next = (used.length ? Math.max.apply(null, used) : 0) + 1;
+          return `C${String(next).padStart(2, '0')}`;
+        }
+
+        function resolveSelector(element) {
+          if (!element) return null;
+          if (element.id) return `#${element.id}`;
+          if (element.getAttribute && element.getAttribute('data-page')) return `[data-page="${element.getAttribute('data-page')}"]`;
+          if (element.getAttribute && element.getAttribute('data-prototype-target')) return `[data-prototype-target="${element.getAttribute('data-prototype-target')}"]`;
+          if (element.classList && element.classList.length) {
+            const safe = Array.from(element.classList).filter(Boolean).slice(0, 2);
+            if (safe.length) return `${element.tagName.toLowerCase()}.${safe.join('.')}`;
+          }
+          return element.tagName ? element.tagName.toLowerCase() : null;
+        }
+
+        function getAnchorRectFromElement(element, surface) {
+          if (!element) return null;
+          const rect = element.getBoundingClientRect();
+          if (surface === 'lb-parent' || surface === 'lb-teacher') return rect;
+          const frameRect = frame.getBoundingClientRect();
+          return {
+            left: frameRect.left + rect.left,
+            top: frameRect.top + rect.top,
+            right: frameRect.left + rect.right,
+            bottom: frameRect.top + rect.bottom,
+            width: rect.width,
+            height: rect.height
+          };
+        }
+
+        function createCustomAnnotationFromEvent(event, surfaceOverride) {
+          const surface = surfaceOverride || getCurrentSurface();
+          const targetElement = event.target.closest ? event.target.closest('button, input, select, textarea, th, td, .card, .page, .row, .field, .nav-btn, .btn, .clickable, .subject-panel, .grid4, .table-wrap, .page-head, .filter-bar, .mobile-shell, .layout') : null;
+          const selector = resolveSelector(targetElement);
+          if (!selector) return;
+          const anchorRect = getAnchorRectFromElement(targetElement, surface);
+          const pageId = getActivePageId(surface);
+          const id = nextCustomId();
+          prototypeData.annotations[id] = {
+            id,
+            name: '新增标注',
+            surface,
+            pageId,
+            selector,
+            markdown: '## 新增标注\n\n请在这里补充该区域的业务说明、交互规则、状态说明或验收标准。'
+          };
+          prototypeData.customMarkers.push({ id, selector, surface, pageId });
+          prototypeData.markerPositions[id] = {
+            left: Math.round(event.clientX),
+            top: Math.round(event.clientY),
+            offsetLeft: anchorRect ? Math.round(event.clientX - anchorRect.left) : 12,
+            offsetTop: anchorRect ? Math.round(event.clientY - anchorRect.top) : 10,
+            pageId,
+            surface
+          };
+          appState.placementMode = false;
+          document.body.classList.remove('annotation-placement');
+          placementTip.classList.remove('active');
+          placementToggle.classList.remove('primary');
+          placementToggle.textContent = '新增标注';
+          saveData();
+          openAnnotation(id, true);
+        }
+
+        function maybeCaptureScroll(surface) {
+          const pageId = getActivePageId(surface);
+          const state = ensurePageState(surface, pageId);
+          const doc = getSurfaceDocument(surface);
+          if (surface === 'lb-parent' || surface === 'lb-teacher') {
+            const screen = document.querySelector('.screen');
+            state.scrollTop = screen ? screen.scrollTop : 0;
+          } else if (doc) {
+            state.scrollTop = doc.documentElement ? doc.documentElement.scrollTop || doc.body.scrollTop || 0 : 0;
+          }
+        }
+
+        function restoreScroll(surface, pageId) {
+          const state = ensurePageState(surface, pageId);
+          const doc = getSurfaceDocument(surface);
+          if (surface === 'lb-parent' || surface === 'lb-teacher') {
+            const screen = document.querySelector('.screen');
+            if (screen) screen.scrollTop = state.scrollTop || 0;
+          } else if (doc && doc.documentElement) {
+            doc.documentElement.scrollTop = state.scrollTop || 0;
+            if (doc.body) doc.body.scrollTop = state.scrollTop || 0;
+          }
+        }
+
+        function onDocumentClick(event) {
+          if (!appState.placementMode) return;
+          if (event.target.closest && event.target.closest('#annotationToolbar, #annotationDialog, #annotationMobileSheet')) return;
+          event.preventDefault();
+          event.stopPropagation();
+          createCustomAnnotationFromEvent(event);
+        }
+
+        function attachFramePlacementListener() {
+          if (!frame || !frame.contentDocument || appState.attachedFrameDocument === frame.contentDocument) return;
+          appState.attachedFrameDocument = frame.contentDocument;
+          try {
+            frame.contentDocument.addEventListener('click', (event) => {
+              if (!appState.placementMode) return;
+              event.preventDefault();
+              event.stopPropagation();
+              createCustomAnnotationFromEvent(event, getCurrentSurface());
+            }, true);
+          } catch (error) {
+            console.error('Failed to attach frame placement listener', error);
+          }
+        }
+
+        function removeAdminHomeRecoveredEntryCard(surface = getCurrentSurface()) {
+          if (surface !== 'lb-admin' || !frame || !frame.contentDocument) return;
+          const doc = frame.contentDocument;
+          const currentPage = doc.body && doc.body.dataset ? doc.body.dataset.current : '';
+          if (currentPage && currentPage !== 'admin-home') return;
+          const titles = Array.from(doc.querySelectorAll('.card-title, .page-title, h1, h2, h3, h4, strong'));
+          const target = titles.find((node) => (node.textContent || '').trim() === '已还原页面入口');
+          if (!target) return;
+          const card = target.closest('.card');
+          if (card) card.remove();
+        }
+
+        function searchIndex() {
+          return Object.entries(prototypeData.annotations)
+            .map(([id, annotation]) => ({ id, ...annotation }))
+            .filter((item) => !prototypeData.deletedIds.includes(item.id))
+            .map((item) => {
+              const text = [item.id, item.name, normalizeMarkdown(item), item.surface, buildAnnotationPageId(item), pageNameForSurface(item.surface)].join(' ').toLowerCase();
+              return Object.assign({}, item, { searchText: text });
+            });
+        }
+
+        function runSearch() {
+          const query = (appState.searchQuery || '').trim().toLowerCase();
+          if (!query) {
+            appState.searchResults = [];
+            renderSearchResults();
+            return;
+          }
+          const tokens = query.split(/\s+/).filter(Boolean);
+          appState.searchResults = searchIndex().filter((item) => tokens.every((token) => item.searchText.includes(token)));
+          renderSearchResults();
+        }
+
+        function summaryFromMarkdown(markdown) {
+          return normalizeMarkdown({ markdown }).replace(/\n+/g, ' ').slice(0, 72);
+        }
+
+        function renderSearchResults() {
+          searchPanel.innerHTML = '';
+          if (!appState.searchQuery.trim()) {
+            searchPanel.classList.remove('active');
+            return;
+          }
+          searchPanel.classList.add('active');
+          if (!appState.searchResults.length) {
+            searchPanel.innerHTML = '<div class="annotation-search-empty">没有找到匹配的标注。</div>';
+            return;
+          }
+          appState.searchResults.forEach((item) => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'annotation-search-item';
+            button.innerHTML = `
+              <div class="annotation-search-top">
+                <span class="annotation-search-id">${escapeHtml(item.id)}</span>
+                <span class="annotation-search-page">${escapeHtml(pageNameForSurface(item.surface))} / ${escapeHtml(buildAnnotationPageId(item))}</span>
+              </div>
+              <div class="annotation-search-name">${escapeHtml(item.name || '未命名标注')}</div>
+              <div class="annotation-search-summary">${escapeHtml(summaryFromMarkdown(item.markdown))}</div>
+            `;
+            button.addEventListener('click', () => jumpToAnnotation(item.id));
+            searchPanel.appendChild(button);
+          });
+        }
+
+        function selectSurface(surface) {
+          const button = switchButtons.find((item) => item.dataset.prototypeTarget === surface);
+          if (button) button.click();
+        }
+
+        function maybeOpenLocalPage(pageId) {
+          if (!(getCurrentSurface() === 'lb-parent' || getCurrentSurface() === 'lb-teacher')) return;
+          if (!pageId || pageId === 'root') return;
+          if (typeof openPage === 'function') openPage(pageId);
+        }
+
+        function jumpToAnnotation(id) {
+          const annotation = getAnnotation(id);
+          if (!annotation) return;
+          appState.searchQuery = '';
+          searchInput.value = '';
+          renderSearchResults();
+          appState.markersVisible = true;
+          prototypeData.markersVisible = true;
+          if (getCurrentSurface() !== annotation.surface) {
+            selectSurface(annotation.surface);
+          }
+          setTimeout(() => {
+            if (annotation.surface === 'lb-parent' || annotation.surface === 'lb-teacher') {
+              maybeOpenLocalPage(buildAnnotationPageId(annotation));
+            }
+            restoreScroll(annotation.surface, buildAnnotationPageId(annotation));
+            renderMarkers();
+            const marker = appState.markers[id];
+            if (marker) marker.scrollIntoView({ block: 'center', inline: 'center' });
+            openAnnotation(id, false);
+          }, 700);
+        }
+
+        document.addEventListener('click', onDocumentClick, true);
+        dialogClose.addEventListener('click', closePanels);
+        mobileClose.addEventListener('click', closePanels);
+
+        placementToggle.addEventListener('click', () => {
+          appState.placementMode = !appState.placementMode;
+          document.body.classList.toggle('annotation-placement', appState.placementMode);
+          placementTip.classList.toggle('active', appState.placementMode);
+          placementToggle.classList.toggle('primary', appState.placementMode);
+          placementToggle.textContent = appState.placementMode ? '取消新增' : '新增标注';
+          renderMarkers();
+        });
+
+        visibilityToggle.addEventListener('click', () => {
+          appState.markersVisible = !appState.markersVisible;
+          saveData();
+        });
+
+        searchInput.addEventListener('input', () => {
+          appState.searchQuery = searchInput.value;
+          runSearch();
+        });
+
+        let dialogDragging = false;
+        let dialogOffsetX = 0;
+        let dialogOffsetY = 0;
+        dialogDragHandle.addEventListener('pointerdown', (event) => {
+          dialogDragging = true;
+          dialogOffsetX = event.clientX - dialog.offsetLeft;
+          dialogOffsetY = event.clientY - dialog.offsetTop;
+          dialogDragHandle.setPointerCapture(event.pointerId);
+        });
+        dialogDragHandle.addEventListener('pointermove', (event) => {
+          if (!dialogDragging) return;
+          const left = Math.min(window.innerWidth - dialog.offsetWidth - 8, Math.max(8, event.clientX - dialogOffsetX));
+          const top = Math.min(window.innerHeight - dialog.offsetHeight - 8, Math.max(72, event.clientY - dialogOffsetY));
+          appState.dialogPosition = { left, top };
+          dialog.style.left = `${left}px`;
+          dialog.style.top = `${top}px`;
+        });
+        dialogDragHandle.addEventListener('pointerup', (event) => {
+          dialogDragging = false;
+          dialogDragHandle.releasePointerCapture(event.pointerId);
+        });
+
+        switchButtons.forEach((button) => {
+          button.addEventListener('click', () => {
+            maybeCaptureScroll(getCurrentSurface());
+            setTimeout(() => {
+              attachFramePlacementListener();
+              removeAdminHomeRecoveredEntryCard(getCurrentSurface());
+              restoreScroll(getCurrentSurface(), getActivePageId(getCurrentSurface()));
+              renderMarkers();
+            }, 120);
+            setTimeout(() => {
+              removeAdminHomeRecoveredEntryCard(getCurrentSurface());
+              renderMarkers();
+            }, 420);
+            setTimeout(() => {
+              removeAdminHomeRecoveredEntryCard(getCurrentSurface());
+              renderMarkers();
+            }, 900);
+          });
+        });
+
+        window.addEventListener('resize', renderMarkers);
+        window.addEventListener('scroll', () => {
+          maybeCaptureScroll(getCurrentSurface());
+          renderMarkers();
+        }, true);
+        window.addEventListener('prototype-page-change', (event) => {
+          const detail = event.detail || {};
+          if (detail.surface && detail.surface !== getCurrentSurface()) return;
+          maybeCaptureScroll(getCurrentSurface());
+          setTimeout(syncAnnotationStateForCurrentPage, 0);
+          setTimeout(syncAnnotationStateForCurrentPage, 120);
+        });
+
+        exportJsonButton.addEventListener('click', () => {
+          const blob = new Blob([JSON.stringify(prototypeData, null, 2)], { type: 'application/json;charset=utf-8' });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = '高保真原型_交互式标注数据_v2_20260608.json';
+          link.click();
+          URL.revokeObjectURL(url);
+        });
+
+        importJsonButton.addEventListener('click', () => jsonInput.click());
+        jsonInput.addEventListener('change', async () => {
+          const file = jsonInput.files && jsonInput.files[0];
+          if (!file) return;
+          const text = await file.text();
+          const incoming = upgradeDataShape(JSON.parse(text));
+          prototypeData = Object.assign(loadData(), incoming);
+          appState.markersVisible = prototypeData.markersVisible !== false;
+          saveData();
+        });
+
+        exportHtmlButton.addEventListener('click', () => {
+          const html = '<!doctype html>\n' + document.documentElement.outerHTML;
+          const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = '高保真原型_交互式原型说明_v1_20260608.html';
+          link.click();
+          URL.revokeObjectURL(url);
+        });
+
+        pickHtmlButton.addEventListener('click', async () => {
+          if (!window.showOpenFilePicker) {
+            toolbarState.textContent = '当前浏览器不支持直接回写 HTML 文件，请继续使用“导出新版 HTML”。';
+            return;
+          }
+          try {
+            const [handle] = await window.showOpenFilePicker({
+              types: [{ description: 'HTML', accept: { 'text/html': ['.html', '.htm'] } }],
+              multiple: false
+            });
+            appState.fileHandle = handle;
+            toolbarState.textContent = '已选中当前 HTML 文件，后续编辑会尝试自动回写。';
+          } catch (error) {
+            console.error('HTML file pick cancelled', error);
+          }
+        });
+
+        if (frame) {
+          frame.addEventListener('load', () => {
+            attachFramePlacementListener();
+            removeAdminHomeRecoveredEntryCard(getCurrentSurface());
+            restoreScroll(getCurrentSurface(), getActivePageId(getCurrentSurface()));
+            setTimeout(() => {
+              removeAdminHomeRecoveredEntryCard(getCurrentSurface());
+              renderMarkers();
+            }, 100);
+          });
+        }
+
+        setupMainNoteOnce();
+        setupToolbarInteractions();
+        runSearch();
+        renderMarkers();
       })();
     </script>
 
