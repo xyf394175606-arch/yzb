@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>领榜教育 - 家长端</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --primary: #2563EB; --primary-light: #3B82F6; --primary-bg: #EFF6FF;
+  --success: #10B981; --success-bg: #ECFDF5;
+  --warning: #F59E0B; --warning-bg: #FFFBEB;
+  --danger: #EF4444; --danger-bg: #FEF2F2;
+  --gray-50: #F9FAFB; --gray-100: #F3F4F6; --gray-200: #E5E7EB;
+  --gray-300: #D1D5DB; --gray-400: #9CA3AF; --gray-500: #6B7280;
+  --gray-600: #4B5563; --gray-700: #374151; --gray-800: #1F2937;
+  --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
+}
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--gray-50); color: var(--gray-800); max-width: 375px; margin: 0 auto; min-height: 100vh; position: relative; }
+
+/* 状态栏 */
+.status-bar { height: 44px; background: #fff; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; font-size: 12px; color: var(--gray-500); }
+
+/* 导航栏 */
+.nav-bar { height: 44px; background: #fff; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; border-bottom: 1px solid var(--gray-100); position: sticky; top: 0; z-index: 100; }
+.nav-title { font-size: 17px; font-weight: 600; color: var(--gray-800); }
+.nav-action { font-size: 14px; color: var(--primary); cursor: pointer; }
+
+/* Banner */
+.banner { margin: 12px 16px; height: 140px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; color: #fff; position: relative; overflow: hidden; }
+.banner-text { text-align: center; z-index: 1; }
+.banner-text h2 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+.banner-text p { font-size: 13px; opacity: 0.9; }
+.banner-circle { position: absolute; width: 120px; height: 120px; border-radius: 50%; background: rgba(255,255,255,0.1); }
+.banner-circle:nth-child(1) { top: -30px; right: -20px; }
+.banner-circle:nth-child(2) { bottom: -40px; left: -10px; width: 80px; height: 80px; }
+
+/* 功能入口 */
+.func-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; padding: 16px; background: #fff; margin: 0 0 8px; }
+.func-item { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px 0; cursor: pointer; }
+.func-icon { width: 44px; height: 44px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 22px; }
+.func-icon.publish { background: #EFF6FF; }
+.func-icon.teacher { background: #F0FDF4; }
+.func-icon.member { background: #FFF7ED; }
+.func-icon.complaint { background: #FEF2F2; }
+.func-icon.msg { background: #F5F3FF; }
+.func-icon.distribution { background: #FFF1F2; }
+.func-icon.trial { background: #ECFDF5; }
+.func-icon.more { background: var(--gray-100); }
+.func-name { font-size: 12px; color: var(--gray-600); }
+
+/* 区块标题 */
+.section-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 16px 8px; }
+.section-title { font-size: 16px; font-weight: 600; color: var(--gray-800); }
+.section-more { font-size: 13px; color: var(--gray-400); cursor: pointer; }
+
+/* 需求卡片 */
+.card-list { padding: 0 16px 80px; display: flex; flex-direction: column; gap: 10px; }
+.demand-card { background: #fff; border-radius: var(--radius-md); padding: 14px; box-shadow: var(--shadow-sm); cursor: pointer; transition: box-shadow 0.2s; }
+.demand-card:active { box-shadow: var(--shadow-md); }
+.card-top { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.status-tag { font-size: 11px; padding: 2px 8px; border-radius: 10px; font-weight: 500; }
+.status-tag.active { background: var(--primary-bg); color: var(--primary); }
+.status-tag.locked { background: var(--warning-bg); color: var(--warning); }
+.status-tag.done { background: var(--success-bg); color: var(--success); }
+.status-tag.reopen { background: var(--danger-bg); color: var(--danger); }
+.card-time { font-size: 11px; color: var(--gray-400); margin-left: auto; }
+.card-title { font-size: 15px; font-weight: 500; color: var(--gray-800); margin-bottom: 6px; }
+.card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+.tag { font-size: 11px; padding: 2px 6px; border-radius: var(--radius-sm); background: var(--gray-100); color: var(--gray-500); }
+.card-bottom { display: flex; align-items: center; justify-content: space-between; }
+.card-price { font-size: 16px; font-weight: 600; color: var(--danger); }
+.card-price span { font-size: 12px; font-weight: 400; }
+.card-btn { font-size: 13px; color: var(--primary); cursor: pointer; }
+
+/* 信用卡片 */
+.credit-card { background: linear-gradient(135deg, #1E3A5F 0%, #2563EB 100%); border-radius: var(--radius-md); padding: 16px; margin: 0 16px 8px; color: #fff; cursor: pointer; }
+.credit-top { display: flex; align-items: center; justify-content: space-between; }
+.credit-label { font-size: 13px; opacity: 0.8; }
+.credit-score { font-size: 36px; font-weight: 700; }
+.credit-level { font-size: 13px; padding: 2px 10px; border-radius: 10px; background: rgba(255,255,255,0.2); }
+.credit-bottom { font-size: 12px; opacity: 0.7; margin-top: 8px; }
+
+/* 消息入口 */
+.msg-entry { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: #fff; margin: 0 16px 8px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); cursor: pointer; }
+.msg-entry-left { display: flex; align-items: center; gap: 10px; }
+.msg-icon { font-size: 20px; }
+.msg-content { display: flex; flex-direction: column; }
+.msg-title { font-size: 14px; font-weight: 500; color: var(--gray-800); }
+.msg-desc { font-size: 12px; color: var(--gray-400); }
+.msg-badge { background: var(--danger); color: #fff; font-size: 10px; min-width: 16px; height: 16px; border-radius: 8px; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
+
+/* 底部Tab */
+.tab-bar { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 375px; max-width: 100%; height: 50px; background: #fff; border-top: 1px solid var(--gray-200); display: flex; z-index: 100; }
+.tab-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; cursor: pointer; }
+.tab-item.active .tab-icon, .tab-item.active .tab-label { color: var(--primary); }
+.tab-icon { font-size: 20px; color: var(--gray-400); }
+.tab-label { font-size: 10px; color: var(--gray-400); }
+
+/* Toast */
+.toast { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.7); color: #fff; padding: 10px 20px; border-radius: var(--radius-md); font-size: 14px; z-index: 999; display: none; }
+
+/* 页面切换容器 */
+.page { display: none; }
+.page.active { display: block; }
+
+/* 我的页面 */
+.profile-header { background: #fff; padding: 20px 16px; display: flex; align-items: center; gap: 14px; }
+.avatar { width: 56px; height: 56px; border-radius: 50%; background: var(--primary-bg); display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--primary); }
+.profile-info { display: flex; flex-direction: column; gap: 2px; }
+.profile-name { font-size: 17px; font-weight: 600; color: var(--gray-800); }
+.profile-tag { font-size: 12px; color: var(--primary); background: var(--primary-bg); padding: 2px 8px; border-radius: 10px; display: inline-block; width: fit-content; }
+.profile-menu { background: #fff; margin-top: 8px; }
+.menu-item { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid var(--gray-100); cursor: pointer; }
+.menu-item:active { background: var(--gray-50); }
+.menu-left { display: flex; align-items: center; gap: 10px; }
+.menu-icon { font-size: 18px; width: 24px; text-align: center; }
+.menu-text { font-size: 15px; color: var(--gray-700); }
+.menu-badge { background: var(--danger); color: #fff; font-size: 10px; min-width: 16px; height: 16px; border-radius: 8px; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
+.menu-arrow { color: var(--gray-300); font-size: 14px; }
+</style>
+</head>
+<body>
+
+<!-- 页面1: 首页 -->
+<div id="page-home" class="page active">
+  <div class="status-bar">
+    <span>中国移动</span>
+    <span>14:30</span>
+  </div>
+  <div class="nav-bar">
+    <span class="nav-title">领榜教育</span>
+    <span class="nav-action" onclick="switchPage('msg')">消息</span>
+  </div>
+
+  <!-- Banner -->
+  <div class="banner">
+    <div class="banner-circle"></div>
+    <div class="banner-circle"></div>
+    <div class="banner-text">
+      <h2>找靠谱老师 上领榜</h2>
+      <p>免费推荐 · 会员畅享 · 教师认证</p>
+    </div>
+  </div>
+
+  <!-- 功能入口 -->
+  <div class="func-grid">
+    <div class="func-item" onclick="showToast('发布需求页')">
+      <div class="func-icon publish">📝</div>
+      <span class="func-name">发布需求</span>
+    </div>
+    <div class="func-item" onclick="showToast('找老师')">
+      <div class="func-icon teacher">👨‍🏫</div>
+      <span class="func-name">找老师</span>
+    </div>
+    <div class="func-item" onclick="showToast('会员中心')">
+      <div class="func-icon member">👑</div>
+      <span class="func-name">会员</span>
+    </div>
+    <div class="func-item" onclick="showToast('投诉提交')">
+      <div class="func-icon complaint">📢</div>
+      <span class="func-name">投诉</span>
+    </div>
+    <div class="func-item" onclick="switchPage('msg')">
+      <div class="func-icon msg">🔔</div>
+      <span class="func-name">消息</span>
+    </div>
+    <div class="func-item" onclick="showToast('分销中心')">
+      <div class="func-icon distribution">💰</div>
+      <span class="func-name">分销</span>
+    </div>
+    <div class="func-item" onclick="showToast('试课体验(V2)')">
+      <div class="func-icon trial">🎓</div>
+      <span class="func-name">试课</span>
+    </div>
+    <div class="func-item" onclick="showToast('更多功能')">
+      <div class="func-icon more">⋯</div>
+      <span class="func-name">更多</span>
+    </div>
+  </div>
+
+  <!-- 会员提示 -->
+  <div class="msg-entry" onclick="showToast('会员开通页')">
+    <div class="msg-entry-left">
+      <span class="msg-icon">👑</span>
+      <div class="msg-content">
+        <span class="msg-title">开通会员 · 免费推荐老师</span>
+        <span class="msg-desc">1年¥300 · 随时更换老师</span>
+      </div>
+    </div>
+    <span style="color:var(--primary);font-size:13px;">开通 →</span>
+  </div>
+
+  <!-- 最近需求 -->
+  <div class="section-header">
+    <span class="section-title">我的需求</span>
+    <span class="section-more" onclick="switchPage('demand')">查看全部 →</span>
+  </div>
+  <div class="card-list">
+    <div class="demand-card" onclick="showToast('需求详情页')">
+      <div class="card-top">
+        <span class="status-tag active">抢单中</span>
+        <span class="card-time">3分钟前</span>
+      </div>
+      <div class="card-title">高二数学辅导，女老师优先</div>
+      <div class="card-tags">
+        <span class="tag">高二</span>
+        <span class="tag">数学</span>
+        <span class="tag">每周2次</span>
+        <span class="tag">朝阳区</span>
+      </div>
+      <div class="card-bottom">
+        <span class="card-price">¥300<span>/次</span></span>
+        <span class="card-btn">查看详情 →</span>
+      </div>
+    </div>
+    <div class="demand-card" onclick="showToast('需求详情页')">
+      <div class="card-top">
+        <span class="status-tag locked">已锁定</span>
+        <span class="card-time">2小时前</span>
+      </div>
+      <div class="card-title">初一英语，需有教学经验</div>
+      <div class="card-tags">
+        <span class="tag">初一</span>
+        <span class="tag">英语</span>
+        <span class="tag">每周1次</span>
+        <span class="tag">海淀区</span>
+      </div>
+      <div class="card-bottom">
+        <span class="card-price">¥200<span>/次</span></span>
+        <span class="card-btn">查看详情 →</span>
+      </div>
+    </div>
+    <div class="demand-card" onclick="showToast('需求详情页')">
+      <div class="card-top">
+        <span class="status-tag done">已完成</span>
+        <span class="card-time">昨天</span>
+      </div>
+      <div class="card-title">小学四年级语文作文辅导</div>
+      <div class="card-tags">
+        <span class="tag">四年级</span>
+        <span class="tag">语文</span>
+        <span class="tag">每周1次</span>
+      </div>
+      <div class="card-bottom">
+        <span class="card-price">¥150<span>/次</span></span>
+        <span class="card-btn">评价 →</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 页面2: 需求列表 -->
+<div id="page-demand" class="page">
+  <div class="status-bar"><span>中国移动</span><span>14:30</span></div>
+  <div class="nav-bar">
+    <span class="nav-action" onclick="switchPage('home')">← 返回</span>
+    <span class="nav-title">我的需求</span>
+    <span class="nav-action">筛选</span>
+  </div>
+  <div style="display:flex;background:#fff;border-bottom:1px solid var(--gray-100);">
+    <div class="tab-active" style="flex:1;text-align:center;padding:10px;font-size:14px;color:var(--primary);border-bottom:2px solid var(--primary);">全部</div>
+    <div style="flex:1;text-align:center;padding:10px;font-size:14px;color:var(--gray-500);">进行中</div>
+    <div style="flex:1;text-align:center;padding:10px;font-size:14px;color:var(--gray-500);">已完成</div>
+  </div>
+  <div class="card-list">
+    <div class="demand-card"><div class="card-top"><span class="status-tag reopen">重新开放</span><span class="card-time">1天前</span></div><div class="card-title">高三物理，急需有高考辅导经验</div><div class="card-tags"><span class="tag">高三</span><span class="tag">物理</span></div><div class="card-bottom"><span class="card-price">¥350<span>/次</span></span><span class="card-btn">查看详情 →</span></div></div>
+    <div class="demand-card"><div class="card-top"><span class="status-tag active">抢单中</span><span class="card-time">5小时前</span></div><div class="card-title">初二数学几何专项辅导</div><div class="card-tags"><span class="tag">初二</span><span class="tag">数学</span><span class="tag">几何</span></div><div class="card-bottom"><span class="card-price">¥250<span>/次</span></span><span class="card-btn">查看详情 →</span></div></div>
+  </div>
+</div>
+
+<!-- 页面3: 消息中心 -->
+<div id="page-msg" class="page">
+  <div class="status-bar"><span>中国移动</span><span>14:30</span></div>
+  <div class="nav-bar">
+    <span class="nav-action" onclick="switchPage('home')">← 返回</span>
+    <span class="nav-title">消息中心</span>
+    <span class="nav-action">全部已读</span>
+  </div>
+  <div style="display:flex;background:#fff;border-bottom:1px solid var(--gray-100);">
+    <div style="flex:1;text-align:center;padding:10px;font-size:14px;color:var(--primary);border-bottom:2px solid var(--primary);">全部</div>
+    <div style="flex:1;text-align:center;padding:10px;font-size:14px;color:var(--gray-500);">订单</div>
+    <div style="flex:1;text-align:center;padding:10px;font-size:14px;color:var(--gray-500);">系统</div>
+    <div style="flex:1;text-align:center;padding:10px;font-size:14px;color:var(--gray-500);">投诉</div>
+  </div>
+  <div style="padding:8px 16px 80px;">
+    <div class="demand-card" style="margin-bottom:8px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:20px;">📦</span>
+        <div style="flex:1;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:14px;font-weight:500;">您的需求已被接单</span>
+            <span style="width:8px;height:8px;border-radius:50%;background:var(--danger);"></span>
+          </div>
+          <div style="font-size:12px;color:var(--gray-400);margin-top:2px;">高二数学辅导需求已被张老师接单，请留意企微消息</div>
+          <div style="font-size:11px;color:var(--gray-400);margin-top:4px;">10分钟前</div>
+        </div>
+      </div>
+    </div>
+    <div class="demand-card" style="margin-bottom:8px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:20px;">📢</span>
+        <div style="flex:1;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:14px;font-weight:500;">投诉处理结果</span>
+          </div>
+          <div style="font-size:12px;color:var(--gray-400);margin-top:2px;">您提交的投诉已处理完成，点击查看详情</div>
+          <div style="font-size:11px;color:var(--gray-400);margin-top:4px;">2小时前</div>
+        </div>
+      </div>
+    </div>
+    <div class="demand-card" style="margin-bottom:8px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:20px;">🔔</span>
+        <div style="flex:1;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:14px;font-weight:500;">系统通知</span>
+          </div>
+          <div style="font-size:12px;color:var(--gray-400);margin-top:2px;">领榜教育618会员优惠活动即将开始</div>
+          <div style="font-size:11px;color:var(--gray-400);margin-top:4px;">昨天</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 页面4: 我的 -->
+<div id="page-profile" class="page">
+  <div class="status-bar"><span>中国移动</span><span>14:30</span></div>
+  <div class="nav-bar">
+    <span class="nav-title">我的</span>
+    <span class="nav-action">设置</span>
+  </div>
+  <div class="profile-header">
+    <div class="avatar">😊</div>
+    <div class="profile-info">
+      <span class="profile-name">家长用户</span>
+      <span class="profile-tag">会员用户</span>
+    </div>
+  </div>
+  <div class="profile-menu">
+    <div class="menu-item" onclick="showToast('我的需求')"><div class="menu-left"><span class="menu-icon">📋</span><span class="menu-text">我的需求</span></div><span class="menu-arrow">›</span></div>
+    <div class="menu-item" onclick="showToast('会员中心')"><div class="menu-left"><span class="menu-icon">👑</span><span class="menu-text">会员中心</span></div><span class="menu-arrow">›</span></div>
+    <div class="menu-item" onclick="showToast('投诉记录')"><div class="menu-left"><span class="menu-icon">📢</span><span class="menu-text">投诉记录</span></div><div><span class="menu-badge">2</span> <span class="menu-arrow">›</span></div></div>
+    <div class="menu-item" onclick="showToast('分销中心')"><div class="menu-left"><span class="menu-icon">💰</span><span class="menu-text">分销中心</span></div><span class="menu-arrow">›</span></div>
+    <div class="menu-item" onclick="showToast('消息中心')"><div class="menu-left"><span class="menu-icon">🔔</span><span class="menu-text">消息中心</span></div><div><span class="menu-badge">3</span> <span class="menu-arrow">›</span></div></div>
+    <div class="menu-item" onclick="showToast('课程评价')"><div class="menu-left"><span class="menu-icon">⭐</span><span class="menu-text">课程评价</span></div><span class="menu-arrow">›</span></div>
+    <div class="menu-item" onclick="showToast('设置')"><div class="menu-left"><span class="menu-icon">⚙️</span><span class="menu-text">设置</span></div><span class="menu-arrow">›</span></div>
+  </div>
+</div>
+
+<!-- 底部Tab -->
+<div class="tab-bar">
+  <div class="tab-item active" onclick="switchPage('home')">
+    <span class="tab-icon">🏠</span>
+    <span class="tab-label">首页</span>
+  </div>
+  <div class="tab-item" onclick="switchPage('demand')">
+    <span class="tab-icon">📋</span>
+    <span class="tab-label">需求</span>
+  </div>
+  <div class="tab-item" onclick="switchPage('msg')">
+    <span class="tab-icon">🔔</span>
+    <span class="tab-label">消息</span>
+  </div>
+  <div class="tab-item" onclick="switchPage('profile')">
+    <span class="tab-icon">👤</span>
+    <span class="tab-label">我的</span>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="toast"></div>
+
+<script>
+function switchPage(pageName) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + pageName).classList.add('active');
+  document.querySelectorAll('.tab-item').forEach((t, i) => {
+    t.classList.remove('active');
+    const pages = ['home','demand','msg','profile'];
+    if (pages[i] === pageName) t.classList.add('active');
+  });
+  window.scrollTo(0, 0);
+}
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.style.display = 'block';
+  setTimeout(() => { toast.style.display = 'none'; }, 1500);
+}
+</script>
+</body>
+</html>

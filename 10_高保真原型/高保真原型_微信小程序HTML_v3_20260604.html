@@ -1,0 +1,1739 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>高保真原型_微信小程序HTML_v3_20260604</title>
+  <style>
+    :root {
+      --bg: #F6F8FB;
+      --panel: #ffffff;
+      --ink: #111827;
+      --muted: #4B5563;
+      --weak: #9CA3AF;
+      --line: #E5E7EB;
+      --blue: #2563EB;
+      --blue-hover: #1D4ED8;
+      --teal: #06B6D4;
+      --amber: #F59E0B;
+      --rose: #DC2626;
+      --green: #16A34A;
+      --slate: #0F172A;
+      --soft-blue: #eaf1ff;
+      --soft-teal: #E6FAFD;
+      --soft-amber: #fff4e5;
+      --soft-rose: #fff1f2;
+      --soft-green: #edf7ee;
+      --shadow: 0 12px 28px rgba(16, 24, 40, .08);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--bg);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(255, 255, 255, .94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+    }
+    .topbar-inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 12px 20px;
+      display: grid;
+      grid-template-columns: 280px 1fr auto;
+      gap: 16px;
+      align-items: center;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-weight: 700;
+      background: var(--blue);
+    }
+    .brand-title { font-weight: 700; white-space: nowrap; }
+    .brand-sub { color: var(--muted); font-size: 12px; white-space: nowrap; }
+    .segmented {
+      display: flex;
+      gap: 6px;
+      padding: 4px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #f8fafc;
+      overflow-x: auto;
+    }
+    .segmented button {
+      border: 0;
+      background: transparent;
+      color: var(--slate);
+      padding: 7px 10px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+    .segmented button.active {
+      background: var(--blue);
+      color: #fff;
+    }
+    .persona {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+    }
+    .layout {
+      max-width: 1440px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 16px 20px 28px;
+      display: grid;
+      grid-template-columns: 248px minmax(0, 1fr);
+      gap: 16px;
+    }
+    .side {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      align-self: start;
+      position: sticky;
+      top: 78px;
+    }
+    .side-head {
+      padding: 14px 14px 10px;
+      border-bottom: 1px solid var(--line);
+    }
+    .side-title { font-weight: 700; }
+    .side-note { color: var(--muted); font-size: 12px; margin-top: 3px; }
+    .nav-list { padding: 8px; display: grid; gap: 4px; }
+    .nav-btn {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      color: var(--slate);
+      text-align: left;
+      padding: 10px 11px;
+      border-radius: 7px;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .nav-btn.active { background: var(--soft-blue); color: var(--blue); font-weight: 650; }
+    .nav-btn small { color: var(--muted); }
+    .main { display: grid; gap: 14px; min-width: 0; }
+    .status-bar {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      box-shadow: var(--shadow);
+    }
+    .status-bar span { color: var(--muted); white-space: nowrap; }
+    .chip-btn {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--slate);
+      border-radius: 999px;
+      padding: 6px 10px;
+      white-space: nowrap;
+    }
+    .chip-btn.active { color: #fff; border-color: var(--blue); background: var(--blue); }
+    .page {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .page-head {
+      padding: 18px 18px 14px;
+      border-bottom: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: start;
+    }
+    .page-title { margin: 0; font-size: 20px; font-weight: 700; letter-spacing: 0; }
+    .page-sub { color: var(--muted); margin-top: 6px; max-width: 860px; }
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+    .btn {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      border-radius: 8px;
+      padding: 8px 12px;
+      min-height: 36px;
+    }
+    .btn.primary { background: var(--blue); color: #fff; border-color: var(--blue); }
+    .btn.primary:hover { background: var(--blue-hover); border-color: var(--blue-hover); }
+    .btn.teal { background: var(--teal); color: #fff; border-color: var(--teal); }
+    .btn.warn { background: var(--amber); color: #fff; border-color: var(--amber); }
+    .btn.danger { background: var(--rose); color: #fff; border-color: var(--rose); }
+    .btn:disabled { cursor: not-allowed; opacity: .55; }
+    .content { padding: 16px; display: grid; gap: 14px; }
+    .grid { display: grid; gap: 14px; }
+    .grid.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid.cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      padding: 14px;
+      min-width: 0;
+    }
+    .card.soft-blue { background: var(--soft-blue); border-color: #c7d9ff; }
+    .card.soft-teal { background: var(--soft-teal); border-color: #b9e6e1; }
+    .card.soft-amber { background: var(--soft-amber); border-color: #ffd99c; }
+    .card.soft-rose { background: var(--soft-rose); border-color: #fecdd3; }
+    .card.soft-green { background: var(--soft-green); border-color: #bfe6c6; }
+    .card-title { font-weight: 700; margin-bottom: 8px; }
+    .muted { color: var(--muted); }
+    .big-num { font-size: 26px; font-weight: 750; margin-top: 4px; }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 12px;
+      font-weight: 650;
+      background: #eef2f7;
+      color: var(--slate);
+      white-space: nowrap;
+    }
+    .tag.blue { background: var(--soft-blue); color: var(--blue); }
+    .tag.teal { background: var(--soft-teal); color: var(--teal); }
+    .tag.amber { background: var(--soft-amber); color: var(--amber); }
+    .tag.rose { background: var(--soft-rose); color: var(--rose); }
+    .tag.green { background: var(--soft-green); color: var(--green); }
+    .timeline { display: grid; gap: 10px; }
+    .step {
+      display: grid;
+      grid-template-columns: 16px 1fr;
+      gap: 10px;
+      align-items: start;
+    }
+    .dot {
+      width: 12px;
+      height: 12px;
+      margin-top: 4px;
+      border-radius: 50%;
+      background: var(--line);
+      box-shadow: 0 0 0 4px #f4f6f8;
+    }
+    .step.done .dot { background: var(--green); }
+    .step.now .dot { background: var(--blue); }
+    .step.err .dot { background: var(--rose); }
+    .list { display: grid; gap: 10px; }
+    .row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 12px;
+      background: #fff;
+    }
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; }
+    table { width: 100%; border-collapse: collapse; min-width: 760px; background: #fff; }
+    th, td { padding: 11px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { color: var(--muted); font-weight: 650; background: #f8fafc; }
+    tr:last-child td { border-bottom: 0; }
+    .form { display: grid; gap: 12px; }
+    .field { display: grid; gap: 6px; }
+    .field label { color: var(--slate); font-weight: 650; }
+    .field input, .field select, .field textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 9px 10px;
+      background: #fff;
+      color: var(--ink);
+    }
+    .field textarea { min-height: 96px; resize: vertical; }
+    .notice {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 12px;
+      background: #f8fafc;
+      display: grid;
+      gap: 6px;
+    }
+    .notice.amber { background: var(--soft-amber); border-color: #ffd99c; color: #7c3e06; }
+    .notice.rose { background: var(--soft-rose); border-color: #fecdd3; color: #8f1230; }
+    .notice.green { background: var(--soft-green); border-color: #bfe6c6; color: #0f5f2a; }
+    .notice.blue { background: var(--soft-blue); border-color: #c7d9ff; color: #1846a0; }
+    .drawer {
+      border-left: 3px solid var(--blue);
+      background: #fbfcff;
+      padding: 14px;
+      border-radius: 12px;
+      border-top: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .mobile-shell {
+      max-width: 390px;
+      min-height: 720px;
+      border: 8px solid #0b1220;
+      border-radius: 34px;
+      background: #F7F7F7;
+      overflow: hidden;
+      margin: 0 auto;
+      position: relative;
+      box-shadow: 0 22px 48px rgba(15, 23, 42, .18);
+    }
+    .mobile-shell::before {
+      content: "9:41";
+      position: absolute;
+      top: 5px;
+      left: 18px;
+      z-index: 5;
+      color: #111827;
+      font-size: 12px;
+      font-weight: 750;
+      line-height: 20px;
+    }
+    .mobile-shell::after {
+      content: "";
+      position: absolute;
+      top: 7px;
+      right: 16px;
+      width: 42px;
+      height: 16px;
+      border-radius: 999px;
+      background:
+        linear-gradient(90deg, #111827 0 18px, transparent 18px 23px, #111827 23px 42px);
+      opacity: .9;
+      z-index: 5;
+    }
+    .mobile-top {
+      min-height: 72px;
+      padding: 30px 74px 10px;
+      border-bottom: 1px solid rgba(17, 24, 39, .08);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 4;
+      background: rgba(247, 247, 247, .94);
+      backdrop-filter: blur(14px);
+      text-align: center;
+    }
+    .mobile-top strong {
+      font-size: 16px;
+      line-height: 22px;
+      font-weight: 750;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .mobile-top > span:first-child {
+      position: absolute;
+      left: 14px;
+      bottom: 12px;
+      max-width: 64px;
+      color: #1f2937;
+      font-size: 14px;
+      font-weight: 650;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .mobile-top > span:last-child {
+      position: absolute;
+      right: 10px;
+      bottom: 9px;
+      min-width: 54px;
+      height: 28px;
+      padding: 0 10px;
+      border: 1px solid rgba(17, 24, 39, .14);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .72);
+      color: #111827;
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 750;
+    }
+    .mobile-body { padding: 12px 12px 96px; display: grid; gap: 12px; min-height: 610px; align-content: start; }
+    .mobile-bottom {
+      border-top: 1px solid var(--line);
+      padding: 7px 10px max(8px, env(safe-area-inset-bottom));
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      background: rgba(255, 255, 255, .96);
+      position: sticky;
+      bottom: 0;
+      z-index: 4;
+      backdrop-filter: blur(14px);
+    }
+    .mobile-bottom button { border: 0; background: transparent; min-height: 50px; padding: 5px 4px; color: #6B7280; font-size: 11px; }
+    .mobile-bottom button.active { color: #07C160; font-weight: 700; }
+    .mobile-body .card {
+      border: 0;
+      border-radius: 10px;
+      padding: 14px;
+      box-shadow: 0 1px 0 rgba(17, 24, 39, .04);
+    }
+    .mobile-body .row {
+      border: 0;
+      border-radius: 0;
+      min-height: 56px;
+      border-bottom: 1px solid rgba(17, 24, 39, .08);
+      padding: 13px 0;
+    }
+    .mobile-body .row:last-child { border-bottom: 0; }
+    .mobile-body .btn { min-height: 44px; border-radius: 8px; font-weight: 700; }
+    .mobile-body .btn.primary { background: #07C160; border-color: #07C160; }
+    .mobile-body input, .mobile-body select, .mobile-body textarea {
+      min-height: 44px;
+      border-radius: 8px;
+      border-color: rgba(17, 24, 39, .1);
+      background: #fff;
+    }
+    .lb-phone {
+      max-width: 390px;
+      min-height: 720px;
+      border-radius: 34px;
+      background: #F7F7F7;
+      border: 8px solid #0b1220;
+      box-shadow: 0 22px 48px rgba(15, 23, 42, .18);
+    }
+    .lb-phone .mobile-top {
+      min-height: 72px;
+      padding: 30px 74px 10px;
+      background: rgba(247, 247, 247, .94);
+      border-bottom: 1px solid rgba(17, 24, 39, .08);
+    }
+    .lb-phone .mobile-body {
+      padding: 12px 12px 96px;
+      gap: 12px;
+      min-height: 610px;
+    }
+    .lb-phone .mobile-bottom {
+      grid-template-columns: repeat(4, 1fr);
+      padding: 7px 10px max(8px, env(safe-area-inset-bottom));
+      background: rgba(255, 255, 255, .96);
+    }
+    .lb-phone.teacher-tabs .mobile-bottom { grid-template-columns: repeat(3, 1fr); }
+    .lb-phone .mobile-bottom button {
+      display: grid;
+      place-items: center;
+      gap: 3px;
+      font-size: 11px;
+      border-radius: 8px;
+    }
+    .tab-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: #EEF2F7;
+      color: var(--muted);
+      font-weight: 800;
+    }
+    .mobile-bottom button.active .tab-icon { background: #07C160; color: #fff; }
+    .mini-search {
+      min-height: 38px;
+      border-radius: 8px;
+      background: #fff;
+      color: #9CA3AF;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 0 12px;
+      font-size: 13px;
+    }
+    .mini-search::before { content: "⌕"; font-size: 16px; color: #9CA3AF; }
+    .mini-toast {
+      position: absolute;
+      left: 50%;
+      bottom: 128px;
+      transform: translateX(-50%);
+      z-index: 6;
+      min-width: 126px;
+      max-width: 240px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: rgba(17, 24, 39, .88);
+      color: #fff;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 650;
+      box-shadow: 0 12px 28px rgba(17, 24, 39, .18);
+    }
+    .mini-cells {
+      border-radius: 10px;
+      background: #fff;
+      overflow: hidden;
+      box-shadow: 0 1px 0 rgba(17, 24, 39, .04);
+    }
+    .mini-cell {
+      min-height: 52px;
+      padding: 13px 14px;
+      border-bottom: 1px solid rgba(17, 24, 39, .08);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+    }
+    .mini-cell:last-child { border-bottom: 0; }
+    .mini-cell-title { font-weight: 750; color: #111827; }
+    .mini-cell-desc { margin-top: 3px; color: #6B7280; font-size: 12px; }
+    .mini-cell-value { color: #6B7280; font-size: 13px; white-space: nowrap; }
+    .lb-hero {
+      position: relative;
+      overflow: hidden;
+      min-height: 112px;
+      padding: 16px;
+      border-radius: 14px;
+      background: var(--blue);
+      color: #fff;
+    }
+    .lb-hero::after {
+      content: "";
+      position: absolute;
+      right: -24px;
+      top: -24px;
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.14);
+    }
+    .lb-hero small { display: block; opacity: .9; font-weight: 650; }
+    .lb-hero strong { display: block; margin-top: 6px; font-size: 28px; line-height: 1.05; letter-spacing: 0; }
+    .lb-hero span { display: block; margin-top: 8px; font-size: 13px; font-weight: 650; }
+    .lb-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin: -18px 12px 0;
+      padding: 9px 6px;
+      border-radius: 12px;
+      background: #fff;
+      border: 1px solid var(--line);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .lb-stats strong { display: block; color: var(--blue); }
+    .lb-stats span { color: var(--muted); font-size: 11px; }
+    .lb-service-bar {
+      min-height: 32px;
+      border-radius: 8px;
+      background: var(--blue);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 750;
+    }
+    .lb-action-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      padding: 13px 8px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      text-align: center;
+    }
+    .lb-action { border: 0; background: transparent; padding: 0; color: var(--ink); min-height: 64px; }
+    .lb-action-icon {
+      width: 34px;
+      height: 34px;
+      margin: 0 auto 6px;
+      border-radius: 10px;
+      background: var(--soft-blue);
+      color: var(--blue);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+    }
+    .lb-action-title { font-size: 12px; font-weight: 800; }
+    .lb-action-desc { color: var(--weak); font-size: 10px; margin-top: 2px; }
+    .lb-subjects {
+      padding: 13px 10px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+    }
+    .lb-subject-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; text-align: center; font-size: 12px; }
+    .lb-subject-row .active { color: var(--blue); font-weight: 800; }
+    .lb-chip-row { display: flex; gap: 6px; overflow-x: auto; padding-top: 10px; }
+    .lb-chip-row span {
+      white-space: nowrap;
+      min-height: 28px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--soft-blue);
+      color: var(--blue);
+      font-size: 11px;
+      font-weight: 750;
+    }
+    .lb-section-head { display: flex; justify-content: space-between; align-items: center; margin-top: 4px; font-weight: 800; }
+    .lb-section-head button { border: 0; background: transparent; color: var(--muted); font-size: 12px; }
+    .lb-order-card, .lb-teacher-card, .lb-form-panel, .lb-step-card {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      padding: 12px;
+    }
+    .lb-order-head { display: flex; justify-content: space-between; gap: 8px; align-items: flex-start; }
+    .lb-order-title, .lb-teacher-name { color: var(--ink); font-weight: 850; }
+    .lb-order-sub, .lb-card-sub { color: var(--muted); font-size: 12px; margin-top: 4px; line-height: 1.45; }
+    .lb-meta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 10px; }
+    .lb-meta-grid div { padding: 8px; border-radius: 10px; background: #F8FAFC; }
+    .lb-meta-grid span { display: block; color: var(--weak); font-size: 11px; }
+    .lb-meta-grid strong { display: block; margin-top: 3px; font-size: 13px; }
+    .lb-card-actions { display: grid; grid-template-columns: 1fr 1.2fr; gap: 8px; margin-top: 10px; }
+    .lb-form-panel { display: grid; gap: 12px; }
+    .lb-form-title { font-size: 16px; font-weight: 850; }
+    .lb-form-row { display: grid; gap: 6px; border-bottom: 1px solid var(--line); padding-bottom: 10px; }
+    .lb-form-row:last-child { border-bottom: 0; }
+    .lb-form-row label { font-size: 13px; font-weight: 750; }
+    .lb-form-row input, .lb-form-row textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px;
+      background: #fff;
+    }
+    .lb-form-row textarea { min-height: 82px; resize: none; }
+    .lb-step-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .lb-step-tab { color: var(--muted); text-align: center; font-size: 12px; font-weight: 800; }
+    .lb-step-tab.active { color: var(--blue); }
+    .lb-step-line { height: 6px; margin-top: 8px; border-radius: 999px; background: #E5E7EB; }
+    .lb-step-line.filled { background: var(--blue); }
+    .lb-bottom-action {
+      position: sticky;
+      bottom: 0;
+      display: grid;
+      gap: 8px;
+      background: #fff;
+      border-top: 1px solid var(--line);
+      padding: 10px 0 0;
+      margin-top: 6px;
+    }
+    .lb-bottom-action.two { grid-template-columns: 1fr 1fr; }
+    .lb-sheet-preview {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+      padding: 12px;
+    }
+    .lb-sheet-options { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+    .lb-sheet-options span {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #F8FAFC;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .lb-sheet-options span.active { background: var(--soft-blue); color: var(--blue); }
+    .mobile-primary-bar {
+      position: sticky;
+      bottom: 0;
+      background: #fff;
+      border-top: 1px solid var(--line);
+      padding-top: 12px;
+      display: grid;
+      gap: 8px;
+    }
+    .filter-bar {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(120px, 1fr)) auto auto;
+      gap: 10px;
+      align-items: end;
+    }
+    .filter-bar .field { gap: 4px; }
+    .filter-bar input, .filter-bar select { height: 36px; }
+    .risk-confirm {
+      border: 1px solid #FCA5A5;
+      background: #FFF1F2;
+      color: #991B1B;
+      border-radius: 8px;
+      padding: 12px;
+      display: grid;
+      gap: 6px;
+    }
+    .skeleton {
+      height: 14px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #eef2f7, #d9e2ef, #eef2f7);
+      background-size: 200% 100%;
+      animation: shimmer 1.2s infinite linear;
+    }
+    @keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+    .state-screen {
+      min-height: 320px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 24px;
+      border: 1px dashed var(--line);
+      border-radius: 8px;
+      background: #fbfcff;
+    }
+    .state-screen h3 { margin: 10px 0 6px; font-size: 20px; }
+    .state-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: var(--soft-blue);
+      color: var(--blue);
+      font-size: 24px;
+      font-weight: 750;
+    }
+    .kpi { display: grid; gap: 4px; }
+    .split { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(320px, .9fr); gap: 14px; }
+    .footer-note {
+      color: var(--muted);
+      font-size: 12px;
+      padding: 0 16px 16px;
+    }
+    @media (max-width: 1000px) {
+      .topbar-inner { grid-template-columns: 1fr; }
+      .persona { justify-content: space-between; }
+      .layout { grid-template-columns: 1fr; }
+      .side { position: static; }
+      .grid.cols-2, .grid.cols-3, .grid.cols-4, .split { grid-template-columns: 1fr; }
+      .filter-bar { grid-template-columns: 1fr; }
+      .page-head { grid-template-columns: 1fr; }
+      .actions { justify-content: flex-start; }
+    }
+    @media (max-width: 560px) {
+      .topbar-inner, .layout { padding-left: 10px; padding-right: 10px; }
+      .brand-title { white-space: normal; }
+      .page-title { font-size: 18px; }
+      .content { padding: 10px; }
+      .row { grid-template-columns: 1fr; }
+      .mobile-shell { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand">
+          <div class="mark">K12</div>
+          <div>
+            <div class="brand-title">领榜教育 / 优坐标高保真原型</div>
+            <div class="brand-sub">微信小程序形态 HTML v3 · 20260604</div>
+          </div>
+        </div>
+        <div class="segmented" id="workspaceTabs"></div>
+        <div class="persona">
+          <span>当前角色</span>
+          <select id="roleSelect" class="btn" aria-label="切换角色"></select>
+        </div>
+      </div>
+    </header>
+    <div class="layout">
+      <aside class="side">
+        <div class="side-head">
+          <div class="side-title" id="sideTitle">页面导航</div>
+          <div class="side-note" id="sideNote">点击切换页面，状态栏切换页面状态</div>
+        </div>
+        <nav class="nav-list" id="pageNav"></nav>
+      </aside>
+      <main class="main">
+        <div class="status-bar" id="stateBar"></div>
+        <section class="page" id="pageRoot"></section>
+      </main>
+    </div>
+  </div>
+  <script>
+    const state = {
+      workspace: "lbParent",
+      page: "lbParentHome",
+      role: "领榜家长",
+      mode: "normal",
+      asyncText: ""
+    };
+
+    const workspaces = {
+      lbParent: {
+        label: "领榜家长端",
+        note: "发布需求、查看需求状态，不做系统内确认老师",
+        roles: ["领榜家长", "非本人访客"],
+        pages: [
+          ["lbParentHome", "家长首页", "入口"],
+          ["lbPublish", "发布需求", "表单"],
+          ["lbMyDemands", "我的需求", "列表"],
+          ["lbDemandDetail", "需求详情", "详情"]
+        ]
+      },
+      lbTeacher: {
+        label: "领榜老师端",
+        note: "查看可抢需求，未认证提醒但不阻断付款接单",
+        roles: ["领榜老师-已认证", "领榜老师-未认证", "非老师账号"],
+        pages: [
+          ["lbTeacherHome", "老师首页", "入口"],
+          ["lbDemandList", "可抢需求", "列表"],
+          ["lbAcceptDetail", "需求详情", "接单"],
+          ["lbAcceptResult", "接单结果", "结果"],
+          ["lbTeacherApply", "老师入驻认证", "三步"],
+          ["lbMyOrders", "我的接单", "列表"]
+        ]
+      },
+      lbAdmin: {
+        label: "领榜后台",
+        note: "独立后台，只管理领榜需求、监管、异常和分销财务",
+        roles: ["领榜客服", "领榜管理员", "领榜财务", "优坐标客服"],
+        pages: [
+          ["lbAdminHome", "后台首页", "看板"],
+          ["lbDemandManage", "需求单管理", "表格"],
+          ["lbTeacherAudit", "老师认证审核", "审核"],
+          ["lbWecom", "企微监管记录", "留痕"],
+          ["lbException", "异常处理", "重新开放"],
+          ["lbPush", "推送提醒", "客服"],
+          ["lbFinance", "分销财务", "财务"]
+        ]
+      },
+      uzParent: {
+        label: "优坐标家长端",
+        note: "老师关联产品、直接产品、会员卡三条购买路径",
+        roles: ["优坐标家长", "非本人访客"],
+        pages: [
+          ["uzParentHome", "家长首页", "入口"],
+          ["uzTeacher", "老师详情", "老师路径"],
+          ["uzProduct", "产品详情", "产品路径"],
+          ["uzMember", "会员卡权益", "会员"],
+          ["uzOrder", "订单详情", "进度"]
+        ]
+      },
+      uzTeacher: {
+        label: "优坐标老师端",
+        note: "MVP 只读查看客服分配的上课安排，不做确认接课",
+        roles: ["优坐标老师", "非本人老师"],
+        pages: [
+          ["uzTeacherHome", "老师首页", "入口"],
+          ["uzScheduleReadonly", "我的上课安排", "只读"],
+          ["uzScheduleDetail", "安排详情", "详情"]
+        ]
+      },
+      uzAdmin: {
+        label: "优坐标后台",
+        note: "独立后台，客服约课、分配老师、替换留痕、最小排课",
+        roles: ["优坐标客服", "优坐标管理员", "优坐标财务", "领榜客服"],
+        pages: [
+          ["uzAdminHome", "后台首页", "看板"],
+          ["uzOrders", "订单管理", "表格"],
+          ["uzAppointment", "待约课订单", "客服"],
+          ["uzAssign", "老师分配", "分配"],
+          ["uzReplace", "替换留痕", "系统外确认"],
+          ["uzSchedule", "上课安排", "排课"],
+          ["uzFinance", "分销财务", "财务"]
+        ]
+      }
+    };
+
+    const modes = [
+      ["normal", "正常"],
+      ["empty", "空"],
+      ["loading", "加载"],
+      ["error", "错误"],
+      ["forbidden", "无权限"],
+      ["abnormal", "业务异常"],
+      ["async-processing", "异步处理中"],
+      ["async-done", "异步完成"],
+      ["async-failed", "异步失败"]
+    ];
+
+    const mock = {
+      lbDemand: { demandId: "LB-D-1001", summary: "初二数学周末辅导", subject: "数学", grade: "初二", city: "杭州", hourlyFee: 200, purchaseAmount: 600, status: "抢单中", updatedAt: "2026-06-03 10:20" },
+      lbDemand2: { demandId: "LB-D-1002", summary: "初三英语冲刺", subject: "英语", grade: "初三", hourlyFee: 200, purchaseAmount: 600, certificationStatus: "not_submitted", certificationReminder: "请尽快提交认证资料，认证成功后可正常接单", canPayAndAccept: true },
+      lbWecom: { supervisionId: "LB-W-2001", teacherName: "王老师", demandId: "LB-D-1001", status: "监管中", serviceNote: "已拉群，等待沟通结果" },
+      lbPush: { pushId: "LB-PUSH-01", channels: ["微信服务号", "企业微信机器人", "短信通知"], filter: { subject: "数学", grade: "初二" }, targetCount: 3, status: "发送成功", operator: "客服A", sentAt: "2026-06-03 15:00", nextPushAt: "2026-06-06 15:00" },
+      uzOrder: { orderId: "UZ-O-1001", purchaseType: "teacher_product", status: "已购买", appointmentStatus: "待约课", teacherName: "陈老师" },
+      uzNormalMember: { membershipOrderId: "UZ-MO-01", cardName: "普通会员", memberLevel: "normal", publicPrice: 199, memberPrice: 129, normalRemainingPurchaseCount: 3, benefitStatus: "已开通" },
+      uzExcellentMember: { membershipOrderId: "UZ-MO-02", cardName: "卓越会员", memberLevel: "excellent", validUntil: "2027-06-03", publicPrice: 199, memberPrice: 129, excellentRemainingLessonQuota: 100, benefitStatus: "已开通" },
+      uzCandidate: { appointmentId: "UZ-A-1001", preferredTeacher: "陈老师", candidates: [{ teacherId: "UZ-T-09", name: "李老师", availability: "可承接" }] },
+      uzReplace: { originalTeacher: "陈老师", replacementTeacher: "李老师", confirmedAt: "2026-06-03 15:20", operator: "客服B", note: "已电话联系家长确认" },
+      uzSchedule: { scheduleId: "UZ-S-1001", time: "2026-06-08 19:00", teacherName: "李老师", parentName: "张家长", status: "已安排", thirdPartySyncStatus: "待同步" },
+      uzScheduleFail: { scheduleId: "UZ-S-1002", thirdPartySyncStatus: "同步失败", syncFailureReason: "第三方接口返回失败", retryStatus: "可重试" },
+      commission: { projectCode: "lingbang", commissionType: "销售提成", status: "佣金候选", ruleDisplay: "领榜默认：自销40%、邀家长10%、邀老师10%、招代理10%、老师二级5%、代理二级5%、总部20%", attributionSource: "sales_share_link", amountDisplay: "待结算", commissionBaseType: "分佣基数待财务确认" },
+      withdrawal: { withdrawalId: "WD-1001", applicant: "王老师", amount: 300, status: "审核中", projectCode: "youzuobiao" }
+    };
+
+    const pageRenderers = {
+      lbParentHome, lbPublish, lbMyDemands, lbDemandDetail,
+      lbTeacherHome, lbDemandList, lbAcceptDetail, lbAcceptResult, lbTeacherApply, lbMyOrders,
+      lbAdminHome, lbDemandManage, lbTeacherAudit, lbWecom, lbException, lbPush, lbFinance,
+      uzParentHome, uzTeacher, uzProduct, uzMember, uzOrder,
+      uzTeacherHome, uzScheduleReadonly, uzScheduleDetail,
+      uzAdminHome, uzOrders, uzAppointment, uzAssign, uzReplace, uzSchedule, uzFinance
+    };
+
+    function boot() {
+      renderWorkspaceTabs();
+      syncRole();
+      renderNav();
+      renderStateBar();
+      renderPage();
+    }
+
+    function renderWorkspaceTabs() {
+      const root = document.getElementById("workspaceTabs");
+      root.innerHTML = Object.entries(workspaces).map(([key, ws]) => (
+        `<button class="${key === state.workspace ? "active" : ""}" onclick="setWorkspace('${key}')">${ws.label}</button>`
+      )).join("");
+    }
+
+    function syncRole() {
+      const ws = workspaces[state.workspace];
+      if (!ws.roles.includes(state.role)) state.role = ws.roles[0];
+      const select = document.getElementById("roleSelect");
+      select.innerHTML = ws.roles.map(role => `<option ${role === state.role ? "selected" : ""}>${role}</option>`).join("");
+      select.onchange = event => {
+        state.role = event.target.value;
+        state.mode = state.role.includes("非") || state.role.includes("优坐标客服") && state.workspace === "lbAdmin" || state.role.includes("领榜客服") && state.workspace === "uzAdmin" ? "forbidden" : "normal";
+        renderStateBar();
+        renderPage();
+      };
+    }
+
+    function renderNav() {
+      const ws = workspaces[state.workspace];
+      document.getElementById("sideTitle").textContent = ws.label;
+      document.getElementById("sideNote").textContent = ws.note;
+      document.getElementById("pageNav").innerHTML = ws.pages.map(([id, label, type]) => (
+        `<button class="nav-btn ${id === state.page ? "active" : ""}" onclick="setPage('${id}')"><span>${label}</span><small>${type}</small></button>`
+      )).join("");
+    }
+
+    function renderStateBar() {
+      document.getElementById("stateBar").innerHTML = `<span>状态样例</span>` + modes.map(([key, label]) =>
+        `<button class="chip-btn ${key === state.mode ? "active" : ""}" onclick="setMode('${key}')">${label}</button>`
+      ).join("");
+    }
+
+    function setWorkspace(key) {
+      state.workspace = key;
+      state.page = workspaces[key].pages[0][0];
+      state.mode = "normal";
+      renderWorkspaceTabs();
+      syncRole();
+      renderNav();
+      renderStateBar();
+      renderPage();
+    }
+
+    function setPage(page) {
+      state.page = page;
+      state.mode = "normal";
+      renderNav();
+      renderStateBar();
+      renderPage();
+    }
+
+    function setMode(mode) {
+      state.mode = mode;
+      renderStateBar();
+      renderPage();
+    }
+
+    function runAsync(doneMode = "async-done", text = "处理中") {
+      state.mode = "async-processing";
+      state.asyncText = text;
+      renderStateBar();
+      renderPage();
+      window.setTimeout(() => {
+        state.mode = doneMode;
+        renderStateBar();
+        renderPage();
+      }, 1200);
+    }
+
+    function renderPage() {
+      const renderer = pageRenderers[state.page] || lbParentHome;
+      document.getElementById("pageRoot").innerHTML = renderer();
+    }
+
+    function frame(title, sub, body, actions = "") {
+      return `
+        <div class="page-head">
+          <div>
+            <h1 class="page-title">${title}</h1>
+            <div class="page-sub">${sub}</div>
+          </div>
+          <div class="actions">${actions}</div>
+        </div>
+        <div class="content">${stateBlock() || body}</div>
+        <div class="footer-note">原型依据 09 数据交互 mock 数据和状态样例；当前页面状态可通过上方状态栏切换。</div>
+      `;
+    }
+
+    function stateBlock() {
+      if (state.mode === "normal") return "";
+      if (state.mode === "loading") return skeleton("正在读取页面数据");
+      if (state.mode === "empty") return stateScreen("空状态", emptyText(), "返回主入口", "blue");
+      if (state.mode === "error") return stateScreen("读取失败", "页面数据读取失败，请重试。", "重试", "rose");
+      if (state.mode === "forbidden") return stateScreen("无权限", forbiddenText(), "返回所属入口", "amber");
+      if (state.mode === "abnormal") return abnormalBlock();
+      if (state.mode === "async-processing") return skeleton(state.asyncText || "异步任务处理中");
+      if (state.mode === "async-done") return stateScreen("异步完成", asyncDoneText(), "查看最新状态", "green");
+      if (state.mode === "async-failed") return stateScreen("异步失败", asyncFailText(), "重试或人工处理", "rose");
+      return "";
+    }
+
+    function stateScreen(title, text, action, tone) {
+      return `<div class="state-screen"><div><div class="state-icon">${tone === "rose" ? "!" : tone === "green" ? "✓" : "i"}</div><h3>${title}</h3><p class="muted">${text}</p><button class="btn primary" onclick="setMode('normal')">${action}</button></div></div>`;
+    }
+
+    function skeleton(text) {
+      return `<div class="grid"><div class="notice blue"><strong>${text}</strong><span>保留上次结果，等待接口或异步任务返回。</span></div><div class="card"><div class="skeleton" style="width:42%"></div><br><div class="skeleton" style="width:80%"></div><br><div class="skeleton" style="width:66%"></div><br><div class="skeleton" style="width:92%"></div></div><div class="grid cols-3"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div></div>`;
+    }
+
+    function emptyText() {
+      if (state.page.includes("Demand") || state.page.includes("需求")) return "暂无需求或可抢需求，可通过主入口创建或刷新。";
+      if (state.page.includes("Finance") || state.page.includes("佣金")) return "暂无佣金、提现或审核记录。";
+      if (state.page.includes("Schedule") || state.page.includes("安排")) return "暂无上课安排。";
+      return "当前筛选条件下暂无数据。";
+    }
+
+    function forbiddenText() {
+      if (state.workspace === "lbAdmin") return `当前身份：${state.role}。缺失权限：领榜后台访问或管理权限。可联系对象：领榜管理员。`;
+      if (state.workspace === "uzAdmin") return `当前身份：${state.role}。缺失权限：优坐标后台访问或管理权限。可联系对象：优坐标管理员。`;
+      if (state.page.includes("Finance")) return `当前身份：${state.role}。缺失权限：财务审核权限。可联系对象：所属项目财务或管理员。`;
+      return `当前身份：${state.role}。缺失权限：该页面的读取或操作权限。可联系对象：所属项目管理员。`;
+    }
+
+    function abnormalBlock() {
+      const map = {
+        lbAcceptDetail: ["需求已被其他老师锁定", "按钮禁用，返回列表刷新。"],
+        lbTeacherAudit: ["认证资料不完整", "退回补充只影响老师认证状态，不改变未认证老师可查看并付款接单的规则。"],
+        lbException: ["需求已重新开放", "退款责任和财务归属为系统外事项，系统内不做退款闭环。"],
+        lbPush: ["未到可推送时间", "同一需求暂按 3 天一次，单次/每日数量上限按后台配置展示，不写死。"],
+        uzMember: ["权益不足", "普通会员优惠购课次数不足或卓越会员课时购买机会不足，请联系客服。"],
+        uzAssign: ["指定老师不可承接", "进入替换老师路径，由客服系统外联系家长确认并留痕。"],
+        uzReplace: ["确认缺失", "必须记录已联系家长确认、确认时间、客服和备注。"],
+        uzSchedule: ["第三方同步冲突", "当前仅预留 API 同步状态，冲突交由客服处理。"],
+        uzFinance: ["打款异常", "提现为系统外打款，财务跟进并记录结果。"],
+        lbFinance: ["分佣基数待确认", "领榜默认比例已确认并可后台调整；基数口径待财务确认。"]
+      };
+      const [title, text] = map[state.page] || ["业务异常", "当前业务状态异常，请按页面提示返回、重试或人工处理。"];
+      return `<div class="notice rose"><strong>${title}</strong><span>${text}</span></div>${normalHint()}`;
+    }
+
+    function asyncDoneText() {
+      if (state.page === "lbAcceptResult" || state.page === "lbAcceptDetail") return "接单成功，需求已锁定，客服后续在系统外拉企业微信群监管。";
+      if (state.page === "lbTeacherAudit") return "老师认证审核结果已保存，列表状态已刷新。";
+      if (state.page === "lbPush") return "推送发送成功，渠道为微信服务号、企业微信机器人、短信通知，下次可推送时间已刷新。";
+      if (state.page === "uzSchedule") return "第三方排课同步状态已刷新，当前展示最小排课闭环结果。";
+      return "异步任务已完成，页面已刷新最新状态。";
+    }
+
+    function asyncFailText() {
+      if (state.page === "uzSchedule") return "第三方排课同步失败，可重试；具体 API 协议和认证方式待技术后续细化。";
+      if (state.page === "lbAcceptResult") return "需求已被其他老师锁定，请返回列表刷新。";
+      return "任务处理失败，请重试或转人工处理。";
+    }
+
+    function normalHint() {
+      return `<div class="notice blue"><strong>原型边界</strong><span>此状态只展示业务承接和提示，不修改上游规则。</span></div>`;
+    }
+
+    function tag(text, tone = "") { return `<span class="tag ${tone}">${text}</span>`; }
+    function money(n) { return `¥${n}`; }
+    function field(label, value) { return `<div class="field"><label>${label}</label><input value="${value}"></div>`; }
+
+    function lbParentHome() {
+      return frame("领榜家长首页", "家长发布家教需求并查看自己的需求进度；不提供系统内确认老师入口。", `
+        <div class="mobile-shell lb-phone">
+          <div class="mobile-top"><span>杭州</span><strong>领榜教育</strong><span>••</span></div>
+          <div class="mobile-body">
+            <div class="lb-hero">
+              <small>领榜教育 · C2C 家教需求平台</small>
+              <strong>专注家教13年</strong>
+              <span>家长发布需求，老师付费接单后需求锁定</span>
+            </div>
+            <div class="lb-stats">
+              <div><strong>12860</strong><span>认证老师</span></div>
+              <div><strong>382</strong><span>本周需求</span></div>
+              <div><strong>3x</strong><span>接单规则</span></div>
+            </div>
+            <div class="lb-service-bar">接单后由客服系统外拉企业微信群监管</div>
+            <div class="lb-action-grid">
+              <button class="lb-action" onclick="setPage('lbPublish')"><span class="lb-action-icon">＋</span><span class="lb-action-title">请家教</span><span class="lb-action-desc">发布需求</span></button>
+              <button class="lb-action" onclick="setPage('lbMyDemands')"><span class="lb-action-icon">单</span><span class="lb-action-title">我的需求</span><span class="lb-action-desc">看进度</span></button>
+              <button class="lb-action" onclick="setPage('lbDemandDetail')"><span class="lb-action-icon">管</span><span class="lb-action-title">监管状态</span><span class="lb-action-desc">企微留痕</span></button>
+              <button class="lb-action" onclick="setMode('empty')"><span class="lb-action-icon">空</span><span class="lb-action-title">空状态</span><span class="lb-action-desc">样例</span></button>
+            </div>
+            <div class="lb-subjects">
+              <div class="lb-subject-row"><span class="active">小学</span><span>初中</span><span>高中</span><span>艺术</span><span>语言</span></div>
+              <div class="lb-chip-row"><span>小学数学</span><span>初中英语</span><span>高中物理</span><span>钢琴</span><span>奥数</span></div>
+            </div>
+            <div class="lb-section-head"><span>最近需求</span><button onclick="setPage('lbMyDemands')">更多</button></div>
+            <div class="lb-order-card">
+              <div class="lb-order-head"><div><div class="lb-order-title">${mock.lbDemand.summary}</div><div class="lb-order-sub">${mock.lbDemand.demandId} · ${mock.lbDemand.updatedAt}</div></div>${tag("抢单中", "blue")}</div>
+              <div class="lb-meta-grid"><div><span>年级</span><strong>${mock.lbDemand.grade}</strong></div><div><span>课时费</span><strong>${money(mock.lbDemand.hourlyFee)}</strong></div><div><span>区域</span><strong>${mock.lbDemand.city}</strong></div></div>
+              <div class="lb-card-actions"><button class="btn" onclick="setPage('lbMyDemands')">我的需求</button><button class="btn primary" onclick="setPage('lbDemandDetail')">查看详情</button></div>
+            </div>
+            <div class="notice amber"><strong>企微沟通提醒</strong><span>老师接单成功后，由客服在系统外拉企业微信群监管，系统内只展示监管状态。</span></div>
+          </div>
+          <div class="mobile-bottom"><button class="active"><span class="tab-icon">首</span>首页</button><button onclick="setPage('lbPublish')"><span class="tab-icon">＋</span>发布</button><button onclick="setPage('lbMyDemands')"><span class="tab-icon">单</span>需求</button><button onclick="setPage('lbDemandDetail')"><span class="tab-icon">管</span>监管</button></div>
+        </div>
+      `);
+    }
+
+    function lbPublish() {
+      return frame("发布需求页", "分段表单承接家长需求，提交成功后进入我的需求；失败时保留已填内容。", `
+        <div class="mobile-shell lb-phone">
+          <div class="mobile-top"><span onclick="setPage('lbParentHome')">‹</span><strong>请家教</strong><span>••</span></div>
+          <div class="mobile-body">
+            <div class="lb-step-card">
+              <div class="lb-step-tabs">
+                <div class="lb-step-tab active">孩子情况<div class="lb-step-line filled"></div></div>
+                <div class="lb-step-tab active">授课安排<div class="lb-step-line filled"></div></div>
+                <div class="lb-step-tab">联系方式<div class="lb-step-line"></div></div>
+              </div>
+              <div class="lb-order-sub">填写孩子情况、授课安排和课时费，提交后进入老师可抢列表。</div>
+            </div>
+            <div class="lb-form-panel">
+              <div class="lb-form-title">基础需求</div>
+              <div class="lb-form-row"><label>家教科目 *</label><input value="数学"></div>
+              <div class="lb-form-row"><label>所在年级 *</label><input value="初二"></div>
+              <div class="lb-form-row"><label>课时费 *</label><input value="200元/小时"></div>
+              <div class="lb-form-row"><label>授课时间 *</label><input value="周六上午，每周2次"></div>
+              <div class="lb-form-row"><label>授课区域 *</label><input value="杭州 · 西湖区"></div>
+              <div class="lb-form-row"><label>老师要求</label><textarea>希望老师帮助孩子巩固函数和几何基础，优先数学经验丰富老师。</textarea></div>
+              <div class="lb-bottom-action two"><button class="btn">保存草稿</button><button class="btn primary" onclick="runAsync('async-done','正在提交需求')">提交需求</button></div>
+            </div>
+            <div class="notice blue"><strong>发布后状态</strong><span>提交成功后进入抢单中；老师付费接单成功后需求锁定。</span></div>
+          </div>
+          <div class="mobile-bottom"><button onclick="setPage('lbParentHome')"><span class="tab-icon">首</span>首页</button><button class="active"><span class="tab-icon">＋</span>发布</button><button onclick="setPage('lbMyDemands')"><span class="tab-icon">单</span>需求</button><button onclick="setPage('lbDemandDetail')"><span class="tab-icon">管</span>监管</button></div>
+        </div>
+      `);
+    }
+
+    function lbMyDemands() {
+      return frame("我的需求页", "展示本人需求单，覆盖抢单中、已锁定、重新开放和服务安排状态。", `
+        <div class="mobile-shell lb-phone">
+          <div class="mobile-top"><span onclick="setPage('lbParentHome')">‹</span><strong>我的需求</strong><span>••</span></div>
+          <div class="mobile-body">
+            <div class="segmented"><button class="active">全部</button><button>抢单中</button><button>已锁定</button><button>重新开放</button></div>
+            <div class="lb-order-card">
+              <div class="lb-order-head"><div><div class="lb-order-title">${mock.lbDemand.summary}</div><div class="lb-order-sub">${mock.lbDemand.demandId} · 课时费 ${money(mock.lbDemand.hourlyFee)} · ${mock.lbDemand.updatedAt}</div></div>${tag("抢单中", "blue")}</div>
+              <div class="lb-meta-grid"><div><span>学科</span><strong>${mock.lbDemand.subject}</strong></div><div><span>年级</span><strong>${mock.lbDemand.grade}</strong></div><div><span>老师</span><strong>等待接单</strong></div></div>
+              <div class="lb-card-actions"><button class="btn">联系客服</button><button class="btn primary" onclick="setPage('lbDemandDetail')">详情</button></div>
+            </div>
+            <div class="lb-order-card">
+              <div class="lb-order-head"><div><div class="lb-order-title">高一物理晚间辅导</div><div class="lb-order-sub">LB-D-1003 · 已锁定王老师 · 企微监管中</div></div>${tag("已锁定", "green")}</div>
+              <div class="lb-meta-grid"><div><span>学科</span><strong>物理</strong></div><div><span>接单老师</span><strong>王老师</strong></div><div><span>监管</span><strong>进行中</strong></div></div>
+              <div class="lb-card-actions"><button class="btn">查看留痕</button><button class="btn primary" onclick="setPage('lbDemandDetail')">详情</button></div>
+            </div>
+            <div class="lb-order-card">
+              <div class="lb-order-head"><div><div class="lb-order-title">初三英语冲刺</div><div class="lb-order-sub">LB-D-1002 · 未成交后重新开放</div></div>${tag("重新开放", "amber")}</div>
+              <div class="lb-card-sub">退款责任和财务归属为系统外事项，系统内只展示重新开放结果。</div>
+            </div>
+          </div>
+          <div class="mobile-bottom"><button onclick="setPage('lbParentHome')"><span class="tab-icon">首</span>首页</button><button onclick="setPage('lbPublish')"><span class="tab-icon">＋</span>发布</button><button class="active"><span class="tab-icon">单</span>需求</button><button onclick="setPage('lbDemandDetail')"><span class="tab-icon">管</span>监管</button></div>
+        </div>
+      `, `<button class="btn" onclick="setMode('loading')">刷新</button><button class="btn primary" onclick="setPage('lbPublish')">发布需求</button>`);
+    }
+
+    function lbDemandDetail() {
+      return frame("领榜需求详情页", "承接需求生命周期和企微监管提示；不提供家长确认老师动作。", `
+        <div class="mobile-shell lb-phone">
+          <div class="mobile-top"><span onclick="setPage('lbMyDemands')">‹</span><strong>需求详情</strong><span>••</span></div>
+          <div class="mobile-body">
+            <div class="lb-order-card">
+              <div class="lb-order-head"><div><div class="lb-order-title">${mock.lbDemand.city} · ${mock.lbDemand.summary}</div><div class="lb-order-sub">${mock.lbDemand.demandId} · 不提供家长系统内确认老师入口</div></div>${tag("企微沟通中", "teal")}</div>
+              <div class="lb-meta-grid"><div><span>科目年级</span><strong>${mock.lbDemand.grade}${mock.lbDemand.subject}</strong></div><div><span>课时费</span><strong>${money(mock.lbDemand.hourlyFee)}</strong></div><div><span>锁定老师</span><strong>王老师</strong></div></div>
+            </div>
+            <div class="notice blue"><strong>系统外沟通</strong><span>客服已拉企业微信群，系统内只记录接单老师、关联需求单、监管状态和客服备注，不同步聊天内容。</span></div>
+            <div class="lb-form-panel">
+              <div class="lb-form-title">状态时间线</div>
+              <div class="step done"><span class="dot"></span><div>需求发布成功</div></div>
+              <div class="step done"><span class="dot"></span><div>王老师付费接单，需求已锁定</div></div>
+              <div class="step now"><span class="dot"></span><div>客服拉企微监管中</div></div>
+              <div class="step"><span class="dot"></span><div>成交后形成服务安排，未成交或退单则重新开放</div></div>
+            </div>
+            <div class="lb-form-panel">
+              <div class="lb-form-title">客服备注</div>
+              <div class="lb-card-sub">已拉群，等待家长与老师确认线下服务安排。聊天内容不自动同步。</div>
+            </div>
+          </div>
+          <div class="mobile-bottom"><button onclick="setPage('lbParentHome')"><span class="tab-icon">首</span>首页</button><button onclick="setPage('lbPublish')"><span class="tab-icon">＋</span>发布</button><button onclick="setPage('lbMyDemands')"><span class="tab-icon">单</span>需求</button><button class="active"><span class="tab-icon">管</span>监管</button></div>
+        </div>
+      `);
+    }
+
+    function lbTeacherHome() {
+      return frame("领榜老师首页", "老师查看未锁定需求并付费接单；未认证时提醒认证但不阻断。", `
+        <div class="mobile-shell lb-phone teacher-tabs">
+          <div class="mobile-top"><strong>领榜老师端</strong>${state.role.includes("未认证") ? tag("未认证", "amber") : tag("已认证", "green")}</div>
+          <div class="mobile-body">
+            <div class="lb-hero">
+              <small>教师端 · 独立账号</small>
+              <strong>今日可抢需求</strong>
+              <span>只展示未被接单需求，接单金额按课时费 × 3</span>
+            </div>
+            <div class="lb-stats"><div><strong>12</strong><span>可抢</span></div><div><strong>3</strong><span>匹配科目</span></div><div><strong>2</strong><span>监管中</span></div></div>
+            <div class="lb-action-grid">
+              <button class="lb-action" onclick="setPage('lbDemandList')"><span class="lb-action-icon">抢</span><span class="lb-action-title">可抢需求</span><span class="lb-action-desc">付费接单</span></button>
+              <button class="lb-action" onclick="setPage('lbTeacherApply')"><span class="lb-action-icon">证</span><span class="lb-action-title">入驻认证</span><span class="lb-action-desc">三步资料</span></button>
+              <button class="lb-action" onclick="setPage('lbMyOrders')"><span class="lb-action-icon">单</span><span class="lb-action-title">我的接单</span><span class="lb-action-desc">看监管</span></button>
+              <button class="lb-action" onclick="setMode('error')"><span class="lb-action-icon">异</span><span class="lb-action-title">异常状态</span><span class="lb-action-desc">样例</span></button>
+            </div>
+            <div class="lb-order-card">
+              <div class="lb-order-head"><div><div class="lb-order-title">初二数学周末辅导</div><div class="lb-order-sub">课时费 ¥200 · 接单金额 ¥600 · 杭州</div></div>${tag("可抢", "green")}</div>
+              <div class="lb-card-actions"><button class="btn" onclick="setPage('lbDemandList')">更多需求</button><button class="btn primary" onclick="setPage('lbAcceptDetail')">查看接单</button></div>
+            </div>
+            ${state.role.includes("未认证") ? `<div class="notice amber"><strong>认证提醒</strong><span>${mock.lbDemand2.certificationReminder}。当前不阻断查看和付款接单。</span></div>` : ""}
+          </div>
+          <div class="mobile-bottom"><button class="active"><span class="tab-icon">首</span>首页</button><button onclick="setPage('lbDemandList')"><span class="tab-icon">抢</span>抢单</button><button onclick="setPage('lbMyOrders')"><span class="tab-icon">单</span>我的</button></div>
+        </div>
+      `);
+    }
+
+    function lbDemandList() {
+      return frame("可抢需求列表页", "老师扫描未锁定需求，支持空、加载、错误、无权限和状态冲突样例。", `
+        <div class="mobile-shell lb-phone teacher-tabs">
+          <div class="mobile-top"><span onclick="setPage('lbTeacherHome')">‹</span><strong>可抢需求</strong><span>筛选</span></div>
+          <div class="mobile-body">
+            <div class="segmented"><button class="active">全部</button><button>数学</button><button>英语</button><button>同城</button></div>
+            <div class="lb-order-card">
+              <div class="lb-order-head"><div><div class="lb-order-title">${mock.lbDemand.summary}</div><div class="lb-order-sub">${mock.lbDemand.grade} · ${mock.lbDemand.subject} · 课时费 ${money(mock.lbDemand.hourlyFee)}</div></div>${tag("可抢", "green")}</div>
+              <div class="lb-meta-grid"><div><span>接单金额</span><strong>${money(mock.lbDemand.purchaseAmount)}</strong></div><div><span>频次</span><strong>每周2次</strong></div><div><span>区域</span><strong>${mock.lbDemand.city}</strong></div></div>
+              <div class="lb-card-actions"><button class="btn">收藏</button><button class="btn primary" onclick="setPage('lbAcceptDetail')">查看详情</button></div>
+            </div>
+            <div class="lb-order-card">
+              <div class="lb-order-head"><div><div class="lb-order-title">${mock.lbDemand2.summary}</div><div class="lb-order-sub">${mock.lbDemand2.grade} · ${mock.lbDemand2.subject} · 接单金额 ${money(mock.lbDemand2.purchaseAmount)}</div></div>${tag("未认证提醒", "amber")}</div>
+              <div class="lb-card-sub">未认证老师允许查看并付款接单，但前端必须提醒其尽快认证。</div>
+              <div class="lb-card-actions"><button class="btn" onclick="setPage('lbTeacherApply')">去认证</button><button class="btn primary" onclick="setPage('lbAcceptDetail')">继续接单</button></div>
+            </div>
+          </div>
+          <div class="mobile-bottom"><button onclick="setPage('lbTeacherHome')"><span class="tab-icon">首</span>首页</button><button class="active"><span class="tab-icon">抢</span>抢单</button><button onclick="setPage('lbMyOrders')"><span class="tab-icon">单</span>我的</button></div>
+        </div>
+      `, `<button class="btn" onclick="setMode('empty')">看空状态</button><button class="btn" onclick="setMode('error')">模拟失败</button>`);
+    }
+
+    function lbAcceptDetail() {
+      const uncertified = state.role.includes("未认证");
+      return frame("可抢需求详情页", "展示需求上下文、3 倍课时费接单金额、认证提醒和锁单按钮。", `
+        <div class="mobile-shell lb-phone teacher-tabs">
+          <div class="mobile-top"><span onclick="setPage('lbDemandList')">‹</span><strong>需求详情</strong><span>••</span></div>
+          <div class="mobile-body">
+            <div class="lb-order-card">
+              <div class="lb-order-head"><div><div class="lb-order-title">${mock.lbDemand.summary}</div><div class="lb-order-sub">${mock.lbDemand.demandId} · 接单前再次校验未锁定</div></div>${tag("可接单", "green")}</div>
+              <div class="lb-meta-grid"><div><span>需求课时费</span><strong>${money(mock.lbDemand.hourlyFee)}</strong></div><div><span>接单金额</span><strong>${money(mock.lbDemand.purchaseAmount)}</strong></div><div><span>计算规则</span><strong>课时费×3</strong></div></div>
+            </div>
+            <div class="notice blue"><strong>接单规则</strong><span>老师付费购买金额 = 需求单课时费 × 3。支付成功后需求单锁定，不需要家长在系统内确认老师。</span></div>
+            ${uncertified ? `<div class="notice amber"><strong>认证提醒</strong><span>${mock.lbDemand2.certificationReminder}。当前允许继续付款接单。</span></div>` : ""}
+            <div class="lb-form-panel">
+              <div class="lb-form-title">接单前刷新</div>
+              <div class="step done"><span class="dot"></span><div>进入页面，读取需求详情</div></div>
+              <div class="step now"><span class="dot"></span><div>接单前再次校验需求未锁定</div></div>
+              <div class="step"><span class="dot"></span><div>支付成功后创建抢单记录并锁定</div></div>
+            </div>
+            <div class="lb-bottom-action two"><button class="btn" onclick="setPage('lbDemandList')">返回列表</button><button class="btn primary" onclick="setPage('lbAcceptResult');runAsync('async-done','正在确认支付和锁单结果')">付费购买并接单</button></div>
+          </div>
+          <div class="mobile-bottom"><button onclick="setPage('lbTeacherHome')"><span class="tab-icon">首</span>首页</button><button class="active"><span class="tab-icon">抢</span>抢单</button><button onclick="setPage('lbMyOrders')"><span class="tab-icon">单</span>我的</button></div>
+        </div>
+      `);
+    }
+
+    function lbAcceptResult() {
+      return frame("接单结果页", "解释成功、处理中、失败和状态冲突，不允许重复提交。", `
+        <div class="state-screen"><div><div class="state-icon">✓</div><h3>${mock.lbDemand.demandId} 接单成功</h3><p class="muted">需求已锁定，客服后续在系统外拉企业微信群监管。</p><div class="actions" style="justify-content:center"><button class="btn" onclick="setPage('lbDemandList')">返回列表</button><button class="btn primary" onclick="setPage('lbMyOrders')">查看我的接单</button></div></div></div>
+      `, `<button class="btn" onclick="setMode('abnormal')">状态冲突</button><button class="btn" onclick="runAsync('async-failed','正在确认接单结果')">模拟失败</button>`);
+    }
+
+    function lbTeacherApply() {
+      return frame("老师入驻认证页", "复用领榜前端老师入驻三步流程；认证成功可正常接单，未认证仅提醒不阻断。", `
+        <div class="mobile-shell lb-phone teacher-tabs">
+          <div class="mobile-top"><span onclick="setPage('lbTeacherHome')">‹</span><strong>老师入驻</strong><span>••</span></div>
+          <div class="mobile-body">
+            <div class="lb-step-card">
+              <div class="lb-step-tabs">
+                <div class="lb-step-tab active">基本信息<div class="lb-step-line filled"></div></div>
+                <div class="lb-step-tab active">授课详情<div class="lb-step-line filled"></div></div>
+                <div class="lb-step-tab active">个人简介<div class="lb-step-line filled"></div></div>
+              </div>
+              <div class="lb-order-sub">第 1-3 步：基本信息、授课详情、个人简介。提交后进入资料审核。</div>
+            </div>
+            <div class="lb-form-panel">
+              <div class="lb-form-title">基础资料</div>
+              <div class="lb-form-row"><label>教员类型 *</label><input value="专业教师"></div>
+              <div class="lb-form-row"><label>真实姓名 *</label><input value="王老师"></div>
+              <div class="lb-form-row"><label>手机号</label><input value="138****0000"></div>
+              <div class="lb-form-row"><label>毕业学历 *</label><input value="本科"></div>
+            </div>
+            <div class="lb-form-panel">
+              <div class="lb-form-title">授课详情</div>
+              <div class="lb-form-row"><label>授课经验 *</label><input value="5年以上"></div>
+              <div class="lb-form-row"><label>授课学科 *</label><input value="小学数学、初中数学"></div>
+              <div class="lb-form-row"><label>授课区域 *</label><input value="西湖、拱墅、线上"></div>
+              <div class="lb-form-row"><label>课时费用 *</label><input value="200元/小时"></div>
+            </div>
+            <div class="lb-sheet-preview">
+              <div class="lb-form-title">底部筛选弹层样式</div>
+              <div class="lb-card-sub">复用旧原型的科目、区域、时间、价格弹层，但按规范保留 16px 圆角和文字状态。</div>
+              <div class="lb-sheet-options"><span class="active">小学数学</span><span>初中英语</span><span>高中物理</span><span class="active">西湖</span><span>周四上午</span></div>
+            </div>
+            <div class="lb-form-panel">
+              <div class="lb-form-title">个人简介与证明</div>
+              <div class="lb-form-row"><label>自我介绍</label><textarea>长期辅导小学数学，善于拆解计算、应用题和几何模块。</textarea></div>
+              <div class="lb-form-row"><label>证明材料</label><input value="身份证、教师资格证、工作证明"></div>
+              <div class="lb-bottom-action two"><button class="btn">保存草稿</button><button class="btn primary" onclick="runAsync('async-done','正在提交认证资料')">提交审核</button></div>
+            </div>
+            <div class="notice amber"><strong>接单边界</strong><span>未认证老师仍可查看未锁定需求并付款接单；本页用于提升认证完整度，不作为前端阻断。</span></div>
+          </div>
+          <div class="mobile-bottom"><button onclick="setPage('lbTeacherHome')"><span class="tab-icon">首</span>首页</button><button onclick="setPage('lbDemandList')"><span class="tab-icon">抢</span>抢单</button><button class="active" onclick="setPage('lbMyOrders')"><span class="tab-icon">单</span>我的</button></div>
+        </div>
+      `, `<button class="btn" onclick="setMode('async-done')">审核提交成功</button><button class="btn" onclick="setMode('error')">提交失败</button>`);
+    }
+
+    function lbMyOrders() {
+      return frame("我的接单页", "老师查看已接、退单和失效记录。", `
+        <div class="mobile-shell lb-phone teacher-tabs">
+          <div class="mobile-top"><span onclick="setPage('lbTeacherHome')">‹</span><strong>我的接单</strong><span>••</span></div>
+          <div class="mobile-body">
+            <div class="segmented"><button class="active">全部</button><button>监管中</button><button>已失效</button></div>
+            <div class="lb-order-card">
+              <div class="lb-order-head"><div><div class="lb-order-title">初二数学周末辅导</div><div class="lb-order-sub">接单金额 ${money(600)} · 客服已拉企微</div></div>${tag("已锁定", "green")}</div>
+              <div class="lb-meta-grid"><div><span>需求单</span><strong>LB-D-1001</strong></div><div><span>监管</span><strong>进行中</strong></div><div><span>客服</span><strong>客服A</strong></div></div>
+              <div class="lb-card-actions"><button class="btn">客服备注</button><button class="btn primary" onclick="setPage('lbAcceptResult')">结果页</button></div>
+            </div>
+            <div class="lb-order-card">
+              <div class="lb-order-head"><div><div class="lb-order-title">初三英语冲刺</div><div class="lb-order-sub">未成交后需求重新开放，退款系统外人工处理</div></div>${tag("已失效", "amber")}</div>
+              <div class="lb-card-sub">本原型不提供系统内退款责任、退款金额或财务归属闭环。</div>
+            </div>
+          </div>
+          <div class="mobile-bottom"><button onclick="setPage('lbTeacherHome')"><span class="tab-icon">首</span>首页</button><button onclick="setPage('lbDemandList')"><span class="tab-icon">抢</span>抢单</button><button class="active"><span class="tab-icon">单</span>我的</button></div>
+        </div>
+      `);
+    }
+
+    function lbAdminHome() {
+      return frame("领榜后台首页", "领榜独立后台总入口，左侧导航和数据域不包含优坐标。", `
+        <div class="grid cols-4">
+          <div class="card soft-blue"><div class="muted">抢单中需求</div><div class="big-num">28</div></div>
+          <div class="card soft-teal"><div class="muted">已锁定</div><div class="big-num">9</div></div>
+          <div class="card soft-amber"><div class="muted">无人抢单</div><div class="big-num">4</div></div>
+          <div class="card soft-rose"><div class="muted">待处理异常</div><div class="big-num">2</div></div>
+        </div>
+        <div class="table-wrap"><table><thead><tr><th>待办</th><th>状态</th><th>责任人</th><th>动作</th></tr></thead><tbody>
+          <tr><td>LB-D-1001 初二数学</td><td>${tag("监管中", "teal")}</td><td>客服A</td><td><button class="btn" onclick="setPage('lbWecom')">查看监管</button></td></tr>
+          <tr><td>LB-D-1005 初一语文</td><td>${tag("无人抢单", "amber")}</td><td>客服B</td><td><button class="btn" onclick="setPage('lbPush')">推送提醒</button></td></tr>
+        </tbody></table></div>
+      `);
+    }
+
+    function lbDemandManage() {
+      return frame("需求单管理页", "管理领榜需求状态、抢单记录、监管和重新开放，不处理系统内退款闭环。", `
+        <div class="filter-bar">
+          <div class="field"><label>关键词</label><input value="LB-D"></div>
+          <div class="field"><label>状态</label><select><option>全部状态</option><option>抢单中</option><option>已锁定</option></select></div>
+          <div class="field"><label>负责人</label><input value="客服A"></div>
+          <div class="field"><label>时间</label><input value="2026-06-03"></div>
+          <button class="btn">重置</button><button class="btn primary">查询</button>
+        </div>
+        <div class="table-wrap"><table><thead><tr><th>需求单</th><th>家长</th><th>状态</th><th>接单老师</th><th>操作</th></tr></thead><tbody>
+          <tr><td>LB-D-1001 初二数学</td><td>张家长</td><td>${tag("已锁定", "green")}</td><td>王老师</td><td><button class="btn" onclick="setPage('lbWecom')">监管</button></td></tr>
+          <tr><td>LB-D-1005 初一语文</td><td>刘家长</td><td>${tag("无人抢单", "amber")}</td><td>-</td><td><button class="btn" onclick="setPage('lbPush')">推送提醒</button></td></tr>
+          <tr><td>LB-D-1007 高一物理</td><td>赵家长</td><td>${tag("重新开放", "blue")}</td><td>-</td><td><button class="btn" onclick="setPage('lbException')">异常记录</button></td></tr>
+        </tbody></table></div>
+      `);
+    }
+
+    function lbTeacherAudit() {
+      return frame("老师认证审核页", "复用领榜后台审核中心的表格与详情审核结构；本页只处理领榜老师认证资料，不处理优坐标老师分配。", `
+        <div class="filter-bar">
+          <div class="field"><label>关键词</label><input value="老师/手机号/学校"></div>
+          <div class="field"><label>审核状态</label><select><option>资料待审</option><option>证件待补</option><option>认证通过</option></select></div>
+          <div class="field"><label>教员类型</label><select><option>全部类型</option><option>专业教师</option><option>大学生家教</option></select></div>
+          <div class="field"><label>提交时间</label><input value="2026-06-03"></div>
+          <button class="btn">重置</button><button class="btn primary">查询</button>
+        </div>
+        <div class="split">
+          <div class="table-wrap"><table><thead><tr><th>申请人</th><th>身份/学校</th><th>科目区域</th><th>课时费</th><th>完整度</th><th>状态</th><th>操作</th></tr></thead><tbody>
+            <tr><td>林老师<br><span class="muted">AP-LB-060301 · 女/24岁</span></td><td>大学生家教<br><span class="muted">上海交通大学 · 本科在读</span></td><td>初中数学<br><span class="muted">莲湖、雁塔</span></td><td>150元/小时</td><td>92%</td><td>${tag("资料待审", "amber")}</td><td><button class="btn" onclick="runAsync('async-done','正在保存审核结果')">审核</button></td></tr>
+            <tr><td>陈老师<br><span class="muted">AP-LB-060206 · 男/36岁</span></td><td>在职教师<br><span class="muted">重点中学 · 数学教育</span></td><td>初高中数学<br><span class="muted">新城、碑林</span></td><td>260元/小时</td><td>84%</td><td>${tag("证件待补", "rose")}</td><td><button class="btn" onclick="setMode('abnormal')">退回补充</button></td></tr>
+          </tbody></table></div>
+          <div class="drawer">
+            <div class="card-title">审核清单</div>
+            <label><input type="checkbox" checked> 基础信息完整</label>
+            <label><input type="checkbox" checked> 身份证/手机号核验</label>
+            <label><input type="checkbox"> 学历或学生证待确认</label>
+            <label><input type="checkbox"> 教师资格证/资质材料待确认</label>
+            <label><input type="checkbox" checked> 科目、区域、课时费已填写</label>
+            <div class="field"><label>审核备注</label><textarea>资料字段完整后可通过认证；缺失证明材料时退回补充。</textarea></div>
+            <div class="risk-confirm"><strong>审核影响</strong><span>通过认证后老师可正常接单；退回补充只影响认证状态，不改变未认证老师可查看并付款接单的现有规则。</span></div>
+            <div class="actions"><button class="btn" onclick="setMode('abnormal')">退回补充资料</button><button class="btn primary" onclick="runAsync('async-done','正在通过老师认证')">通过认证</button></div>
+          </div>
+        </div>
+      `, `<button class="btn" onclick="setMode('abnormal')">资料不完整</button><button class="btn" onclick="setMode('forbidden')">无审核权限</button>`);
+    }
+
+    function lbWecom() {
+      return frame("企微监管记录页", "系统内只留痕接单老师、关联需求单、监管状态、客服备注；不自动同步企微聊天内容。", `
+        <div class="split">
+          <div class="table-wrap"><table><thead><tr><th>监管记录</th><th>需求单</th><th>接单老师</th><th>状态</th><th>更新时间</th></tr></thead><tbody>
+            <tr><td>${mock.lbWecom.supervisionId}</td><td>${mock.lbWecom.demandId}</td><td>${mock.lbWecom.teacherName}</td><td>${tag(mock.lbWecom.status, "teal")}</td><td>2026-06-03 15:10</td></tr>
+          </tbody></table></div>
+          <div class="drawer">
+            <div class="card-title">监管详情</div>
+            <p>${mock.lbWecom.serviceNote}</p>
+            <div class="field"><label>客服备注</label><textarea>已拉群，等待家长与老师确认后续服务。</textarea></div>
+            <div class="actions"><button class="btn primary" onclick="runAsync('async-done','正在保存监管备注')">保存备注</button></div>
+          </div>
+        </div>
+      `);
+    }
+
+    function lbException() {
+      return frame("异常处理页", "承接未成交或老师退单后的自动重新开放；退款为系统外人工事项。", `
+        <div class="risk-confirm">
+          <strong>高风险操作确认</strong>
+          <span>操作对象：LB-D-1007。影响范围：需求将重新进入老师可抢列表。是否可撤销：可由客服再次标记异常，但不能撤销已发生的系统外退款处理。</span>
+        </div>
+        <div class="card soft-amber">
+          <div class="card-title">LB-D-1007 已重新开放</div>
+          <p>老师退单后，系统已将需求重新开放给其他老师查看和抢单。</p>
+          <p class="muted">退款责任、退款金额和财务归属均为系统外事项，本原型不画系统内退款闭环。</p>
+        </div>
+        <div class="timeline">
+          <div class="step done"><span class="dot"></span><div>原老师退单</div></div>
+          <div class="step done"><span class="dot"></span><div>系统自动重新开放需求</div></div>
+          <div class="step now"><span class="dot"></span><div>客服备注系统外处理结果</div></div>
+        </div>
+      `);
+    }
+
+    function lbPush() {
+      return frame("无人抢单推送提醒", "客服可人工向符合条件老师发送可抢提醒，不做系统派单。", `
+        <div class="split">
+          <div class="card">
+            <div class="card-title">推送范围</div>
+            <div class="grid cols-2">${field("科目", mock.lbPush.filter.subject)}${field("年级", mock.lbPush.filter.grade)}</div>
+            <div class="field"><label>渠道</label><input value="${mock.lbPush.channels.join("、")}"></div>
+            <div class="notice amber"><strong>数量上限</strong><span>单次/每日数量上限未确认，按后台配置项展示，不写死为固定次数。</span></div>
+            <button class="btn primary" onclick="runAsync('async-done','正在发送推送提醒')">发送提醒</button>
+          </div>
+          <div class="card">
+            <div class="card-title">最近推送记录</div>
+            <p>${mock.lbPush.pushId} · ${mock.lbPush.status} · 目标老师 ${mock.lbPush.targetCount} 人</p>
+            <p class="muted">操作人 ${mock.lbPush.operator} · 下次可推送 ${mock.lbPush.nextPushAt}</p>
+          </div>
+        </div>
+      `);
+    }
+
+    function lbFinance() {
+      return financeFrame("领榜分销财务页", "领榜分销、佣金、提现独立于优坐标；默认比例已确认，后续可后台配置调整。", "lingbang");
+    }
+
+    function uzParentHome() {
+      return frame("优坐标家长首页", "老师关联产品、直接产品、会员卡三入口并列；购买后由客服系统外约课。", `
+        <div class="mobile-shell">
+          <div class="mobile-top"><span>杭州</span><strong>优坐标</strong><span>••</span></div>
+          <div class="mobile-body">
+            <div class="mini-search">搜索老师、课程、会员权益</div>
+            <div class="lb-hero">
+              <small>优坐标 · B2C 学习服务</small>
+              <strong>选老师或买课程</strong>
+              <span>购买后由客服系统外约课并分配老师</span>
+            </div>
+            <div class="lb-action-grid">
+              <button class="lb-action" onclick="setPage('uzTeacher')"><span class="lb-action-icon">师</span><span class="lb-action-title">按老师买</span><span class="lb-action-desc">关联产品</span></button>
+              <button class="lb-action" onclick="setPage('uzProduct')"><span class="lb-action-icon">课</span><span class="lb-action-title">直接买课</span><span class="lb-action-desc">产品路径</span></button>
+              <button class="lb-action" onclick="setPage('uzMember')"><span class="lb-action-icon">会</span><span class="lb-action-title">会员卡</span><span class="lb-action-desc">会员价</span></button>
+              <button class="lb-action" onclick="setPage('uzOrder')"><span class="lb-action-icon">单</span><span class="lb-action-title">订单进度</span><span class="lb-action-desc">待约课</span></button>
+            </div>
+            <div class="mini-cells">
+              <div class="mini-cell"><div><div class="mini-cell-title">最近订单</div><div class="mini-cell-desc">${mock.uzOrder.orderId} · 陈老师关联产品</div></div><span class="mini-cell-value">待约课</span></div>
+              <div class="mini-cell"><div><div class="mini-cell-title">会员权益</div><div class="mini-cell-desc">普通会员限次，卓越会员 1 年有效</div></div><span class="mini-cell-value">查看</span></div>
+            </div>
+            <div class="notice blue"><strong>小程序边界</strong><span>家长端只展示购买和订单进度；约课、分配老师、替换确认由客服后台处理。</span></div>
+          </div>
+          <div class="mobile-bottom"><button class="active"><span class="tab-icon">首</span>首页</button><button onclick="setPage('uzOrder')"><span class="tab-icon">单</span>订单</button><button onclick="setPage('uzMember')"><span class="tab-icon">会</span>会员</button></div>
+        </div>
+      `);
+    }
+
+    function uzTeacher() {
+      return frame("老师详情 / 关联产品页", "家长可选择老师并购买该老师关联产品。", `
+        <div class="mobile-shell">
+          <div class="mobile-top"><span onclick="setPage('uzParentHome')">‹</span><strong>陈老师</strong><span>••</span></div>
+          <div class="mobile-body">
+            <div class="card soft-teal"><div class="card-title">陈老师 ${tag("可购买", "green")}</div><p>数学竞赛与中考冲刺经验，关联产品 2 个。</p></div>
+            <div class="mini-cells">
+              <div class="mini-cell"><div><div class="mini-cell-title">初中数学 10 课时包</div><div class="mini-cell-desc">对外价 199 / 课时，会员价 129 / 课时</div></div><button class="btn primary" onclick="runAsync('async-done','正在购买老师关联产品');setTimeout(()=>setPage('uzOrder'),1300)">购买</button></div>
+            </div>
+            <div class="mobile-primary-bar"><button class="btn primary" onclick="runAsync('async-done','正在购买老师关联产品');setTimeout(()=>setPage('uzOrder'),1300)">购买该老师关联产品</button></div>
+          </div>
+          <div class="mobile-bottom"><button onclick="setPage('uzParentHome')"><span class="tab-icon">首</span>首页</button><button onclick="setPage('uzOrder')"><span class="tab-icon">单</span>订单</button><button onclick="setPage('uzMember')"><span class="tab-icon">会</span>会员</button></div>
+        </div>
+      `);
+    }
+
+    function uzProduct() {
+      return frame("产品详情页", "不选择老师也可直接购买产品；购买成功后进入订单详情和客服约课。", `
+        <div class="mobile-shell">
+          <div class="mobile-top"><span onclick="setPage('uzParentHome')">‹</span><strong>课程详情</strong><span>••</span></div>
+          <div class="mobile-body">
+            <div class="card"><div class="card-title">初中数学能力提升课</div><div class="grid cols-2"><div><span class="muted">对外价</span><div class="big-num">199</div></div><div><span class="muted">会员价</span><div class="big-num">129</div></div></div></div>
+            <div class="notice blue"><strong>购买后服务</strong><span>客服与家长系统外约定上课时间，并在后台选择老师。</span></div>
+            <div class="mobile-primary-bar"><button class="btn primary" onclick="runAsync('async-done','正在创建订单')">购买产品</button></div>
+          </div>
+          <div class="mobile-bottom"><button onclick="setPage('uzParentHome')"><span class="tab-icon">首</span>首页</button><button onclick="setPage('uzOrder')"><span class="tab-icon">单</span>订单</button><button onclick="setPage('uzMember')"><span class="tab-icon">会</span>会员</button></div>
+        </div>
+      `);
+    }
+
+    function uzMember() {
+      return frame("会员卡页 / 权益页", "会员卡只属于优坐标；普通会员限次，卓越会员 1 年有效且一次给 100 节课时购买机会。", `
+        <div class="mobile-shell">
+          <div class="mobile-top"><span onclick="setPage('uzParentHome')">‹</span><strong>会员卡权益</strong><span>••</span></div>
+          <div class="mobile-body">
+            <div class="card soft-blue">
+              <div class="card-title">${mock.uzNormalMember.cardName}</div>
+              <div>对外价 ${money(mock.uzNormalMember.publicPrice)} · 会员价 ${money(mock.uzNormalMember.memberPrice)}</div>
+              <div class="big-num">${mock.uzNormalMember.normalRemainingPurchaseCount}</div>
+              <div class="muted">剩余优惠购课次数，具体默认次数按后台配置展示</div>
+              <button class="btn primary" onclick="runAsync('async-done','正在开通普通会员权益')">购买普通会员</button>
+            </div>
+            <div class="card soft-teal">
+              <div class="card-title">${mock.uzExcellentMember.cardName}</div>
+              <div>有效期至 ${mock.uzExcellentMember.validUntil}</div>
+              <div class="big-num">${mock.uzExcellentMember.excellentRemainingLessonQuota}</div>
+              <div class="muted">课时购买机会，用完可联系客服补充</div>
+              <button class="btn teal" onclick="runAsync('async-done','正在开通卓越会员权益')">购买卓越会员</button>
+            </div>
+            <div class="notice amber"><strong>权益不足</strong><span>普通会员次数不足或卓越会员课时机会不足时，引导联系客服补充。</span></div>
+          </div>
+          <div class="mobile-bottom"><button onclick="setPage('uzParentHome')"><span class="tab-icon">首</span>首页</button><button onclick="setPage('uzOrder')"><span class="tab-icon">单</span>订单</button><button class="active"><span class="tab-icon">会</span>会员</button></div>
+        </div>
+      `, `<button class="btn" onclick="setMode('abnormal')">权益不足</button><button class="btn" onclick="setMode('error')">开通异常</button>`);
+    }
+
+    function uzOrder() {
+      return frame("订单详情页", "家长查看购买后约课进度和上课安排；老师由客服后台分配。", `
+        <div class="mobile-shell">
+          <div class="mobile-top"><span onclick="setPage('uzParentHome')">‹</span><strong>订单详情</strong><span>••</span></div>
+          <div class="mobile-body">
+            <div class="mini-cells">
+              <div class="mini-cell"><div><div class="mini-cell-title">订单编号</div><div class="mini-cell-desc">${mock.uzOrder.orderId}</div></div><span class="mini-cell-value">待约课</span></div>
+              <div class="mini-cell"><div><div class="mini-cell-title">购买类型</div><div class="mini-cell-desc">老师关联产品</div></div><span class="mini-cell-value">${mock.uzOrder.teacherName}</span></div>
+            </div>
+            <div class="card">
+              <div class="card-title">订单进度</div>
+              <div class="timeline">
+                <div class="step done"><span class="dot"></span><div>购买成功</div></div>
+                <div class="step now"><span class="dot"></span><div>待约课，客服将系统外联系家长</div></div>
+                <div class="step"><span class="dot"></span><div>客服分配老师并形成上课安排</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="mobile-bottom"><button onclick="setPage('uzParentHome')"><span class="tab-icon">首</span>首页</button><button class="active"><span class="tab-icon">单</span>订单</button><button onclick="setPage('uzMember')"><span class="tab-icon">会</span>会员</button></div>
+        </div>
+      `);
+    }
+
+    function uzTeacherHome() {
+      return frame("优坐标老师端首页", "老师端只读查看客服分配的上课安排，不做确认接课。", `
+        <div class="mobile-shell">
+          <div class="mobile-top"><span>今日</span><strong>优坐标老师端</strong><span>••</span></div>
+          <div class="mobile-body">
+            <div class="card soft-green"><div class="card-title">今日安排</div><div class="big-num">2</div><div class="muted">由客服后台直接分配</div></div>
+            <button class="btn primary" onclick="setPage('uzScheduleReadonly')">查看我的上课安排</button>
+            <div class="notice amber"><strong>MVP 边界</strong><span>当前不做老师端确认接课或拒绝接课动作。</span></div>
+          </div>
+          <div class="mobile-bottom"><button class="active"><span class="tab-icon">首</span>首页</button><button onclick="setPage('uzScheduleReadonly')"><span class="tab-icon">课</span>安排</button><button onclick="setPage('uzScheduleDetail')"><span class="tab-icon">详</span>详情</button></div>
+        </div>
+      `);
+    }
+
+    function uzScheduleReadonly() {
+      return frame("我的上课安排页", "老师只读查看本人安排，不能确认、替换或修改排课。", `
+        <div class="mobile-shell">
+          <div class="mobile-top"><span onclick="setPage('uzTeacherHome')">‹</span><strong>我的安排</strong><span>••</span></div>
+          <div class="mobile-body">
+            <div class="mini-cells">
+              <div class="mini-cell"><div><div class="mini-cell-title">${mock.uzSchedule.time}</div><div class="mini-cell-desc">${mock.uzSchedule.parentName} · ${mock.uzSchedule.status}</div></div><button class="btn" onclick="setPage('uzScheduleDetail')">详情</button></div>
+              <div class="mini-cell"><div><div class="mini-cell-title">2026-06-09 20:00</div><div class="mini-cell-desc">李家长 · 同步失败待客服处理</div></div><span class="mini-cell-value">同步失败</span></div>
+            </div>
+          </div>
+          <div class="mobile-bottom"><button onclick="setPage('uzTeacherHome')"><span class="tab-icon">首</span>首页</button><button class="active"><span class="tab-icon">课</span>安排</button><button onclick="setPage('uzScheduleDetail')"><span class="tab-icon">详</span>详情</button></div>
+        </div>
+      `);
+    }
+
+    function uzScheduleDetail() {
+      return frame("上课安排详情页", "展示安排结果和第三方同步状态；老师端不提供确认接课按钮。", `
+        <div class="mobile-shell">
+          <div class="mobile-top"><span onclick="setPage('uzScheduleReadonly')">‹</span><strong>安排详情</strong><span>••</span></div>
+          <div class="mobile-body">
+            <div class="card"><div class="card-title">安排信息</div><p>${mock.uzSchedule.time} · ${mock.uzSchedule.teacherName} · ${mock.uzSchedule.parentName}</p><p>第三方同步状态：${tag(mock.uzSchedule.thirdPartySyncStatus, "amber")}</p></div>
+            <div class="notice blue"><strong>只读说明</strong><span>老师端仅查看安排，不做确认接课。</span></div>
+          </div>
+          <div class="mobile-bottom"><button onclick="setPage('uzTeacherHome')"><span class="tab-icon">首</span>首页</button><button onclick="setPage('uzScheduleReadonly')"><span class="tab-icon">课</span>安排</button><button class="active"><span class="tab-icon">详</span>详情</button></div>
+        </div>
+      `);
+    }
+
+    function uzAdminHome() {
+      return frame("优坐标后台首页", "优坐标独立后台总入口，覆盖订单、约课、老师分配、排课同步和财务。", `
+        <div class="grid cols-4">
+          <div class="card soft-blue"><div class="muted">待约课</div><div class="big-num">18</div></div>
+          <div class="card soft-teal"><div class="muted">待分配</div><div class="big-num">7</div></div>
+          <div class="card soft-amber"><div class="muted">替换确认中</div><div class="big-num">3</div></div>
+          <div class="card soft-rose"><div class="muted">同步失败</div><div class="big-num">2</div></div>
+        </div>
+        <div class="notice blue"><strong>后台隔离</strong><span>当前后台只管理优坐标产品、会员、订单和排课，不出现领榜需求或领榜抢单。</span></div>
+      `);
+    }
+
+    function uzOrders() {
+      return frame("订单管理页", "管理产品、老师关联产品和会员订单；会员卡订单不进入约课。", `
+        <div class="filter-bar">
+          <div class="field"><label>关键词</label><input value="UZ-O"></div>
+          <div class="field"><label>状态</label><select><option>全部状态</option><option>待约课</option><option>已购买</option></select></div>
+          <div class="field"><label>负责人</label><input value="客服B"></div>
+          <div class="field"><label>时间</label><input value="2026-06-03"></div>
+          <button class="btn">重置</button><button class="btn primary">查询</button>
+        </div>
+        <div class="table-wrap"><table><thead><tr><th>订单</th><th>购买类型</th><th>状态</th><th>下一步</th></tr></thead><tbody>
+          <tr><td>UZ-O-1001</td><td>老师关联产品</td><td>${tag("已购买", "green")}</td><td><button class="btn" onclick="setPage('uzAppointment')">进入约课</button></td></tr>
+          <tr><td>UZ-O-1002</td><td>直接产品</td><td>${tag("待约课", "amber")}</td><td><button class="btn" onclick="setPage('uzAppointment')">处理</button></td></tr>
+          <tr><td>UZ-MO-02</td><td>卓越会员</td><td>${tag("权益已开通", "teal")}</td><td>不进入约课</td></tr>
+        </tbody></table></div>
+      `);
+    }
+
+    function uzAppointment() {
+      return frame("待约课订单页", "客服处理购买后待约课队列，系统外联系家长并保存约课结果。", `
+        <div class="split">
+          <div class="table-wrap"><table><thead><tr><th>订单</th><th>家长</th><th>购买类型</th><th>状态</th><th>操作</th></tr></thead><tbody>
+            <tr><td>UZ-O-1001</td><td>张家长</td><td>老师关联产品</td><td>${tag("待联系", "amber")}</td><td><button class="btn" onclick="setPage('uzAssign')">记录约课</button></td></tr>
+          </tbody></table></div>
+          <div class="drawer"><div class="card-title">约课记录</div><div class="field"><label>约定时间</label><input value="2026-06-08 19:00"></div><div class="field"><label>沟通结果</label><textarea>已电话确认时间。</textarea></div><button class="btn primary" onclick="runAsync('async-done','正在保存约课记录')">保存</button></div>
+        </div>
+      `);
+    }
+
+    function uzAssign() {
+      return frame("老师分配页", "客服优先选择指定老师，指定老师不可承接时进入替换路径。", `
+        <div class="split">
+          <div class="card">
+            <div class="card-title">约课上下文 ${mock.uzCandidate.appointmentId}</div>
+            <p>家长偏好老师：${mock.uzCandidate.preferredTeacher}</p>
+            <div class="table-wrap"><table><thead><tr><th>候选老师</th><th>可承接状态</th><th>操作</th></tr></thead><tbody>
+              <tr><td>陈老师</td><td>${tag("不可承接", "rose")}</td><td><button class="btn warn" onclick="setPage('uzReplace')">替换老师</button></td></tr>
+              <tr><td>${mock.uzCandidate.candidates[0].name}</td><td>${tag("可承接", "green")}</td><td><button class="btn primary" onclick="runAsync('async-done','正在形成上课安排')">分配</button></td></tr>
+            </tbody></table></div>
+          </div>
+          <div class="card soft-amber"><div class="card-title">替换边界</div><p>如果家长指定过老师，客服替换老师需要系统外联系家长确认；系统内只记录“已联系家长确认”、确认时间、客服、备注。</p></div>
+        </div>
+      `);
+    }
+
+    function uzReplace() {
+      return frame("老师替换记录页", "不做家长端二次确认，只由客服记录系统外确认留痕。", `
+        <div class="split">
+          <div class="card">
+            <div class="grid cols-2">${field("原指定老师", mock.uzReplace.originalTeacher)}${field("替换老师", mock.uzReplace.replacementTeacher)}</div>
+            <div class="grid cols-2">${field("确认时间", mock.uzReplace.confirmedAt)}${field("客服", mock.uzReplace.operator)}</div>
+            <div class="field"><label>备注</label><textarea>${mock.uzReplace.note}</textarea></div>
+            <button class="btn primary" onclick="runAsync('async-done','正在保存替换确认留痕')">保存并形成安排</button>
+          </div>
+          <div class="card"><div class="card-title">历史记录</div><p>${mock.uzReplace.confirmedAt} · ${mock.uzReplace.operator} · ${mock.uzReplace.note}</p><div class="notice blue"><strong>截图录音</strong><span>当前不强制上传截图或录音。</span></div></div>
+        </div>
+      `);
+    }
+
+    function uzSchedule() {
+      return frame("上课安排页", "展示最小排课结果，并预留第三方 API 同步中、失败、重试、冲突状态。", `
+        <div class="table-wrap"><table><thead><tr><th>安排</th><th>时间</th><th>老师</th><th>家长</th><th>状态</th><th>第三方同步</th><th>操作</th></tr></thead><tbody>
+          <tr><td>${mock.uzSchedule.scheduleId}</td><td>${mock.uzSchedule.time}</td><td>${mock.uzSchedule.teacherName}</td><td>${mock.uzSchedule.parentName}</td><td>${tag("已安排", "green")}</td><td>${tag("待同步", "amber")}</td><td><button class="btn" onclick="runAsync('async-done','正在同步第三方排课')">同步</button></td></tr>
+          <tr><td>${mock.uzScheduleFail.scheduleId}</td><td>2026-06-09 20:00</td><td>李老师</td><td>刘家长</td><td>${tag("已安排", "green")}</td><td>${tag("同步失败", "rose")}</td><td><button class="btn danger" onclick="runAsync('async-failed','正在重试第三方排课同步')">重试</button></td></tr>
+        </tbody></table></div>
+      `, `<button class="btn" onclick="setMode('async-processing')">同步中</button><button class="btn" onclick="setMode('async-failed')">同步失败</button><button class="btn" onclick="setMode('abnormal')">同步冲突</button>`);
+    }
+
+    function uzFinance() {
+      return financeFrame("优坐标分销财务页", "优坐标分销、佣金、提现独立于领榜；财务审核，管理员查看复核，客服无权。", "youzuobiao");
+    }
+
+    function financeFrame(title, sub, projectCode) {
+      const isFinance = state.role.includes("财务");
+      const isCustomerService = state.role.includes("客服");
+      return frame(title, sub, `
+        <div class="grid cols-3">
+          <div class="card soft-blue"><div class="muted">候选佣金</div><div class="big-num">16</div></div>
+          <div class="card soft-green"><div class="muted">可提现</div><div class="big-num">8</div></div>
+          <div class="card soft-amber"><div class="muted">审核中</div><div class="big-num">3</div></div>
+        </div>
+        ${projectCode === "lingbang" ? `
+        <div class="notice blue"><strong>领榜默认分佣</strong><span>代理大学生自销 40%；邀请家长注册 10%；邀请老师注册 10%；招聘代理 10%；老师二级代理 5%；代理二级 5%；总部 20%。</span></div>
+        <div class="notice amber"><strong>财务口径</strong><span>以上比例后续可后台配置调整；分佣基数按成交额、平台服务费或可分佣金额计算仍待财务确认。</span></div>` : `
+        <div class="notice blue"><strong>配置规则</strong><span>优坐标一级/二级销售提成比例、注册奖励、课消提成按后台配置计算。</span></div>`}
+        <div class="filter-bar">
+          <div class="field"><label>关键词</label><input value="WD"></div>
+          <div class="field"><label>状态</label><select><option>审核中</option><option>待打款</option><option>已到账</option></select></div>
+          <div class="field"><label>负责人</label><input value="财务"></div>
+          <div class="field"><label>时间</label><input value="2026-06-03"></div>
+          <button class="btn">重置</button><button class="btn primary">查询</button>
+        </div>
+        <div class="risk-confirm">
+          <strong>提现审核风险提示</strong>
+          <span>操作对象：提现申请 WD-1001。影响范围：审核通过后进入系统外打款。是否可撤销：打款前可驳回；系统外打款完成后仅记录异常或冲正。</span>
+        </div>
+        <div class="table-wrap"><table><thead><tr><th>类型</th><th>所属项目</th><th>状态</th><th>金额展示</th><th>归因</th><th>操作</th></tr></thead><tbody>
+          <tr><td>${mock.commission.commissionType}</td><td>${projectCode}</td><td>${tag(mock.commission.status, "blue")}</td><td>${mock.commission.amountDisplay}</td><td>购买分享链接归因</td><td><button class="btn" disabled>等待完成或课消</button></td></tr>
+          <tr><td>提现申请</td><td>${projectCode}</td><td>${tag(mock.withdrawal.status, "amber")}</td><td>${money(mock.withdrawal.amount)}</td><td>${mock.withdrawal.applicant}</td><td>${isFinance ? `<button class="btn primary" onclick="runAsync('async-done','正在审核提现')">审核</button>` : `<button class="btn" disabled>${isCustomerService ? "客服无审核权限" : "仅财务审核"}</button>`}</td></tr>
+          <tr><td>课消提成</td><td>${projectCode}</td><td>${tag("已冲正", "rose")}</td><td>按后台配置</td><td>退款或退单</td><td><button class="btn" disabled>查看</button></td></tr>
+        </tbody></table></div>
+      `, `<button class="btn" onclick="setMode('forbidden')">客服无权限</button><button class="btn" onclick="setMode('abnormal')">配置缺失</button>`);
+    }
+
+    boot();
+  </script>
+</body>
+</html>
