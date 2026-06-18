@@ -6,6 +6,7 @@ CODEX_K12_DIR="/Users/xuyunfeng/Documents/codex-k12"
 BACKUP_DIR="$CODEX_K12_DIR/项目全量备份仓库_v1_20260603"
 LOG_FILE="$CODEX_K12_DIR/项目全量备份记录_v1_20260603.md"
 NODE_NAME="${1:-节点备份}"
+GITHUB_BACKUP_BRANCH="codex-k12-backup"
 
 DATE_COMPACT="$(date '+%Y%m%d')"
 TIME_COMPACT="$(date '+%H:%M')"
@@ -120,6 +121,10 @@ if git -C "$BACKUP_DIR" diff --cached --quiet; then
   :
 else
   git -C "$BACKUP_DIR" commit -m "$COMMIT_MESSAGE 记录更新" >/dev/null
+fi
+
+if git -C "$BACKUP_DIR" remote get-url origin >/dev/null 2>&1; then
+  git -C "$BACKUP_DIR" push origin "HEAD:$GITHUB_BACKUP_BRANCH" >/dev/null
 fi
 
 echo "项目全量备份完成：$RESULT $COMMIT_HASH"
