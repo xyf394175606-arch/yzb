@@ -1,0 +1,1045 @@
+<!doctype html>
+<html lang="zh-CN" class="prototype-interactive-mode">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>分销模块页面流画布原型 v4</title>
+  <style>
+    :root {
+      --bg: #f4f6f8;
+      --panel: #ffffff;
+      --ink: #172033;
+      --muted: #667085;
+      --line: #d7dde8;
+      --soft: #eef2f7;
+      --accent: #2563eb;
+      --ok: #047857;
+      --warn: #b45309;
+      --danger: #b91c1c;
+      --mark: #dc2626;
+      --canvas: #202734;
+      --canvas-grid: rgba(255,255,255,.08);
+      --note: #fff7c2;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
+    button, input, textarea, select { font: inherit; }
+    button { cursor: pointer; }
+    .app-shell { min-height: 100vh; display: flex; flex-direction: column; }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px 18px;
+      background: rgba(255,255,255,.94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(10px);
+    }
+    .brand { display: flex; align-items: center; gap: 10px; min-width: 260px; }
+    .brand-mark {
+      width: 36px; height: 36px; border: 2px solid var(--ink); border-radius: 7px;
+      display: grid; place-items: center; font-weight: 800;
+    }
+    .brand h1 { margin: 0; font-size: 18px; line-height: 1.2; }
+    .brand small { display: block; color: var(--muted); font-size: 12px; margin-top: 2px; }
+    .toolbar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+    .seg {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+    }
+    .seg button {
+      border: 0;
+      background: transparent;
+      min-height: 34px;
+      padding: 7px 12px;
+      border-radius: 7px;
+      color: var(--muted);
+    }
+    .seg button.active { background: var(--ink); color: #fff; }
+    .btn {
+      border: 1px solid var(--line);
+      background: #fff;
+      min-height: 36px;
+      padding: 7px 12px;
+      border-radius: 8px;
+      color: var(--ink);
+    }
+    .btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .btn.danger { color: var(--danger); border-color: #fecaca; background: #fff5f5; }
+    .btn:disabled { color: #98a2b3; background: #f2f4f7; cursor: not-allowed; }
+    .tag {
+      display: inline-flex;
+      min-height: 24px;
+      align-items: center;
+      padding: 2px 8px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .tag.ok { color: var(--ok); border-color: #bbf7d0; background: #f0fdf4; }
+    .tag.warn { color: var(--warn); border-color: #fde68a; background: #fffbeb; }
+    .tag.danger { color: var(--danger); border-color: #fecaca; background: #fef2f2; }
+    .interactive-shell {
+      display: grid;
+      grid-template-columns: 230px minmax(0, 1fr);
+      min-height: calc(100vh - 64px);
+    }
+    .side {
+      background: #fff;
+      border-right: 1px solid var(--line);
+      padding: 14px;
+    }
+    .side-title { color: var(--muted); font-size: 12px; margin: 12px 8px 8px; }
+    .side button {
+      width: 100%;
+      min-height: 40px;
+      border: 1px solid transparent;
+      background: transparent;
+      border-radius: 8px;
+      padding: 9px 10px;
+      text-align: left;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+    .side button.active { border-color: #bfdbfe; background: #eff6ff; color: #1d4ed8; font-weight: 700; }
+    .workspace { padding: 18px; min-width: 0; }
+    .page-grid {
+      display: grid;
+      grid-template-columns: minmax(360px, 430px) minmax(560px, 1fr);
+      gap: 18px;
+      align-items: start;
+    }
+    .page-grid.admin { grid-template-columns: 1fr; }
+    .panel {
+      position: relative;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 10px;
+      padding: 14px;
+    }
+    .panel-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .panel-head h2 { margin: 0 0 4px; font-size: 18px; }
+    .panel-head p { margin: 0; color: var(--muted); font-size: 13px; }
+    .row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .muted { color: var(--muted); }
+    .small { font-size: 12px; }
+    .num { font-size: 28px; font-weight: 800; }
+    .cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .cards.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .card {
+      position: relative;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 8px;
+      padding: 12px;
+      min-height: 76px;
+    }
+    .block {
+      position: relative;
+      border: 1px dashed #98a2b3;
+      background: #fbfcfe;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .block.solid { border-style: solid; background: #fff; }
+    .list { display: grid; gap: 8px; }
+    .item {
+      position: relative;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 10px;
+    }
+    .phone-frame {
+      border: 2px solid var(--ink);
+      background: #fff;
+      border-radius: 24px;
+      width: min(100%, 410px);
+      margin: 0 auto;
+      padding: 12px;
+      box-shadow: 0 10px 28px rgba(17,24,39,.08);
+    }
+    .phone-screen {
+      border: 1px solid var(--ink);
+      border-radius: 18px;
+      overflow: hidden;
+      min-height: 720px;
+      background: #fff;
+    }
+    .phone-status {
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      border-bottom: 1px solid var(--line);
+      font-size: 12px;
+    }
+    .phone-title {
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      border-bottom: 1px solid var(--line);
+      font-weight: 700;
+    }
+    .phone-body { height: 640px; overflow: auto; padding: 14px; }
+    .admin-board {
+      border: 1px solid var(--ink);
+      min-height: 720px;
+      background: #fff;
+      display: grid;
+      grid-template-columns: 190px minmax(0, 1fr);
+    }
+    .admin-nav {
+      border-right: 1px solid var(--line);
+      padding: 12px;
+      background: #fafafa;
+    }
+    .admin-nav div {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 8px;
+      color: var(--muted);
+    }
+    .admin-nav div.active { color: #1d4ed8; background: #eff6ff; border-color: #bfdbfe; font-weight: 700; }
+    .admin-main { padding: 14px; min-width: 0; }
+    .admin-section {
+      position: relative;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { border-bottom: 1px solid var(--line); padding: 9px 8px; text-align: left; vertical-align: top; }
+    th { background: #f8fafc; color: var(--muted); font-weight: 600; }
+    .field { display: grid; gap: 4px; margin-bottom: 10px; }
+    .field label { color: var(--muted); font-size: 12px; }
+    .field input, .field textarea, .field select {
+      width: 100%;
+      min-height: 36px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 7px 9px;
+      background: #fff;
+    }
+    .note-warn {
+      border-left: 3px solid var(--warn);
+      background: #fffbeb;
+      color: #78350f;
+      padding: 9px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      margin: 10px 0;
+    }
+    .mark {
+      position: absolute;
+      min-width: 32px;
+      height: 28px;
+      border-radius: 999px;
+      padding: 0 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--mark);
+      color: #fff;
+      border: 2px solid #fff;
+      font-size: 12px;
+      font-weight: 800;
+      box-shadow: 0 4px 10px rgba(220,38,38,.26);
+      z-index: 5;
+    }
+    .annotation-panel {
+      position: fixed;
+      right: 22px;
+      top: 86px;
+      width: min(420px, calc(100vw - 44px));
+      max-height: calc(100vh - 120px);
+      overflow: auto;
+      display: none;
+      z-index: 90;
+      background: #fff;
+      border: 1px solid var(--ink);
+      border-radius: 10px;
+      box-shadow: 0 16px 42px rgba(17,24,39,.18);
+      padding: 14px;
+    }
+    .annotation-panel.open { display: block; }
+    .annotation-panel h3 { margin: 0 0 8px; }
+    .annotation-panel p { color: var(--muted); line-height: 1.55; }
+
+    .canvas-shell { display: none; min-height: calc(100vh - 64px); background: var(--canvas); position: relative; overflow: hidden; }
+    body.prototype-canvas-mode .canvas-shell { display: block; }
+    body.prototype-canvas-mode .interactive-shell,
+    body.prototype-canvas-mode .annotation-panel { display: none !important; }
+    body.prototype-interactive-mode .canvas-shell { display: none !important; }
+    .canvas-toolbar {
+      position: absolute;
+      z-index: 30;
+      top: 16px;
+      left: 16px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      padding: 8px;
+      background: rgba(255,255,255,.95);
+      border: 1px solid rgba(255,255,255,.3);
+      border-radius: 10px;
+      box-shadow: 0 12px 28px rgba(0,0,0,.22);
+    }
+    .canvas-viewport {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background-image:
+        linear-gradient(var(--canvas-grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--canvas-grid) 1px, transparent 1px);
+      background-size: 32px 32px;
+      cursor: grab;
+    }
+    .canvas-viewport.dragging { cursor: grabbing; }
+    .canvas-board {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1800px;
+      height: 2300px;
+      transform-origin: 0 0;
+    }
+    .canvas-node {
+      position: absolute;
+      width: 390px;
+      min-height: 590px;
+      background: #f8fafc;
+      border: 1px solid rgba(255,255,255,.36);
+      border-radius: 14px;
+      box-shadow: 0 22px 60px rgba(0,0,0,.32);
+      overflow: visible;
+      user-select: none;
+    }
+    .canvas-node-head {
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+      border-radius: 14px 14px 0 0;
+      cursor: move;
+    }
+    .canvas-node-body {
+      padding: 12px;
+      height: 544px;
+      overflow: auto;
+      background: #f8fafc;
+      border-radius: 0 0 14px 14px;
+    }
+    .canvas-snapshot {
+      pointer-events: none;
+      transform-origin: top left;
+      background: #fff;
+    }
+    .canvas-link {
+      position: absolute;
+      height: 3px;
+      background: #93c5fd;
+      transform-origin: left center;
+      border-radius: 99px;
+      box-shadow: 0 0 0 1px rgba(147,197,253,.25);
+    }
+    .canvas-link::after {
+      content: "";
+      position: absolute;
+      right: -1px;
+      top: 50%;
+      width: 0;
+      height: 0;
+      border-left: 12px solid #93c5fd;
+      border-top: 7px solid transparent;
+      border-bottom: 7px solid transparent;
+      transform: translateY(-50%);
+    }
+    .sticky-note {
+      position: absolute;
+      width: 210px;
+      min-height: 112px;
+      padding: 10px;
+      background: var(--note);
+      border: 1px solid #eab308;
+      border-radius: 8px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.18);
+      z-index: 8;
+      cursor: move;
+      user-select: none;
+    }
+    .sticky-note strong { display: block; font-size: 13px; margin-bottom: 6px; }
+    .sticky-note p { margin: 0; color: #5f4b00; font-size: 12px; line-height: 1.45; white-space: pre-wrap; }
+    .note-actions { display: flex; gap: 6px; margin-top: 8px; }
+    .note-actions button {
+      border: 1px solid rgba(0,0,0,.15);
+      background: rgba(255,255,255,.62);
+      border-radius: 6px;
+      padding: 3px 6px;
+      font-size: 12px;
+    }
+    .note-editor {
+      position: fixed;
+      z-index: 100;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: min(460px, calc(100vw - 40px));
+      display: none;
+      background: #fff;
+      border: 1px solid var(--ink);
+      border-radius: 10px;
+      box-shadow: 0 18px 54px rgba(0,0,0,.28);
+      padding: 14px;
+    }
+    .note-editor.open { display: block; }
+    .note-editor textarea { min-height: 160px; resize: vertical; }
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%);
+      z-index: 110;
+      display: none;
+      background: #101828;
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 999px;
+    }
+    .toast.show { display: block; }
+    @media (max-width: 1080px) {
+      .interactive-shell { grid-template-columns: 1fr; }
+      .side { display: flex; gap: 8px; overflow: auto; border-right: 0; border-bottom: 1px solid var(--line); }
+      .side-title { display: none; }
+      .side button { min-width: 150px; }
+      .page-grid { grid-template-columns: 1fr; }
+      .cards.four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .admin-board { grid-template-columns: 1fr; }
+      .admin-nav { display: none; }
+    }
+  </style>
+</head>
+<body class="prototype-interactive-mode">
+  <script id="prototypeData" type="application/json">{"version":"v4_20260621","updatedAt":"2026-06-21T00:00:00.000Z","annotations":{"FH":{"pageId":"frontend-home","name":"创客中心首页","markdown":"## 创客中心首页\n\n前端入口页，点击团队卡片进入团队成员详情，点击提现进入提现中心。"},"FM":{"pageId":"frontend-member","name":"团队成员详情","markdown":"## 团队成员详情\n\n展示一星成员资料、行为记录和二星成员预览。"},"FI":{"pageId":"frontend-income","name":"提现中心","markdown":"## 提现中心\n\n展示可提现余额、收益记录、提现记录，点击申请提现进入提现申请页。"},"FW":{"pageId":"frontend-withdraw","name":"提现申请","markdown":"## 提现申请\n\n提交提现金额和收款信息，进入人工审核和系统外打款。"},"BO":{"pageId":"backend-overview","name":"后台总览","markdown":"## 后台总览\n\n后台入口，点击待审核进入提现审核，点击规则异常进入规则配置。"},"BW":{"pageId":"backend-withdrawals","name":"提现审核","markdown":"## 提现审核\n\n财务可审核，管理员可复核，客服无审核权限。"},"BR":{"pageId":"backend-rules","name":"佣金规则配置","markdown":"## 佣金规则配置\n\n领榜默认比例已确认但基数待确认；优坐标按后台配置，不写死默认数值。"}}}</script>
+  <script id="canvasNotesData" type="application/json">{"notes":[{"id":"FH","pageId":"frontend-home","x":206,"y":58,"title":"入口页","body":"点击团队卡片到团队成员详情；点击提现到提现中心。"},{"id":"FI","pageId":"frontend-income","x":190,"y":82,"title":"提现路径","body":"提现中心再进入提现申请页，体现 A 页面到 B 页面。"},{"id":"BW","pageId":"backend-withdrawals","x":178,"y":86,"title":"后台审核","body":"前端提现申请提交后，对应后台提现审核页面。"},{"id":"BR","pageId":"backend-rules","x":178,"y":82,"title":"规则配置","body":"后台总览中的规则异常进入规则配置页。"}]}</script>
+
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">DX</div>
+        <div>
+          <h1>分销模块页面流画布原型</h1>
+          <small>v4 · 真实页面流 · 交互模式 / 画布模式</small>
+        </div>
+      </div>
+      <div class="toolbar">
+        <div class="seg" aria-label="模式切换">
+          <button data-mode="interactive" class="active">交互模式</button>
+          <button data-mode="canvas">画布模式</button>
+        </div>
+        <button class="btn" id="toggleMarks">隐藏标注</button>
+        <button class="btn" id="exportHtml">导出新版 HTML</button>
+      </div>
+    </header>
+
+    <section class="interactive-shell">
+      <aside class="side">
+        <div class="side-title">前端页面流</div>
+        <button data-page="frontend-home" class="active">创客中心首页 <span>A</span></button>
+        <button data-page="frontend-member">团队成员详情 <span>B</span></button>
+        <button data-page="frontend-income">提现中心 <span>C</span></button>
+        <button data-page="frontend-withdraw">提现申请 <span>D</span></button>
+        <div class="side-title">后台页面流</div>
+        <button data-page="backend-overview">后台总览 <span>E</span></button>
+        <button data-page="backend-withdrawals">提现审核 <span>F</span></button>
+        <button data-page="backend-rules">佣金规则配置 <span>G</span></button>
+      </aside>
+      <main class="workspace" id="interactiveRoot"></main>
+    </section>
+
+    <section class="canvas-shell" data-canvas-root>
+      <div class="canvas-toolbar">
+        <button class="btn" data-canvas-action="zoom-out">-</button>
+        <button class="btn" data-canvas-action="reset">重置视图</button>
+        <button class="btn" data-canvas-action="zoom-in">+</button>
+        <button class="btn primary" data-canvas-action="add-note">新增便签</button>
+      </div>
+      <div class="canvas-viewport" id="canvasViewport">
+        <div class="canvas-board" id="canvasBoard"></div>
+      </div>
+    </section>
+  </div>
+
+  <div class="annotation-panel" id="annotationPanel"></div>
+  <div class="note-editor" id="noteEditor"></div>
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const version = "v4_20260621";
+    const storagePrefix = "k12-distribution-page-flow-canvas";
+    const embeddedPrototypeData = JSON.parse(document.getElementById("prototypeData").textContent);
+    const embeddedNotesData = JSON.parse(document.getElementById("canvasNotesData").textContent);
+
+    const state = {
+      mode: localStorage.getItem(`${storagePrefix}:mode:${version}`) || "interactive",
+      page: localStorage.getItem(`${storagePrefix}:page:${version}`) || "frontend-home",
+      marks: localStorage.getItem(`${storagePrefix}:marks:${version}`) !== "hidden",
+      role: localStorage.getItem(`${storagePrefix}:role:${version}`) || "finance",
+      project: localStorage.getItem(`${storagePrefix}:project:${version}`) || "lingbang",
+      canvas: loadJSON(`${storagePrefix}:canvas:${version}`, { scale: 1, x: 40, y: 30 }),
+      nodePositions: loadJSON(`${storagePrefix}:nodes:${version}`, {
+        "frontend-home": { x: 80, y: 120 },
+        "frontend-member": { x: 560, y: 120 },
+        "frontend-income": { x: 560, y: 760 },
+        "frontend-withdraw": { x: 1040, y: 760 },
+        "backend-overview": { x: 80, y: 1460 },
+        "backend-withdrawals": { x: 560, y: 1460 },
+        "backend-rules": { x: 1040, y: 1460 }
+      }),
+      notes: loadJSON(`${storagePrefix}:notes:${version}`, embeddedNotesData.notes),
+      annotations: loadJSON(`${storagePrefix}:annotations:${version}`, embeddedPrototypeData.annotations),
+      drag: null,
+      editingNoteId: null
+    };
+
+    const pageDefs = [
+      { id: "frontend-home", title: "创客中心首页", subtitle: "A：团队和收益入口" },
+      { id: "frontend-member", title: "团队成员详情", subtitle: "B：由团队卡片进入" },
+      { id: "frontend-income", title: "提现中心", subtitle: "C：由提现入口进入" },
+      { id: "frontend-withdraw", title: "提现申请", subtitle: "D：由提现中心进入" },
+      { id: "backend-overview", title: "后台总览", subtitle: "E：后台分销入口" },
+      { id: "backend-withdrawals", title: "提现审核", subtitle: "F：处理前端提现申请" },
+      { id: "backend-rules", title: "佣金规则配置", subtitle: "G：处理规则异常" }
+    ];
+
+    function loadJSON(key, fallback) {
+      try {
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : fallback;
+      } catch (error) {
+        return fallback;
+      }
+    }
+    function saveJSON(key, value) { localStorage.setItem(key, JSON.stringify(value)); }
+    function escapeHtml(value) {
+      return String(value ?? "").replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
+    }
+    function toast(text) {
+      const el = document.getElementById("toast");
+      el.textContent = text;
+      el.classList.add("show");
+      setTimeout(() => el.classList.remove("show"), 1800);
+    }
+    function marker(id, style) {
+      return state.marks ? `<button class="mark" style="${style || ""}" onclick="openAnnotation('${id}')">${id}</button>` : "";
+    }
+    function setMode(mode) {
+      state.mode = mode;
+      document.body.classList.toggle("prototype-canvas-mode", mode === "canvas");
+      document.body.classList.toggle("prototype-interactive-mode", mode !== "canvas");
+      document.documentElement.classList.toggle("prototype-canvas-mode", mode === "canvas");
+      document.documentElement.classList.toggle("prototype-interactive-mode", mode !== "canvas");
+      document.querySelectorAll("[data-mode]").forEach(btn => btn.classList.toggle("active", btn.dataset.mode === mode));
+      localStorage.setItem(`${storagePrefix}:mode:${version}`, mode);
+      if (mode === "canvas") renderCanvas();
+    }
+    function setPage(pageId) {
+      state.page = pageId;
+      localStorage.setItem(`${storagePrefix}:page:${version}`, pageId);
+      document.querySelectorAll("[data-page]").forEach(btn => btn.classList.toggle("active", btn.dataset.page === pageId));
+      renderInteractive();
+    }
+    function syncAnnotationFromNote(note) {
+      state.annotations[note.id] = {
+        pageId: note.pageId,
+        name: note.title,
+        markdown: `## ${note.title}\n\n${note.body}`
+      };
+      saveJSON(`${storagePrefix}:annotations:${version}`, state.annotations);
+    }
+    function persistNotes() {
+      saveJSON(`${storagePrefix}:notes:${version}`, state.notes);
+      state.notes.forEach(syncAnnotationFromNote);
+    }
+
+    function phonePage(title, body, desc) {
+      return `
+        <div class="page-grid">
+          <div class="panel">
+            <div class="phone-frame">
+              <div class="phone-screen">
+                <div class="phone-status"><span>9:41</span><span>5G 100%</span></div>
+                <div class="phone-title"><span>${title}</span><span class="tag warn">线框</span></div>
+                <div class="phone-body">${body}</div>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><div><h2>${title}</h2><p>${desc}</p></div><span class="tag ok">对应画布节点 ${state.page}</span></div>
+            <div class="note-warn">画布模式会把该页面作为独立画面展示，并用箭头表示从哪个页面点击进入。</div>
+          </div>
+        </div>
+      `;
+    }
+    function renderFrontendHome() {
+      return phonePage("创客中心", `
+        <div class="block solid">
+          ${marker("FH", "right:10px;top:10px")}
+          <div class="small muted">我的团队网络</div>
+          <div class="row"><div class="num">36</div><div class="num">94</div></div>
+          <div class="row small muted"><span>一星团队</span><span>二星团队</span></div>
+          <div class="small muted" style="margin-top:8px">今日新增 3 人</div>
+        </div>
+        <div class="cards">
+          <div class="card"><div class="small muted">可提现</div><div class="num" style="font-size:24px">¥1,258</div><button class="btn primary" style="width:100%;margin-top:8px" onclick="setPage('frontend-income')">提现</button></div>
+          <div class="card"><div class="small muted">待结算</div><div class="num" style="font-size:24px">¥398</div><span class="tag warn">按月结算</span></div>
+        </div>
+        <div class="block solid">
+          <div class="row"><strong>一星团队预览</strong><button class="btn" onclick="setPage('frontend-member')">查看全部</button></div>
+          <div class="list" style="margin-top:10px">
+            <div class="item" onclick="setPage('frontend-member')"><strong>李家长</strong><div class="small muted">138****1234 · 购买课时包</div></div>
+            <div class="item" onclick="setPage('frontend-member')"><strong>张老师</strong><div class="small muted">186****8890 · 入驻通过</div></div>
+          </div>
+        </div>
+      `, "A 页面：前端入口，点击团队进入 B，点击提现进入 C。");
+    }
+    function renderFrontendMember() {
+      return phonePage("团队成员详情", `
+        <div class="block solid">
+          ${marker("FM", "right:10px;top:10px")}
+          <strong>李家长</strong>
+          <div class="small muted">138****1234 · 一星团队 · 来源：首页分享</div>
+          <div class="row" style="margin-top:10px"><span>累计贡献</span><strong>¥326</strong></div>
+          <div class="row"><span>二星团队</span><span class="tag">18 人</span></div>
+        </div>
+        <div class="block"><strong>行为记录</strong><div class="item" style="margin-top:8px">购买优坐标课时包 · 2026-06-18</div><div class="item">通过分享链接注册 · 2026-06-16</div></div>
+        <div class="block"><strong>二星成员</strong><div class="item" style="margin-top:8px">王同学家长 · 最近浏览教师详情页</div></div>
+        <button class="btn" onclick="setPage('frontend-home')">返回创客中心</button>
+      `, "B 页面：由创客中心团队卡片进入，展示成员和二星关系。");
+    }
+    function renderFrontendIncome() {
+      return phonePage("提现中心", `
+        <div class="block solid">
+          ${marker("FI", "right:10px;top:10px")}
+          <div class="row"><div><div class="small muted">可提现余额</div><div class="num">¥1,258</div></div><button class="btn primary" onclick="setPage('frontend-withdraw')">申请提现</button></div>
+          <div class="small muted">人工审核 · 系统外打款 · 按月结算</div>
+        </div>
+        <div class="block"><strong>收益记录</strong><div class="item">销售提成 +¥198</div><div class="item">注册奖励 按配置</div><div class="item">课消提成 仅一级</div></div>
+        <div class="block"><strong>提现记录</strong><div class="item"><span class="tag warn">审核中</span> 提现 ¥860</div><div class="item"><span class="tag ok">已打款</span> 提现 ¥500</div></div>
+      `, "C 页面：由创客中心提现入口进入，点击申请提现进入 D。");
+    }
+    function renderFrontendWithdraw() {
+      return phonePage("提现申请", `
+        <div class="block solid">
+          ${marker("FW", "right:10px;top:10px")}
+          <div class="field"><label>提现金额</label><input value="860"></div>
+          <div class="field"><label>姓名</label><input value="李女士"></div>
+          <div class="field"><label>收款信息</label><input value="银行卡占位，待财务确认"></div>
+          <button class="btn primary" onclick="showWithdrawResult()">提交提现申请</button>
+        </div>
+        <div id="withdrawResult" class="note-warn">提现人工审核、系统外打款；不承诺 T+3。</div>
+      `, "D 页面：由提现中心进入，提交后流向后台提现审核。");
+    }
+
+    function renderBackend(pageId = state.page) {
+      const isFinance = state.role === "finance";
+      const isAdmin = state.role === "admin";
+      const titleMap = { "backend-overview": "后台总览", "backend-withdrawals": "提现审核", "backend-rules": "佣金规则配置" };
+      return `
+        <div class="page-grid admin">
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <h2>${titleMap[pageId]}</h2>
+                <p>后台页面流节点：总览点击待审核进入提现审核，点击规则异常进入规则配置。</p>
+              </div>
+              <div class="toolbar">
+                <select id="projectSelect" class="btn">
+                  <option value="lingbang" ${state.project === "lingbang" ? "selected" : ""}>领榜教育</option>
+                  <option value="ucoord" ${state.project === "ucoord" ? "selected" : ""}>优坐标</option>
+                </select>
+                <select id="roleSelect" class="btn">
+                  <option value="finance" ${state.role === "finance" ? "selected" : ""}>财务</option>
+                  <option value="admin" ${state.role === "admin" ? "selected" : ""}>管理员</option>
+                  <option value="service" ${state.role === "service" ? "selected" : ""}>客服</option>
+                  <option value="ops" ${state.role === "ops" ? "selected" : ""}>运营</option>
+                </select>
+              </div>
+            </div>
+            <div class="admin-board">
+              <div class="admin-nav">
+                <div class="${pageId === "backend-overview" ? "active" : ""}">总览</div>
+                <div>分销商</div>
+                <div>佣金</div>
+                <div class="${pageId === "backend-withdrawals" ? "active" : ""}">提现审核</div>
+                <div class="${pageId === "backend-rules" ? "active" : ""}">规则配置</div>
+              </div>
+              <div class="admin-main">
+                <div class="cards four">
+                  <div class="card" onclick="setPage('backend-withdrawals')"><div class="small muted">待审核提现</div><div class="num">8</div></div>
+                  <div class="card"><div class="small muted">本月佣金</div><div class="num">¥12.8k</div></div>
+                  <div class="card" onclick="setPage('backend-rules')"><div class="small muted">规则异常</div><div class="num">3</div></div>
+                  <div class="card"><div class="small muted">新增分销员</div><div class="num">42</div></div>
+                </div>
+                <div class="admin-section">
+                  <div class="row"><strong>分销商与团队</strong><span class="tag warn">冻结规则待确认</span></div>
+                  <table>
+                    <thead><tr><th>分销商</th><th>项目</th><th>团队</th><th>状态</th><th>操作</th></tr></thead>
+                    <tbody>
+                      <tr><td>李家长<br><span class="small muted">138****1234</span></td><td>${projectName()}</td><td>一星 36 / 二星 94</td><td><span class="tag ok">正常</span></td><td><button class="btn" onclick="openAnnotation('BR')">冻结说明</button></td></tr>
+                      <tr><td>张老师<br><span class="small muted">186****8890</span></td><td>${projectName()}</td><td>一星 12 / 二星 18</td><td><span class="tag warn">待复核</span></td><td><button class="btn">详情</button></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="admin-section" style="${pageId === "backend-rules" ? "display:none" : ""}">
+                  ${marker("BW", "right:10px;top:10px")}
+                  <div class="row"><strong>提现审核</strong><span class="tag ${isFinance ? "ok" : isAdmin ? "warn" : "danger"}">${roleName()}权限</span></div>
+                  <table>
+                    <thead><tr><th>申请人</th><th>金额</th><th>状态</th><th>风险</th><th>操作</th></tr></thead>
+                    <tbody>
+                      <tr><td>李家长</td><td>¥860</td><td><span class="tag warn">待审核</span></td><td>正常</td><td><button class="btn primary" ${isFinance ? "" : "disabled"} onclick="openAuditDrawer()">审核</button> <button class="btn" onclick="openAuditDrawer()">查看</button></td></tr>
+                      <tr><td>张老师</td><td>¥500</td><td><span class="tag">待打款</span></td><td>需复核</td><td><button class="btn" onclick="openAuditDrawer()">查看</button></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="admin-section" style="${pageId === "backend-withdrawals" ? "display:none" : ""}">
+                  ${marker("BR", "right:10px;top:10px")}
+                  <div class="row"><strong>佣金规则配置</strong><span class="tag warn">金额规则待确认</span></div>
+                  <div class="cards">
+                    <div class="card"><strong>${state.project === "lingbang" ? "领榜默认比例" : "优坐标销售提成"}</strong><p class="small muted">${state.project === "lingbang" ? "默认比例已确认；分佣基数待确认。" : "按后台配置；默认数值待确认。"}</p></div>
+                    <div class="card"><strong>注册奖励</strong><p class="small muted">邀请家长/老师注册，具体金额按项目规则。</p></div>
+                    <div class="card"><strong>课消提成</strong><p class="small muted">仅一级，不做二级课消提成。</p></div>
+                    <div class="card"><strong>提现规则</strong><p class="small muted">人工审核、系统外打款、不限制门槛。</p></div>
+                  </div>
+                </div>
+                <div class="admin-section">
+                  <strong>佣金记录与报表入口</strong>
+                  <p class="small muted">销售提成、注册奖励、课消提成、退款冲正和分销效果统计在本页作为区块承载，后续可按信息架构再拆。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderInteractive() {
+      document.querySelectorAll("[data-page]").forEach(btn => btn.classList.toggle("active", btn.dataset.page === state.page));
+      const root = document.getElementById("interactiveRoot");
+      const renderers = {
+        "frontend-home": renderFrontendHome,
+        "frontend-member": renderFrontendMember,
+        "frontend-income": renderFrontendIncome,
+        "frontend-withdraw": renderFrontendWithdraw,
+        "backend-overview": () => renderBackend("backend-overview"),
+        "backend-withdrawals": () => renderBackend("backend-withdrawals"),
+        "backend-rules": () => renderBackend("backend-rules")
+      };
+      root.innerHTML = (renderers[state.page] || renderFrontendHome)();
+      root.classList.toggle("hide-marks", !state.marks);
+      const project = document.getElementById("projectSelect");
+      if (project) project.addEventListener("change", event => {
+        state.project = event.target.value;
+        localStorage.setItem(`${storagePrefix}:project:${version}`, state.project);
+        renderInteractive();
+      });
+      const role = document.getElementById("roleSelect");
+      if (role) role.addEventListener("change", event => {
+        state.role = event.target.value;
+        localStorage.setItem(`${storagePrefix}:role:${version}`, state.role);
+        renderInteractive();
+      });
+    }
+
+    function projectName() { return state.project === "lingbang" ? "领榜教育" : "优坐标"; }
+    function roleName() { return { finance: "财务", admin: "管理员", service: "客服", ops: "运营" }[state.role]; }
+    function showWithdrawResult() {
+      const el = document.getElementById("withdrawResult");
+      if (el) el.innerHTML = '<strong>提现申请已提交</strong><div class="note-warn">状态：审核中。财务人工审核，系统外打款；返回后刷新提现记录。</div>';
+    }
+    function openAnnotation(id) {
+      const item = state.annotations[id];
+      const panel = document.getElementById("annotationPanel");
+      if (!item) return;
+      const body = escapeHtml(item.markdown).replace(/^## (.*)$/m, "<h3>$1</h3>").replace(/\n\n/g, "</p><p>").replace(/\n/g, "<br>");
+      panel.innerHTML = `<div class="row"><h3>${escapeHtml(item.name)}</h3><button class="btn" onclick="closeAnnotation()">关闭</button></div><p>${body}</p><div class="small muted">标注 ${id} · ${escapeHtml(item.pageId)}</div>`;
+      panel.classList.add("open");
+    }
+    function closeAnnotation() { document.getElementById("annotationPanel").classList.remove("open"); }
+    function openAuditDrawer() { openAnnotation("BW"); }
+
+    function renderCanvas() {
+      const board = document.getElementById("canvasBoard");
+      const links = buildCanvasLinks();
+      const nodes = pageDefs.map(page => renderCanvasNode(page)).join("");
+      board.innerHTML = links + nodes;
+      applyCanvasTransform();
+      bindCanvasNodes();
+      bindStickyNotes();
+    }
+    function renderCanvasNode(page) {
+      const pos = state.nodePositions[page.id];
+      const snapshot = renderSnapshot(page.id);
+      const notes = state.notes.filter(note => note.pageId === page.id).map(renderStickyNote).join("");
+      return `
+        <article class="canvas-node" data-canvas-page="${page.id}" style="left:${pos.x}px;top:${pos.y}px">
+          <div class="canvas-node-head" data-node-drag-handle>
+            <div><strong>${page.title}</strong><div class="small muted">${page.subtitle}</div></div>
+          </div>
+          <div class="canvas-node-body">
+            <div class="canvas-snapshot">${snapshot}</div>
+          </div>
+          ${notes}
+        </article>
+      `;
+    }
+    function renderSnapshot(pageId) {
+      const snapshots = {
+        "frontend-home": '<div class="block solid"><strong>创客中心</strong><div class="row"><div><div class="num">36</div><span class="small muted">一星</span></div><div><div class="num">94</div><span class="small muted">二星</span></div></div></div><div class="cards"><div class="card">提现 ¥1,258</div><div class="card">待结算 ¥398</div></div><div class="item">团队成员预览 →</div>',
+        "frontend-member": '<div class="block solid"><strong>李家长</strong><div class="small muted">一星团队 · 来源：首页分享</div><div class="item">行为：购买课时包</div><div class="item">二星成员：王同学家长</div></div>',
+        "frontend-income": '<div class="block solid"><strong>提现中心</strong><div class="num">¥1,258</div><button class="btn primary">申请提现</button></div><div class="item">销售提成 +¥198</div><div class="item">提现 ¥860 · 审核中</div>',
+        "frontend-withdraw": '<div class="block solid"><strong>提现申请</strong><div class="field"><label>金额</label><input value="860" disabled></div><div class="field"><label>收款</label><input value="银行卡占位" disabled></div><span class="tag warn">人工审核</span></div>',
+        "backend-overview": '<div class="cards"><div class="card">待审核 8</div><div class="card">规则异常 3</div></div><div class="item">点击待审核 → 提现审核</div><div class="item">点击规则异常 → 规则配置</div>',
+        "backend-withdrawals": '<div class="block solid"><strong>提现审核</strong><div class="item">李家长 · ¥860 · 待审核</div><div class="item">张老师 · ¥500 · 待打款</div><span class="tag warn">财务审核</span></div>',
+        "backend-rules": '<div class="block solid"><strong>佣金规则配置</strong><div class="item">领榜默认比例 · 基数待确认</div><div class="item">优坐标 · 按配置</div><span class="tag warn">不写死数值</span></div>'
+      };
+      return snapshots[pageId] || snapshots["frontend-home"];
+    }
+    function renderStickyNote(note) {
+      return `
+        <div class="sticky-note" data-note-id="${note.id}" style="left:${note.x}px;top:${note.y}px">
+          <strong>${escapeHtml(note.title)}</strong>
+          <p>${escapeHtml(note.body)}</p>
+          <div class="note-actions">
+            <button onclick="editNote('${note.id}')">编辑</button>
+            <button onclick="deleteNote('${note.id}')">删除</button>
+          </div>
+        </div>
+      `;
+    }
+    function buildCanvasLinks() {
+      const links = [
+        ["frontend-home", "frontend-member"],
+        ["frontend-home", "frontend-income"],
+        ["frontend-income", "frontend-withdraw"],
+        ["frontend-withdraw", "backend-withdrawals"],
+        ["backend-overview", "backend-withdrawals"],
+        ["backend-overview", "backend-rules"]
+      ];
+      return links.map(([fromId, toId]) => {
+        const from = state.nodePositions[fromId];
+        const to = state.nodePositions[toId];
+        const x1 = from.x + 390;
+        const y1 = from.y + 130;
+        const x2 = to.x;
+        const y2 = to.y + 130;
+        const dx = x2 - x1;
+        const dy = y2 - y1;
+        const length = Math.sqrt(dx * dx + dy * dy);
+        const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+        return `<div class="canvas-link" data-from="${fromId}" data-to="${toId}" title="${fromId} -> ${toId}" style="left:${x1}px;top:${y1}px;width:${length}px;transform:rotate(${angle}deg)"></div>`;
+      }).join("");
+    }
+    function applyCanvasTransform() {
+      const board = document.getElementById("canvasBoard");
+      board.style.transform = `translate(${state.canvas.x}px, ${state.canvas.y}px) scale(${state.canvas.scale})`;
+    }
+    function bindCanvasNodes() {
+      document.querySelectorAll(".canvas-node [data-node-drag-handle]").forEach(handle => {
+        handle.addEventListener("pointerdown", event => {
+          const node = handle.closest(".canvas-node");
+          const id = node.dataset.canvasPage;
+          const start = state.nodePositions[id];
+          state.drag = { type: "node", id, startX: event.clientX, startY: event.clientY, x: start.x, y: start.y };
+          handle.setPointerCapture(event.pointerId);
+        });
+      });
+    }
+    function bindStickyNotes() {
+      document.querySelectorAll(".sticky-note").forEach(noteEl => {
+        noteEl.addEventListener("pointerdown", event => {
+          if (event.target.tagName === "BUTTON") return;
+          const id = noteEl.dataset.noteId;
+          const note = state.notes.find(item => item.id === id);
+          state.drag = { type: "note", id, startX: event.clientX, startY: event.clientY, x: note.x, y: note.y };
+          noteEl.setPointerCapture(event.pointerId);
+        });
+      });
+    }
+    function editNote(id) {
+      const note = state.notes.find(item => item.id === id);
+      state.editingNoteId = id;
+      const editor = document.getElementById("noteEditor");
+      editor.innerHTML = `
+        <div class="row"><strong>编辑便签</strong><button class="btn" onclick="closeNoteEditor()">关闭</button></div>
+        <div class="field"><label>标题</label><input id="noteTitle" value="${escapeHtml(note.title)}"></div>
+        <div class="field"><label>内容</label><textarea id="noteBody">${escapeHtml(note.body)}</textarea></div>
+        <div class="toolbar"><button class="btn primary" onclick="saveNote()">保存</button><button class="btn" onclick="closeNoteEditor()">取消</button></div>
+      `;
+      editor.classList.add("open");
+    }
+    function saveNote() {
+      const note = state.notes.find(item => item.id === state.editingNoteId);
+      note.title = document.getElementById("noteTitle").value.trim() || "未命名便签";
+      note.body = document.getElementById("noteBody").value.trim() || "待补充说明。";
+      persistNotes();
+      closeNoteEditor();
+      renderCanvas();
+      toast("便签已保存");
+    }
+    function closeNoteEditor() { document.getElementById("noteEditor").classList.remove("open"); state.editingNoteId = null; }
+    function deleteNote(id) {
+      if (!confirm("确认删除这个便签？")) return;
+      state.notes = state.notes.filter(note => note.id !== id);
+      delete state.annotations[id];
+      persistNotes();
+      saveJSON(`${storagePrefix}:annotations:${version}`, state.annotations);
+      renderCanvas();
+      toast("便签已删除");
+    }
+    function addNote() {
+      const pageId = pageDefs.some(page => page.id === state.page) ? state.page : "frontend-home";
+      const count = state.notes.length + 1;
+      const id = `C${String(count).padStart(2, "0")}`;
+      const note = { id, pageId, x: 250, y: 470, title: "新增便签", body: "在这里补充页面、字段或规则说明。" };
+      state.notes.push(note);
+      persistNotes();
+      renderCanvas();
+      editNote(id);
+    }
+
+    document.addEventListener("pointermove", event => {
+      if (!state.drag) return;
+      const dx = (event.clientX - state.drag.startX) / state.canvas.scale;
+      const dy = (event.clientY - state.drag.startY) / state.canvas.scale;
+      if (state.drag.type === "node") {
+        state.nodePositions[state.drag.id] = { x: state.drag.x + dx, y: state.drag.y + dy };
+        saveJSON(`${storagePrefix}:nodes:${version}`, state.nodePositions);
+        renderCanvas();
+      }
+      if (state.drag.type === "note") {
+        const note = state.notes.find(item => item.id === state.drag.id);
+        note.x = state.drag.x + dx;
+        note.y = state.drag.y + dy;
+        persistNotes();
+        const el = document.querySelector(`[data-note-id="${state.drag.id}"]`);
+        if (el) { el.style.left = `${note.x}px`; el.style.top = `${note.y}px`; }
+      }
+      if (state.drag.type === "pan") {
+        state.canvas.x = state.drag.x + event.clientX - state.drag.startX;
+        state.canvas.y = state.drag.y + event.clientY - state.drag.startY;
+        saveJSON(`${storagePrefix}:canvas:${version}`, state.canvas);
+        applyCanvasTransform();
+      }
+    });
+    document.addEventListener("pointerup", () => { state.drag = null; document.getElementById("canvasViewport").classList.remove("dragging"); });
+
+    const viewport = document.getElementById("canvasViewport");
+    viewport.addEventListener("pointerdown", event => {
+      if (event.target !== viewport) return;
+      state.drag = { type: "pan", startX: event.clientX, startY: event.clientY, x: state.canvas.x, y: state.canvas.y };
+      viewport.classList.add("dragging");
+    });
+    viewport.addEventListener("wheel", event => {
+      event.preventDefault();
+      const delta = event.deltaY > 0 ? -0.08 : 0.08;
+      state.canvas.scale = Math.min(1.6, Math.max(0.55, state.canvas.scale + delta));
+      saveJSON(`${storagePrefix}:canvas:${version}`, state.canvas);
+      applyCanvasTransform();
+    }, { passive: false });
+
+    function zoom(delta) {
+      state.canvas.scale = Math.min(1.6, Math.max(0.55, state.canvas.scale + delta));
+      saveJSON(`${storagePrefix}:canvas:${version}`, state.canvas);
+      applyCanvasTransform();
+    }
+    function resetCanvas() {
+      state.canvas = { scale: 1, x: 40, y: 30 };
+      state.nodePositions = {
+        "frontend-home": { x: 80, y: 120 },
+        "frontend-member": { x: 560, y: 120 },
+        "frontend-income": { x: 560, y: 760 },
+        "frontend-withdraw": { x: 1040, y: 760 },
+        "backend-overview": { x: 80, y: 1460 },
+        "backend-withdrawals": { x: 560, y: 1460 },
+        "backend-rules": { x: 1040, y: 1460 }
+      };
+      saveJSON(`${storagePrefix}:canvas:${version}`, state.canvas);
+      saveJSON(`${storagePrefix}:nodes:${version}`, state.nodePositions);
+      renderCanvas();
+    }
+    function exportHtml() {
+      const prototypePattern = new RegExp('<script id="prototypeData" type="application/json">[\\\\s\\\\S]*?<\\\\/script>');
+      const notesPattern = new RegExp('<script id="canvasNotesData" type="application/json">[\\\\s\\\\S]*?<\\\\/script>');
+      const prototypeBlock = `<script id="prototypeData" type="application/json">${JSON.stringify({ version, updatedAt: new Date().toISOString(), annotations: state.annotations })}<` + `/script>`;
+      const notesBlock = `<script id="canvasNotesData" type="application/json">${JSON.stringify({ notes: state.notes })}<` + `/script>`;
+      const html = document.documentElement.outerHTML
+        .replace(prototypePattern, prototypeBlock)
+        .replace(notesPattern, notesBlock);
+      const blob = new Blob(["<!doctype html>\\n" + html], { type: "text/html;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "高保真原型_分销模块页面流画布原型_v4_20260621_导出.html";
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    document.querySelectorAll("[data-mode]").forEach(btn => btn.addEventListener("click", () => setMode(btn.dataset.mode)));
+    document.querySelectorAll("[data-page]").forEach(btn => btn.addEventListener("click", () => setPage(btn.dataset.page)));
+    document.getElementById("toggleMarks").addEventListener("click", event => {
+      state.marks = !state.marks;
+      event.currentTarget.textContent = state.marks ? "隐藏标注" : "显示标注";
+      localStorage.setItem(`${storagePrefix}:marks:${version}`, state.marks ? "visible" : "hidden");
+      renderInteractive();
+    });
+    document.getElementById("exportHtml").addEventListener("click", exportHtml);
+    document.querySelector("[data-canvas-action='zoom-out']").addEventListener("click", () => zoom(-0.12));
+    document.querySelector("[data-canvas-action='zoom-in']").addEventListener("click", () => zoom(0.12));
+    document.querySelector("[data-canvas-action='reset']").addEventListener("click", resetCanvas);
+    document.querySelector("[data-canvas-action='add-note']").addEventListener("click", addNote);
+
+    renderInteractive();
+    setMode(state.mode);
+  </script>
+</body>
+</html>

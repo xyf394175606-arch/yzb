@@ -1,0 +1,919 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>分销模块线框图原型 v1</title>
+  <style>
+    :root {
+      --bg: #f5f6f8;
+      --panel: #ffffff;
+      --line: #d9dee7;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --soft: #eef2f7;
+      --accent: #2563eb;
+      --warn: #b45309;
+      --danger: #b91c1c;
+      --ok: #047857;
+      --mark: #dc2626;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      letter-spacing: 0;
+    }
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 248px 1fr;
+    }
+    .side {
+      border-right: 1px solid var(--line);
+      background: #fff;
+      padding: 18px 14px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: auto;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 8px 18px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 14px;
+    }
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      border: 2px solid var(--text);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      border-radius: 6px;
+    }
+    .brand small { display: block; color: var(--muted); margin-top: 2px; }
+    .nav-title {
+      color: var(--muted);
+      font-size: 12px;
+      margin: 18px 8px 8px;
+    }
+    .nav-btn {
+      width: 100%;
+      border: 1px solid transparent;
+      background: transparent;
+      padding: 10px 10px;
+      border-radius: 8px;
+      text-align: left;
+      color: var(--text);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 2px 0;
+    }
+    .nav-btn.active {
+      border-color: #bcd1ff;
+      background: #edf4ff;
+      color: #1d4ed8;
+      font-weight: 700;
+    }
+    .main {
+      min-width: 0;
+      padding: 18px 24px 40px;
+    }
+    .topbar {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .title h1 { font-size: 22px; margin: 0 0 4px; }
+    .title p { margin: 0; color: var(--muted); font-size: 13px; }
+    .tools {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .btn {
+      border: 1px solid var(--line);
+      background: #fff;
+      min-height: 34px;
+      padding: 7px 12px;
+      border-radius: 8px;
+      color: var(--text);
+    }
+    .btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .btn.danger { color: var(--danger); border-color: #fecaca; background: #fff5f5; }
+    .btn:disabled { color: #9ca3af; background: #f3f4f6; cursor: not-allowed; }
+    .seg {
+      display: inline-flex;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 10px;
+      padding: 3px;
+    }
+    .seg button {
+      border: 0;
+      background: transparent;
+      padding: 7px 12px;
+      border-radius: 7px;
+      color: var(--muted);
+    }
+    .seg button.active { background: var(--text); color: #fff; }
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(360px, 430px) minmax(420px, 1fr);
+      gap: 18px;
+      align-items: start;
+    }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 14px;
+    }
+    .wire {
+      border: 2px solid #111827;
+      background: #fff;
+      border-radius: 24px;
+      width: min(100%, 410px);
+      margin: 0 auto;
+      padding: 12px;
+      box-shadow: 0 10px 26px rgba(17, 24, 39, .08);
+    }
+    .phone-screen {
+      border: 1px solid #111827;
+      border-radius: 18px;
+      overflow: hidden;
+      background: #fff;
+      min-height: 690px;
+      position: relative;
+    }
+    .status {
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      border-bottom: 1px solid var(--line);
+      font-size: 12px;
+    }
+    .phone-head {
+      height: 46px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 14px;
+      border-bottom: 1px solid var(--line);
+      font-weight: 700;
+    }
+    .back {
+      border: 0;
+      background: transparent;
+      font-size: 18px;
+      padding: 4px 6px;
+    }
+    .screen-body {
+      padding: 14px;
+      height: 610px;
+      overflow: auto;
+      position: relative;
+    }
+    .block {
+      border: 1px dashed #9ca3af;
+      background: #fafafa;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 12px;
+      position: relative;
+    }
+    .block.solid { border-style: solid; background: #fff; }
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .muted { color: var(--muted); }
+    .small { font-size: 12px; }
+    .num { font-size: 28px; font-weight: 800; }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .card {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 8px;
+      padding: 12px;
+      position: relative;
+    }
+    .list { display: grid; gap: 8px; }
+    .item {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+      background: #fff;
+      position: relative;
+    }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 2px 8px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .tag.ok { color: var(--ok); border-color: #bbf7d0; background: #f0fdf4; }
+    .tag.warn { color: var(--warn); border-color: #fde68a; background: #fffbeb; }
+    .tag.danger { color: var(--danger); border-color: #fecaca; background: #fef2f2; }
+    .tabs {
+      display: flex;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+    .tabs button {
+      flex: 1;
+      border: 0;
+      background: #fff;
+      padding: 8px;
+      color: var(--muted);
+    }
+    .tabs button.active { background: #111827; color: #fff; }
+    .form {
+      display: grid;
+      gap: 10px;
+    }
+    .field label {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .field input, .field select {
+      width: 100%;
+      min-height: 36px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 7px 9px;
+      background: #fff;
+    }
+    .admin-shell {
+      display: grid;
+      grid-template-columns: 190px 1fr;
+      border: 1px solid #111827;
+      min-height: 690px;
+      background: #fff;
+    }
+    .admin-nav {
+      border-right: 1px solid var(--line);
+      padding: 12px;
+      background: #fafafa;
+    }
+    .admin-nav button {
+      width: 100%;
+      text-align: left;
+      border: 1px solid transparent;
+      background: transparent;
+      border-radius: 7px;
+      padding: 9px;
+      margin: 2px 0;
+    }
+    .admin-nav button.active {
+      border-color: #bcd1ff;
+      background: #edf4ff;
+      color: #1d4ed8;
+      font-weight: 700;
+    }
+    .admin-body { padding: 14px; min-width: 0; position: relative; }
+    .admin-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 12px;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      background: #fff;
+    }
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 9px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th { color: var(--muted); font-weight: 600; background: #fafafa; }
+    .drawer {
+      position: fixed;
+      right: 24px;
+      top: 82px;
+      width: min(460px, calc(100vw - 48px));
+      max-height: calc(100vh - 110px);
+      overflow: auto;
+      background: #fff;
+      border: 1px solid #111827;
+      border-radius: 10px;
+      box-shadow: 0 16px 40px rgba(17, 24, 39, .18);
+      padding: 14px;
+      display: none;
+      z-index: 20;
+    }
+    .drawer.open { display: block; }
+    .scheme {
+      border: 1px solid #bfdbfe;
+      background: #eff6ff;
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 12px;
+      display: none;
+      color: #1e3a8a;
+    }
+    .scheme.show { display: block; }
+    .scheme h3 { margin: 0 0 8px; font-size: 15px; }
+    .scheme ul { margin: 8px 0 0 18px; padding: 0; }
+    .mark {
+      position: absolute;
+      min-width: 30px;
+      height: 28px;
+      padding: 0 8px;
+      border-radius: 999px;
+      background: var(--mark);
+      color: #fff;
+      border: 2px solid #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 800;
+      box-shadow: 0 4px 10px rgba(220, 38, 38, .24);
+      z-index: 4;
+    }
+    .hide-marks .mark { display: none; }
+    .note {
+      border-left: 3px solid var(--warn);
+      background: #fffbeb;
+      color: #78350f;
+      padding: 9px 10px;
+      border-radius: 6px;
+      margin: 10px 0;
+      font-size: 13px;
+    }
+    .empty {
+      border: 1px dashed #cbd5e1;
+      border-radius: 8px;
+      padding: 22px;
+      text-align: center;
+      color: var(--muted);
+      background: #f8fafc;
+    }
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%);
+      background: #111827;
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 999px;
+      display: none;
+      z-index: 30;
+    }
+    .toast.show { display: block; }
+    @media (max-width: 980px) {
+      .app { grid-template-columns: 1fr; }
+      .side { position: relative; height: auto; }
+      .grid { grid-template-columns: 1fr; }
+      .admin-shell { grid-template-columns: 1fr; }
+      .admin-nav { display: flex; overflow: auto; border-right: 0; border-bottom: 1px solid var(--line); }
+      .admin-nav button { min-width: 120px; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <div class="app" id="app">
+    <aside class="side">
+      <div class="brand">
+        <div class="brand-mark">DX</div>
+        <div>
+          <strong>分销模块线框</strong>
+          <small>v1 · 20260621</small>
+        </div>
+      </div>
+      <div class="nav-title">原型表面</div>
+      <button class="nav-btn active" data-surface="mobile">用户端创客中心 <span>小程序</span></button>
+      <button class="nav-btn" data-surface="admin">后台分销管理 <span>SaaS</span></button>
+      <div class="nav-title">用户端页面</div>
+      <button class="nav-btn active" data-mobile="home">创客中心首页</button>
+      <button class="nav-btn" data-mobile="member">团队成员详情</button>
+      <button class="nav-btn" data-mobile="income">提现中心</button>
+      <button class="nav-btn" data-mobile="withdraw">提现申请</button>
+      <div class="nav-title">后台页面</div>
+      <button class="nav-btn" data-admin="overview">分销总览</button>
+      <button class="nav-btn" data-admin="distributors">分销商管理</button>
+      <button class="nav-btn" data-admin="commissions">佣金记录</button>
+      <button class="nav-btn" data-admin="withdrawals">提现审核</button>
+      <button class="nav-btn" data-admin="rules">佣金规则配置</button>
+      <button class="nav-btn" data-admin="report">分销报表</button>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <div class="title">
+          <h1>分销模块线框图原型</h1>
+          <p>线框梳理版：只整理结构、路径、状态和待确认点，不作为最终视觉稿。</p>
+        </div>
+        <div class="tools">
+          <div class="seg" aria-label="原型表面切换">
+            <button class="active" data-surface="mobile">用户端</button>
+            <button data-surface="admin">后台</button>
+          </div>
+          <button class="btn" id="toggleMarks">隐藏标注</button>
+          <button class="btn" id="toggleScheme">显示页面方案</button>
+        </div>
+      </div>
+
+      <section id="mobileSurface" class="grid">
+        <div class="panel">
+          <div class="wire">
+            <div class="phone-screen">
+              <div class="status"><span>9:41</span><span>5G 100%</span></div>
+              <div class="phone-head">
+                <button class="back" id="mobileBack">‹</button>
+                <span id="mobileTitle">创客中心</span>
+              </div>
+              <div class="screen-body" id="mobileBody"></div>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="row">
+            <div>
+              <strong>用户端评审说明</strong>
+              <div class="small muted">默认首屏只展示创客中心用户内容；后台与流程不进入普通用户端。</div>
+            </div>
+            <span class="tag warn">线框版</span>
+          </div>
+          <div id="mobileNotes" class="scheme show"></div>
+        </div>
+      </section>
+
+      <section id="adminSurface" style="display:none">
+        <div class="panel">
+          <div class="admin-shell">
+            <nav class="admin-nav">
+              <button class="active" data-admin="overview">总览</button>
+              <button data-admin="distributors">分销商</button>
+              <button data-admin="commissions">佣金</button>
+              <button data-admin="withdrawals">提现审核</button>
+              <button data-admin="rules">规则配置</button>
+              <button data-admin="report">报表</button>
+            </nav>
+            <div class="admin-body">
+              <div class="admin-head">
+                <div>
+                  <strong id="adminTitle">分销总览</strong>
+                  <div class="small muted">后台线框：按领榜/优坐标独立管理，不做跨品牌统一分销中台。</div>
+                </div>
+                <div class="tools">
+                  <select id="projectSelect" class="btn">
+                    <option value="lingbang">领榜教育</option>
+                    <option value="ucoord">优坐标</option>
+                  </select>
+                  <select id="roleSelect" class="btn">
+                    <option value="finance">财务</option>
+                    <option value="admin">管理员</option>
+                    <option value="service">客服</option>
+                    <option value="ops">运营</option>
+                  </select>
+                </div>
+              </div>
+              <div id="adminBody"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="drawer" id="drawer"></div>
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const state = {
+      surface: "mobile",
+      mobile: "home",
+      mobileStack: ["home"],
+      admin: "overview",
+      marks: true,
+      scheme: true,
+      role: "finance",
+      project: "lingbang"
+    };
+
+    const pageNotes = {
+      home: {
+        title: "创客中心首页",
+        html: "<h3>页面方案：创客中心首页</h3><ul><li>优先展示团队网络、可提现、待结算和提现入口。</li><li>一星和二星团队是核心决策信息，支持进入成员详情。</li><li>默认不展示后台管理或流程评审内容。</li><li>前端依赖：团队数量、收益余额、提现配置、成员预览。</li></ul>"
+      },
+      member: {
+        title: "团队成员详情",
+        html: "<h3>页面方案：团队成员详情</h3><ul><li>展示成员身份、来源页面、最近行为和贡献事实。</li><li>二星团队通过团队 Tab 承载，避免首页铺满大列表。</li><li>手机号脱敏，贡献金额弱化，减少隐私和激励误读。</li></ul>"
+      },
+      income: {
+        title: "提现中心",
+        html: "<h3>页面方案：提现中心</h3><ul><li>收益记录和提现记录并列，帮助用户理解钱从哪里来、到哪一步。</li><li>申请提现入口保留，但明确人工审核和系统外打款。</li><li>提现时效不写 T+3，等待业务和财务确认。</li></ul>"
+      },
+      withdraw: {
+        title: "提现申请",
+        html: "<h3>页面方案：提现申请</h3><ul><li>金额和收款信息是主字段。</li><li>收款方式当前用银行卡占位，后续需财务确认。</li><li>提交后进入审核中，不承诺自动打款。</li></ul>"
+      },
+      admin: {
+        title: "后台分销管理",
+        html: "<h3>后台方案</h3><ul><li>按项目切换领榜教育/优坐标，规则独立。</li><li>财务负责提现审核，管理员复核，客服只读。</li><li>金额、冻结、冲正和风控均保留待确认提示。</li></ul>"
+      }
+    };
+
+    function marker(id, style) {
+      return state.marks ? `<span class="mark" style="${style || ""}">${id}</span>` : "";
+    }
+
+    function toast(text) {
+      const el = document.getElementById("toast");
+      el.textContent = text;
+      el.classList.add("show");
+      setTimeout(() => el.classList.remove("show"), 1800);
+    }
+
+    function setSurface(surface) {
+      state.surface = surface;
+      document.getElementById("mobileSurface").style.display = surface === "mobile" ? "grid" : "none";
+      document.getElementById("adminSurface").style.display = surface === "admin" ? "block" : "none";
+      document.querySelectorAll("[data-surface]").forEach(btn => btn.classList.toggle("active", btn.dataset.surface === surface));
+      syncSideActive();
+      render();
+    }
+
+    function setMobile(page, push = true) {
+      if (push && state.mobile !== page) state.mobileStack.push(page);
+      state.mobile = page;
+      syncSideActive();
+      renderMobile();
+    }
+
+    function setAdmin(page) {
+      state.admin = page;
+      syncSideActive();
+      renderAdmin();
+    }
+
+    function syncSideActive() {
+      document.querySelectorAll(".nav-btn").forEach(btn => {
+        const active = (btn.dataset.surface && btn.dataset.surface === state.surface) ||
+          (btn.dataset.mobile && state.surface === "mobile" && btn.dataset.mobile === state.mobile) ||
+          (btn.dataset.admin && state.surface === "admin" && btn.dataset.admin === state.admin);
+        btn.classList.toggle("active", active);
+      });
+      document.querySelectorAll(".seg [data-surface]").forEach(btn => btn.classList.toggle("active", btn.dataset.surface === state.surface));
+    }
+
+    function homeScreen() {
+      return `
+        <div class="block solid">
+          ${marker("1", "right:10px;top:10px")}
+          <div class="small muted">我的团队网络</div>
+          <div class="row"><div class="num">36</div><div class="num">94</div></div>
+          <div class="row small muted"><span>一星团队</span><span>二星团队</span></div>
+          <div class="small muted" style="margin-top:8px">今日新增 3 人</div>
+        </div>
+        <div class="cards">
+          <div class="card">
+            ${marker("2", "right:8px;top:8px")}
+            <div class="small muted">可提现</div>
+            <div class="num" style="font-size:24px">¥1,258</div>
+            <button class="btn primary" style="width:100%;margin-top:8px" onclick="setMobile('income')">提现</button>
+          </div>
+          <div class="card">
+            <div class="small muted">待结算</div>
+            <div class="num" style="font-size:24px">¥398</div>
+            <span class="tag warn">按月结算</span>
+          </div>
+        </div>
+        <div class="block solid">
+          ${marker("3", "right:10px;top:10px")}
+          <div class="row"><strong>一星团队预览</strong><button class="btn" onclick="setMobile('member')">查看全部</button></div>
+          <div class="list" style="margin-top:10px">
+            <div class="item" onclick="setMobile('member')"><strong>李家长</strong><div class="small muted">138****1234 · 购买课时包 · 贡献待结算</div></div>
+            <div class="item" onclick="setMobile('member')"><strong>张老师</strong><div class="small muted">186****8890 · 入驻通过 · 课消提成仅一级</div></div>
+          </div>
+        </div>
+        <div class="note">待确认：创客中心是否在家长端和教师端完全共用；团队贡献金额是否对用户完整展示。</div>
+      `;
+    }
+
+    function memberScreen() {
+      return `
+        <div class="tabs"><button class="active">基本信息</button><button onclick="toast('线框：切换到团队 Tab')">团队</button></div>
+        <div class="block solid">
+          ${marker("4", "right:10px;top:10px")}
+          <strong>李家长</strong>
+          <div class="small muted">138****1234 · 一星团队 · 来源：首页分享</div>
+          <div class="row" style="margin-top:10px"><span>累计贡献</span><strong>¥326</strong></div>
+          <div class="row"><span>二星团队</span><button class="btn" onclick="toast('线框：展示该成员下的二星列表')">18 人</button></div>
+        </div>
+        <div class="block">
+          <strong>行为记录</strong>
+          <div class="list" style="margin-top:10px">
+            <div class="item"><span class="tag ok">购买</span> 购买优坐标课时包 <div class="small muted">2026-06-18 14:20</div></div>
+            <div class="item"><span class="tag">注册</span> 通过分享链接注册 <div class="small muted">2026-06-16 09:12</div></div>
+          </div>
+        </div>
+        <div class="block">
+          <strong>二星成员</strong>
+          <div class="item" style="margin-top:8px"><strong>王同学家长</strong><div class="small muted">来源：李家长 · 最近浏览教师详情页</div></div>
+        </div>
+      `;
+    }
+
+    function incomeScreen() {
+      return `
+        <div class="block solid">
+          ${marker("5", "right:10px;top:10px")}
+          <div class="row"><div><div class="small muted">可提现余额</div><div class="num">¥1,258</div></div><button class="btn primary" onclick="setMobile('withdraw')">申请提现</button></div>
+          <div class="small muted">人工审核 · 系统外打款 · 按月结算</div>
+        </div>
+        <div class="block">
+          <strong>收益记录</strong>
+          <div class="list" style="margin-top:10px">
+            <div class="item"><span class="tag ok">销售提成</span> 李家长购买课时包 <strong style="float:right">+¥198</strong></div>
+            <div class="item"><span class="tag">注册奖励</span> 张老师入驻通过 <strong style="float:right">按配置</strong></div>
+            <div class="item"><span class="tag warn">课消提成</span> 老师完成课消 <strong style="float:right">仅一级</strong></div>
+          </div>
+        </div>
+        <div class="block">
+          <strong>提现记录</strong>
+          <div class="list" style="margin-top:10px">
+            <div class="item"><span class="tag warn">审核中</span> 提现 ¥860 <div class="small muted">2026-06-20 提交</div></div>
+            <div class="item"><span class="tag ok">已打款</span> 提现 ¥500 <div class="small muted">系统外打款记录</div></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function withdrawScreen() {
+      return `
+        <div class="block solid">
+          ${marker("6", "right:10px;top:10px")}
+          <div class="form">
+            <div class="field"><label>提现金额</label><input id="amount" value="860"></div>
+            <div class="field"><label>姓名</label><input value="李女士"></div>
+            <div class="field"><label>银行卡号</label><input value="6222 **** **** 2398"></div>
+            <div class="field"><label>开户行</label><input value="招商银行杭州分行"></div>
+            <button class="btn primary" onclick="submitWithdraw()">提交提现申请</button>
+          </div>
+        </div>
+        <div class="note">收款方式仍待财务确认；本线框使用银行卡字段占位。提现时效不写 T+3 承诺。</div>
+        <div id="withdrawResult"></div>
+      `;
+    }
+
+    function renderMobile() {
+      document.getElementById("mobileTitle").textContent = pageNotes[state.mobile].title;
+      const body = document.getElementById("mobileBody");
+      body.classList.toggle("hide-marks", !state.marks);
+      body.innerHTML = state.mobile === "home" ? homeScreen() :
+        state.mobile === "member" ? memberScreen() :
+        state.mobile === "income" ? incomeScreen() : withdrawScreen();
+      const notes = document.getElementById("mobileNotes");
+      notes.innerHTML = pageNotes[state.mobile].html;
+      notes.classList.toggle("show", state.scheme);
+    }
+
+    function submitWithdraw() {
+      const amount = Number(document.getElementById("amount").value || 0);
+      const result = document.getElementById("withdrawResult");
+      if (!amount || amount > 1258) {
+        result.innerHTML = '<div class="note" style="border-left-color:#b91c1c;color:#7f1d1d;background:#fef2f2">金额不能为空，且不能大于可提现余额。</div>';
+        return;
+      }
+      result.innerHTML = '<div class="block solid"><span class="tag warn">审核中</span><strong style="display:block;margin-top:8px">提现申请已提交</strong><div class="small muted">财务人工审核，系统外打款。返回提现中心后刷新提现记录。</div></div>';
+    }
+
+    function overviewAdmin() {
+      return `
+        <div class="stats">
+          <div class="card">${marker("A1", "right:8px;top:8px")}<div class="small muted">待审核提现</div><div class="num">8</div></div>
+          <div class="card"><div class="small muted">本月佣金</div><div class="num">¥12,800</div></div>
+          <div class="card"><div class="small muted">规则异常</div><div class="num">3</div></div>
+          <div class="card"><div class="small muted">新增分销员</div><div class="num">42</div></div>
+        </div>
+        <div class="block">
+          <strong>工作台入口</strong>
+          <div class="cards" style="margin-top:10px">
+            <button class="btn" onclick="setAdmin('withdrawals')">处理提现审核</button>
+            <button class="btn" onclick="setAdmin('rules')">查看佣金规则</button>
+            <button class="btn" onclick="setAdmin('distributors')">管理分销商</button>
+            <button class="btn" onclick="setAdmin('commissions')">追踪佣金记录</button>
+          </div>
+        </div>
+        <div class="scheme show">${pageNotes.admin.html}</div>
+      `;
+    }
+
+    function distributorsAdmin() {
+      return `
+        <div class="row" style="margin-bottom:10px"><strong>分销商管理</strong><button class="btn">导出</button></div>
+        <table>
+          <thead><tr><th>分销商</th><th>项目</th><th>团队</th><th>状态</th><th>操作</th></tr></thead>
+          <tbody>
+            <tr><td>李家长<br><span class="small muted">138****1234</span></td><td>${projectName()}</td><td>一星 36 / 二星 94</td><td><span class="tag ok">正常</span></td><td><button class="btn" onclick="openDrawer('distributor')">详情</button> <button class="btn danger" onclick="toast('冻结影响范围待确认')">冻结</button></td></tr>
+            <tr><td>张老师<br><span class="small muted">186****8890</span></td><td>${projectName()}</td><td>一星 12 / 二星 18</td><td><span class="tag warn">待复核</span></td><td><button class="btn" onclick="openDrawer('distributor')">详情</button></td></tr>
+          </tbody>
+        </table>
+        <div class="note">待确认：冻结后是否禁止产生新佣金、禁止提现、禁止分享，还是仅后台标记异常。</div>
+      `;
+    }
+
+    function commissionsAdmin() {
+      return `
+        <div class="row" style="margin-bottom:10px"><strong>佣金记录</strong><span class="tag warn">退款/退单冲正待确认</span></div>
+        <table>
+          <thead><tr><th>类型</th><th>来源</th><th>层级</th><th>金额/规则</th><th>状态</th><th>操作</th></tr></thead>
+          <tbody>
+            <tr><td>销售提成</td><td>课时包订单</td><td>一级</td><td>¥198</td><td><span class="tag ok">可结算</span></td><td><button class="btn">详情</button></td></tr>
+            <tr><td>注册奖励</td><td>老师入驻</td><td>二级</td><td>按配置</td><td><span class="tag warn">待规则确认</span></td><td><button class="btn">规则异常</button></td></tr>
+            <tr><td>课消提成</td><td>课消完成</td><td>一级</td><td>按课消规则</td><td><span class="tag">待结算</span></td><td><button class="btn">详情</button></td></tr>
+          </tbody>
+        </table>
+      `;
+    }
+
+    function withdrawalsAdmin() {
+      const isFinance = state.role === "finance";
+      const isAdmin = state.role === "admin";
+      return `
+        <div class="row" style="margin-bottom:10px">
+          <strong>提现审核</strong>
+          <span class="tag ${isFinance ? 'ok' : isAdmin ? 'warn' : 'danger'}">${roleName()}权限</span>
+        </div>
+        <table>
+          <thead><tr><th>申请人</th><th>金额</th><th>状态</th><th>风险</th><th>操作</th></tr></thead>
+          <tbody>
+            <tr><td>李家长<br><span class="small muted">138****1234</span></td><td>¥860</td><td><span class="tag warn">待审核</span></td><td>正常</td><td><button class="btn primary" ${isFinance ? "" : "disabled"} onclick="openDrawer('audit')">审核</button> <button class="btn" onclick="openDrawer('audit')">${isAdmin ? "复核" : "查看"}</button></td></tr>
+            <tr><td>张老师<br><span class="small muted">186****8890</span></td><td>¥500</td><td><span class="tag">待打款</span></td><td>需复核</td><td><button class="btn" onclick="openDrawer('audit')">查看</button></td></tr>
+          </tbody>
+        </table>
+        <div class="note">${isFinance ? "财务可执行审核通过/拒绝。" : isAdmin ? "管理员可查看和复核，审核动作按权限控制。" : "客服无提现审核权限，仅可查看基础信息。"}</div>
+      `;
+    }
+
+    function rulesAdmin() {
+      const lingbang = state.project === "lingbang";
+      return `
+        <div class="row" style="margin-bottom:10px"><strong>佣金规则配置</strong><span class="tag warn">金额规则待确认</span></div>
+        <div class="cards">
+          <div class="card">
+            ${marker("A2", "right:8px;top:8px")}
+            <strong>${lingbang ? "领榜默认分佣" : "优坐标销售提成"}</strong>
+            <p class="small muted">${lingbang ? "代理大学生自销 40%，邀请注册和二级比例按已确认口径展示；分佣基数待确认。" : "一级/二级销售提成按后台配置，默认数值待业务和财务确认。"}</p>
+          </div>
+          <div class="card">
+            <strong>注册奖励</strong>
+            <p class="small muted">${lingbang ? "邀请家长/老师注册按确认规则。" : "按配置，数值待确认。"}</p>
+          </div>
+          <div class="card">
+            <strong>课消提成</strong>
+            <p class="small muted">仅一级课消提成，不做二级课消提成。</p>
+          </div>
+          <div class="card">
+            <strong>提现规则</strong>
+            <p class="small muted">人工审核、系统外打款、不限制提现门槛、按月结算。</p>
+          </div>
+        </div>
+        <div class="block" style="margin-top:12px">
+          <div class="form">
+            <div class="field"><label>配置备注</label><input value="待财务确认优坐标默认配置"></div>
+            <button class="btn primary" onclick="toast('线框：保存草稿，不代表规则已确认')">保存草稿</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function reportAdmin() {
+      return `
+        <div class="stats">
+          <div class="card"><div class="small muted">转化会员</div><div class="num">36</div></div>
+          <div class="card"><div class="small muted">销售额</div><div class="num">¥128k</div></div>
+          <div class="card"><div class="small muted">佣金</div><div class="num">¥12.8k</div></div>
+          <div class="card"><div class="small muted">异常</div><div class="num">3</div></div>
+        </div>
+        <div class="empty">分销报表为 Optional 页面。MVP 指标范围待运营确认。</div>
+      `;
+    }
+
+    function projectName() {
+      return state.project === "lingbang" ? "领榜教育" : "优坐标";
+    }
+    function roleName() {
+      return { finance: "财务", admin: "管理员", service: "客服", ops: "运营" }[state.role];
+    }
+
+    function renderAdmin() {
+      document.getElementById("adminTitle").textContent = {
+        overview: "分销总览",
+        distributors: "分销商管理",
+        commissions: "佣金记录",
+        withdrawals: "提现审核",
+        rules: "佣金规则配置",
+        report: "分销报表"
+      }[state.admin];
+      document.querySelectorAll("[data-admin]").forEach(btn => btn.classList.toggle("active", btn.dataset.admin === state.admin && state.surface === "admin"));
+      const body = document.getElementById("adminBody");
+      body.classList.toggle("hide-marks", !state.marks);
+      body.innerHTML = state.admin === "overview" ? overviewAdmin() :
+        state.admin === "distributors" ? distributorsAdmin() :
+        state.admin === "commissions" ? commissionsAdmin() :
+        state.admin === "withdrawals" ? withdrawalsAdmin() :
+        state.admin === "rules" ? rulesAdmin() : reportAdmin();
+    }
+
+    function openDrawer(type) {
+      const drawer = document.getElementById("drawer");
+      if (type === "audit") {
+        drawer.innerHTML = `
+          <div class="row"><strong>提现审核详情</strong><button class="btn" onclick="closeDrawer()">关闭</button></div>
+          <div class="block"><div class="row"><span>申请人</span><strong>李家长</strong></div><div class="row"><span>提现金额</span><strong>¥860</strong></div><div class="row"><span>风险</span><span class="tag ok">正常</span></div></div>
+          <div class="note">财务审核，系统外打款。提现时效是否 T+3 待确认。</div>
+          <div class="tools"><button class="btn primary" ${state.role === "finance" ? "" : "disabled"} onclick="toast('审核通过：列表状态更新为待打款');closeDrawer()">审核通过</button><button class="btn danger" ${state.role === "finance" ? "" : "disabled"} onclick="toast('已拒绝：需记录拒绝原因');closeDrawer()">拒绝</button></div>
+        `;
+      } else {
+        drawer.innerHTML = `
+          <div class="row"><strong>分销商详情</strong><button class="btn" onclick="closeDrawer()">关闭</button></div>
+          <div class="block"><strong>李家长</strong><div class="small muted">一星 36 / 二星 94 · 状态正常</div></div>
+          <div class="block"><strong>待确认风险</strong><p class="small muted">冻结后是否禁止新佣金、提现或分享，需业务、运营、财务确认。</p></div>
+        `;
+      }
+      drawer.classList.add("open");
+    }
+    function closeDrawer() { document.getElementById("drawer").classList.remove("open"); }
+
+    function render() {
+      if (state.surface === "mobile") renderMobile();
+      if (state.surface === "admin") renderAdmin();
+    }
+
+    document.querySelectorAll("[data-surface]").forEach(btn => btn.addEventListener("click", () => setSurface(btn.dataset.surface)));
+    document.querySelectorAll("[data-mobile]").forEach(btn => btn.addEventListener("click", () => { setSurface("mobile"); setMobile(btn.dataset.mobile); }));
+    document.querySelectorAll("[data-admin]").forEach(btn => btn.addEventListener("click", () => { setSurface("admin"); setAdmin(btn.dataset.admin); }));
+    document.getElementById("mobileBack").addEventListener("click", () => {
+      if (state.mobileStack.length > 1) {
+        state.mobileStack.pop();
+        setMobile(state.mobileStack[state.mobileStack.length - 1], false);
+      } else {
+        toast("已在创客中心首页");
+      }
+    });
+    document.getElementById("toggleMarks").addEventListener("click", e => {
+      state.marks = !state.marks;
+      e.currentTarget.textContent = state.marks ? "隐藏标注" : "显示标注";
+      render();
+    });
+    document.getElementById("toggleScheme").addEventListener("click", e => {
+      state.scheme = !state.scheme;
+      e.currentTarget.textContent = state.scheme ? "隐藏页面方案" : "显示页面方案";
+      document.getElementById("mobileNotes").classList.toggle("show", state.scheme);
+    });
+    document.getElementById("projectSelect").addEventListener("change", e => { state.project = e.target.value; renderAdmin(); });
+    document.getElementById("roleSelect").addEventListener("change", e => { state.role = e.target.value; renderAdmin(); });
+
+    render();
+  </script>
+</body>
+</html>

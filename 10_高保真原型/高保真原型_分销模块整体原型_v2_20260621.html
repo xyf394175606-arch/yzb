@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>分销模块整体原型 v2</title>
+  <style>
+    :root{
+      --bg:#f4f6f8;--panel:#fff;--line:#d8dee6;--text:#1f2937;--muted:#6b7280;
+      --red:#c62828;--yellow:#fff7d6;--yellow-line:#e7c75f;--blue:#2563eb;--green:#0f8a4b;
+      --dark:#111827;--soft:#eef2f7;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);font-size:14px}
+    button,input,select,textarea{font:inherit}
+    .top{height:56px;background:#111827;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 20px;position:sticky;top:0;z-index:20}
+    .brand{display:flex;gap:12px;align-items:center}.brand strong{font-size:16px}.brand span{font-size:12px;color:#cbd5e1}
+    .wrap{display:grid;grid-template-columns:272px 1fr;min-height:calc(100vh - 56px)}
+    .nav{background:#fff;border-right:1px solid var(--line);padding:16px;position:sticky;top:56px;height:calc(100vh - 56px);overflow:auto}
+    .nav h3{font-size:13px;margin:16px 0 8px;color:#374151}.nav h3:first-child{margin-top:0}
+    .nav button{width:100%;text-align:left;border:0;background:transparent;border-radius:6px;padding:8px 10px;margin:2px 0;cursor:pointer;color:#374151}
+    .nav button:hover{background:#eef2ff}.nav button.active{background:#dbeafe;color:#1d4ed8;font-weight:700}
+    .nav .child{padding-left:22px}.nav .grandchild{padding-left:38px}
+    main{padding:22px;overflow:hidden}.page{display:none}.page.active{display:block}
+    .page-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:16px}
+    h1{font-size:22px;margin:0 0 6px}h2{font-size:18px;margin:0 0 10px}h3{font-size:15px;margin:0 0 8px}
+    .muted{color:var(--muted)}.small{font-size:12px}.tag{display:inline-flex;align-items:center;border-radius:999px;padding:3px 8px;font-size:12px;background:#e5e7eb;color:#374151;white-space:nowrap}
+    .tag.ok{background:#dcfce7;color:#166534}.tag.warn{background:#fef3c7;color:#92400e}.tag.danger{background:#fee2e2;color:#991b1b}.tag.blue{background:#dbeafe;color:#1e40af}
+    .grid{display:grid;gap:16px}.cols-2{grid-template-columns:420px minmax(420px,1fr)}.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .panel{background:#fff;border:1px solid var(--line);border-radius:8px;padding:16px}.panel.tight{padding:12px}
+    .yellow{background:var(--yellow);border:1px solid var(--yellow-line);border-radius:8px;padding:12px;margin-top:12px}
+    .yellow h3{color:#7a5400}.yellow ul{margin:6px 0 0 18px;padding:0}.yellow li{margin:5px 0}
+    .note-red{color:var(--red);font-size:12px;line-height:1.5;margin-top:4px}
+    .btn{border:1px solid var(--line);background:#fff;border-radius:6px;padding:7px 12px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:4px;min-height:34px}
+    .btn.primary{background:#2563eb;border-color:#2563eb;color:#fff}.btn.danger{background:#dc2626;border-color:#dc2626;color:#fff}.btn.green{background:#16a34a;border-color:#16a34a;color:#fff}
+    .btn:disabled{background:#e5e7eb;color:#9ca3af;cursor:not-allowed;border-color:#d1d5db}
+    table{width:100%;border-collapse:collapse;background:#fff}th,td{border:1px solid var(--line);padding:8px;text-align:left;vertical-align:top}th{background:#f3f4f6;font-weight:700}
+    .phone{width:390px;background:#111;border-radius:34px;padding:12px;margin:0 auto;box-shadow:0 12px 28px rgba(0,0,0,.18)}
+    .screen{background:#f8fafc;min-height:700px;border-radius:24px;overflow:hidden;border:1px solid #222}
+    .statusbar{height:28px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 16px;font-size:11px;color:#111}
+    .titlebar{height:48px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 12px;font-weight:700}
+    .m-body{padding:14px}.m-card{background:#fff;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:12px}.m-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #eef2f7}.m-row:last-child{border-bottom:0}
+    .metric{background:#eef2ff;border-radius:8px;padding:12px}.metric strong{font-size:20px}.amount{font-size:28px;font-weight:800}
+    .input{border:1px solid #d1d5db;border-radius:6px;background:#fff;padding:9px;color:#374151;margin:7px 0}.textarea{min-height:78px}
+    .admin{background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden}.admin-top{height:50px;background:#1f2937;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 16px}.admin-body{display:grid;grid-template-columns:190px 1fr;min-height:620px}.admin-menu{background:#f9fafb;border-right:1px solid var(--line);padding:14px}.admin-menu div{padding:9px;border-radius:6px;margin-bottom:4px}.admin-menu .on{background:#dbeafe;color:#1d4ed8;font-weight:700}.admin-content{padding:16px;overflow:auto}
+    .filter{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.filter .input{margin:0;min-width:150px}
+    .state-preview{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:10px}.state-box{background:#fff;border:1px dashed #b6c2d1;border-radius:8px;padding:10px}
+    .modal-mask{position:fixed;inset:0;background:rgba(15,23,42,.42);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
+    .modal-mask.show{display:flex}.modal{width:min(560px,96vw);background:#fff;border-radius:10px;border:1px solid var(--line);box-shadow:0 20px 50px rgba(0,0,0,.25);overflow:hidden}.modal-head{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.modal-body{padding:16px}.modal-actions{padding:12px 16px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:8px;background:#f9fafb}.field-grid{display:grid;grid-template-columns:120px 1fr;gap:8px;margin:10px 0}.field-grid div:nth-child(odd){color:#6b7280}
+    .result{display:none;margin:10px 0;padding:10px;border-radius:8px;background:#ecfdf5;border:1px solid #86efac;color:#166534}.result.show{display:block}
+    @media(max-width:1000px){.wrap{grid-template-columns:1fr}.nav{position:static;height:auto}.cols-2,.cols-3{grid-template-columns:1fr}.phone{width:100%;max-width:390px}.admin-body{grid-template-columns:1fr}.admin-menu{display:none}}
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="brand"><strong>分销模块整体原型 v2</strong><span>新版 requirement-analysis + axure-prototype-design 验证</span></div>
+    <div class="small">输入：需求分析_分销模块整体需求_v2_20260621.md</div>
+  </header>
+  <div class="wrap">
+    <aside class="nav">
+      <h3>入口</h3>
+      <button data-page="entry" class="active">版本与页面目录</button>
+      <h3>移动端</h3>
+      <button data-page="m-profile">个人中心</button>
+      <button data-page="m-entry" class="child">创客中心入口</button>
+      <button data-page="m-home" class="child">创客中心首页</button>
+      <button data-page="m-team" class="grandchild">团队成员列表</button>
+      <button data-page="m-member" class="grandchild">成员详情页</button>
+      <button data-page="m-withdraw" class="child">提现中心</button>
+      <button data-page="m-apply" class="grandchild">提现申请</button>
+      <button data-page="m-withdraw-detail" class="grandchild">提现详情页</button>
+      <h3>PC 后台</h3>
+      <button data-page="pc-withdraw">后台提现申请</button>
+      <button data-page="pc-rules">分销比例配置</button>
+      <button data-page="pc-users">用户列表-团队列表</button>
+    </aside>
+    <main>
+      <section id="entry" class="page active">
+        <div class="page-head">
+          <div><h1>版本与页面目录</h1><p class="muted">v2 重点验证：真实 UI 与说明分离、后台行操作业务弹窗、页面清单列顺序、状态不进导航。</p></div>
+          <span class="tag ok">无通用 alert</span>
+        </div>
+        <div class="grid cols-2">
+          <div class="panel">
+            <h2>页面清单</h2>
+            <table>
+              <thead><tr><th>端</th><th>页面</th><th>页面用途</th><th>页面归属</th></tr></thead>
+              <tbody>
+                <tr><td>移动端</td><td>个人中心</td><td>展示统一创客中心入口</td><td>移动端基础个人中心</td></tr>
+                <tr><td>移动端</td><td>创客中心入口</td><td>展示进入、申请、等待审核、拒绝原因和重新申请</td><td>个人中心下的业务入口</td></tr>
+                <tr><td>移动端</td><td>创客中心首页</td><td>展示团队和收益概览</td><td>创客中心入口下</td></tr>
+                <tr><td>移动端</td><td>团队成员列表</td><td>展示一星团队、二星团队、成员贡献</td><td>创客中心首页下</td></tr>
+                <tr><td>移动端</td><td>成员详情页</td><td>展示单个成员贡献来源和贡献金额</td><td>团队成员列表下</td></tr>
+                <tr><td>移动端</td><td>提现中心</td><td>展示可提现金额、收益记录、提现记录</td><td>创客中心首页下</td></tr>
+                <tr><td>移动端</td><td>提现申请</td><td>填写提现金额、银行卡信息、短信验证码</td><td>提现中心下</td></tr>
+                <tr><td>移动端</td><td>提现详情页</td><td>展示单笔提现状态和处理结果</td><td>提现中心下</td></tr>
+                <tr><td>PC 后台</td><td>后台提现申请</td><td>查看和处理提现申请</td><td>分销后台-提现管理</td></tr>
+                <tr><td>PC 后台</td><td>分销比例配置</td><td>配置来源、层级比例、生效时间、停用状态、历史版本</td><td>分销后台-分销配置</td></tr>
+                <tr><td>PC 后台</td><td>用户列表-团队列表</td><td>管理分销权限，查看团队关系</td><td>分销后台-用户管理</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="panel">
+            <h2>新版规则验收点</h2>
+            <div class="yellow">
+              <h3>页面规则</h3>
+              <ul>
+                <li>只有“用户真实可见内容”进入手机/PC 线框；规则、计算口径、待确认项放黄色说明区。</li>
+                <li>等待审核、已拒绝、空状态、无权限、提交失败等状态不进入左侧导航。</li>
+                <li>后台行操作必须打开业务弹窗，弹窗展示当前行关键字段、取消/确认按钮和确认后结果。</li>
+                <li>页面清单固定列顺序：端、页面、页面用途、页面归属。</li>
+              </ul>
+            </div>
+            <div class="yellow">
+              <h3>内容展示属性</h3>
+              <ul>
+                <li>注册、买课、上课属于分润来源/计算口径，不自动生成移动端首页模块。</li>
+                <li>用户端不展示到账时效承诺。</li>
+                <li>财务系统外打款是后台业务规则，用户端只看处理结果。</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="m-profile" class="page">
+        <div class="page-head"><div><h1>移动端 / 个人中心</h1><p class="muted">展示统一创客中心入口。</p></div><span class="tag blue">移动端</span></div>
+        <div class="grid cols-2">
+          <div class="phone"><div class="screen">
+            <div class="statusbar"><span>9:41</span><span>5G 100%</span></div>
+            <div class="titlebar"><span>个人中心</span><span></span></div>
+            <div class="m-body">
+              <div class="m-card"><strong>张同学家长</strong><div class="small muted">家长账号 / 138****3201</div></div>
+              <div class="m-card">
+                <div class="m-row"><div><strong>我的课程</strong><div class="small muted">已购课程与学习记录</div></div><span>›</span></div>
+                <div class="m-row"><div><strong>创客中心</strong><div class="small muted">邀请好友，共享成长收益</div></div><button class="btn primary" data-page="m-entry">进入</button></div>
+                <div class="note-red">家长端和教师端入口位置、入口文案一致。</div>
+              </div>
+            </div>
+          </div></div>
+          <div>
+            <div class="yellow"><h3>页面规则</h3><ul><li>未开通分销权限的用户仍展示入口。</li><li>点击入口后进入创客中心入口页，由入口页展示权限状态。</li><li>本页不展示后台审核说明或配置说明。</li></ul></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="m-entry" class="page">
+        <div class="page-head"><div><h1>移动端 / 创客中心入口</h1><p class="muted">默认展示已开通状态；其他互斥状态在说明区展示。</p></div><span class="tag blue">移动端</span></div>
+        <div class="grid cols-2">
+          <div class="phone"><div class="screen">
+            <div class="statusbar"><span>9:41</span><span>5G 100%</span></div>
+            <div class="titlebar"><button class="btn" data-page="m-profile">返回</button><span>创客中心</span><span></span></div>
+            <div class="m-body">
+              <div class="m-card">
+                <span class="tag ok">已开通</span>
+                <h2 style="margin-top:10px">创客中心已开通</h2>
+                <p class="muted">查看团队、收益和提现记录。</p>
+                <button class="btn primary" data-page="m-home" style="width:100%">进入创客中心</button>
+                <div class="note-red">已开通时点击进入创客中心首页。</div>
+              </div>
+              <div class="m-card">
+                <strong>申请状态示意</strong>
+                <div class="m-row"><span>未开通</span><span class="tag warn">可申请</span></div>
+                <div class="m-row"><span>已提交</span><span class="tag warn">等待审核</span></div>
+                <div class="m-row"><span>申请被拒绝</span><span class="tag danger">可重新申请</span></div>
+              </div>
+            </div>
+          </div></div>
+          <div>
+            <div class="yellow"><h3>全部状态</h3><ul><li>已开通：页面主体默认展示，点击进入创客中心首页。</li><li>未开通：展示申请开通按钮，提交后本页变为等待审核状态。</li><li>等待审核：展示申请已提交，不允许进入创客中心首页。</li><li>已拒绝：展示具体拒绝原因和重新申请按钮。</li></ul></div>
+            <div class="yellow"><h3>展示属性</h3><ul><li>权限状态、拒绝原因、申请/进入按钮属于用户真实可见内容。</li><li>状态流转说明属于页面规则，不进入左侧导航。</li></ul></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="m-home" class="page">
+        <div class="page-head"><div><h1>移动端 / 创客中心首页</h1><p class="muted">只展示团队与收益概览，不把计算口径转成首页模块。</p></div><span class="tag blue">移动端</span></div>
+        <div class="grid cols-2">
+          <div class="phone"><div class="screen">
+            <div class="statusbar"><span>9:41</span><span>5G 100%</span></div>
+            <div class="titlebar"><button class="btn" data-page="m-entry">返回</button><span>创客中心首页</span><span></span></div>
+            <div class="m-body">
+              <div class="m-card"><div class="small muted">可提现金额</div><div class="amount">¥1,280.00</div><button class="btn primary" data-page="m-withdraw" style="width:100%;margin-top:10px">提现</button><div class="note-red">点击进入提现中心；为 0 时提现按钮置灰。</div></div>
+              <div class="grid cols-2">
+                <div class="metric"><div class="small muted">一星团队</div><strong>18</strong></div>
+                <div class="metric"><div class="small muted">二星团队</div><strong>42</strong></div>
+              </div>
+              <div class="m-card" style="margin-top:12px"><div class="m-row"><div><strong>团队成员</strong><div class="small muted">查看一星团队与二星团队</div></div><button class="btn" data-page="m-team">查看团队</button></div></div>
+              <div class="m-card"><div class="small muted">待结算金额</div><strong>¥360.00</strong></div>
+            </div>
+          </div></div>
+          <div>
+            <div class="yellow"><h3>页面规则</h3><ul><li>本页真实 UI 只展示团队人数、可提现金额、待结算金额和入口。</li><li>注册、买课、上课属于分润来源/计算口径，不自动生成首页模块。</li><li>用户端不写死分成比例，金额按后台配置结果展示。</li></ul></div>
+            <div class="yellow"><h3>全部状态</h3><ul><li>默认：展示概览数据。</li><li>无团队/无收益：对应数字显示 0，不展示虚假成员或虚假金额。</li><li>无权限：用户不进入本页，停留在创客中心入口状态。</li></ul></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="m-team" class="page">
+        <div class="page-head"><div><h1>移动端 / 团队成员列表</h1><p class="muted">二星团队归属到一星成员下展示。</p></div><span class="tag blue">移动端</span></div>
+        <div class="grid cols-2">
+          <div class="phone"><div class="screen">
+            <div class="statusbar"><span>9:41</span><span>5G 100%</span></div>
+            <div class="titlebar"><button class="btn" data-page="m-home">返回</button><span>团队成员</span><span></span></div>
+            <div class="m-body">
+              <div class="m-card">
+                <strong>一星团队</strong>
+                <div class="m-row"><div><strong>李老师</strong><div class="small muted">贡献 ¥320.00 / 二星 3 人</div></div><button class="btn" data-page="m-member">详情</button></div>
+                <div style="padding-left:14px;border-left:2px solid #dbeafe">
+                  <div class="m-row"><div>王同学家长 <span class="tag">二星团队</span><div class="small muted">贡献 ¥80.00</div></div><button class="btn" data-page="m-member">详情</button></div>
+                  <div class="m-row"><div>赵老师 <span class="tag">二星团队</span><div class="small muted">贡献 ¥60.00</div></div><button class="btn" data-page="m-member">详情</button></div>
+                </div>
+              </div>
+              <div class="m-card"><div class="m-row"><div><strong>陈同学家长</strong><div class="small muted">贡献 ¥120.00 / 暂无二星团队</div></div><button class="btn" data-page="m-member">详情</button></div></div>
+            </div>
+          </div></div>
+          <div>
+            <div class="yellow"><h3>页面规则</h3><ul><li>二星团队必须展示在对应一星成员下，不单独平铺成另一张无关列表。</li><li>点击任意成员行进入独立成员详情页。</li><li>贡献金额只展示结果，不展示固定比例。</li></ul></div>
+            <div class="yellow"><h3>全部状态</h3><ul><li>默认：展示一星团队及其二星分组。</li><li>无成员：展示空状态，不出现虚假成员。</li><li>一星成员无二星：在该一星成员下展示暂无二星团队。</li></ul></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="m-member" class="page">
+        <div class="page-head"><div><h1>移动端 / 成员详情页</h1><p class="muted">从团队成员列表进入，查看当前成员贡献。</p></div><span class="tag blue">移动端</span></div>
+        <div class="grid cols-2">
+          <div class="phone"><div class="screen">
+            <div class="statusbar"><span>9:41</span><span>5G 100%</span></div>
+            <div class="titlebar"><button class="btn" data-page="m-team">返回</button><span>成员详情</span><span></span></div>
+            <div class="m-body">
+              <div class="m-card"><strong>李老师</strong><div class="small muted">一星团队 / 138****7788</div><div style="margin-top:8px"><span class="tag ok">已注册</span> <span class="tag blue">已买课</span></div></div>
+              <div class="m-card"><h3>贡献明细</h3><div class="m-row"><div>推荐注册<div class="small muted">2026-06-12</div></div><strong>¥20.00</strong></div><div class="m-row"><div>课程购买<div class="small muted">暑期数学强化课</div></div><strong>¥300.00</strong></div></div>
+            </div>
+          </div></div>
+          <div>
+            <div class="yellow"><h3>页面规则</h3><ul><li>成员详情展示成员基础信息、贡献来源标签和贡献明细。</li><li>贡献来源可以展示为用户可理解的标签；上课贡献未接入前不能写成已上线能力。</li><li>无贡献记录时展示空状态。</li></ul></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="m-withdraw" class="page">
+        <div class="page-head"><div><h1>移动端 / 提现中心</h1><p class="muted">查看可提现金额、收益记录和提现记录。</p></div><span class="tag blue">移动端</span></div>
+        <div class="grid cols-2">
+          <div class="phone"><div class="screen">
+            <div class="statusbar"><span>9:41</span><span>5G 100%</span></div>
+            <div class="titlebar"><button class="btn" data-page="m-home">返回</button><span>提现中心</span><span></span></div>
+            <div class="m-body">
+              <div class="m-card"><div class="small muted">可提现金额</div><div class="amount">¥1,280.00</div><button class="btn primary" data-page="m-apply" style="width:100%;margin-top:10px">申请提现</button><div class="note-red">可提现金额为 0 时按钮置灰，不进入提现申请。</div></div>
+              <div class="m-card"><h3>提现记录</h3><div class="m-row"><div><strong>¥500.00</strong><div class="small muted">审核中 · 2026-06-20</div></div><button class="btn" data-page="m-withdraw-detail">详情</button></div><div class="m-row"><div><strong>¥300.00</strong><div class="small muted">已打款 · 2026-06-12</div></div><button class="btn" data-page="m-withdraw-detail">详情</button></div></div>
+              <div class="m-card"><h3>收益记录</h3><div class="m-row"><div>课程购买收益<div class="small muted">来自李老师</div></div><strong>¥300.00</strong></div></div>
+            </div>
+          </div></div>
+          <div>
+            <div class="yellow"><h3>页面规则</h3><ul><li>用户端不展示到账时效承诺。</li><li>提现记录点击进入提现详情页。</li><li>收益记录用于解释可提现和待结算，不展示后台配置比例。</li></ul></div>
+            <div class="yellow"><h3>全部状态</h3><ul><li>可提现金额大于 0：申请提现按钮可点击。</li><li>可提现金额为 0：申请提现按钮置灰。</li><li>无提现记录：展示空状态。</li></ul></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="m-apply" class="page">
+        <div class="page-head"><div><h1>移动端 / 提现申请</h1><p class="muted">填写金额、银行卡信息并完成登录账号短信验证。</p></div><span class="tag blue">移动端</span></div>
+        <div class="grid cols-2">
+          <div class="phone"><div class="screen">
+            <div class="statusbar"><span>9:41</span><span>5G 100%</span></div>
+            <div class="titlebar"><button class="btn" data-page="m-withdraw">返回</button><span>提现申请</span><span></span></div>
+            <div class="m-body">
+              <div class="m-card"><div class="small muted">可提现金额 ¥1,280.00</div><div class="input">提现金额：¥500.00</div><div class="note-red">不得大于可提现金额。</div></div>
+              <div class="m-card"><h3>收款银行卡</h3><div class="input">开户银行：招商银行</div><div class="input">开户人姓名：张三</div><div class="input">银行卡号：6225 **** **** 1829</div><div class="note-red">银行卡信息由用户填写，不做实名校验。</div></div>
+              <div class="m-card"><div class="input">短信验证码：123456</div><button class="btn primary" data-page="m-withdraw" style="width:100%">提交提现申请</button></div>
+            </div>
+          </div></div>
+          <div>
+            <div class="yellow"><h3>页面规则</h3><ul><li>提交前校验金额、银行卡必填项和登录账号短信验证码。</li><li>校验失败时停留本页并展示错误，不生成提现申请。</li><li>提交成功后返回提现中心或展示提交成功状态，后台收到申请。</li></ul></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="m-withdraw-detail" class="page">
+        <div class="page-head"><div><h1>移动端 / 提现详情页</h1><p class="muted">展示单笔提现申请和后台处理结果。</p></div><span class="tag blue">移动端</span></div>
+        <div class="grid cols-2">
+          <div class="phone"><div class="screen">
+            <div class="statusbar"><span>9:41</span><span>5G 100%</span></div>
+            <div class="titlebar"><button class="btn" data-page="m-withdraw">返回</button><span>提现详情</span><span></span></div>
+            <div class="m-body">
+              <div class="m-card"><div class="m-row"><span>提现金额</span><strong>¥500.00</strong></div><div class="m-row"><span>当前状态</span><span class="tag warn">审核中</span></div><div class="m-row"><span>收款信息</span><span>招商银行 · 尾号1829</span></div></div>
+              <div class="m-card"><h3>处理结果</h3><p class="muted">后台已收到申请，等待处理。</p></div>
+            </div>
+          </div></div>
+          <div>
+            <div class="yellow"><h3>页面规则</h3><ul><li>处理记录只展示状态和处理结果，不展示固定到账时间。</li><li>驳回时展示后台填写的驳回原因。</li><li>后台标记打款成功后，用户端状态更新为已打款。</li></ul></div>
+            <div class="yellow"><h3>全部状态</h3><ul><li>审核中：后台收到申请，等待处理。</li><li>已驳回：展示驳回原因。</li><li>待打款：审核通过但尚未标记成功。</li><li>已打款：后台已完成系统内标记。</li></ul></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="pc-withdraw" class="page">
+        <div class="page-head"><div><h1>PC 后台 / 后台提现申请</h1><p class="muted">行操作必须打开业务弹窗并带入当前行字段。</p></div><span class="tag">PC 后台</span></div>
+        <div class="admin">
+          <div class="admin-top"><strong>分销后台</strong><span>系统自定义权限控制</span></div>
+          <div class="admin-body"><div class="admin-menu"><div class="on">提现管理</div><div>分销配置</div><div>用户管理</div></div>
+            <div class="admin-content">
+              <div class="filter"><div class="input">状态：待审核</div><div class="input">申请人/手机号</div><button class="btn">查询</button></div>
+              <div id="withdrawResult" class="result"></div>
+              <table>
+                <thead><tr><th>申请人</th><th>联系方式</th><th>金额</th><th>收款信息</th><th>状态</th><th>操作</th></tr></thead>
+                <tbody>
+                  <tr><td>张同学家长</td><td>138****3201</td><td>¥500.00</td><td>招商银行 / 张三 / 尾号1829</td><td><span id="withdrawStatus1" class="tag warn">待审核</span></td><td><button class="btn primary" data-modal="withdraw-pass">审核通过</button> <button class="btn danger" data-modal="withdraw-reject">驳回</button></td></tr>
+                  <tr><td>李老师</td><td>139****7788</td><td>¥800.00</td><td>建设银行 / 李四 / 尾号0921</td><td><span id="withdrawStatus2" class="tag warn">待打款</span></td><td><button class="btn green" data-modal="withdraw-paid">标记打款成功</button></td></tr>
+                </tbody>
+              </table>
+              <div class="yellow"><h3>页面规则</h3><ul><li>财务系统外执行打款，本系统只记录审核、驳回、标记打款成功等处理结果。</li><li>所有行操作都操作当前行提现申请，弹窗带入申请人、联系方式、金额、收款信息和当前状态。</li><li>无权限时隐藏或禁用操作按钮，不写死固定角色名称。</li></ul></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="pc-rules" class="page">
+        <div class="page-head"><div><h1>PC 后台 / 分销比例配置</h1><p class="muted">配置来源、层级比例、生效时间、启停状态和历史版本。</p></div><span class="tag">PC 后台</span></div>
+        <div class="admin">
+          <div class="admin-top"><strong>分销后台</strong><span>系统自定义权限控制</span></div>
+          <div class="admin-body"><div class="admin-menu"><div>提现管理</div><div class="on">分销配置</div><div>用户管理</div></div>
+            <div class="admin-content">
+              <div class="filter"><button class="btn primary" data-modal="rule-save">保存配置</button><div class="input">生效时间：2026-07-01 00:00</div></div>
+              <div id="ruleResult" class="result"></div>
+              <table>
+                <thead><tr><th>来源</th><th>一星比例</th><th>二星比例</th><th>生效时间</th><th>状态</th><th>操作</th></tr></thead>
+                <tbody>
+                  <tr><td>注册</td><td>按配置</td><td>按配置</td><td>2026-07-01</td><td><span id="ruleStatus1" class="tag ok">启用中</span></td><td><button class="btn danger" data-modal="rule-disable">停用</button></td></tr>
+                  <tr><td>买课</td><td>按配置</td><td>按配置</td><td>2026-07-01</td><td><span id="ruleStatus2" class="tag warn">已停用</span></td><td><button class="btn green" data-modal="rule-enable">启用</button></td></tr>
+                  <tr><td>上课</td><td>按配置</td><td>按配置</td><td>待排课系统对接</td><td><span class="tag">待接入</span></td><td><button class="btn" disabled>暂不可用</button></td></tr>
+                </tbody>
+              </table>
+              <div class="panel tight" style="margin-top:12px"><h3>历史版本记录</h3><table><thead><tr><th>版本</th><th>来源</th><th>操作</th><th>时间</th></tr></thead><tbody><tr><td>v202606</td><td>注册/买课</td><td>调整比例</td><td>2026-06-20</td></tr></tbody></table></div>
+              <div class="yellow"><h3>页面规则</h3><ul><li>注册、买课、上课按来源分别配置，并区分一星/二星层级比例。</li><li>保存、启用、停用会形成历史版本记录。</li><li>上课贡献依赖排课系统对接，未接入前不能写成已上线能力。</li></ul></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="pc-users" class="page">
+        <div class="page-head"><div><h1>PC 后台 / 用户列表-团队列表</h1><p class="muted">管理用户分销权限，查看一星/二星团队结构。</p></div><span class="tag">PC 后台</span></div>
+        <div class="admin">
+          <div class="admin-top"><strong>分销后台</strong><span>系统自定义权限控制</span></div>
+          <div class="admin-body"><div class="admin-menu"><div>提现管理</div><div>分销配置</div><div class="on">用户管理</div></div>
+            <div class="admin-content">
+              <div class="filter"><div class="input">用户姓名/手机号</div><div class="input">权限状态：全部</div><button class="btn">查询</button></div>
+              <div id="userResult" class="result"></div>
+              <table>
+                <thead><tr><th>用户</th><th>身份</th><th>登录账号</th><th>团队</th><th>权限状态</th><th>操作</th></tr></thead>
+                <tbody>
+                  <tr><td>王同学家长</td><td>家长</td><td>138****6601</td><td>一星 0 / 二星 0</td><td><span id="userStatus1" class="tag warn">待审核</span></td><td><button class="btn primary" data-modal="user-pass">审核开通</button> <button class="btn danger" data-modal="user-reject">拒绝</button></td></tr>
+                  <tr><td>李老师</td><td>老师</td><td>139****7788</td><td>一星 18 / 二星 42</td><td><span id="userStatus2" class="tag ok">已开通</span></td><td><button class="btn danger" data-modal="user-close">关闭权限</button> <button class="btn">查看团队</button></td></tr>
+                </tbody>
+              </table>
+              <div class="panel tight" style="margin-top:12px"><h3>团队结构预览</h3><p>李老师：一星团队 18 人；二星团队按一星成员分组查看。</p><div class="note-red">查看团队为页面内展开，不把二星团队拆成无归属列表。</div></div>
+              <div class="yellow"><h3>页面规则</h3><ul><li>审核开通、拒绝、关闭权限均操作当前用户行。</li><li>拒绝原因必填，用户端创客中心入口展示具体拒绝原因。</li><li>关闭权限后的历史收益展示口径后续确认。</li></ul></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="modalMask" class="modal-mask">
+    <div class="modal">
+      <div class="modal-head"><strong id="modalTitle">业务弹窗</strong><button class="btn" id="modalClose">关闭</button></div>
+      <div class="modal-body">
+        <div id="modalFields" class="field-grid"></div>
+        <div id="modalExtra"></div>
+        <div class="yellow"><h3>确认/取消结果</h3><ul><li id="confirmRule"></li><li id="cancelRule"></li></ul></div>
+      </div>
+      <div class="modal-actions"><button class="btn" id="modalCancel">取消</button><button class="btn primary" id="modalConfirm">确认</button></div>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const pages = Array.from(document.querySelectorAll('.page'));
+      const navButtons = Array.from(document.querySelectorAll('.nav [data-page]'));
+      function showPage(id){
+        if(!document.getElementById(id)) id = 'entry';
+        pages.forEach(page => page.classList.toggle('active', page.id === id));
+        navButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.page === id));
+        history.replaceState(null, '', '#' + id);
+        window.scrollTo({top:0, behavior:'instant'});
+      }
+      document.querySelectorAll('[data-page]').forEach(btn => btn.addEventListener('click', () => showPage(btn.dataset.page)));
+      if(location.hash) showPage(location.hash.slice(1));
+
+      const actions = {
+        'withdraw-pass': {
+          title:'审核通过确认',
+          fields:{'申请人':'张同学家长','联系方式':'138****3201','提现金额':'¥500.00','收款银行':'招商银行','收款人':'张三','银行卡号':'6225 **** **** 1829','当前状态':'待审核'},
+          extra:'',
+          confirm:'确认后：当前提现申请状态变为待打款，列表刷新，用户端提现详情展示待打款。',
+          cancel:'取消后：关闭弹窗，当前行记录状态不变。',
+          confirmText:'确认通过',
+          effect(){setStatus('withdrawStatus1','待打款','tag warn');setResult('withdrawResult','已将张同学家长的提现申请更新为待打款。')}
+        },
+        'withdraw-reject': {
+          title:'驳回提现申请',
+          fields:{'申请人':'张同学家长','提现金额':'¥500.00','当前状态':'待审核'},
+          extra:'<div class="input textarea">驳回原因：银行卡信息不完整，请重新提交。</div><div class="note-red">驳回原因必填，用户端提现详情展示该原因。</div>',
+          confirm:'确认后：当前提现申请状态变为已驳回，用户端提现详情展示驳回原因。',
+          cancel:'取消后：关闭弹窗，当前行记录状态不变。',
+          confirmText:'确认驳回',
+          effect(){setStatus('withdrawStatus1','已驳回','tag danger');setResult('withdrawResult','已驳回张同学家长的提现申请，用户端可查看原因。')}
+        },
+        'withdraw-paid': {
+          title:'标记打款成功',
+          fields:{'申请人':'李老师','联系方式':'139****7788','提现金额':'¥800.00','收款银行':'建设银行','收款人':'李四','银行卡号':'6226 **** **** 0921','当前状态':'待打款'},
+          extra:'<div class="note-red">是否需要填写系统外打款流水号：待确认。</div>',
+          confirm:'确认后：当前提现申请状态变为已打款，列表刷新，用户端提现详情展示已打款。',
+          cancel:'取消后：关闭弹窗，当前行记录状态不变。',
+          confirmText:'确认已打款',
+          effect(){setStatus('withdrawStatus2','已打款','tag ok');setResult('withdrawResult','已将李老师的提现申请标记为已打款。')}
+        },
+        'rule-save': {
+          title:'保存分销比例配置',
+          fields:{'配置来源':'注册、买课','适用层级':'一星团队、二星团队','生效时间':'2026-07-01 00:00','当前状态':'编辑中'},
+          extra:'<div class="note-red">保存后形成历史版本记录。</div>',
+          confirm:'确认后：保存当前配置，生成新的历史版本记录。',
+          cancel:'取消后：关闭弹窗，配置不保存。',
+          confirmText:'确认保存',
+          effect(){setResult('ruleResult','已保存分销比例配置，并形成历史版本记录。')}
+        },
+        'rule-disable': {
+          title:'停用配置确认',
+          fields:{'来源':'注册','一星比例':'按配置','二星比例':'按配置','生效时间':'2026-07-01','当前状态':'启用中'},
+          extra:'',
+          confirm:'确认后：当前配置状态变为已停用，历史版本保留。',
+          cancel:'取消后：关闭弹窗，配置状态不变。',
+          confirmText:'确认停用',
+          effect(){setStatus('ruleStatus1','已停用','tag warn');setResult('ruleResult','已停用注册来源配置，历史版本保留。')}
+        },
+        'rule-enable': {
+          title:'启用配置确认',
+          fields:{'来源':'买课','一星比例':'按配置','二星比例':'按配置','生效时间':'2026-07-01','当前状态':'已停用'},
+          extra:'',
+          confirm:'确认后：当前配置状态变为启用中，列表刷新。',
+          cancel:'取消后：关闭弹窗，配置状态不变。',
+          confirmText:'确认启用',
+          effect(){setStatus('ruleStatus2','启用中','tag ok');setResult('ruleResult','已启用买课来源配置。')}
+        },
+        'user-pass': {
+          title:'审核开通分销权限',
+          fields:{'用户姓名':'王同学家长','登录账号':'138****6601','身份':'家长','当前权限状态':'待审核','申请时间':'2026-06-21 10:20'},
+          extra:'',
+          confirm:'确认后：用户分销权限变为已开通，用户端可进入创客中心首页。',
+          cancel:'取消后：关闭弹窗，用户权限状态不变。',
+          confirmText:'确认开通',
+          effect(){setStatus('userStatus1','已开通','tag ok');setResult('userResult','已开通王同学家长的分销权限。')}
+        },
+        'user-reject': {
+          title:'拒绝分销权限申请',
+          fields:{'用户姓名':'王同学家长','登录账号':'138****6601','身份':'家长','当前权限状态':'待审核'},
+          extra:'<div class="input textarea">拒绝原因：账号资料不完整，请补充后重新申请。</div><div class="note-red">拒绝原因必填，用户端创客中心入口展示该原因。</div>',
+          confirm:'确认后：用户权限状态变为已拒绝，用户端展示拒绝原因并可重新申请。',
+          cancel:'取消后：关闭弹窗，用户权限状态不变。',
+          confirmText:'确认拒绝',
+          effect(){setStatus('userStatus1','已拒绝','tag danger');setResult('userResult','已拒绝王同学家长的分销申请，用户端可查看原因。')}
+        },
+        'user-close': {
+          title:'关闭分销权限确认',
+          fields:{'用户姓名':'李老师','登录账号':'139****7788','身份':'老师','一星团队数':'18','二星团队数':'42','当前权限状态':'已开通'},
+          extra:'<div class="note-red">关闭后历史收益展示口径：待确认。</div>',
+          confirm:'确认后：用户分销权限关闭，用户端回到创客中心入口状态。',
+          cancel:'取消后：关闭弹窗，用户权限状态不变。',
+          confirmText:'确认关闭',
+          effect(){setStatus('userStatus2','已关闭','tag danger');setResult('userResult','已关闭李老师的分销权限。')}
+        }
+      };
+      const mask = document.getElementById('modalMask');
+      const title = document.getElementById('modalTitle');
+      const fields = document.getElementById('modalFields');
+      const extra = document.getElementById('modalExtra');
+      const confirmRule = document.getElementById('confirmRule');
+      const cancelRule = document.getElementById('cancelRule');
+      const confirmBtn = document.getElementById('modalConfirm');
+      let currentAction = null;
+      function openModal(key){
+        const data = actions[key];
+        if(!data) return;
+        currentAction = data;
+        title.textContent = data.title;
+        fields.innerHTML = Object.entries(data.fields).map(([k,v]) => `<div>${k}</div><div>${v}</div>`).join('');
+        extra.innerHTML = data.extra || '';
+        confirmRule.textContent = data.confirm;
+        cancelRule.textContent = data.cancel;
+        confirmBtn.textContent = data.confirmText || '确认';
+        mask.classList.add('show');
+      }
+      function closeModal(){mask.classList.remove('show');currentAction=null}
+      document.querySelectorAll('[data-modal]').forEach(btn => btn.addEventListener('click', () => openModal(btn.dataset.modal)));
+      document.getElementById('modalClose').addEventListener('click', closeModal);
+      document.getElementById('modalCancel').addEventListener('click', closeModal);
+      mask.addEventListener('click', event => { if(event.target === mask) closeModal(); });
+      confirmBtn.addEventListener('click', () => { if(currentAction && currentAction.effect) currentAction.effect(); closeModal(); });
+      function setStatus(id,text,klass){const el=document.getElementById(id); if(el){el.textContent=text; el.className=klass;}}
+      function setResult(id,text){const el=document.getElementById(id); if(el){el.textContent=text; el.classList.add('show');}}
+    })();
+  </script>
+</body>
+</html>
