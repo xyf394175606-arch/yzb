@@ -1,0 +1,729 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>高保真原型_个人中心入口配置_v1_20260623</title>
+  <style>
+    :root {
+      --bg: #f3f6fb;
+      --panel: #fff;
+      --ink: #111827;
+      --muted: #667085;
+      --line: #d9e2ef;
+      --blue: #2f7df6;
+      --green: #16a34a;
+      --amber: #f59e0b;
+      --red: #dc2626;
+      --yellow: #fff6c9;
+      --yellow-line: #f2d36b;
+      --soft-blue: #eaf3ff;
+      --soft-green: #e9fbf1;
+      --soft-amber: #fff2d8;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: var(--ink); background: var(--bg); font-size: 14px; }
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
+    .topbar {
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 18px;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .brand-mark { width: 32px; height: 32px; border-radius: 8px; display: grid; place-items: center; background: var(--blue); color: #fff; font-weight: 800; }
+    .brand-title { font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .brand-sub { color: var(--muted); font-size: 12px; margin-top: 2px; }
+    .top-meta { display: flex; gap: 8px; align-items: center; color: var(--muted); font-size: 12px; }
+    .pill { border: 1px solid var(--line); border-radius: 999px; padding: 5px 9px; background: #fff; white-space: nowrap; }
+    .layout {
+      display: grid;
+      grid-template-columns: 260px minmax(0, 1fr);
+      min-height: calc(100vh - 58px);
+    }
+    .side {
+      border-right: 1px solid var(--line);
+      background: #fff;
+      padding: 14px 12px;
+      overflow-y: auto;
+    }
+    .side h2 { margin: 0 0 10px; font-size: 15px; }
+    .nav-group { margin: 12px 0; }
+    .nav-label { color: var(--muted); font-size: 12px; font-weight: 700; padding: 8px 8px 5px; }
+    .nav-btn {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      text-align: left;
+      border-radius: 8px;
+      padding: 9px 10px;
+      color: #223047;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: center;
+    }
+    .nav-btn small { color: #98a2b3; }
+    .nav-btn.active { background: var(--soft-blue); color: #1d5fd3; font-weight: 800; }
+    .nav-indent { padding-left: 18px; }
+    .work {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 330px;
+      gap: 14px;
+      padding: 14px;
+      min-width: 0;
+    }
+    .canvas, .notes {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      min-width: 0;
+      overflow: hidden;
+    }
+    .page-head {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .page-title { margin: 0; font-size: 20px; font-weight: 800; }
+    .page-desc { margin-top: 6px; color: var(--muted); line-height: 1.5; }
+    .page-body { padding: 16px; }
+    .notes { background: #fffdf0; }
+    .notes-head { padding: 14px 15px; border-bottom: 1px solid var(--yellow-line); background: var(--yellow); font-weight: 800; }
+    .note-list { padding: 12px; display: grid; gap: 10px; }
+    .note { border: 1px solid var(--yellow-line); background: #fff9d8; border-radius: 8px; padding: 10px; line-height: 1.5; }
+    .note strong { display: block; margin-bottom: 4px; }
+    .note ul { margin: 6px 0 0 18px; padding: 0; }
+    .grid { display: grid; gap: 14px; }
+    .grid.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 14px;
+    }
+    .card-title { font-weight: 800; margin-bottom: 10px; }
+    .muted { color: var(--muted); }
+    .btn {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 7px;
+      padding: 8px 12px;
+      min-height: 36px;
+    }
+    .btn.primary { background: var(--blue); border-color: var(--blue); color: #fff; }
+    .btn.green { background: var(--green); border-color: var(--green); color: #fff; }
+    .btn.ghost { background: #f8fafc; }
+    .btn.warn { background: var(--amber); border-color: var(--amber); color: #fff; }
+    .btn.red { background: var(--red); border-color: var(--red); color: #fff; }
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .tag { display: inline-flex; align-items: center; border-radius: 999px; padding: 3px 8px; font-size: 12px; font-weight: 700; background: #eef2f7; color: #344054; white-space: nowrap; }
+    .tag.blue { color: #1d5fd3; background: var(--soft-blue); }
+    .tag.green { color: #067647; background: var(--soft-green); }
+    .tag.amber { color: #b54708; background: var(--soft-amber); }
+    .tag.red { color: #b42318; background: #fee4e2; }
+    .matrix { border: 1px solid var(--line); border-radius: 8px; overflow: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 1040px; background: #fff; }
+    th, td { border-bottom: 1px solid var(--line); padding: 10px; text-align: left; vertical-align: middle; }
+    th { background: #f8fafc; color: #475467; font-weight: 800; }
+    tr:last-child td { border-bottom: 0; }
+    .switch { width: 42px; height: 24px; border-radius: 999px; background: #d0d5dd; position: relative; display: inline-block; vertical-align: middle; }
+    .switch::after { content: ""; width: 18px; height: 18px; border-radius: 50%; background: #fff; position: absolute; top: 3px; left: 3px; box-shadow: 0 1px 2px rgba(0,0,0,.2); }
+    .switch.on { background: var(--blue); }
+    .switch.on::after { left: 21px; }
+    .form-row { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 10px; align-items: center; margin-bottom: 10px; }
+    .form-row label { color: #344054; font-weight: 700; }
+    input, select { width: 100%; border: 1px solid var(--line); border-radius: 7px; padding: 8px 10px; background: #fff; }
+    .target-field { min-width: 190px; }
+    .target-field input, .target-field select { margin-bottom: 4px; }
+    .radio-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .seg { border: 1px solid var(--line); border-radius: 999px; padding: 5px 9px; background: #fff; }
+    .seg.active { background: var(--blue); border-color: var(--blue); color: #fff; font-weight: 800; }
+    .status-bar { padding: 10px 12px; border-radius: 8px; background: var(--soft-green); color: #067647; border: 1px solid #abefc6; margin-top: 12px; display: none; }
+    .status-bar.show { display: block; }
+    .pc-shell {
+      border: 1px solid #c8d4e4;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #f8fafc;
+    }
+    .pc-top { height: 48px; display: flex; align-items: center; justify-content: space-between; background: #0f172a; color: #fff; padding: 0 16px; }
+    .pc-main { display: grid; grid-template-columns: 190px minmax(0, 1fr); min-height: 560px; }
+    .pc-menu { background: #172033; color: #cbd5e1; padding: 12px; display: grid; align-content: start; gap: 6px; }
+    .pc-menu div { padding: 9px 10px; border-radius: 6px; }
+    .pc-menu .active { background: #234071; color: #fff; font-weight: 800; }
+    .pc-content { padding: 16px; display: grid; gap: 14px; align-content: start; }
+    .manager-page { display: grid; gap: 10px; }
+    .manager-tabs { height: 40px; display: flex; gap: 8px; align-items: center; border-bottom: 1px solid var(--line); background: #fff; padding: 0 12px; }
+    .manager-tab { border-radius: 7px 7px 0 0; padding: 8px 12px; color: #475467; }
+    .manager-tab.active { background: var(--soft-blue); color: #1d5fd3; font-weight: 800; }
+    .manager-grid { display: grid; grid-template-columns: 300px minmax(520px, 1fr) 260px; gap: 12px; min-height: 680px; }
+    .manager-panel { background: #fff; border: 1px solid #d8e8f8; border-radius: 14px; overflow: hidden; min-width: 0; }
+    .manager-panel-head { min-height: 58px; padding: 14px 16px; border-bottom: 1px solid #e4edf8; display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+    .manager-panel-title { font-weight: 900; color: #172033; }
+    .filter-stack { padding: 14px; display: grid; gap: 9px; }
+    .filter-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .mini-table { width: 100%; min-width: 0; }
+    .mini-table th, .mini-table td { padding: 9px 10px; font-size: 12px; }
+    .mini-table tr.selected td { background: #d7e9ff; }
+    .pager { padding: 10px 12px; display: flex; justify-content: flex-end; gap: 6px; }
+    .pager span { width: 24px; height: 24px; border-radius: 4px; display: grid; place-items: center; background: #f2f4f7; color: #475467; font-size: 12px; }
+    .pager .active { background: var(--blue); color: #fff; font-weight: 800; }
+    .detail-toolbar { display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+    .detail-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    .link-action { border: 0; background: transparent; color: var(--blue); font-weight: 800; padding: 0; min-height: auto; }
+    .link-action.red { color: var(--red); }
+    .profile-detail { margin: 14px; border: 1px solid #d8e8f8; border-radius: 12px; padding: 16px; display: grid; grid-template-columns: 74px minmax(0, 1fr) auto; gap: 16px; align-items: start; }
+    .profile-avatar { width: 64px; height: 64px; border-radius: 50%; background: #c6ccd6; color: #fff; display: grid; place-items: center; font-size: 24px; font-weight: 900; }
+    .profile-fields { display: grid; grid-template-columns: repeat(4, minmax(100px, 1fr)); gap: 12px 18px; }
+    .field-label { color: #667085; font-size: 12px; margin-bottom: 3px; }
+    .field-value { font-weight: 800; color: #172033; }
+    .record-tabs { margin: 0 14px; display: flex; gap: 24px; border-bottom: 1px solid var(--line); }
+    .record-tab { padding: 13px 0; font-weight: 800; color: #475467; }
+    .record-tab.active { color: var(--blue); border-bottom: 2px solid var(--blue); }
+    .order-list { margin: 12px 14px 16px; display: grid; gap: 10px; }
+    .order-card { border: 1px solid #d8e8f8; border-radius: 10px; padding: 14px; display: grid; grid-template-columns: minmax(0, 1fr) 150px; gap: 16px; align-items: center; }
+    .order-title { font-weight: 900; margin-bottom: 7px; }
+    .order-meta { color: #667085; font-size: 12px; line-height: 1.8; }
+    .order-price { text-align: right; font-size: 20px; font-weight: 900; }
+    .follow-box { margin: 14px; border: 1px solid #d8e8f8; border-radius: 12px; padding: 14px; display: grid; gap: 10px; }
+    textarea { width: 100%; min-height: 96px; resize: vertical; border: 1px solid var(--line); border-radius: 7px; padding: 8px 10px; font: inherit; }
+    .empty-follow { height: 250px; display: grid; place-items: center; text-align: center; color: #98a2b3; }
+    .modal.wide { width: min(920px, calc(100vw - 48px)); }
+    .permission-summary { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+    .permission-table table { min-width: 760px; }
+    .modal-mask { position: fixed; inset: 0; background: rgba(15, 23, 42, .42); display: none; align-items: center; justify-content: center; z-index: 50; }
+    .modal-mask.show { display: flex; }
+    .modal { width: min(520px, calc(100vw - 32px)); background: #fff; border-radius: 10px; box-shadow: 0 24px 80px rgba(15, 23, 42, .28); overflow: hidden; }
+    .modal-head { padding: 15px 16px; border-bottom: 1px solid var(--line); font-weight: 800; }
+    .modal-body { padding: 16px; color: #344054; line-height: 1.6; }
+    .modal-foot { padding: 12px 16px; display: flex; justify-content: flex-end; gap: 8px; border-top: 1px solid var(--line); }
+    .phone-wrap { display: grid; justify-content: center; }
+    .phone {
+      width: 390px;
+      min-height: 760px;
+      border: 8px solid #111827;
+      border-radius: 34px;
+      overflow: hidden;
+      background: #edf5ff;
+      box-shadow: 0 18px 48px rgba(15, 23, 42, .2);
+    }
+    .phone-status { height: 32px; display: flex; align-items: end; justify-content: space-between; padding: 0 20px 4px; font-weight: 800; }
+    .phone-title { display: flex; justify-content: center; align-items: center; height: 52px; font-size: 20px; font-weight: 700; position: relative; }
+    .mini-menu { position: absolute; right: 16px; top: 9px; width: 82px; height: 32px; border: 1px solid #e7e7e7; border-radius: 999px; background: #fff; display: grid; place-items: center; }
+    .phone-body { padding: 0 16px 18px; display: grid; gap: 12px; }
+    .profile-card { background: #fff; border-radius: 16px; padding: 18px; display: grid; grid-template-columns: 74px 1fr 54px; gap: 12px; align-items: center; }
+    .avatar { width: 70px; height: 70px; border-radius: 50%; background: linear-gradient(135deg, #dbeafe, #60a5fa); display: grid; place-items: center; font-size: 34px; }
+    .name { font-size: 20px; font-weight: 900; }
+    .role-badge { display: inline-flex; border-radius: 999px; padding: 3px 9px; background: #eef2ff; color: #4776db; font-size: 12px; font-weight: 800; margin-left: 6px; }
+    .gear { width: 48px; height: 48px; border-radius: 50%; background: #f2f4f7; display: grid; place-items: center; color: #98a2b3; font-size: 24px; }
+    .vip-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .vip-card { min-height: 104px; border-radius: 12px; padding: 13px; position: relative; overflow: hidden; color: #fff; box-shadow: 0 2px 5px rgba(15,23,42,.12); }
+    .vip-card.normal { background: linear-gradient(135deg, #1f7aff, #52a1ff); }
+    .vip-card.premium { background: linear-gradient(135deg, #f0bb58, #ffe6a8); color: #8a541e; }
+    .vip-card .vip-name { font-weight: 900; font-size: 16px; }
+    .vip-card .vip-big { font-size: 31px; font-weight: 900; margin-top: 8px; }
+    .vip-card .open { position: absolute; right: 13px; top: 42px; background: #fff; color: #2f7df6; border-radius: 999px; padding: 8px 14px; font-weight: 900; }
+    .premium .open { color: #a66a22; }
+    .vip-card .desc { font-size: 12px; opacity: .9; margin-top: 4px; }
+    .quick-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; text-align: center; padding: 10px 0 4px; }
+    .quick-item { display: grid; gap: 7px; justify-items: center; font-size: 14px; font-weight: 800; }
+    .quick-icon { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; color: #1f7aff; background: #dceaff; font-size: 24px; }
+    .quick-icon.green { color: #23c680; background: #d4f7e5; }
+    .module { background: #fff; border-radius: 16px; padding: 14px; }
+    .module h3 { margin: 0 0 12px; font-size: 20px; }
+    .creator-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .team-card { min-height: 112px; border-radius: 12px; padding: 14px; overflow: hidden; position: relative; }
+    .team-card.blue { background: #cfe5ff; color: #2f7df6; }
+    .team-card.green { background: #ccf8dd; color: #22bf72; }
+    .team-card strong { font-size: 20px; display: block; margin-bottom: 10px; }
+    .team-card b { font-size: 36px; }
+    .cash-row { display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: center; border: 1px solid #eef2f7; border-radius: 12px; padding: 13px; margin-top: 10px; color: #667085; }
+    .cash-row b { color: #2f7df6; font-size: 20px; }
+    .service-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; text-align: center; padding: 6px 0 12px; }
+    .service-icon { font-size: 28px; color: #2f7df6; margin-bottom: 7px; }
+    .link-row { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid #edf2f7; padding-top: 12px; color: #667085; text-align: center; }
+    .bottom-tabs { height: 66px; background: #fff; display: grid; grid-template-columns: repeat(4, 1fr); align-items: center; text-align: center; color: #98a2b3; }
+    .bottom-tabs .active { color: #2f7df6; font-weight: 900; }
+    .hidden-msg { border: 1px dashed #cbd5e1; color: #667085; border-radius: 12px; padding: 18px; text-align: center; background: #fff; }
+    .closed-page { min-height: 620px; display: grid; place-items: center; text-align: center; padding: 24px; }
+    .closed-card { background: #fff; border-radius: 16px; padding: 26px; display: grid; gap: 12px; box-shadow: 0 2px 8px rgba(15,23,42,.08); }
+    .closed-icon { width: 64px; height: 64px; border-radius: 50%; background: #fee4e2; color: var(--red); display: grid; place-items: center; margin: 0 auto; font-size: 30px; }
+    @media (max-width: 1120px) {
+      .layout { grid-template-columns: 220px minmax(0, 1fr); }
+      .work { grid-template-columns: 1fr; }
+      .notes { order: 2; }
+    }
+    @media (max-width: 760px) {
+      .top-meta { display: none; }
+      .layout { grid-template-columns: 1fr; }
+      .side { position: static; border-right: 0; border-bottom: 1px solid var(--line); max-height: none; }
+      .work { padding: 10px; }
+      .grid.cols-2, .grid.cols-3 { grid-template-columns: 1fr; }
+      .manager-grid { grid-template-columns: 1fr; }
+      .profile-detail { grid-template-columns: 1fr; }
+      .profile-fields { grid-template-columns: 1fr 1fr; }
+      .phone { width: min(390px, calc(100vw - 28px)); }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">Ax</div>
+      <div>
+        <div class="brand-title">优坐标个人中心多入口展示配置</div>
+        <div class="brand-sub">Axure 风格 HTML 原型 · v1 · 20260623</div>
+      </div>
+    </div>
+    <div class="top-meta">
+      <span class="pill">PC后台 + 移动端</span>
+      <span class="pill">输入：需求分析_个人中心入口权限控制_v1_20260623</span>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="side">
+      <h2>页面目录</h2>
+      <div class="nav-group">
+        <div class="nav-label">入口</div>
+        <button class="nav-btn active" data-page="intro">版本与范围 <small>入口</small></button>
+      </div>
+      <div class="nav-group">
+        <div class="nav-label">PC 后台 / 运营配置</div>
+        <button class="nav-btn" data-page="global-config">独立运营页 <small>全局</small></button>
+        <button class="nav-btn nav-indent" data-page="save-config">保存配置弹窗 <small>弹窗</small></button>
+        <button class="nav-btn" data-page="parent-control">家长管理详情 <small>单用户</small></button>
+        <button class="nav-btn" data-page="teacher-control">老师管理详情 <small>单用户</small></button>
+      </div>
+      <div class="nav-group">
+        <div class="nav-label">移动端 / 个人中心</div>
+        <button class="nav-btn" data-page="parent-profile">家长端默认展示 <small>手机</small></button>
+        <button class="nav-btn" data-page="teacher-profile">教师端默认展示 <small>手机</small></button>
+        <button class="nav-btn" data-page="hidden-state">入口关闭隐藏态 <small>状态</small></button>
+        <button class="nav-btn" data-page="closed-link">历史链接不可访问 <small>异常</small></button>
+      </div>
+    </aside>
+
+    <main class="work">
+      <section class="canvas">
+        <div class="page-head">
+          <div>
+            <h1 class="page-title" id="pageTitle">版本与范围</h1>
+            <div class="page-desc" id="pageDesc">本页说明原型覆盖范围、输入来源和页面层级。</div>
+          </div>
+          <div class="actions" id="pageActions"></div>
+        </div>
+        <div class="page-body" id="pageBody"></div>
+      </section>
+      <aside class="notes">
+        <div class="notes-head">右侧黄色需求标签</div>
+        <div class="note-list" id="noteList"></div>
+      </aside>
+    </main>
+  </div>
+
+  <div class="modal-mask" id="saveModal" role="dialog" aria-modal="true">
+    <div class="modal">
+      <div class="modal-head">保存个人中心入口配置</div>
+      <div class="modal-body">
+        <p>本次保存将更新优坐标家长端、教师端个人中心的入口展示规则。</p>
+        <p>保存后前后端立刻生效；单用户独立控制仍优先于全局配置。</p>
+      </div>
+      <div class="modal-foot">
+        <button class="btn" type="button" onclick="closeModal()">取消</button>
+        <button class="btn primary" type="button" onclick="confirmSave()">确认保存</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-mask" id="permissionModal" role="dialog" aria-modal="true">
+    <div class="modal wide">
+      <div class="modal-head">个人中心入口权限控制</div>
+      <div class="modal-body" id="permissionModalBody"></div>
+      <div class="modal-foot">
+        <button class="btn" type="button" onclick="closePermissionModal()">取消</button>
+        <button class="btn primary" type="button" onclick="confirmPermission()">保存权限</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const entries = [
+      ["招募老师", "邀请老师入驻", "固定页面", true, true],
+      ["申请加盟", "申请加盟", "表单", true, true],
+      ["邀请家长报名", "邀请家长报名", "外链", true, true],
+      ["招募合伙人", "招募合伙人", "固定页面", true, true],
+      ["创客中心", "创客中心", "固定页面", true, true],
+      ["普通会员", "普通会员卡", "固定页面", true, true],
+      ["尊享会员", "尊享会员卡", "固定页面", true, true]
+    ];
+
+    const jumpTargets = [
+      { type: "固定页面", label: "选择固定页面", value: "老师入驻页 /pages/teacher-apply" },
+      { type: "表单", label: "选择表单", value: "加盟申请表" },
+      { type: "外链", label: "填写外链URL", value: "https://example.com/invite-parent" },
+      { type: "固定页面", label: "选择固定页面", value: "合伙人招募页 /pages/partner-recruit" },
+      { type: "固定页面", label: "选择固定页面", value: "创客中心页 /pages/creator-center" },
+      { type: "固定页面", label: "选择固定页面", value: "普通会员页 /pages/vip-normal" },
+      { type: "固定页面", label: "选择固定页面", value: "尊享会员页 /pages/vip-premium" }
+    ];
+
+    let currentPermissionKind = "parent";
+
+    const baseNotes = {
+      hierarchy: ["页面层级关系由本次需求分析推断，后续业务流程、信息架构产物补齐后可再校准。"],
+      common: ["家长端和教师端共用同一套入口文案、图片、跳转页面。", "图片非必填，规格尺寸、格式和大小待定。", "权限按系统配置决定。"]
+    };
+
+    function note(title, items) {
+      return `<div class="note"><strong>${title}</strong><ul>${items.map(i => `<li>${i}</li>`).join("")}</ul></div>`;
+    }
+
+    function setNotes(notes) {
+      document.getElementById("noteList").innerHTML = notes.map(n => note(n[0], n[1])).join("");
+    }
+
+    function pageShell(title, desc, body, notes, actions = "") {
+      document.getElementById("pageTitle").textContent = title;
+      document.getElementById("pageDesc").textContent = desc;
+      document.getElementById("pageBody").innerHTML = body;
+      document.getElementById("pageActions").innerHTML = actions;
+      setNotes(notes);
+    }
+
+    function pcShell(active, inner) {
+      return `<div class="pc-shell">
+        <div class="pc-top"><strong>优坐标后台管理</strong><span>运营管理员 · 有入口配置权限</span></div>
+        <div class="pc-main">
+          <div class="pc-menu">
+            <div class="${active === "operate" ? "active" : ""}">运营配置</div>
+            <div class="${active === "parent" ? "active" : ""}">家长管理</div>
+            <div class="${active === "teacher" ? "active" : ""}">老师管理</div>
+            <div>系统权限</div>
+          </div>
+          <div class="pc-content">${inner}</div>
+        </div>
+      </div>`;
+    }
+
+    function configMatrix() {
+      return `<div class="matrix"><table>
+        <thead><tr><th>配置组</th><th>前端展示文案</th><th>家长端</th><th>教师端</th><th>跳转类型</th><th>跳转目标</th><th>入口图片</th><th>状态</th></tr></thead>
+        <tbody>
+          ${entries.map((e, idx) => {
+            const target = jumpTargets[idx];
+            const targetControl = target.type === "外链"
+              ? `<input value="${target.value}" aria-label="${target.label}">`
+              : `<select aria-label="${target.label}"><option>${target.value}</option></select>`;
+            return `<tr>
+            <td><strong>${e[0]}</strong>${idx >= 5 ? `<br><span class="muted">会员开通双卡独立控制</span>` : ""}</td>
+            <td>${e[1]}</td>
+            <td><span class="switch on"></span></td>
+            <td><span class="switch ${idx === 6 ? "" : "on"}"></span></td>
+            <td><select><option>${e[2]}</option><option>固定页面</option><option>表单</option><option>外链</option></select></td>
+            <td class="target-field">${targetControl}<span class="muted">${target.label}</span></td>
+            <td><button class="btn ghost">上传图片</button><br><span class="muted">非必填，规格待定</span></td>
+            <td><span class="tag ${idx === 6 ? "amber" : "green"}">${idx === 6 ? "教师端隐藏" : "展示中"}</span></td>
+          </tr>`;
+          }).join("")}
+        </tbody>
+      </table></div>`;
+    }
+
+    const managerUsers = {
+      parent: {
+        role: "家长",
+        title: "家长管理",
+        listTitle: "全部家长",
+        name: "-",
+        phone: "178****5021",
+        account: "用户479438",
+        source: "miniapp_yzb",
+        subject: "学生姓名",
+        genderLabel: "学生性别",
+        status: "启用",
+        menu: "parent"
+      },
+      teacher: {
+        role: "老师",
+        title: "老师管理",
+        listTitle: "全部老师",
+        name: "李老师",
+        phone: "186****7821",
+        account: "老师10248",
+        source: "后台录入",
+        subject: "授课科目",
+        genderLabel: "老师性别",
+        status: "启用",
+        menu: "teacher"
+      }
+    };
+
+    function permissionRows() {
+      return entries.map((e, idx) => {
+        const override = idx === 4 ? "单独关闭" : idx === 6 ? "单独开启" : "继承全局";
+        const tagClass = override === "单独关闭" ? "red" : override === "单独开启" ? "green" : "blue";
+        const show = override === "单独关闭" ? "不展示" : "展示";
+        return `<tr>
+          <td><strong>${e[0]}</strong>${idx >= 5 ? `<br><span class="muted">会员开通双卡独立控制</span>` : ""}</td>
+          <td><span class="tag ${tagClass}">${override}</span></td>
+          <td><span class="seg ${override === "继承全局" ? "active" : ""}">继承全局</span><span class="seg ${override === "单独开启" ? "active" : ""}">单独开启</span><span class="seg ${override === "单独关闭" ? "active" : ""}">单独关闭</span></td>
+          <td>${show}</td>
+        </tr>`;
+      }).join("");
+    }
+
+    function permissionTable() {
+      return `<div class="matrix permission-table"><table>
+        <thead><tr><th>入口</th><th>当前规则</th><th>控制方式</th><th>最终展示</th></tr></thead>
+        <tbody>${permissionRows()}</tbody>
+      </table></div>`;
+    }
+
+    function managerList(kind) {
+      const user = managerUsers[kind];
+      const rows = kind === "parent"
+        ? [["-", "178****5021", "-", "2026-06-18 18:07"], ["-", "156****1051", "-", "2026-06-17 16:55"], ["-", "120****0007", "-", "2026-06-12 00:38"], ["-", "120****0004", "-", "2026-06-11 22:01"], ["-", "187****9696", "-", "2026-06-11 19:20"]]
+        : [["李老师", "186****7821", "数学", "2026-06-18 09:42"], ["王老师", "139****1134", "英语", "2026-06-17 17:20"], ["陈老师", "158****9022", "物理", "2026-06-16 14:05"], ["赵老师", "177****6218", "语文", "2026-06-13 10:33"], ["孙老师", "135****4309", "化学", "2026-06-11 11:18"]];
+      return `<section class="manager-panel">
+        <div class="manager-panel-head"><div><div class="muted">${user.role}资料</div><div class="manager-panel-title">${user.listTitle}</div></div></div>
+        <div class="filter-stack">
+          <input placeholder="${user.role}姓名">
+          <input placeholder="${user.role}手机号">
+          <div class="grid cols-2"><select><option>账号状态</option></select><select><option>${kind === "parent" ? "年级" : "授课科目"}</option></select></div>
+          <div class="filter-actions"><button class="btn primary">查询</button><button class="btn">重置</button></div>
+        </div>
+        <table class="mini-table">
+          <thead><tr><th>姓名</th><th>${kind === "parent" ? "年级" : "科目"}</th><th>最近跟进时间</th></tr></thead>
+          <tbody>${rows.map((r, idx) => `<tr class="${idx === 0 ? "selected" : ""}"><td>${r[0]}<br><span class="muted">${r[1]}</span></td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join("")}</tbody>
+        </table>
+        <div class="pager"><span>‹</span><span class="active">1</span><span>2</span><span>3</span><span>›</span></div>
+      </section>`;
+    }
+
+    function orderList(kind) {
+      const title = kind === "parent" ? "测试课程商品价格" : "一对一课程排课记录";
+      const orders = [
+        ["ORD178177938021127bbe064f3", "2026-06-18 18:43", "¥7020.00"],
+        ["ORD178177928867163f8d8950d", "2026-06-18 18:41", "¥7020.00"],
+        ["ORD1781778635211ec86734cfa", "2026-06-18 18:30", "¥8020.00"],
+        ["ORD1781778551788fa02eb09e9", "2026-06-18 18:29", "¥8020.00"]
+      ];
+      return `<div class="order-list">${orders.map(o => `<div class="order-card">
+        <div>
+          <div class="order-title">${title} <span class="tag blue">${kind === "parent" ? "正课" : "待上课"}</span></div>
+          <div class="order-meta">订单编号：${o[0]}　|　${o[1]}<br>产品名称：${title}<br>课次：<strong>20/20</strong>　${kind === "parent" ? "跟进教师：待分配" : "学员：张忠诚"}</div>
+        </div>
+        <div class="order-price">${o[2]}<br><span class="tag">已取消</span></div>
+      </div>`).join("")}</div>`;
+    }
+
+    function managerDetail(kind) {
+      const user = managerUsers[kind];
+      return `<section class="manager-panel">
+        <div class="manager-panel-head detail-toolbar">
+          <div><div class="muted">${user.role}详情</div><strong>姓名：${user.name}</strong><span class="muted">　联系方式：${user.phone}</span></div>
+          <div class="detail-actions">
+            <button class="link-action" type="button">添加跟进</button>
+            <button class="link-action" type="button" onclick="openPermissionModal('${kind}')">权限控制</button>
+            <button class="link-action red" type="button">禁用账号</button>
+            <button class="link-action" type="button">关闭</button>
+          </div>
+        </div>
+        <div class="profile-detail">
+          <div class="profile-avatar">${kind === "parent" ? "家" : "师"}</div>
+          <div class="profile-fields">
+            <div><div class="field-label">微信昵称</div><div class="field-value">${user.account}</div></div>
+            <div><div class="field-label">微信 OpenID</div><div class="field-value">-</div></div>
+            <div><div class="field-label">${user.subject}</div><div class="field-value">${kind === "parent" ? "-" : "数学"}</div></div>
+            <div><div class="field-label">${user.genderLabel}</div><div class="field-value">${kind === "parent" ? "0" : "女"}</div></div>
+            <div><div class="field-label">${kind === "parent" ? "学生生日" : "入驻时间"}</div><div class="field-value">-</div></div>
+            <div><div class="field-label">${kind === "parent" ? "年级" : "教龄"}</div><div class="field-value">-</div></div>
+            <div><div class="field-label">注册来源</div><div class="field-value">${user.source}</div></div>
+            <div><div class="field-label">最近联系</div><div class="field-value">2026-06-18 18:07</div></div>
+            <div><div class="field-label">${kind === "parent" ? "家庭地址" : "服务城市"}</div><div class="field-value">-</div></div>
+            <div><div class="field-label">入口规则</div><div class="field-value"><span class="tag blue">单用户优先</span></div></div>
+          </div>
+          <button class="link-action" type="button">编辑</button>
+        </div>
+        <div class="record-tabs"><div class="record-tab active">${kind === "parent" ? "订单记录" : "授课记录"}</div><div class="record-tab">推荐记录</div><div class="record-tab">评价记录</div><div class="record-tab">上课记录</div></div>
+        ${orderList(kind)}
+        <div class="status-bar" id="${kind}PermissionStatus">权限配置已保存，前后端立刻生效。</div>
+      </section>`;
+    }
+
+    function followPanel(kind) {
+      return `<section class="manager-panel">
+        <div class="manager-panel-head"><div><div class="manager-panel-title">客户跟进</div><div class="muted">跟进 -</div></div></div>
+        <div class="follow-box">
+          <div><strong>添加跟进记录</strong><br><span class="muted">正在记录 - 的跟进内容</span></div>
+          <label>沟通内容</label>
+          <textarea placeholder="请输入沟通记录或跟进摘要"></textarea>
+          <label>跟进形式</label>
+          <select><option>请选择跟进形式</option></select>
+          <div class="detail-actions" style="justify-content:flex-end"><button class="btn">清空</button><button class="btn primary">保存记录</button></div>
+        </div>
+        <div class="manager-panel-head"><strong>跟进记录</strong><button class="link-action">全部记录</button></div>
+        <div class="empty-follow">暂无跟进记录</div>
+      </section>`;
+    }
+
+    function managerPage(kind) {
+      const user = managerUsers[kind];
+      return pcShell(user.menu, `<div class="manager-page">
+        <div class="manager-tabs"><span>分析页</span><span class="manager-tab active">${user.title}</span><span class="manager-tab">业务参数</span></div>
+        <div class="manager-grid">${managerList(kind)}${managerDetail(kind)}${followPanel(kind)}</div>
+      </div>`);
+    }
+
+    function phoneProfile(role = "家长", mode = "default") {
+      const isHidden = mode === "hidden";
+      const hideCreator = isHidden;
+      const hideNormalVip = isHidden;
+      const hidePremiumVip = role === "教师" || isHidden;
+      return `<div class="phone-wrap"><div class="phone">
+        <div class="phone-status"><span>23:58</span><span>●●● ▰</span></div>
+        <div class="phone-title">个人中心 <span class="mini-menu">••• ◎</span></div>
+        <div class="phone-body">
+          <section class="profile-card">
+            <div class="avatar">${role === "家长" ? "👦" : "👩‍🏫"}</div>
+            <div><div class="name">${role === "家长" ? "张忠诚" : "李老师"} <span class="role-badge">${role}</span></div><div class="muted">会员：2026-05-23</div></div>
+            <div class="gear">⚙</div>
+          </section>
+          <section class="vip-grid">
+            ${hideNormalVip ? "" : `<div class="vip-card normal"><div class="vip-name">普通会员</div><div class="vip-big">VIP</div><div class="open">立即开通</div><div class="desc">一年内免费更换或另请其他老师</div></div>`}
+            ${hidePremiumVip ? "" : `<div class="vip-card premium"><div class="vip-name">尊享会员</div><div class="vip-big">SVIP</div><div class="open">立即开通</div><div class="desc">三年内免费更换或另请其他老师</div></div>`}
+          </section>
+          <section class="quick-grid">
+            ${isHidden ? "" : `<div class="quick-item"><div class="quick-icon green">▥</div><div>申请加盟</div></div>
+            <div class="quick-item"><div class="quick-icon">👥</div><div>邀请家长报名</div></div>
+            <div class="quick-item"><div class="quick-icon green">🎓</div><div>邀请老师入驻</div></div>
+            <div class="quick-item"><div class="quick-icon">👤＋</div><div>招募合伙人</div></div>`}
+          </section>
+          ${hideCreator ? `<section class="hidden-msg">创客中心已关闭，团队卡、提现条和相关二级入口不展示</section>` : `<section class="module"><h3>创客中心</h3><div class="creator-grid"><div class="team-card blue"><strong>一星团队</strong><b>10</b>人</div><div class="team-card green"><strong>二星团队</strong><b>20</b>人</div></div><div class="cash-row"><span>可提现 <b>¥123.00</b></span><span>待结算 ¥169.00</span><span>去提现 〉</span></div></section>`}
+          <section class="module"><h3>我的服务</h3><div class="service-grid"><div><div class="service-icon">▤</div>我的订单</div><div><div class="service-icon">▣</div>我的课程</div><div><div class="service-icon">★</div>我的收藏</div></div><div class="link-row"><span>帮助中心</span><span>关于我们</span><span>联系客服</span></div></section>
+        </div>
+        <div class="bottom-tabs"><div>首页</div><div>消息</div><div>订单</div><div class="active">我的</div></div>
+      </div></div>`;
+    }
+
+    const pages = {
+      intro() {
+        pageShell("版本与范围", "说明本轮原型输入、覆盖页面和关键规则。", `<div class="grid cols-2">
+          <div class="card"><div class="card-title">原型范围</div><p>本轮覆盖 PC 后台配置、家长/老师单用户控制、移动端个人中心默认展示、入口隐藏态和历史链接不可访问状态。</p><p><span class="tag blue">Axure风格</span> <span class="tag green">可交互HTML</span></p></div>
+          <div class="card"><div class="card-title">6组入口</div><p>招募老师、申请加盟、邀请家长报名、招募合伙人、创客中心、会员开通。</p><p class="muted">会员开通下普通会员、尊享会员两张卡分别可控。</p></div>
+          <div class="card"><div class="card-title">页面层级</div><p>入口 → PC后台配置 → 移动端个人中心 → 状态/异常页。</p></div>
+          <div class="card"><div class="card-title">待确认</div><p>图片最终规格建议值仍待定，不阻塞本轮原型。</p></div>
+        </div>`, [
+          ["输入来源", ["05_需求分析/需求分析_个人中心入口权限控制_v1_20260623.md", "用户提供的优坐标个人中心截图", "页面层级关系由本次需求分析推断。"]],
+          ["版本边界", ["不修改历史 v72/v55 原型。", "不补写业务流程、信息架构、交互设计或数据交互正式文件。"]]
+        ]);
+      },
+      "global-config"() {
+        pageShell("PC后台：独立运营页", "全局配置家长端、教师端个人中心6组入口展示。", pcShell("operate", `<div class="card"><div class="card-title">个人中心入口全局配置</div>${configMatrix()}<div class="status-bar" id="saveStatus">配置已保存，前后端立刻生效。</div></div>`), [
+          ["页面规则", ["独立运营页是全局默认配置。", "家长端和教师端共用同一套文案、图片、跳转页面。", "普通会员、尊享会员两张卡分别可控。"]],
+          ["跳转联动", ["跳转类型必须与本行跳转目标一起配置。", "选择固定页面时填写或选择固定页面；选择表单时选择对应表单；选择外链时填写外链 URL。", "海报类承接按固定页面或运营页面处理。"]],
+          ["图片规则", ["入口图片在每一行配置。", "图片非必填，未上传也可保存。", "图片最终规格建议值待定。"]],
+          ["按钮规则", ["点击“保存配置”打开确认弹窗。", "确认保存后展示保存成功状态，前后端立刻生效。"]],
+          ["待确认", ["图片最终规格建议值待定。"]]
+        ], `<button class="btn primary" onclick="openModal()">保存配置</button>`);
+      },
+      "save-config"() {
+        this["global-config"]();
+        openModal();
+      },
+      "parent-control"() {
+        pageShell("PC后台：家长管理详情", "按家长管理列表、家长资料、客户跟进三栏展示；在资料区通过权限控制弹窗配置单用户入口。", managerPage("parent"), [
+          ["页面结构", ["左侧为家长筛选与列表，中间为家长资料和订单记录，右侧为客户跟进。", "本页结构按用户提供的家长管理截图调整。"]],
+          ["权限入口", ["“权限控制”按钮位于中间家长资料区，紧邻“添加跟进”。", "点击后打开个人中心入口权限控制弹窗。"]],
+          ["弹窗规则", ["弹窗内支持继承全局、单独开启、单独关闭。", "单用户配置优先于全局配置，只影响当前家长。", "保存权限后前后端立刻生效。"]]
+        ]);
+      },
+      "teacher-control"() {
+        pageShell("PC后台：老师管理详情", "老师管理采用资料区权限控制按钮，点击弹窗配置单个老师的个人中心入口。", managerPage("teacher"), [
+          ["页面结构", ["老师管理采用与家长管理一致的资料区按钮和弹窗交互。", "老师列表字段按老师身份适配，不照搬家长年级字段。"]],
+          ["权限入口", ["“权限控制”按钮位于中间老师资料区。", "点击后打开个人中心入口权限控制弹窗。"]],
+          ["弹窗规则", ["弹窗内支持继承全局、单独开启、单独关闭。", "单用户配置优先于全局配置，只影响当前老师。", "保存权限后前后端立刻生效。"]]
+        ]);
+      },
+      "parent-profile"() {
+        pageShell("移动端：优坐标家长端个人中心", "默认展示会员卡、四个入口、创客中心和我的服务。", phoneProfile("家长"), [
+          ["真实UI范围", ["手机线框内只展示用户真实可见内容。", "规则说明均在黄色标签中。"]],
+          ["入口规则", ["6组入口按后台全局配置和单用户配置共同决定。", "普通会员、尊享会员两张卡分别可控。"]],
+          ["跳转规则", ["入口点击目标来自后台配置：固定页面、表单、外链。"]]
+        ]);
+      },
+      "teacher-profile"() {
+        pageShell("移动端：优坐标教师端个人中心", "教师端使用同一套文案、图片和跳转配置，展示结果按教师端开关和单用户规则决定。", phoneProfile("教师"), [
+          ["端差异", ["教师端与家长端共用配置内容。", "教师端可根据开关隐藏尊享会员等入口。"]],
+          ["展示规则", ["最终展示结果 = 单用户控制优先，否则读取全局配置。"]]
+        ]);
+      },
+      "hidden-state"() {
+        pageShell("移动端：入口关闭后的隐藏态", "展示入口关闭后个人中心不再出现相关模块。", phoneProfile("家长", "hidden"), [
+          ["隐藏规则", ["创客中心关闭后隐藏团队卡、提现条和相关二级入口。", "普通会员卡、尊享会员卡可分别隐藏。", "四个圆形入口关闭后不占位展示。"]],
+          ["状态说明", ["隐藏态属于同一页面状态，不进入左侧导航子节点；本页用于评审可视化。"]]
+        ]);
+      },
+      "closed-link"() {
+        pageShell("移动端：历史链接不可访问", "入口关闭后，通过历史链接或详情页直接访问时展示不可访问状态。", `<div class="phone-wrap"><div class="phone"><div class="phone-status"><span>23:58</span><span>●●● ▰</span></div><div class="phone-title">访问受限 <span class="mini-menu">••• ◎</span></div><div class="closed-page"><div class="closed-card"><div class="closed-icon">!</div><h2>入口已关闭</h2><p class="muted">该入口当前不可访问，请返回个人中心查看可用服务。</p><button class="btn primary">返回个人中心</button></div></div></div></div>`, [
+          ["异常规则", ["入口关闭后，历史链接或详情页直接访问禁止打开。", "页面展示不可访问或已关闭状态。"]],
+          ["按钮结果", ["点击“返回个人中心”回到当前端个人中心。"]]
+        ]);
+      }
+    };
+
+    function go(page) {
+      document.querySelectorAll(".nav-btn").forEach(btn => btn.classList.toggle("active", btn.dataset.page === page));
+      pages[page]();
+      location.hash = page;
+    }
+
+    function openModal() {
+      document.getElementById("saveModal").classList.add("show");
+    }
+    function closeModal() {
+      document.getElementById("saveModal").classList.remove("show");
+    }
+    function confirmSave() {
+      closeModal();
+      const status = document.getElementById("saveStatus");
+      if (status) status.classList.add("show");
+    }
+    function openPermissionModal(kind) {
+      currentPermissionKind = kind;
+      const user = managerUsers[kind];
+      document.getElementById("permissionModalBody").innerHTML = `<div class="permission-summary">
+        <div><span class="muted">控制对象</span><br><strong>${user.role}：${user.name}</strong>　<span class="muted">${user.phone}</span></div>
+        <div><span class="tag blue">单用户优先于全局配置</span></div>
+      </div>
+      ${permissionTable()}`;
+      document.getElementById("permissionModal").classList.add("show");
+    }
+    function closePermissionModal() {
+      document.getElementById("permissionModal").classList.remove("show");
+    }
+    function confirmPermission() {
+      closePermissionModal();
+      const status = document.getElementById(`${currentPermissionKind}PermissionStatus`);
+      if (status) status.classList.add("show");
+    }
+
+    document.querySelectorAll(".nav-btn").forEach(btn => btn.addEventListener("click", () => go(btn.dataset.page)));
+    go(location.hash ? location.hash.slice(1) : "intro");
+  </script>
+</body>
+</html>
