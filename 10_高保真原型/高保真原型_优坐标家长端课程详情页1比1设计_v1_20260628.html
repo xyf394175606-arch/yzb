@@ -1,0 +1,3417 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>高保真原型_优坐标家长端课程详情页1比1设计_v1_20260628</title>
+    <style>
+      * { box-sizing: border-box; }
+      :root {
+        --bg: #dfe6ef;
+        --panel: rgba(255, 255, 255, 0.92);
+        --text: #1f2937;
+        --muted: #667085;
+        --line: #d8e2ee;
+        --primary: #2f80ff;
+        --warning: #ffe79b;
+        --warning-border: #dfc968;
+        --orange: #ff7a00;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--bg);
+        color: var(--text);
+        font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+        display: grid;
+        grid-template-columns: minmax(260px, 300px) minmax(390px, 1180px) minmax(280px, 340px);
+        gap: 24px;
+        justify-content: center;
+        align-items: center;
+        padding: 24px;
+      }
+      .sidebar,
+      .notes {
+        align-self: stretch;
+        border: 1px solid rgba(47, 128, 255, 0.14);
+        border-radius: 18px;
+        background: var(--panel);
+        box-shadow: 0 18px 44px rgba(16, 24, 40, 0.12);
+        overflow: hidden;
+      }
+      .sidebar-head,
+      .notes-head {
+        padding: 16px 16px 12px;
+        border-bottom: 1px solid #e7eef6;
+      }
+      .sidebar-title,
+      .notes-title {
+        font-size: 16px;
+        font-weight: 800;
+      }
+      .sidebar-desc,
+      .notes-desc {
+        margin-top: 6px;
+        font-size: 12px;
+        line-height: 1.5;
+        color: var(--muted);
+      }
+      .tree {
+        padding: 12px;
+        display: grid;
+        gap: 8px;
+      }
+      .tree-label {
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 700;
+        padding: 6px 8px 2px;
+      }
+      .tree-btn {
+        width: 100%;
+        border: 1px solid #e4ebf4;
+        border-radius: 12px;
+        background: #fff;
+        padding: 10px 12px;
+        text-align: left;
+        cursor: pointer;
+        color: #243447;
+        transition: 0.18s ease;
+      }
+      .tree-btn:hover { border-color: #bfd7ff; background: #f7fbff; }
+      .tree-btn.active {
+        border-color: var(--primary);
+        background: #edf5ff;
+        color: #1d4ed8;
+      }
+      .tree-btn strong {
+        display: block;
+        font-size: 14px;
+      }
+      .tree-btn span {
+        display: block;
+        margin-top: 4px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .tree-btn.active span { color: #4b6cb7; }
+      .stage {
+        width: 100%;
+        min-height: 844px;
+        display: grid;
+        place-items: center;
+      }
+      .phone {
+        width: 390px;
+        height: 844px;
+        overflow: hidden;
+        border: 10px solid #101828;
+        border-radius: 36px;
+        background: #eef4ff;
+        box-shadow: 0 24px 70px rgba(16, 24, 40, 0.26);
+        position: relative;
+      }
+      .status {
+        height: 34px;
+        padding: 8px 18px 0;
+        background: #fff;
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .screen {
+        height: calc(100% - 34px);
+        background: #f5f7fb;
+      }
+      .page {
+        display: none;
+        height: 100%;
+      }
+      .page.active { display: block; }
+      .mobile-page {
+        width: 390px;
+      }
+      .pc-page {
+        width: 100%;
+        max-width: 1160px;
+        height: 844px;
+        display: none;
+      }
+      .pc-page.active {
+        display: block;
+      }
+      .page-scroll {
+        height: 100%;
+        overflow: auto;
+        scrollbar-width: none;
+      }
+      .page-scroll::-webkit-scrollbar { display: none; }
+      .detail-scroll {
+        padding-bottom: 92px;
+      }
+      .top-actions {
+        position: sticky;
+        top: 0;
+        z-index: 4;
+        padding: 12px 14px 0;
+      }
+      .top-action-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .icon-btn,
+      .more-btn {
+        border: 0;
+        background: rgba(255, 255, 255, 0.86);
+        backdrop-filter: blur(6px);
+        color: #253245;
+        cursor: pointer;
+      }
+      .icon-btn {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        font-size: 18px;
+      }
+      .more-btn {
+        height: 32px;
+        padding: 0 12px;
+        border-radius: 999px;
+        font-size: 18px;
+        letter-spacing: 0;
+      }
+      .hero {
+        margin-top: -44px;
+        padding: 58px 16px 18px;
+        background: linear-gradient(180deg, #cae8ff 0%, #eaf5ff 52%, #f7fbff 100%);
+        position: relative;
+        overflow: hidden;
+      }
+      .hero::before,
+      .hero::after {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.7);
+      }
+      .hero::before {
+        width: 76px;
+        height: 76px;
+        left: -18px;
+        top: 92px;
+      }
+      .hero::after {
+        width: 88px;
+        height: 88px;
+        right: -20px;
+        bottom: 92px;
+      }
+      .hero-title {
+        text-align: center;
+        font-size: 34px;
+        line-height: 1;
+        font-weight: 900;
+        color: #1956e3;
+        text-shadow: 0 3px 0 #ffffff;
+      }
+      .hero-sub {
+        margin-top: 8px;
+        text-align: center;
+        font-size: 13px;
+        font-weight: 700;
+        color: #3a76d9;
+      }
+      .hero-figure {
+        margin: 18px auto 14px;
+        width: 128px;
+        height: 128px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 50% 38%, #ffffff 0, #d9ebff 50%, #c1defc 72%, rgba(193, 222, 252, 0) 73%);
+        display: grid;
+        place-items: center;
+        position: relative;
+      }
+      .hero-figure::before {
+        content: "P";
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        background: linear-gradient(180deg, #4d90ff 0%, #235bff 100%);
+        color: #fff;
+        display: grid;
+        place-items: center;
+        font-size: 28px;
+        font-weight: 900;
+        box-shadow: 0 12px 20px rgba(35, 91, 255, 0.24);
+      }
+      .hero-cover-label {
+        width: 96px;
+        height: 96px;
+        border-radius: 50%;
+        background: linear-gradient(180deg, #f8fbff 0%, #dfeeff 100%);
+        border: 1px solid #d9eaff;
+        display: grid;
+        place-items: center;
+        color: #1f63e0;
+        font-size: 13px;
+        font-weight: 900;
+        text-align: center;
+        line-height: 1.35;
+        padding: 10px;
+        box-shadow: 0 12px 20px rgba(35, 91, 255, 0.14);
+      }
+      .hero-figure:has(.hero-cover-label)::before {
+        content: none;
+      }
+      .hero-list {
+        height: 78px;
+        overflow: hidden;
+        position: relative;
+      }
+      .hero-track {
+        display: grid;
+        gap: 6px;
+        animation: orderScroll 12s linear infinite;
+      }
+      .hero-ticket {
+        height: 22px;
+        border-radius: 999px;
+        background: rgba(117, 136, 162, 0.42);
+        color: #fff;
+        font-size: 11px;
+        padding: 0 12px;
+        display: flex;
+        align-items: center;
+      }
+      .hero-list:hover .hero-track {
+        animation-play-state: paused;
+      }
+      @keyframes orderScroll {
+        0% { transform: translateY(0); }
+        100% { transform: translateY(-50%); }
+      }
+      .price-bar {
+        background: var(--orange);
+        color: #fff;
+        padding: 10px 14px;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 8px;
+        align-items: center;
+      }
+      .price-left .row1 {
+        display: flex;
+        align-items: baseline;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      .price-left .label { font-size: 14px; font-weight: 700; }
+      .price-left .price {
+        font-size: 24px;
+        line-height: 1;
+        font-weight: 900;
+      }
+      .price-left .origin {
+        font-size: 14px;
+        opacity: 0.9;
+        text-decoration: line-through;
+      }
+      .price-left .row2 {
+        margin-top: 6px;
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 22px;
+        padding: 0 8px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0;
+      }
+      .pill.white {
+        background: rgba(255, 255, 255, 0.92);
+        color: #ff7a00;
+      }
+      .price-right {
+        text-align: right;
+        font-size: 14px;
+        font-weight: 800;
+        line-height: 1.35;
+      }
+      .summary {
+        background: #fff;
+        padding: 12px 14px;
+        border-bottom: 1px solid #edf1f6;
+      }
+      .summary-line {
+        display: flex;
+        gap: 6px;
+        align-items: flex-start;
+        flex-wrap: wrap;
+      }
+      .tag-orange {
+        background: #fff2d6;
+        color: #ff9300;
+      }
+      .summary-title {
+        flex: 1;
+        min-width: 0;
+        font-size: 16px;
+        line-height: 1.45;
+        font-weight: 800;
+      }
+      .chips {
+        margin-top: 10px;
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      .chip {
+        height: 24px;
+        padding: 0 8px;
+        border-radius: 7px;
+        border: 1px solid #d7deea;
+        color: #7a8699;
+        background: #fff;
+        display: inline-flex;
+        align-items: center;
+        font-size: 12px;
+      }
+      .chip.blue {
+        border-color: #bfd6ff;
+        color: #4a7ce8;
+        background: #f1f6ff;
+      }
+      .anchor-tabs {
+        position: sticky;
+        top: 0;
+        z-index: 3;
+        background: rgba(255, 255, 255, 0.98);
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        border-bottom: 1px solid #edf1f6;
+      }
+      .anchor-btn {
+        height: 48px;
+        border: 0;
+        background: transparent;
+        font-size: 15px;
+        font-weight: 700;
+        color: #6b7280;
+        position: relative;
+        cursor: pointer;
+      }
+      .anchor-btn.active {
+        color: var(--primary);
+      }
+      .anchor-btn.active::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: 7px;
+        transform: translateX(-50%);
+        width: 32px;
+        height: 4px;
+        border-radius: 999px;
+        background: var(--primary);
+      }
+      .section {
+        background: #fff;
+        margin-top: 8px;
+      }
+      .section-head {
+        padding: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #edf1f6;
+      }
+      .section-title {
+        font-size: 15px;
+        font-weight: 800;
+      }
+      .link-lite {
+        border: 0;
+        background: transparent;
+        color: #98a2b3;
+        font-size: 12px;
+        cursor: pointer;
+      }
+      .review-list {
+        padding: 0 14px;
+      }
+      .review-item {
+        padding: 14px 0;
+        border-bottom: 1px solid #edf1f6;
+      }
+      .review-item:last-child { border-bottom: 0; }
+      .review-user {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        font-weight: 700;
+      }
+      .avatar {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: linear-gradient(180deg, #6cb0ff 0%, #2f80ff 100%);
+      }
+      .review-text {
+        margin-top: 8px;
+        color: #5f6c80;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+      .banner {
+        margin: 8px 14px 0;
+        border-radius: 12px;
+        overflow: hidden;
+        background: linear-gradient(180deg, #d7e7ff 0%, #edf5ff 100%);
+        padding-bottom: 12px;
+      }
+      .banner-head {
+        padding: 10px 14px;
+        color: #3a76d9;
+        font-size: 14px;
+        font-weight: 800;
+      }
+      .banner-row {
+        margin: 0 12px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.8);
+        padding: 10px 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+      .follow-btn {
+        border: 0;
+        height: 32px;
+        padding: 0 16px;
+        border-radius: 999px;
+        background: linear-gradient(180deg, #4f90ff 0%, #2f6eff 100%);
+        color: #fff;
+        font-size: 13px;
+        font-weight: 800;
+        cursor: pointer;
+      }
+      .detail-block {
+        margin: 10px 14px 0;
+        border-radius: 14px;
+        overflow: hidden;
+        background: linear-gradient(180deg, #e9f3ff 0%, #f8fbff 100%);
+        border: 1px solid #d8e8ff;
+      }
+      .detail-head {
+        padding: 14px 14px 12px;
+        background: linear-gradient(180deg, #5ca5ff 0%, #2f80ff 100%);
+        color: #fff;
+        font-size: 18px;
+        line-height: 1.35;
+        text-align: center;
+        font-weight: 900;
+      }
+      .detail-visual {
+        padding: 18px 18px 14px;
+        min-height: 220px;
+        position: relative;
+      }
+      .figure-card {
+        width: 100%;
+        min-height: 180px;
+        border-radius: 18px;
+        background: linear-gradient(180deg, #f8fbff 0%, #dfeeff 100%);
+        border: 1px solid #d9eaff;
+        display: grid;
+        place-items: center;
+        color: #1f63e0;
+        font-size: 26px;
+        font-weight: 900;
+        text-align: center;
+        line-height: 1.35;
+        padding: 16px;
+      }
+      .benefit-panel {
+        margin: 12px 12px 0;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.94);
+        padding: 14px 12px 12px;
+      }
+      .benefit-title {
+        text-align: center;
+        color: #3a76d9;
+        font-size: 18px;
+        font-weight: 900;
+      }
+      .benefit-item {
+        margin-top: 10px;
+        border-radius: 10px;
+        background: #f6faff;
+        border: 1px solid #e2ecfa;
+        padding: 10px;
+      }
+      .benefit-item strong {
+        display: block;
+        color: #2f5fd8;
+        font-size: 13px;
+      }
+      .benefit-item span {
+        display: block;
+        margin-top: 5px;
+        color: #617086;
+        font-size: 12px;
+        line-height: 1.55;
+      }
+      .ability-grid {
+        margin-top: 10px;
+        border-top: 1px dashed #d6e4fb;
+        padding-top: 10px;
+        display: grid;
+        gap: 8px;
+      }
+      .ability-row {
+        display: grid;
+        grid-template-columns: 1fr 44px 1fr;
+        gap: 8px;
+        align-items: center;
+        color: #5270aa;
+        font-size: 12px;
+      }
+      .ability-times {
+        height: 26px;
+        border-radius: 8px;
+        background: #edf4ff;
+        color: #2f6eff;
+        display: grid;
+        place-items: center;
+        font-weight: 900;
+      }
+      .course-grid {
+        padding: 14px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+      .course-card {
+        border: 1px solid #e8eef7;
+        border-radius: 14px;
+        overflow: hidden;
+        background: #fff;
+        box-shadow: 0 8px 18px rgba(24, 34, 53, 0.05);
+        cursor: pointer;
+      }
+      .course-cover {
+        height: 156px;
+        background: linear-gradient(180deg, #cde8ff 0%, #eff7ff 100%);
+        display: grid;
+        place-items: center;
+        color: #215fe0;
+        font-weight: 900;
+        font-size: 14px;
+        text-align: center;
+        padding: 12px;
+      }
+      .course-card-body {
+        padding: 10px 10px 12px;
+      }
+      .course-badge {
+        display: inline-flex;
+        min-height: 22px;
+        padding: 0 8px;
+        border-radius: 6px;
+        background: #ffae2d;
+        color: #fff;
+        font-size: 11px;
+        font-weight: 700;
+        align-items: center;
+      }
+      .course-name {
+        margin-top: 8px;
+        font-size: 14px;
+        line-height: 1.45;
+        font-weight: 800;
+        min-height: 40px;
+      }
+      .course-price-row {
+        margin-top: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 10px;
+      }
+      .course-price {
+        color: #ff4d1f;
+        font-size: 15px;
+        font-weight: 900;
+      }
+      .course-sold {
+        margin-top: 6px;
+        color: #8a96a8;
+        font-size: 12px;
+      }
+      .mini-buy {
+        border: 0;
+        height: 30px;
+        padding: 0 12px;
+        border-radius: 999px;
+        background: linear-gradient(180deg, #4f90ff 0%, #2f6eff 100%);
+        color: #fff;
+        font-size: 12px;
+        font-weight: 800;
+        cursor: pointer;
+      }
+      .bottom-bar {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 78px;
+        background: rgba(255, 255, 255, 0.98);
+        border-top: 1px solid #e5ebf3;
+        display: grid;
+        grid-template-columns: repeat(3, 56px) 1fr 122px;
+        gap: 2px;
+        padding: 6px 8px 12px;
+        z-index: 5;
+      }
+      .bar-action {
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+        display: grid;
+        place-items: center;
+        gap: 4px;
+        color: #697588;
+        font-size: 11px;
+      }
+      .bar-action i {
+        width: 26px;
+        height: 26px;
+        border-radius: 8px;
+        background: #eff4fb;
+        display: grid;
+        place-items: center;
+        font-style: normal;
+        font-size: 14px;
+      }
+      .bar-price {
+        display: grid;
+        place-items: center;
+        color: #fff;
+        background: var(--orange);
+        border-radius: 10px 0 0 10px;
+        font-size: 14px;
+        font-weight: 800;
+      }
+      .bar-buy {
+        border: 0;
+        border-radius: 0 10px 10px 0;
+        background: var(--orange);
+        color: #fff;
+        font-size: 20px;
+        font-weight: 900;
+        cursor: pointer;
+      }
+      .simple-page {
+        padding: 12px 14px 18px;
+      }
+      .inner-topbar {
+        height: 36px;
+        display: grid;
+        grid-template-columns: 36px 1fr 36px;
+        align-items: center;
+      }
+      .inner-title {
+        text-align: center;
+        font-size: 16px;
+        font-weight: 800;
+      }
+      .placeholder-card,
+      .sku-card {
+        margin-top: 12px;
+        border-radius: 16px;
+        background: #fff;
+        border: 1px solid #e8eef7;
+        box-shadow: 0 10px 20px rgba(24, 34, 53, 0.05);
+        padding: 14px;
+      }
+      .sku-course {
+        display: grid;
+        grid-template-columns: 82px 1fr;
+        gap: 10px;
+      }
+      .sku-cover {
+        height: 82px;
+        border-radius: 12px;
+        background: linear-gradient(180deg, #cfe8ff 0%, #eff7ff 100%);
+        display: grid;
+        place-items: center;
+        color: #215fe0;
+        font-weight: 900;
+        font-size: 12px;
+        text-align: center;
+      }
+      .sku-info strong {
+        display: block;
+        font-size: 16px;
+      }
+      .sku-info .sku-price {
+        margin-top: 8px;
+        color: #ff5a1f;
+        font-size: 20px;
+        font-weight: 900;
+      }
+      .sku-group {
+        margin-top: 14px;
+      }
+      .sku-group-title {
+        font-size: 14px;
+        font-weight: 800;
+      }
+      .sku-options {
+        margin-top: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .sku-option {
+        min-height: 34px;
+        padding: 0 12px;
+        border-radius: 999px;
+        border: 1px solid #dce6f4;
+        background: #fff;
+        color: #546173;
+        display: inline-flex;
+        align-items: center;
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .sku-option.selected {
+        border-color: #98bfff;
+        background: #eef5ff;
+        color: #1f63e0;
+      }
+      .order-row {
+        margin-top: 12px;
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        color: #516074;
+        font-size: 14px;
+      }
+      .order-submit {
+        margin-top: 16px;
+        width: 100%;
+        height: 44px;
+        border: 0;
+        border-radius: 12px;
+        background: linear-gradient(180deg, #ff9228 0%, #ff6c1e 100%);
+        color: #fff;
+        font-size: 16px;
+        font-weight: 900;
+        cursor: pointer;
+      }
+      .login-panel {
+        padding: 28px 18px 20px;
+        text-align: center;
+      }
+      .login-icon {
+        width: 84px;
+        height: 84px;
+        margin: 18px auto 0;
+        border-radius: 24px;
+        background: linear-gradient(180deg, #d7e8ff 0%, #edf5ff 100%);
+        display: grid;
+        place-items: center;
+        color: #2362df;
+        font-size: 34px;
+        font-weight: 900;
+      }
+      .login-title {
+        margin-top: 18px;
+        font-size: 22px;
+        font-weight: 900;
+      }
+      .login-desc {
+        margin-top: 10px;
+        color: #667085;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+      .login-btn {
+        margin-top: 20px;
+        width: 100%;
+        height: 44px;
+        border: 0;
+        border-radius: 12px;
+        background: linear-gradient(180deg, #4f90ff 0%, #2f6eff 100%);
+        color: #fff;
+        font-size: 16px;
+        font-weight: 900;
+        cursor: pointer;
+      }
+      .ghost-btn {
+        margin-top: 10px;
+        width: 100%;
+        height: 42px;
+        border-radius: 12px;
+        border: 1px solid #d9e3f0;
+        background: #fff;
+        color: #5a6678;
+        font-size: 15px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .service-block {
+        margin-top: 12px;
+        border-radius: 14px;
+        background: #fff;
+        border: 1px solid #e7eef8;
+        padding: 14px;
+      }
+      .service-block strong {
+        display: block;
+        font-size: 15px;
+      }
+      .service-block span {
+        display: block;
+        margin-top: 8px;
+        color: #667085;
+        font-size: 13px;
+        line-height: 1.6;
+      }
+      .admin-page {
+        height: 100%;
+        padding: 0;
+        background: #f7f9fc;
+      }
+      .pc-shell {
+        height: 100%;
+        border-radius: 14px;
+        border: 1px solid #e9eef5;
+        background: #f7f9fc;
+        box-shadow: 0 16px 44px rgba(16, 24, 40, 0.08);
+        overflow: hidden;
+        display: grid;
+        grid-template-rows: 46px 1fr;
+      }
+      .pc-topbar {
+        border-bottom: 1px solid #edf2f7;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 18px;
+      }
+      .pc-title {
+        font-size: 13px;
+        font-weight: 700;
+        color: #1f2937;
+      }
+      .pc-layout {
+        min-height: 0;
+        display: block;
+      }
+      .pc-side,
+      .pc-side-title,
+      .pc-side-item {
+        display: none;
+      }
+      .pc-content {
+        min-width: 0;
+        min-height: 0;
+        overflow: auto;
+        padding: 14px;
+      }
+      .admin-card {
+        margin-top: 12px;
+        border-radius: 10px;
+        border: 1px solid #eef2f7;
+        background: #fff;
+        box-shadow: none;
+        overflow: hidden;
+      }
+      .admin-card-head {
+        padding: 14px 18px;
+        border-bottom: 1px solid #f1f4f8;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+      }
+      .admin-card-head strong {
+        font-size: 14px;
+      }
+      .admin-btn {
+        border: 0;
+        min-height: 32px;
+        padding: 0 14px;
+        border-radius: 8px;
+        background: #1677ff;
+        color: #fff;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .admin-ghost-btn {
+        border: 1px solid #e5eaf1;
+        min-height: 32px;
+        padding: 0 14px;
+        border-radius: 8px;
+        background: #fff;
+        color: #475467;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .admin-filters {
+        padding: 18px 18px 12px;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px 24px;
+      }
+      .admin-filter-block {
+        display: grid;
+        gap: 8px;
+      }
+      .admin-filter-label {
+        color: #344054;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .admin-field {
+        min-height: 38px;
+        border: 1px solid #e5eaf1;
+        border-radius: 6px;
+        background: #fff;
+        color: #98a2b3;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 12px;
+        font-size: 12px;
+      }
+      .admin-field::after {
+        content: "⌄";
+        color: #c1c9d6;
+        font-size: 11px;
+      }
+      .admin-field.search-field::after {
+        content: "";
+      }
+      .admin-filter-actions {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 10px;
+        padding: 0 18px 18px;
+      }
+      .admin-collapse {
+        color: #1677ff;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .admin-table-wrap {
+        padding: 0 12px 14px;
+      }
+      .admin-toolbar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .admin-round-btn {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: 1px solid #e5eaf1;
+        background: #fff;
+        color: #667085;
+        display: grid;
+        place-items: center;
+        font-size: 13px;
+      }
+      .admin-round-btn.primary {
+        border-color: #1677ff;
+        color: #1677ff;
+      }
+      .admin-table {
+        border: 1px solid #eef2f7;
+        border-radius: 8px;
+        overflow: hidden;
+        background: #fff;
+      }
+      .admin-row {
+        display: grid;
+        grid-template-columns: 40px 2.5fr 1fr 1.15fr 1.25fr 1.25fr 1.2fr 0.9fr 0.8fr 0.7fr 0.95fr;
+        gap: 12px;
+        padding: 14px 16px;
+        border-bottom: 1px solid #f1f4f8;
+        font-size: 12px;
+        color: #526174;
+        align-items: center;
+      }
+      .admin-row.header {
+        color: #8a96a8;
+        font-weight: 800;
+        background: #fafbfd;
+      }
+      .check-cell {
+        display: grid;
+        place-items: center;
+      }
+      .check-box {
+        width: 14px;
+        height: 14px;
+        border: 1px solid #d6deea;
+        border-radius: 3px;
+        background: #fff;
+      }
+      .admin-row:last-child {
+        border-bottom: 0;
+      }
+      .course-info-cell {
+        display: grid;
+        grid-template-columns: 54px 1fr;
+        gap: 12px;
+        align-items: center;
+      }
+      .course-thumb {
+        width: 54px;
+        height: 54px;
+        border-radius: 8px;
+        background: linear-gradient(180deg, #d8e9ff 0%, #eff6ff 100%);
+        border: 1px solid #dce8f9;
+        display: grid;
+        place-items: center;
+        color: #2f6eff;
+        font-weight: 900;
+        font-size: 10px;
+        text-align: center;
+        line-height: 1.25;
+      }
+      .course-main {
+        display: grid;
+        gap: 4px;
+      }
+      .course-main strong {
+        font-size: 13px;
+        color: #1f2937;
+        line-height: 1.45;
+      }
+      .course-main span {
+        font-size: 11px;
+        color: #98a2b3;
+      }
+      .inline-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .small-tag {
+        min-height: 20px;
+        padding: 0 8px;
+        border-radius: 6px;
+        background: #f5f7fa;
+        color: #667085;
+        display: inline-flex;
+        align-items: center;
+        font-size: 11px;
+      }
+      .price-stack {
+        display: grid;
+        gap: 5px;
+      }
+      .price-pill {
+        display: inline-flex;
+        align-items: center;
+        min-height: 20px;
+        padding: 0 8px;
+        border-radius: 6px;
+        font-size: 11px;
+        width: fit-content;
+      }
+      .pill-gray { background: #f5f5f5; color: #667085; }
+      .pill-orange { background: #fff4e5; color: #d97706; }
+      .pill-green { background: #ecfdf3; color: #12b76a; }
+      .pill-purple { background: #f4ebff; color: #7a5af8; }
+      .teacher-cell {
+        color: #667085;
+      }
+      .rating-cell {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: #f6ad1b;
+        white-space: nowrap;
+      }
+      .rating-cell span {
+        color: #526174;
+      }
+      .status-green {
+        color: #12b76a;
+        font-weight: 700;
+      }
+      .admin-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+      }
+      .text-link {
+        border: 0;
+        background: transparent;
+        color: #1677ff;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        padding: 0;
+      }
+      .admin-pagination {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 2px 0;
+        color: #667085;
+        font-size: 12px;
+      }
+      .pager-box {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .page-arrow {
+        color: #98a2b3;
+        font-size: 14px;
+      }
+      .page-num {
+        width: 28px;
+        height: 28px;
+        border-radius: 6px;
+        border: 1px solid #e5eaf1;
+        background: #fff;
+        display: grid;
+        place-items: center;
+      }
+      .page-num.active {
+        background: #1677ff;
+        border-color: #1677ff;
+        color: #fff;
+      }
+      .config-block {
+        padding: 14px;
+        border-bottom: 1px solid #edf1f6;
+      }
+      .config-block:last-child {
+        border-bottom: 0;
+      }
+      .config-block strong {
+        display: block;
+        font-size: 14px;
+      }
+      .config-block span {
+        display: block;
+        margin-top: 6px;
+        color: #667085;
+        font-size: 12px;
+        line-height: 1.6;
+      }
+      .config-tags {
+        margin-top: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .config-tag {
+        min-height: 30px;
+        padding: 0 10px;
+        border-radius: 999px;
+        border: 1px solid #d7e3f7;
+        background: #f4f8ff;
+        color: #3867d6;
+        display: inline-flex;
+        align-items: center;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .edit-shell {
+        padding: 10px 12px 18px;
+      }
+      .edit-modal {
+        background: #fff;
+        border-radius: 10px;
+        border: 1px solid #edf1f5;
+        min-height: 980px;
+        position: relative;
+      }
+      .edit-close {
+        position: absolute;
+        right: 18px;
+        top: 10px;
+        color: #667085;
+        font-size: 22px;
+      }
+      .edit-title {
+        padding: 16px 20px 8px;
+        font-size: 14px;
+        font-weight: 700;
+      }
+      .edit-body {
+        padding: 8px 20px 22px;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 30px;
+      }
+      .edit-col {
+        display: grid;
+        align-content: start;
+        gap: 14px;
+      }
+      .edit-section {
+        border-top: 1px solid #eef2f7;
+        padding-top: 16px;
+      }
+      .edit-section-title {
+        font-size: 15px;
+        font-weight: 800;
+        color: #1f2937;
+        margin-bottom: 14px;
+      }
+      .split-title {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 14px;
+      }
+      .split-title::before,
+      .split-title::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: #eef2f7;
+      }
+      .form-grid-2 {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px 16px;
+      }
+      .form-grid-1 {
+        display: grid;
+        gap: 12px;
+      }
+      .form-item {
+        display: grid;
+        gap: 6px;
+      }
+      .form-label {
+        color: #344054;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .form-input,
+      .form-select,
+      .form-textarea {
+        min-height: 38px;
+        border: 1px solid #e5eaf1;
+        border-radius: 6px;
+        background: #fff;
+        color: #344054;
+        font-size: 12px;
+        padding: 0 12px;
+        display: flex;
+        align-items: center;
+      }
+      .checkbox-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 12px;
+      }
+      .checkbox-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: #344054;
+        font-size: 12px;
+      }
+      .checkbox-chip .box {
+        width: 14px;
+        height: 14px;
+        border-radius: 2px;
+        border: 1px solid #cdd6e1;
+        background: #fff;
+      }
+      .checkbox-chip.checked .box {
+        background: #1677ff;
+        border-color: #1677ff;
+      }
+      .upload-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .upload-card {
+        width: 92px;
+        height: 128px;
+        border-radius: 8px;
+        border: 1px solid #dbe6f5;
+        background: linear-gradient(180deg, #eaf4ff 0%, #ffffff 100%);
+        display: grid;
+        place-items: center;
+        color: #2f6eff;
+        font-size: 11px;
+        text-align: center;
+        line-height: 1.45;
+        position: relative;
+        overflow: hidden;
+      }
+      .upload-card span.index {
+        position: absolute;
+        left: 6px;
+        top: 6px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: rgba(31, 41, 55, 0.75);
+        color: #fff;
+        display: grid;
+        place-items: center;
+        font-size: 11px;
+        font-weight: 800;
+      }
+      .upload-card.empty {
+        border-style: dashed;
+        color: #667085;
+        background: #fafbfd;
+      }
+      .upload-card.photo-a { background: linear-gradient(180deg, #eef7ff 0%, #ffffff 100%); }
+      .upload-card.photo-b { background: linear-gradient(180deg, #f8fbff 0%, #edf5ff 100%); }
+      .upload-card.photo-c { background: linear-gradient(180deg, #eff8ff 0%, #ffffff 100%); }
+      .upload-card.photo-d { background: linear-gradient(180deg, #e7f4ff 0%, #ffffff 100%); }
+      .upload-card.photo-e { background: linear-gradient(180deg, #eef5ff 0%, #ffffff 100%); }
+      .upload-card.photo-f { background: linear-gradient(180deg, #f2f8ff 0%, #ffffff 100%); }
+      .upload-tip {
+        color: #98a2b3;
+        font-size: 11px;
+        line-height: 1.6;
+      }
+      .tag-editor {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .tag-input {
+        flex: 1;
+      }
+      .tag-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .tag-token {
+        min-height: 28px;
+        padding: 0 10px;
+        border-radius: 6px;
+        background: #edf5ff;
+        color: #1677ff;
+        display: inline-flex;
+        align-items: center;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .star-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #f5a623;
+        font-size: 18px;
+      }
+      .star-row span.score {
+        color: #344054;
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .qa-list {
+        margin-top: 10px;
+        display: grid;
+        gap: 10px;
+      }
+      .qa-item {
+        border-radius: 12px;
+        background: #f6f9ff;
+        padding: 12px;
+      }
+      .qa-item strong {
+        display: block;
+        color: #234fca;
+        font-size: 13px;
+      }
+      .qa-item span {
+        display: block;
+        margin-top: 6px;
+        color: #647286;
+        font-size: 12px;
+        line-height: 1.55;
+      }
+      .cover-row {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        gap: 16px;
+        align-items: start;
+      }
+      .cover-card {
+        width: 250px;
+        height: 250px;
+        border-radius: 8px;
+        border: 1px solid #dbe6f5;
+        background: linear-gradient(180deg, #2076ff 0%, #74a9ff 100%);
+        color: #fff;
+        padding: 20px;
+        box-sizing: border-box;
+        position: relative;
+        overflow: hidden;
+      }
+      .cover-card::before {
+        content: "";
+        position: absolute;
+        left: 16px;
+        right: 16px;
+        bottom: 20px;
+        height: 70px;
+        border-radius: 20px 20px 0 0;
+        background: rgba(255, 255, 255, 0.14);
+      }
+      .cover-card strong {
+        display: block;
+        font-size: 46px;
+        line-height: 1.05;
+        margin-top: 58px;
+        text-shadow: 0 4px 12px rgba(18, 52, 120, 0.25);
+      }
+      .cover-card span {
+        display: inline-flex;
+        margin-top: 12px;
+        min-height: 26px;
+        padding: 0 12px;
+        border-radius: 999px;
+        background: rgba(15, 42, 103, 0.3);
+        align-items: center;
+        font-size: 14px;
+        font-weight: 700;
+      }
+      .cover-help {
+        color: #667085;
+        font-size: 12px;
+        line-height: 1.8;
+        padding-top: 8px;
+      }
+      .display-config-panel {
+        margin-top: 10px;
+        border: 1px solid #edf1f5;
+        border-radius: 10px;
+        background: #fff;
+        overflow: hidden;
+      }
+      .display-config-head {
+        padding: 16px 18px;
+        border-bottom: 1px solid #eef2f7;
+        background: #fafbfd;
+      }
+      .display-config-head strong {
+        display: block;
+        font-size: 15px;
+        color: #1f2937;
+      }
+      .display-config-head span {
+        display: block;
+        margin-top: 6px;
+        color: #667085;
+        font-size: 12px;
+        line-height: 1.6;
+      }
+      .config-block {
+        padding: 14px 18px;
+        border-bottom: 1px solid #edf1f6;
+      }
+      .config-action-row {
+        margin-top: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .mini-ghost-btn {
+        min-height: 30px;
+        padding: 0 12px;
+        border-radius: 8px;
+        border: 1px solid #d8e3f3;
+        background: #fff;
+        color: #3867d6;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .config-data-list {
+        margin-top: 12px;
+        display: grid;
+        gap: 10px;
+      }
+      .config-data-item {
+        border: 1px solid #edf1f5;
+        border-radius: 10px;
+        background: #fafcff;
+        padding: 12px;
+      }
+      .config-data-item strong {
+        display: block;
+        color: #1f2937;
+        font-size: 13px;
+      }
+      .config-data-item span {
+        display: block;
+        margin-top: 6px;
+        color: #667085;
+        font-size: 12px;
+        line-height: 1.6;
+      }
+      .recommend-result-list {
+        margin-top: 12px;
+        display: grid;
+        gap: 12px;
+      }
+      .recommend-result-item {
+        display: grid;
+        grid-template-columns: 56px 1fr auto;
+        gap: 12px;
+        align-items: center;
+        padding: 12px;
+        border: 1px solid #e6edf7;
+        border-radius: 10px;
+        background: #fafcff;
+      }
+      .recommend-thumb {
+        width: 56px;
+        height: 56px;
+        border-radius: 8px;
+        border: 1px solid #dbe6f5;
+        background: linear-gradient(180deg, #d8e9ff 0%, #eff6ff 100%);
+        display: grid;
+        place-items: center;
+        color: #2f6eff;
+        font-size: 10px;
+        font-weight: 800;
+        text-align: center;
+        line-height: 1.35;
+      }
+      .recommend-main {
+        display: grid;
+        gap: 4px;
+      }
+      .recommend-main strong {
+        color: #1f2937;
+        font-size: 13px;
+        line-height: 1.45;
+      }
+      .recommend-main span {
+        color: #667085;
+        font-size: 12px;
+      }
+      .recommend-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .recommend-sort {
+        width: 64px;
+        min-height: 28px;
+        border: 1px solid #d7e3f7;
+        border-radius: 8px;
+        background: #fff;
+        color: #344054;
+        display: grid;
+        place-items: center;
+        font-size: 12px;
+      }
+      .recommend-actions {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .modal-mask {
+        position: absolute;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.12);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 28px;
+      }
+      .modal-mask.active {
+        display: flex;
+      }
+      .popup-panel {
+        width: 920px;
+        max-width: 100%;
+        border-radius: 12px;
+        border: 1px solid #e7edf6;
+        background: #fff;
+        box-shadow: 0 20px 48px rgba(15, 23, 42, 0.16);
+        overflow: hidden;
+      }
+      .popup-head {
+        padding: 16px 18px;
+        border-bottom: 1px solid #edf1f6;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .popup-head strong {
+        font-size: 14px;
+        color: #1f2937;
+      }
+      .popup-body {
+        padding: 16px 18px 18px;
+      }
+      .popup-filters {
+        display: grid;
+        grid-template-columns: 1.4fr 1fr 1fr 1fr auto;
+        gap: 12px;
+        align-items: end;
+      }
+      .popup-table {
+        margin-top: 16px;
+        border: 1px solid #edf1f6;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .popup-row {
+        display: grid;
+        grid-template-columns: 42px 1.7fr 1fr 0.9fr 0.7fr 0.7fr 0.7fr;
+        gap: 12px;
+        align-items: center;
+        padding: 12px 14px;
+        border-bottom: 1px solid #edf1f6;
+        font-size: 12px;
+        color: #526174;
+      }
+      .popup-row.header {
+        background: #fafbfd;
+        color: #8a96a8;
+        font-weight: 800;
+      }
+      .popup-row:last-child {
+        border-bottom: 0;
+      }
+      .popup-foot {
+        padding: 14px 18px;
+        border-top: 1px solid #edf1f6;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .field-qa-list {
+        display: grid;
+        gap: 10px;
+      }
+      .field-qa-item {
+        border: 1px solid var(--warning-border);
+        background: #fff6cc;
+        border-radius: 12px;
+        padding: 10px 12px;
+      }
+      .field-qa-item strong {
+        display: block;
+        font-size: 12px;
+        margin-bottom: 6px;
+      }
+      .field-qa-item p {
+        margin: 0;
+        color: #5d4f11;
+        font-size: 12px;
+        line-height: 1.65;
+      }
+      .notes-body {
+        padding: 14px;
+        display: none;
+        height: calc(100% - 86px);
+        overflow: auto;
+        scrollbar-width: none;
+      }
+      .notes-body.active { display: block; }
+      .notes-body::-webkit-scrollbar { display: none; }
+      .note-card {
+        border: 1px solid var(--warning-border);
+        background: var(--warning);
+        border-radius: 14px;
+        padding: 12px;
+        margin-bottom: 12px;
+      }
+      .note-card strong {
+        display: block;
+        font-size: 13px;
+        font-weight: 900;
+        margin-bottom: 6px;
+      }
+      .note-card p,
+      .note-card li {
+        margin: 0;
+        color: #5d4f11;
+        font-size: 12px;
+        line-height: 1.65;
+      }
+      .note-card ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+      .note-card + .note-card { margin-top: 10px; }
+      .page-tip {
+        margin-top: 10px;
+        padding: 10px 12px;
+        border-radius: 12px;
+        background: #fff7d8;
+        color: #715f11;
+        font-size: 12px;
+        line-height: 1.6;
+      }
+      @media (max-width: 1280px) {
+        body {
+          grid-template-columns: 1fr;
+          justify-items: center;
+        }
+        .sidebar,
+        .notes {
+          width: 390px;
+          max-width: calc(100vw - 24px);
+        }
+        .stage {
+          width: 100%;
+          max-width: calc(100vw - 24px);
+        }
+        .pc-page {
+          height: auto;
+        }
+        .pc-shell {
+          grid-template-rows: auto 1fr;
+        }
+        .admin-filters {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .admin-row {
+          grid-template-columns: 1fr;
+        }
+        .cover-row {
+          grid-template-columns: 1fr;
+        }
+        .edit-body {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <aside class="sidebar">
+      <div class="sidebar-head">
+        <div class="sidebar-title">优坐标家长端</div>
+        <div class="sidebar-desc">课程购买模块原型目录。左侧只放页面层级，状态和规则统一放右侧黄色说明区。</div>
+      </div>
+      <div class="tree">
+        <div class="tree-label">家长端课程购买模块</div>
+        <button class="tree-btn active" data-target="page-detail">
+          <strong>课程详情页</strong>
+          <span>1:1 体验课成交承接页</span>
+        </button>
+        <button class="tree-btn" data-target="page-order">
+          <strong>确认订单页</strong>
+          <span>统一承接多 SKU 选择与下单</span>
+        </button>
+        <button class="tree-btn" data-target="page-review">
+          <strong>课程评价列表页</strong>
+          <span>查看更多评价占位页</span>
+        </button>
+        <button class="tree-btn" data-target="page-login">
+          <strong>登录页</strong>
+          <span>收藏 / 分享 / 客服登录拦截</span>
+        </button>
+        <button class="tree-btn" data-target="page-service">
+          <strong>客服会话页</strong>
+          <span>咨询承接占位页</span>
+        </button>
+        <button class="tree-btn" data-target="page-recommend">
+          <strong>推荐课程详情页</strong>
+          <span>点击推荐课程后的详情页</span>
+        </button>
+        <div class="tree-label">后台课程管理模块</div>
+        <button class="tree-btn" data-target="page-admin-list">
+          <strong>课程管理后台列表页</strong>
+          <span>管理课程详情页投放课程</span>
+        </button>
+        <button class="tree-btn" data-target="page-admin-edit">
+          <strong>编辑课程页</strong>
+          <span>通过字段配置驱动前台展示</span>
+        </button>
+        <button class="tree-btn" data-target="page-admin-order-popup">
+          <strong>新增滚动数据弹窗</strong>
+          <span>新增最新下单滚动假数据</span>
+        </button>
+        <button class="tree-btn" data-target="page-admin-review-popup">
+          <strong>新增评价假数据弹窗</strong>
+          <span>新增课程评价摘要假数据</span>
+        </button>
+        <button class="tree-btn" data-target="page-admin-recommend-popup">
+          <strong>推荐课程选择弹窗</strong>
+          <span>选择关联课程并回挂详情页</span>
+        </button>
+      </div>
+    </aside>
+
+    <main class="stage">
+      <section class="page mobile-page active" id="page-detail">
+        <div class="phone">
+          <div class="status">
+            <span>23:58</span>
+            <span>5G 100%</span>
+          </div>
+          <div class="screen">
+          <div class="page-scroll detail-scroll" id="detailScroll">
+            <div class="top-actions">
+              <div class="top-action-bar">
+                <button class="icon-btn" data-action="back-source">‹</button>
+                <button class="more-btn" data-action="more-open">•••</button>
+              </div>
+            </div>
+            <div class="hero">
+              <div class="hero-title">拼读优选</div>
+              <div class="hero-sub">掌握「见词能读、听音能写」的超能力</div>
+              <div class="hero-figure"><div class="hero-cover-label">课程封面图<br />小学英语拼读启蒙</div></div>
+              <div class="hero-list">
+                <div class="hero-track">
+                  <div class="hero-ticket">1*********9 2026-5-20 10:20下单</div>
+                  <div class="hero-ticket">1*********6 2026-5-20 10:18下单</div>
+                  <div class="hero-ticket">1*********3 2026-5-20 10:15下单</div>
+                  <div class="hero-ticket">1*********9 2026-5-20 10:20下单</div>
+                  <div class="hero-ticket">1*********6 2026-5-20 10:18下单</div>
+                  <div class="hero-ticket">1*********3 2026-5-20 10:15下单</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="price-bar">
+              <div class="price-left">
+                <div class="row1">
+                  <span class="label">优惠价</span>
+                  <span class="price">￥39.9</span>
+                  <span class="origin">￥99</span>
+                </div>
+                <div class="row2">
+                  <span class="pill white">已售70件</span>
+                  <span class="pill white">优惠60.1</span>
+                </div>
+              </div>
+              <div class="price-right">
+                <div>小学英语</div>
+                <div>超值好课</div>
+              </div>
+            </div>
+
+            <div class="summary">
+              <div class="summary-line">
+                <span class="pill tag-orange">体验课</span>
+                <div class="summary-title">优选英语-单词拼读体验课【1V1专业教练伴学直播课】</div>
+              </div>
+              <div class="chips">
+                <span class="chip blue">好课热销</span>
+                <span class="chip blue">300人收藏</span>
+                <span class="chip">英语</span>
+                <span class="chip">小学</span>
+              </div>
+            </div>
+
+            <div class="anchor-tabs" id="anchorTabs">
+              <button class="anchor-btn active" data-anchor="anchor-experience">课程体验</button>
+              <button class="anchor-btn" data-anchor="anchor-review">课程评价</button>
+              <button class="anchor-btn" data-anchor="anchor-detail">课程详情</button>
+              <button class="anchor-btn" data-anchor="anchor-recommend">课程推荐</button>
+            </div>
+
+            <section class="section" id="anchor-experience">
+              <div class="section-head">
+                <div class="section-title">课程评价(66)</div>
+                <button class="link-lite" data-target="page-review">查看更多 ></button>
+              </div>
+              <div class="review-list">
+                <div class="review-item">
+                  <div class="review-user"><span class="avatar"></span>王永兴</div>
+                  <div class="review-text">挺好的课程，受益匪浅，孩子听的很用心，很值得购买学习，推荐给家长们</div>
+                </div>
+                <div class="review-item">
+                  <div class="review-user"><span class="avatar"></span>张女士</div>
+                  <div class="review-text">拼读方法拆解得很细，直播互动节奏也好，孩子能跟着老师及时纠正发音。</div>
+                </div>
+                <div class="review-item">
+                  <div class="review-user"><span class="avatar"></span>李同学妈妈</div>
+                  <div class="review-text">第一次体验课就能感受到老师对薄弱点的判断比较准，内容不拖沓。</div>
+                </div>
+                <div class="review-item">
+                  <div class="review-user"><span class="avatar"></span>赵女士</div>
+                  <div class="review-text">课后复习建议比较实用，适合刚开始补拼读基础的孩子先体验。</div>
+                </div>
+                <div class="review-item">
+                  <div class="review-user"><span class="avatar"></span>刘先生</div>
+                  <div class="review-text">孩子上完愿意继续学，体验课对家长判断是否报名正式课比较有帮助。</div>
+                </div>
+              </div>
+              <div class="banner">
+                <div class="banner-head">❖ 优选好课 · 优坐标精选好课</div>
+                <div class="banner-row">
+                  <div>
+                    <div style="font-size:14px;font-weight:800;color:#2b63d8;">优选保障</div>
+                    <div style="margin-top:4px;font-size:12px;color:#6f7c91;">更多课程关注公众号</div>
+                  </div>
+                  <button class="follow-btn">立即关注</button>
+                </div>
+              </div>
+            </section>
+
+            <section class="section" id="anchor-detail">
+              <div class="section-head">
+                <div class="section-title">课程详情</div>
+              </div>
+              <div class="detail-block">
+                <div class="detail-visual">
+                  <div class="figure-card">课程介绍图片 01<br />拼读启蒙学习场景</div>
+                </div>
+              </div>
+              <div class="detail-block">
+                <div class="detail-visual">
+                  <div class="figure-card">课程介绍图片 02<br />课程亮点与适配人群</div>
+                </div>
+              </div>
+              <div class="detail-block">
+                <div class="detail-visual">
+                  <div class="figure-card">课程介绍图片 03<br />课堂流程与效果说明</div>
+                </div>
+              </div>
+            </section>
+
+            <section class="section" id="anchor-recommend">
+              <div class="section-head">
+                <div class="section-title">推荐好课</div>
+              </div>
+              <div class="course-grid">
+                <div class="course-card" data-target="page-recommend">
+                  <div class="course-cover">拼读优选<br />体验课</div>
+                  <div class="course-card-body">
+                    <span class="course-badge">体验课</span>
+                    <div class="course-name">优选英语-单词拼读体验课</div>
+                    <div class="course-price-row">
+                      <div>
+                        <div class="course-price">体验价￥39.9</div>
+                        <div class="course-sold">已售3k+</div>
+                      </div>
+                      <button class="mini-buy" data-target="page-recommend">立即抢购</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="course-card" data-target="page-recommend">
+                  <div class="course-cover">自然拼读<br />体验课</div>
+                  <div class="course-card-body">
+                    <span class="course-badge">体验课</span>
+                    <div class="course-name">优选英语-自然拼读启蒙体验课</div>
+                    <div class="course-price-row">
+                      <div>
+                        <div class="course-price">体验价￥39.9</div>
+                        <div class="course-sold">已售2.6k+</div>
+                      </div>
+                      <button class="mini-buy" data-target="page-recommend">立即抢购</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <div class="bottom-bar">
+            <button class="bar-action" data-target="page-login">
+              <i>☎</i>
+              <span>客服</span>
+            </button>
+            <button class="bar-action" data-target="page-login">
+              <i>⇪</i>
+              <span>分享</span>
+            </button>
+            <button class="bar-action" data-target="page-login">
+              <i>☆</i>
+              <span>收藏</span>
+            </button>
+            <div class="bar-price">￥39.9</div>
+            <button class="bar-buy" data-target="page-order">立即购买</button>
+          </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page mobile-page" id="page-order">
+        <div class="phone">
+          <div class="status">
+            <span>23:58</span>
+            <span>5G 100%</span>
+          </div>
+          <div class="screen">
+          <div class="page-scroll simple-page">
+            <div class="inner-topbar">
+              <button class="icon-btn" data-target="page-detail">‹</button>
+              <div class="inner-title">确认订单</div>
+              <div></div>
+            </div>
+            <div class="sku-card">
+              <div class="sku-course">
+                <div class="sku-cover">拼读优选<br />体验课</div>
+                <div class="sku-info">
+                  <strong>【小学段】拼读超人体验课</strong>
+                  <div style="margin-top:6px;font-size:13px;color:#667085;">直播授课 · 一对一真体验 · 英语启蒙</div>
+                  <div class="sku-price">￥39.9</div>
+                </div>
+              </div>
+            </div>
+            <div class="sku-card">
+              <div class="sku-group">
+                <div class="sku-group-title">学段</div>
+                <div class="sku-options">
+                  <span class="sku-option selected">小学</span>
+                  <span class="sku-option">初中</span>
+                </div>
+              </div>
+              <div class="sku-group">
+                <div class="sku-group-title">班型</div>
+                <div class="sku-options">
+                  <span class="sku-option selected">一对一</span>
+                  <span class="sku-option">小班</span>
+                </div>
+              </div>
+              <div class="sku-group">
+                <div class="sku-group-title">上课形式</div>
+                <div class="sku-options">
+                  <span class="sku-option selected">直播</span>
+                  <span class="sku-option">线下</span>
+                </div>
+              </div>
+              <div class="sku-group">
+                <div class="sku-group-title">科目</div>
+                <div class="sku-options">
+                  <span class="sku-option selected">英语</span>
+                  <span class="sku-option">数学</span>
+                </div>
+              </div>
+              <div class="page-tip">当前仅展示可售且有库存的组合。默认选中各维度排序后的第一个可售项，不可售组合不出现在本页。</div>
+            </div>
+            <div class="placeholder-card">
+              <div class="order-row"><span>课程金额</span><strong>￥39.9</strong></div>
+              <div class="order-row"><span>优惠减免</span><strong>-￥0</strong></div>
+              <div class="order-row"><span>实付金额</span><strong style="color:#ff5a1f;">￥39.9</strong></div>
+              <button class="order-submit">提交订单</button>
+            </div>
+          </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page mobile-page" id="page-review">
+        <div class="phone">
+          <div class="status">
+            <span>23:58</span>
+            <span>5G 100%</span>
+          </div>
+          <div class="screen">
+          <div class="page-scroll simple-page">
+            <div class="inner-topbar">
+              <button class="icon-btn" data-target="page-detail">‹</button>
+              <div class="inner-title">课程评价</div>
+              <div></div>
+            </div>
+            <div class="placeholder-card">
+              <strong>评价列表占位页</strong>
+              <div style="margin-top:8px;color:#667085;font-size:13px;line-height:1.7;">
+                当前原型用于承接“查看更多”跳转。评价摘要默认在详情页展示 5 条，这里作为完整评价列表页占位，后续可继续补充筛选、排序和分页。
+              </div>
+            </div>
+            <div class="review-list" style="padding:0;">
+              <div class="review-item">
+                <div class="review-user"><span class="avatar"></span>王永兴</div>
+                <div class="review-text">挺好的课程，受益匪浅，孩子听的很用心，很值得购买学习，推荐给家长们</div>
+              </div>
+              <div class="review-item">
+                <div class="review-user"><span class="avatar"></span>张女士</div>
+                <div class="review-text">直播讲解节奏稳定，老师会根据孩子反应及时调整互动。</div>
+              </div>
+              <div class="review-item">
+                <div class="review-user"><span class="avatar"></span>赵女士</div>
+                <div class="review-text">体验课短但有效，方便家长快速判断孩子是否适配后续课程。</div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page mobile-page" id="page-login">
+        <div class="phone">
+          <div class="status">
+            <span>23:58</span>
+            <span>5G 100%</span>
+          </div>
+          <div class="screen">
+          <div class="page-scroll simple-page">
+            <div class="inner-topbar">
+              <button class="icon-btn" data-target="page-detail">‹</button>
+              <div class="inner-title">登录</div>
+              <div></div>
+            </div>
+            <div class="placeholder-card login-panel">
+              <div class="login-icon">登</div>
+              <div class="login-title">登录后继续操作</div>
+              <div class="login-desc">
+                收藏、分享、客服均要求用户先完成登录。登录成功后，返回课程详情页继续原操作。
+              </div>
+              <button class="login-btn" data-target="page-detail">手机号快捷登录</button>
+              <button class="ghost-btn" data-target="page-detail">返回课程详情</button>
+            </div>
+          </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page mobile-page" id="page-service">
+        <div class="phone">
+          <div class="status">
+            <span>23:58</span>
+            <span>5G 100%</span>
+          </div>
+          <div class="screen">
+          <div class="page-scroll simple-page">
+            <div class="inner-topbar">
+              <button class="icon-btn" data-target="page-detail">‹</button>
+              <div class="inner-title">课程咨询</div>
+              <div></div>
+            </div>
+            <div class="service-block">
+              <strong>课程顾问在线</strong>
+              <span>当前页用于承接已登录用户的课程咨询。真实接入时可跳转到客服会话或咨询工作台。</span>
+            </div>
+            <div class="service-block">
+              <strong>常见咨询</strong>
+              <div class="qa-list">
+                <div class="qa-item">
+                  <strong>体验课适合什么孩子？</strong>
+                  <span>适合需要先判断学习基础、想体验老师风格和课堂互动节奏的家长用户。</span>
+                </div>
+                <div class="qa-item">
+                  <strong>买完之后怎么安排？</strong>
+                  <span>购买完成后的待约课、已约课和已安排流程不在当前详情页展示，由订单或服务页继续承接。</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page mobile-page" id="page-recommend">
+        <div class="phone">
+          <div class="status">
+            <span>23:58</span>
+            <span>5G 100%</span>
+          </div>
+          <div class="screen">
+          <div class="page-scroll simple-page">
+            <div class="inner-topbar">
+              <button class="icon-btn" data-target="page-detail">‹</button>
+              <div class="inner-title">推荐课程详情</div>
+              <div></div>
+            </div>
+            <div class="sku-card">
+              <div class="sku-course">
+                <div class="sku-cover">英语体验课</div>
+                <div class="sku-info">
+                  <strong>优选英语-单词拼读体验课</strong>
+                  <div style="margin-top:6px;font-size:13px;color:#667085;">推荐卡片点击后进入对应课程详情页</div>
+                  <div class="sku-price">￥39.9</div>
+                </div>
+              </div>
+            </div>
+            <div class="placeholder-card">
+              <strong>页面用途</strong>
+              <div style="margin-top:8px;color:#667085;font-size:13px;line-height:1.7;">
+                该页用于说明“推荐课程点击后不直接下单，而是进入目标课程详情页”这一业务规则。本原型用占位页表达跳转承接关系。
+              </div>
+              <button class="order-submit" data-target="page-order">从该课程继续购买</button>
+            </div>
+          </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page pc-page" id="page-admin-list">
+        <div class="pc-shell">
+          <div class="pc-topbar">
+            <div class="pc-title">优坐标后台 · 课程管理</div>
+            <button class="admin-btn" data-target="page-detail">查看家长端详情页</button>
+          </div>
+          <div class="pc-content admin-page">
+            <div class="admin-card" style="margin-top:0;">
+              <div class="admin-filters">
+                <div class="admin-filter-block">
+                  <div class="admin-filter-label">课程名称</div>
+                  <div class="admin-field search-field">搜索课程名称</div>
+                </div>
+                <div class="admin-filter-block">
+                  <div class="admin-filter-label">课程类别</div>
+                  <div class="admin-field">所有类别</div>
+                </div>
+                <div class="admin-filter-block">
+                  <div class="admin-filter-label">科目</div>
+                  <div class="admin-field">所有科目</div>
+                </div>
+                <div class="admin-filter-block">
+                  <div class="admin-filter-label">年级</div>
+                  <div class="admin-field">所有年级</div>
+                </div>
+                <div class="admin-filter-block">
+                  <div class="admin-filter-label">课程状态</div>
+                  <div class="admin-field">所有状态</div>
+                </div>
+                <div class="admin-filter-block">
+                  <div class="admin-filter-label">课程类型</div>
+                  <div class="admin-field">所有类型</div>
+                </div>
+              </div>
+              <div class="admin-filter-actions">
+                <button class="admin-ghost-btn">重置</button>
+                <button class="admin-btn">搜索</button>
+                <span class="admin-collapse">收起 ^</span>
+              </div>
+            </div>
+
+            <div class="admin-card">
+              <div class="admin-card-head">
+                <strong>课程列表</strong>
+                <div class="admin-toolbar">
+                  <button class="admin-btn" data-target="page-admin-edit">+ 新增课程</button>
+                  <button class="admin-round-btn">🔍</button>
+                  <button class="admin-round-btn">⟳</button>
+                  <button class="admin-round-btn">⛶</button>
+                  <button class="admin-round-btn">▦</button>
+                </div>
+              </div>
+              <div class="admin-table-wrap">
+                <div class="admin-table">
+                  <div class="admin-row header">
+                    <div class="check-cell"><i class="check-box"></i></div>
+                    <div>课程信息</div>
+                    <div>分类/学科</div>
+                    <div>适用年级</div>
+                    <div>单价</div>
+                    <div>价格</div>
+                    <div>课时时长</div>
+                    <div>评分</div>
+                    <div>关联老师</div>
+                    <div>状态</div>
+                    <div>操作</div>
+                  </div>
+                  <div class="admin-row">
+                    <div class="check-cell"><i class="check-box"></i></div>
+                    <div class="course-info-cell">
+                      <div class="course-thumb">小学<br />英语</div>
+                      <div class="course-main">
+                        <strong>优选英语-单词拼读体验课【1V1专业教练伴学直播课】</strong>
+                        <span>ID: 29028</span>
+                      </div>
+                    </div>
+                    <div>语言 / 英语</div>
+                    <div class="inline-tags">
+                      <span class="small-tag">一年级</span>
+                      <span class="small-tag">四年级</span>
+                      <span class="small-tag">二年级</span>
+                      <span class="small-tag">+3</span>
+                    </div>
+                    <div class="price-stack">
+                      <span class="price-pill pill-gray">原价：￥99</span>
+                      <span class="price-pill pill-orange">会员价：￥39.97</span>
+                      <span class="price-pill pill-green">平台服务费：￥0.01</span>
+                    </div>
+                    <div class="price-stack">
+                      <span class="price-pill pill-gray">原价：￥99</span>
+                      <span class="price-pill pill-orange">会员价：￥39.9</span>
+                    </div>
+                    <div><span class="price-pill pill-purple">试听课</span> 60min x 1节</div>
+                    <div class="rating-cell">★★★★★ <span>5.0</span></div>
+                    <div class="teacher-cell">0位</div>
+                    <div class="status-green">启用</div>
+                    <div class="admin-actions">
+                      <button class="text-link">详情</button>
+                      <button class="text-link" data-target="page-admin-edit">编辑</button>
+                    </div>
+                  </div>
+                  <div class="admin-row">
+                    <div class="check-cell"><i class="check-box"></i></div>
+                    <div class="course-info-cell">
+                      <div class="course-thumb">优AI<br />单词</div>
+                      <div class="course-main">
+                        <strong>优AI单词-体验服务【1V1真人伴学】</strong>
+                        <span>ID: 29027</span>
+                      </div>
+                    </div>
+                    <div>语言 / 英语</div>
+                    <div class="inline-tags">
+                      <span class="small-tag">一年级</span>
+                      <span class="small-tag">二年级</span>
+                      <span class="small-tag">三年级</span>
+                      <span class="small-tag">+9</span>
+                    </div>
+                    <div class="price-stack">
+                      <span class="price-pill pill-gray">原价：￥39.90</span>
+                      <span class="price-pill pill-orange">会员价：￥0.00</span>
+                      <span class="price-pill pill-green">平台服务费：￥39.90</span>
+                    </div>
+                    <div class="price-stack">
+                      <span class="price-pill pill-gray">原价：￥39.90</span>
+                      <span class="price-pill pill-orange">会员价：￥39.90</span>
+                    </div>
+                    <div><span class="price-pill pill-purple">试听课</span> 60min x 1节</div>
+                    <div class="rating-cell">★★★★★ <span>4.8</span></div>
+                    <div class="teacher-cell">2位</div>
+                    <div class="status-green">启用</div>
+                    <div class="admin-actions">
+                      <button class="text-link">详情</button>
+                      <button class="text-link" data-target="page-admin-edit">编辑</button>
+                    </div>
+                  </div>
+                  <div class="admin-row">
+                    <div class="check-cell"><i class="check-box"></i></div>
+                    <div class="course-info-cell">
+                      <div class="course-thumb">AI<br />单词</div>
+                      <div class="course-main">
+                        <strong>AI 优单词</strong>
+                        <span>ID: 29026</span>
+                      </div>
+                    </div>
+                    <div>语言 / 英语</div>
+                    <div class="inline-tags">
+                      <span class="small-tag">一年级</span>
+                      <span class="small-tag">二年级</span>
+                      <span class="small-tag">三年级</span>
+                      <span class="small-tag">+9</span>
+                    </div>
+                    <div class="price-stack">
+                      <span class="price-pill pill-gray">原价：￥99.00</span>
+                      <span class="price-pill pill-orange">会员价：￥79.00</span>
+                      <span class="price-pill pill-green">平台服务费：￥99.00</span>
+                    </div>
+                    <div class="price-stack">
+                      <span class="price-pill pill-gray">原价：￥2376.00</span>
+                      <span class="price-pill pill-orange">会员价：￥2136.00</span>
+                    </div>
+                    <div><span class="price-pill pill-purple" style="background:#ecfdf3;color:#12b76a;">正课</span> 45min x 12节</div>
+                    <div class="rating-cell">★★★★★ <span>4.7</span></div>
+                    <div class="teacher-cell">0位</div>
+                    <div class="status-green">启用</div>
+                    <div class="admin-actions">
+                      <button class="text-link">详情</button>
+                      <button class="text-link" data-target="page-admin-edit">编辑</button>
+                    </div>
+                  </div>
+                  <div class="admin-row">
+                    <div class="check-cell"><i class="check-box"></i></div>
+                    <div class="course-info-cell">
+                      <div class="course-thumb">优AI<br />地理</div>
+                      <div class="course-main">
+                        <strong>优AI地理拓展-体验服务【1V1专项提升】</strong>
+                        <span>ID: 29025</span>
+                      </div>
+                    </div>
+                    <div>文化 / 地理</div>
+                    <div class="inline-tags">
+                      <span class="small-tag">初一</span>
+                      <span class="small-tag">初二</span>
+                      <span class="small-tag">初三</span>
+                      <span class="small-tag">+3</span>
+                    </div>
+                    <div class="price-stack">
+                      <span class="price-pill pill-gray">原价：￥39.90</span>
+                      <span class="price-pill pill-orange">会员价：￥0.00</span>
+                      <span class="price-pill pill-green">平台服务费：￥39.90</span>
+                    </div>
+                    <div class="price-stack">
+                      <span class="price-pill pill-gray">原价：￥39.90</span>
+                      <span class="price-pill pill-orange">会员价：￥39.90</span>
+                    </div>
+                    <div><span class="price-pill pill-purple">试听课</span> 60min x 1节</div>
+                    <div class="rating-cell">★★★★★ <span>4.6</span></div>
+                    <div class="teacher-cell">0位</div>
+                    <div class="status-green">启用</div>
+                    <div class="admin-actions">
+                      <button class="text-link">详情</button>
+                      <button class="text-link" data-target="page-admin-edit">编辑</button>
+                    </div>
+                  </div>
+                  <div class="admin-row">
+                    <div class="check-cell"><i class="check-box"></i></div>
+                    <div class="course-info-cell">
+                      <div class="course-thumb">Math</div>
+                      <div class="course-main">
+                        <strong>优地理拓展</strong>
+                        <span>ID: 29024</span>
+                      </div>
+                    </div>
+                    <div>文化 / 地理</div>
+                    <div class="inline-tags">
+                      <span class="small-tag">初一</span>
+                      <span class="small-tag">初二</span>
+                      <span class="small-tag">初三</span>
+                      <span class="small-tag">+3</span>
+                    </div>
+                    <div class="price-stack">
+                      <span class="price-pill pill-gray">原价：￥169.00</span>
+                      <span class="price-pill pill-orange">会员价：￥139.00</span>
+                      <span class="price-pill pill-green">平台服务费：￥169.00</span>
+                    </div>
+                    <div class="price-stack">
+                      <span class="price-pill pill-gray">原价：￥3380.00</span>
+                      <span class="price-pill pill-orange">会员价：￥2780.00</span>
+                    </div>
+                    <div><span class="price-pill pill-purple" style="background:#ecfdf3;color:#12b76a;">正课</span> 60min x 20节</div>
+                    <div class="rating-cell">★★★★★ <span>5.0</span></div>
+                    <div class="teacher-cell">0位</div>
+                    <div class="status-green">启用</div>
+                    <div class="admin-actions">
+                      <button class="text-link">详情</button>
+                      <button class="text-link" data-target="page-admin-edit">编辑</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="admin-pagination">
+                  <div class="pager-box">
+                    <span>共 29 条记录</span>
+                    <span class="admin-field" style="min-height:30px;width:88px;padding:0 10px;">20条/页</span>
+                  </div>
+                  <div class="pager-box">
+                    <span class="page-arrow">|&lt;</span>
+                    <span class="page-arrow">&lt;</span>
+                    <span class="page-num active">1</span>
+                    <span class="page-num">2</span>
+                    <span class="page-arrow">&gt;</span>
+                    <span class="page-arrow">&gt;|</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page pc-page" id="page-admin-edit">
+        <div class="pc-shell">
+          <div class="pc-topbar">
+            <div class="pc-title">优坐标后台 · 编辑课程</div>
+            <button class="admin-btn" data-target="page-admin-list">返回课程管理</button>
+          </div>
+          <div class="pc-content admin-page">
+            <div class="edit-shell">
+              <div class="edit-modal">
+                <div class="edit-close">×</div>
+                <div class="edit-title">编辑课程</div>
+                <div class="edit-body">
+                  <div class="edit-col">
+                    <div class="edit-section">
+                      <div class="split-title">
+                        <div class="edit-section-title">课程基本信息</div>
+                      </div>
+                      <div class="form-grid-1">
+                        <div class="form-item">
+                          <div class="form-label">* 课程主标题 / 品牌标题</div>
+                          <div class="form-input">拼读优选<span style="margin-left:auto;color:#98a2b3;">4 / 20</span></div>
+                        </div>
+                        <div class="form-item">
+                          <div class="form-label">课程副文案 / 品牌宣传语</div>
+                          <div class="form-input">掌握「见词能读、听音能写」的超能力<span style="margin-left:auto;color:#98a2b3;">17 / 40</span></div>
+                        </div>
+                        <div class="form-item">
+                          <div class="form-label">价格区营销短文案</div>
+                          <div class="form-input">超值好课<span style="margin-left:auto;color:#98a2b3;">4 / 10</span></div>
+                        </div>
+                        <div class="form-item">
+                          <div class="form-label">* 课程名称</div>
+                          <div class="form-input">优选英语-单词拼读体验课【1V1专业教练伴学直播课】<span style="margin-left:auto;color:#98a2b3;">28 / 100</span></div>
+                        </div>
+                      </div>
+                      <div class="form-grid-2">
+                        <div class="form-item">
+                          <div class="form-label">* 课程类别</div>
+                          <div class="form-select">文化</div>
+                        </div>
+                        <div class="form-item">
+                          <div class="form-label">* 所属学科</div>
+                          <div class="form-select">英语</div>
+                        </div>
+                      </div>
+                      <div class="form-item">
+                        <div class="form-label">* 适用年级</div>
+                        <div class="checkbox-wrap">
+                          <span class="checkbox-chip checked"><i class="box"></i>一年级</span>
+                          <span class="checkbox-chip checked"><i class="box"></i>二年级</span>
+                          <span class="checkbox-chip checked"><i class="box"></i>三年级</span>
+                          <span class="checkbox-chip checked"><i class="box"></i>四年级</span>
+                          <span class="checkbox-chip checked"><i class="box"></i>五年级</span>
+                          <span class="checkbox-chip checked"><i class="box"></i>六年级</span>
+                          <span class="checkbox-chip"><i class="box"></i>初一</span>
+                          <span class="checkbox-chip"><i class="box"></i>初二</span>
+                          <span class="checkbox-chip"><i class="box"></i>初三</span>
+                          <span class="checkbox-chip"><i class="box"></i>高一</span>
+                          <span class="checkbox-chip"><i class="box"></i>高二</span>
+                          <span class="checkbox-chip"><i class="box"></i>高三</span>
+                        </div>
+                      </div>
+                      <div class="form-item">
+                        <div class="form-label">* 课程介绍（最多10张图片）</div>
+                        <div class="upload-grid">
+                          <div class="upload-card photo-a"><span class="index">1</span>课程详情图</div>
+                          <div class="upload-card photo-b"><span class="index">2</span>教师介绍图</div>
+                          <div class="upload-card photo-c"><span class="index">3</span>课堂节奏图</div>
+                          <div class="upload-card photo-d"><span class="index">4</span>课程亮点图</div>
+                          <div class="upload-card photo-e"><span class="index">5</span>能力提升图</div>
+                          <div class="upload-card photo-f"><span class="index">6</span>陪练说明图</div>
+                          <div class="upload-card empty">+<br />上传图片</div>
+                        </div>
+                        <div class="upload-tip">提示：拖拽图片可调整顺序，可使用截图或裁剪后上传，建议尺寸 800×600px，支持 JPG、PNG。</div>
+                      </div>
+                      <div class="form-item">
+                        <div class="form-label">课程标签（最多5个）</div>
+                        <div class="tag-editor">
+                          <div class="form-input tag-input">输入标签名称（限10字）<span style="margin-left:auto;color:#98a2b3;">0 / 10</span></div>
+                          <button class="admin-btn">添加</button>
+                        </div>
+                        <div class="tag-list">
+                          <span class="tag-token">小学</span>
+                          <span class="tag-token">英语</span>
+                          <span class="tag-token">好课热销</span>
+                          <span class="tag-token">专业老师</span>
+                          <span class="tag-token">真人1对1</span>
+                        </div>
+                      </div>
+                      <div class="form-item">
+                        <div class="form-label">* 课程封面图</div>
+                        <div class="cover-row">
+                          <div class="cover-card">
+                            <strong>小学英语</strong>
+                            <span>自然拼读启蒙与单词开口训练</span>
+                          </div>
+                          <div class="cover-help">
+                            点击截图区域或拖拽以上传图片。<br />
+                            建议使用 1:1 比例图，推荐尺寸 800×800px。<br />
+                            支持 JPG、PNG，单图不超过 10MB。<br />
+                            该封面同时作为家长端课程详情主视觉和推荐课程卡片封面来源。
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="edit-col">
+                    <div class="edit-section">
+                      <div class="split-title">
+                        <div class="edit-section-title">课程规格与价格设置</div>
+                      </div>
+                      <div class="form-item">
+                        <div class="form-label">* 课程配置</div>
+                        <div class="config-tags" style="margin-top:0;">
+                          <span class="config-tag" style="background:#1677ff;color:#fff;border-color:#1677ff;">试听课</span>
+                          <span class="config-tag">正课</span>
+                        </div>
+                      </div>
+                      <div class="form-grid-2">
+                        <div class="form-item">
+                          <div class="form-label">* 单价（元）</div>
+                          <div class="form-input">39.9</div>
+                        </div>
+                        <div class="form-item">
+                          <div class="form-label">* 会员单价（元）</div>
+                          <div class="form-input">39.9</div>
+                        </div>
+                        <div class="form-item">
+                          <div class="form-label">* 平台服务费（元）</div>
+                          <div class="form-input">0.01</div>
+                        </div>
+                        <div class="form-item">
+                          <div class="form-label">* 总课时数（节）</div>
+                          <div class="form-input">1</div>
+                        </div>
+                        <div class="form-item">
+                          <div class="form-label">* 原价（元）</div>
+                          <div class="form-input">99</div>
+                        </div>
+                        <div class="form-item">
+                          <div class="form-label">* 会员价（元）</div>
+                          <div class="form-input">39.9</div>
+                        </div>
+                        <div class="form-item">
+                          <div class="form-label">* 单节课时长（分钟）</div>
+                          <div class="form-input">60</div>
+                        </div>
+                        <div class="form-item">
+                          <div class="form-label">虚拟销量</div>
+                          <div class="form-input">70</div>
+                        </div>
+                      </div>
+                      <div class="form-item">
+                        <div class="form-label">* 虚拟评分</div>
+                        <div class="star-row">★ ★ ★ ★ ★ <span class="score">5</span></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="display-config-panel">
+                  <div class="display-config-head">
+                    <strong>前端展示配置</strong>
+                    <span>本区用于把课程后台字段与家长端课程详情展示关系挂实，滚动成交带、评价摘要、推荐课程均由本页统一配置。</span>
+                  </div>
+                  <div class="config-block">
+                    <strong>课程摘要展示配置</strong>
+                    <span>对应前台价格区与摘要区的组合展示字段。`小学英语` 按适用年级首选项 + 所选科目生成；收藏量按后台假数据配置维护；`好课热销` 归入课程标签体系。</span>
+                    <div class="config-tags">
+                      <span class="config-tag">组合文案：小学 + 英语</span>
+                      <span class="config-tag">收藏量：300人收藏</span>
+                      <span class="config-tag">营销标签：好课热销</span>
+                      <span class="config-tag">数据模式：收藏量假数据</span>
+                    </div>
+                    <div class="config-action-row">
+                      <button class="mini-ghost-btn">维护收藏量</button>
+                      <button class="mini-ghost-btn">维护摘要标签</button>
+                    </div>
+                    <div class="config-data-list">
+                      <div class="config-data-item">
+                        <strong>收藏量假数据：300人收藏</strong>
+                        <span>该字段不走实时聚合，由后台直接维护前台展示数值。</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="config-block">
+                    <strong>最新下单滚动带配置</strong>
+                    <span>对应前台首屏滚动成交带。当前按后台自定义假数据维护，不直接连接实时订单配置页。</span>
+                    <div class="config-tags">
+                      <span class="config-tag">展示开关：开启</span>
+                      <span class="config-tag">展示条数：3条</span>
+                      <span class="config-tag">滚动方式：循环向上</span>
+                      <span class="config-tag">数据模式：自定义假数据</span>
+                    </div>
+                    <div class="config-action-row">
+                      <button class="admin-btn" data-target="page-admin-order-popup">新增滚动数据</button>
+                      <button class="mini-ghost-btn">维护滚动数据</button>
+                    </div>
+                    <div class="config-data-list">
+                      <div class="config-data-item">
+                        <strong>1*********9 2026-05-20 10:20 下单</strong>
+                        <span>用于前台滚动条第 1 条展示，支持自定义脱敏手机号、下单时间和展示顺序。</span>
+                      </div>
+                      <div class="config-data-item">
+                        <strong>1*********6 2026-05-20 10:18 下单</strong>
+                        <span>与前台首屏滚动条逐条对应，删除后前台不再展示该条。</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="config-block">
+                    <strong>课程评价展示配置</strong>
+                    <span>对应前台评价摘要区。当前按后台自定义假数据维护，用于形成前台评价摘要展示，不代表完整评价系统。</span>
+                    <div class="config-tags">
+                      <span class="config-tag">展示开关：开启</span>
+                      <span class="config-tag">评价总数：66</span>
+                      <span class="config-tag">展示条数：5条</span>
+                      <span class="config-tag">排序：推荐排序</span>
+                      <span class="config-tag">数据模式：自定义假数据</span>
+                    </div>
+                    <div class="config-action-row">
+                      <button class="admin-btn" data-target="page-admin-review-popup">新增评价假数据</button>
+                      <button class="mini-ghost-btn">维护评价摘要</button>
+                    </div>
+                    <div class="config-data-list">
+                      <div class="config-data-item">
+                        <strong>张女士 · 拼读方法拆解得很细，直播互动节奏也好</strong>
+                        <span>支持维护昵称、头像、评价内容、展示顺序。前台默认只取配置后的前 5 条摘要，评价总数也由后台假数据维护。</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="config-block" style="border-bottom:0;">
+                    <strong>推荐课程配置</strong>
+                    <span>通过课程选择弹窗关联推荐课程。确认关联后，在下方展示已关联课程信息并支持手动排序。</span>
+                    <div class="config-tags">
+                      <span class="config-tag">推荐课程：2门</span>
+                      <span class="config-tag">排序：手动排序</span>
+                      <span class="config-tag">跳转目标：课程详情页</span>
+                      <span class="config-tag">展示开关：开启</span>
+                    </div>
+                    <div class="config-action-row">
+                      <button class="admin-btn" data-target="page-admin-recommend-popup">选择课程</button>
+                      <button class="mini-ghost-btn">批量移除</button>
+                    </div>
+                    <div class="recommend-result-list">
+                      <div class="recommend-result-item">
+                        <div class="recommend-thumb">拼读优选<br />体验课</div>
+                        <div class="recommend-main">
+                          <strong>优选英语-单词拼读体验课</strong>
+                          <span>课程ID：39012 · 语言 / 英语 · 体验价￥39.9 · 销量3k+</span>
+                        </div>
+                        <div class="recommend-actions">
+                          <div class="recommend-sort">排序 1</div>
+                          <button class="text-link">移除</button>
+                        </div>
+                      </div>
+                      <div class="recommend-result-item">
+                        <div class="recommend-thumb">自然拼读<br />体验课</div>
+                        <div class="recommend-main">
+                          <strong>优选英语-自然拼读启蒙体验课</strong>
+                          <span>课程ID：39013 · 语言 / 英语 · 体验价￥39.9 · 销量2.6k+</span>
+                        </div>
+                        <div class="recommend-actions">
+                          <div class="recommend-sort">排序 2</div>
+                          <button class="text-link">移除</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page pc-page" id="page-admin-order-popup">
+        <div class="pc-shell">
+          <div class="pc-topbar">
+            <div class="pc-title">优坐标后台 · 编辑课程</div>
+            <button class="admin-btn" data-target="page-admin-edit">返回编辑课程</button>
+          </div>
+          <div class="pc-content admin-page">
+            <div class="edit-shell">
+              <div class="edit-modal">
+                <div class="edit-close">×</div>
+                <div class="edit-title">编辑课程</div>
+                <div class="modal-mask active">
+                  <div class="popup-panel">
+                    <div class="popup-head">
+                      <strong>新增滚动数据</strong>
+                      <button class="text-link" data-target="page-admin-edit">关闭</button>
+                    </div>
+                    <div class="popup-body">
+                      <div class="form-grid-2">
+                        <div class="form-item">
+                          <div class="form-label">* 脱敏手机号</div>
+                          <div class="form-input">1*********9</div>
+                        </div>
+                        <div class="form-item">
+                          <div class="form-label">* 下单时间</div>
+                          <div class="form-input">2026-05-20 10:20</div>
+                        </div>
+                        <div class="form-item">
+                          <div class="form-label">展示文案</div>
+                          <div class="form-input">1*********9 2026-05-20 10:20 下单</div>
+                        </div>
+                        <div class="form-item">
+                          <div class="form-label">排序值</div>
+                          <div class="form-input">1</div>
+                        </div>
+                      </div>
+                      <div class="form-item">
+                        <div class="form-label">状态</div>
+                        <div class="config-tags" style="margin-top:0;">
+                          <span class="config-tag" style="background:#1677ff;color:#fff;border-color:#1677ff;">启用</span>
+                          <span class="config-tag">停用</span>
+                        </div>
+                      </div>
+                      <div class="config-data-list">
+                        <div class="config-data-item">
+                          <strong>确认新增后回显到最新下单滚动带配置</strong>
+                          <span>保存后作为后台自定义假数据展示，前台按启用状态和排序值循环滚动。</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="popup-foot">
+                      <span style="color:#667085;font-size:12px;">该数据不连接真实订单，仅用于前台成交氛围展示。</span>
+                      <div class="recommend-actions">
+                        <button class="admin-ghost-btn" data-target="page-admin-edit">取消</button>
+                        <button class="admin-btn" data-target="page-admin-edit">确认新增</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page pc-page" id="page-admin-review-popup">
+        <div class="pc-shell">
+          <div class="pc-topbar">
+            <div class="pc-title">优坐标后台 · 编辑课程</div>
+            <button class="admin-btn" data-target="page-admin-edit">返回编辑课程</button>
+          </div>
+          <div class="pc-content admin-page">
+            <div class="edit-shell">
+              <div class="edit-modal">
+                <div class="edit-close">×</div>
+                <div class="edit-title">编辑课程</div>
+                <div class="modal-mask active">
+                  <div class="popup-panel">
+                    <div class="popup-head">
+                      <strong>新增评价假数据</strong>
+                      <button class="text-link" data-target="page-admin-edit">关闭</button>
+                    </div>
+                    <div class="popup-body">
+                      <div class="form-grid-2">
+                        <div class="form-item">
+                          <div class="form-label">* 用户昵称</div>
+                          <div class="form-input">张女士</div>
+                        </div>
+                        <div class="form-item">
+                          <div class="form-label">用户头像</div>
+                          <div class="form-input">上传头像，可为空</div>
+                        </div>
+                        <div class="form-item">
+                          <div class="form-label">评价时间</div>
+                          <div class="form-input">2026-05-20 11:30</div>
+                        </div>
+                        <div class="form-item">
+                          <div class="form-label">排序值</div>
+                          <div class="form-input">1</div>
+                        </div>
+                      </div>
+                      <div class="form-item">
+                        <div class="form-label">* 评价内容</div>
+                        <div class="form-textarea">拼读方法拆解得很细，直播互动节奏也好，孩子能跟着老师及时纠正发音。</div>
+                      </div>
+                      <div class="form-item">
+                        <div class="form-label">状态</div>
+                        <div class="config-tags" style="margin-top:0;">
+                          <span class="config-tag" style="background:#1677ff;color:#fff;border-color:#1677ff;">启用</span>
+                          <span class="config-tag">停用</span>
+                        </div>
+                      </div>
+                      <div class="config-data-list">
+                        <div class="config-data-item">
+                          <strong>确认新增后回显到课程评价展示配置</strong>
+                          <span>前台默认展示配置后的前 5 条启用评价，评价总数、展示条数和排序方式仍由配置区控制。</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="popup-foot">
+                      <span style="color:#667085;font-size:12px;">该评价为后台自定义假数据，不代表完整评价系统。</span>
+                      <div class="recommend-actions">
+                        <button class="admin-ghost-btn" data-target="page-admin-edit">取消</button>
+                        <button class="admin-btn" data-target="page-admin-edit">确认新增</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page pc-page" id="page-admin-recommend-popup">
+        <div class="pc-shell">
+          <div class="pc-topbar">
+            <div class="pc-title">优坐标后台 · 编辑课程</div>
+            <button class="admin-btn" data-target="page-admin-edit">返回编辑课程</button>
+          </div>
+          <div class="pc-content admin-page">
+            <div class="edit-shell">
+              <div class="edit-modal">
+                <div class="edit-close">×</div>
+                <div class="edit-title">编辑课程</div>
+                <div class="modal-mask active">
+                  <div class="popup-panel">
+                    <div class="popup-head">
+                      <strong>选择推荐课程</strong>
+                      <button class="text-link" data-target="page-admin-edit">关闭</button>
+                    </div>
+                    <div class="popup-body">
+                      <div class="popup-filters">
+                        <div class="form-item">
+                          <div class="form-label">课程名称</div>
+                          <div class="form-input">请输入课程名称</div>
+                        </div>
+                        <div class="form-item">
+                          <div class="form-label">课程类别</div>
+                          <div class="form-select">所有类别</div>
+                        </div>
+                        <div class="form-item">
+                          <div class="form-label">所属学科</div>
+                          <div class="form-select">所有学科</div>
+                        </div>
+                        <div class="form-item">
+                          <div class="form-label">课程状态</div>
+                          <div class="form-select">已启用</div>
+                        </div>
+                        <button class="admin-btn">搜索</button>
+                      </div>
+                      <div class="popup-table">
+                        <div class="popup-row header">
+                          <div class="check-cell"><i class="check-box"></i></div>
+                          <div>课程信息</div>
+                          <div>分类/学科</div>
+                          <div>价格</div>
+                          <div>销量</div>
+                          <div>状态</div>
+                          <div>操作</div>
+                        </div>
+                        <div class="popup-row">
+                          <div class="check-cell"><i class="check-box"></i></div>
+                          <div class="course-info-cell">
+                            <div class="recommend-thumb">拼读优选<br />体验课</div>
+                            <div class="course-main">
+                              <strong>优选英语-单词拼读体验课</strong>
+                              <span>ID: 39012</span>
+                            </div>
+                          </div>
+                          <div>语言 / 英语</div>
+                          <div>体验价￥39.9</div>
+                          <div>3k+</div>
+                          <div class="status-green">启用</div>
+                          <div><button class="text-link">已选择</button></div>
+                        </div>
+                        <div class="popup-row">
+                          <div class="check-cell"><i class="check-box"></i></div>
+                          <div class="course-info-cell">
+                            <div class="recommend-thumb">自然拼读<br />体验课</div>
+                            <div class="course-main">
+                              <strong>优选英语-自然拼读启蒙体验课</strong>
+                              <span>ID: 39013</span>
+                            </div>
+                          </div>
+                          <div>语言 / 英语</div>
+                          <div>体验价￥39.9</div>
+                          <div>2.6k+</div>
+                          <div class="status-green">启用</div>
+                          <div><button class="text-link">已选择</button></div>
+                        </div>
+                        <div class="popup-row">
+                          <div class="check-cell"><i class="check-box"></i></div>
+                          <div class="course-info-cell">
+                            <div class="recommend-thumb">地理提升<br />正课</div>
+                            <div class="course-main">
+                              <strong>优地理拓展正课</strong>
+                              <span>ID: 39014</span>
+                            </div>
+                          </div>
+                          <div>文化 / 地理</div>
+                          <div>正课价￥2780</div>
+                          <div>1.8k+</div>
+                          <div class="status-green">启用</div>
+                          <div><button class="text-link">选择</button></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="popup-foot">
+                      <span style="color:#667085;font-size:12px;">已选择 2 门课程，确认后将建立推荐关联并回显到编辑课程页。</span>
+                      <div class="recommend-actions">
+                        <button class="admin-ghost-btn" data-target="page-admin-edit">取消</button>
+                        <button class="admin-btn" data-target="page-admin-edit">确认关联</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <aside class="notes">
+      <div class="notes-head">
+        <div class="notes-title">右侧黄色说明区</div>
+        <div class="notes-desc">字段规则、按钮结果、页面定位、平台默认能力和状态说明统一放这里，不放进手机页面线框。</div>
+      </div>
+
+      <div class="notes-body active" data-page-notes="page-detail">
+        <div class="note-card">
+          <strong>页面定位</strong>
+          <p>本页固定为体验课详情成交页，用于介绍课程价值、建立信任和承接购买，不承担已购后服务流程展示。</p>
+        </div>
+        <div class="note-card">
+          <strong>字段口径</strong>
+          <ul>
+            <li>当前售价、底部价格：当前原型按后台课程规格中的单价字段展示。</li>
+            <li>划线原价：当前原型按后台原价字段展示。</li>
+            <li>销量：当前原型按后台虚拟销量字段展示。</li>
+            <li>收藏量：当前按后台假数据配置维护，不走实时聚合口径。</li>
+            <li>最新下单滚动带：前台展示最新下单数据，原型阶段允许假数据占位，正式环境取实时成交记录滚动展示。</li>
+            <li>评价摘要与评价总数：通过后台编辑课程页中的课程评价展示配置维护，当前按假数据配置展示。</li>
+            <li>价格区右侧第一行文案：按适用年级首选项 + 所选科目组合生成。</li>
+            <li>课程封面图：同时作为前台详情首屏主视觉和推荐课程卡片封面来源。</li>
+            <li>推荐课程：通过后台编辑课程页中的推荐课程配置维护推荐课程列表、顺序、销量和跳转目标。</li>
+          </ul>
+        </div>
+        <div class="note-card">
+          <strong>首屏滚动成交带</strong>
+          <p>红框区域为循环滚动的最新下单提示，目的是营造成交氛围并刺激用户尽快下单。前台只展示脱敏手机号与下单时间。</p>
+        </div>
+        <div class="note-card">
+          <strong>导航锚点</strong>
+          <ul>
+            <li>课程体验：评论摘要锚点。</li>
+            <li>课程评价：评价摘要模块标题锚点。</li>
+            <li>课程详情：课程图文内容锚点。</li>
+            <li>课程推荐：推荐课程区域锚点。</li>
+          </ul>
+        </div>
+        <div class="note-card">
+          <strong>按钮结果</strong>
+          <ul>
+            <li>立即购买：统一进入确认订单页，不在详情页直接完成 SKU 选择。</li>
+            <li>收藏 / 分享 / 客服：登录后可用，未登录先进入登录页承接。</li>
+            <li>推荐课程卡片 / 立即抢购：都进入对应课程详情页，不直接下单。</li>
+            <li>查看更多评价：进入课程评价列表页占位。</li>
+          </ul>
+        </div>
+        <div class="note-card">
+          <strong>平台默认能力</strong>
+          <p>右上角更多采用小程序标准更多能力，不承载自定义业务动作。原型说明文案明确备注：回首页、转发。</p>
+        </div>
+        <div class="note-card">
+          <strong>本期范围</strong>
+          <p>AI 导购不属于本期功能，因此即使设计图中存在相关元素，本次原型不展示该入口。</p>
+        </div>
+      </div>
+
+      <div class="notes-body" data-page-notes="page-order">
+        <div class="note-card">
+          <strong>页面职责</strong>
+          <p>确认订单页统一承接多 SKU 商品的规格选择、可售校验和订单提交。</p>
+        </div>
+        <div class="note-card">
+          <strong>SKU 规则</strong>
+          <ul>
+            <li>维度顺序：学段、班型、上课形式、科目。</li>
+            <li>默认选中：每个维度排序后的第一个可售项。</li>
+            <li>不可售或无库存组合：直接隐藏，不在页面中展示。</li>
+          </ul>
+        </div>
+        <div class="note-card">
+          <strong>范围说明</strong>
+          <p>本次只做确认订单页占位，不展开支付、优惠券、地址、约课和库存提示细则。</p>
+        </div>
+      </div>
+
+      <div class="notes-body" data-page-notes="page-review">
+        <div class="note-card">
+          <strong>页面职责</strong>
+          <p>该页承接详情页“查看更多评价”跳转，用于后续扩展完整评价列表能力。</p>
+        </div>
+        <div class="note-card">
+          <strong>当前实现</strong>
+          <p>详情页展示评价摘要，本页仅做跳转关系占位，后续可继续补充筛选、排序、分页和评价标签。</p>
+        </div>
+      </div>
+
+      <div class="notes-body" data-page-notes="page-login">
+        <div class="note-card">
+          <strong>登录拦截规则</strong>
+          <p>收藏、分享、客服均需要登录后使用。登录成功后回到课程详情页继续当前动作。</p>
+        </div>
+        <div class="note-card">
+          <strong>当前实现</strong>
+          <p>原型中用独立登录页表达承接链路，不展开真实登录方式和账号体系规则。</p>
+        </div>
+      </div>
+
+      <div class="notes-body" data-page-notes="page-service">
+        <div class="note-card">
+          <strong>页面职责</strong>
+          <p>该页用于承接已登录用户的课程咨询动作，真实接入时可替换为客服会话页或咨询工作台。</p>
+        </div>
+        <div class="note-card">
+          <strong>边界说明</strong>
+          <p>本页不展示营销成交信息，也不承接购买后的待约课状态。</p>
+        </div>
+      </div>
+
+      <div class="notes-body" data-page-notes="page-recommend">
+        <div class="note-card">
+          <strong>跳转规则</strong>
+          <p>推荐课程点击课程卡片后进入该课程详情页，再由该课程详情页继续承接购买。</p>
+        </div>
+        <div class="note-card">
+          <strong>当前实现</strong>
+          <p>本原型用占位详情页说明跳转关系，不在当前课程详情页直接打开推荐课程的 SKU 面板。</p>
+        </div>
+      </div>
+
+      <div class="notes-body" data-page-notes="page-admin-list">
+        <div class="note-card">
+          <strong>页面职责</strong>
+          <p>后台课程管理列表页用于维护课程清单、筛选课程范围，并通过“编辑”进入课程编辑页。它是后台运营入口页，不直接承担前台字段配置。</p>
+        </div>
+        <div class="note-card">
+          <strong>列表操作</strong>
+          <p>列表对齐真实后台管理页结构，需展示课程信息、分类/学科、适用年级、单价、价格、课时时长、评分、关联老师、状态，并通过“编辑”进入编辑课程页。</p>
+        </div>
+        <div class="note-card">
+          <strong>筛选规则</strong>
+          <ul>
+            <li>课程名称：文本输入，支持按课程名称关键词模糊搜索。</li>
+            <li>课程类别：下拉单选，来源于数字字典；默认“所有类别”。</li>
+            <li>科目：下拉单选，来源于数字字典；默认“所有科目”。</li>
+            <li>年级：下拉单选或多选，来源于适用年级字典；默认“所有年级”。</li>
+            <li>课程状态：下拉单选，包含启用、停用等状态；默认“所有状态”。</li>
+            <li>课程类型：下拉单选，包含试听课、正课；默认“所有类型”。</li>
+            <li>搜索：按当前筛选条件刷新课程列表。</li>
+            <li>重置：清空筛选条件并恢复默认列表。</li>
+            <li>收起：折叠筛选区，仅保留列表主体。</li>
+          </ul>
+        </div>
+        <div class="note-card">
+          <strong>列表字段规则</strong>
+          <ul>
+            <li>勾选框：用于批量选择课程，本轮仅展示入口，不展开批量操作。</li>
+            <li>课程信息：展示课程封面缩略图、课程名称、课程ID。</li>
+            <li>分类/学科：展示课程类别与所属学科。</li>
+            <li>适用年级：展示已配置年级，超出展示数量时使用“+N”折叠。</li>
+            <li>单价：展示原价、会员价、平台服务费等价格字段。</li>
+            <li>价格：展示对外售卖价格组合，用于后台快速核对。</li>
+            <li>课时时长：展示课程类型、单节时长和总课时数。</li>
+            <li>评分：展示后台配置或统计评分。</li>
+            <li>关联老师：展示当前关联老师数量。</li>
+            <li>状态：展示课程启用/停用状态。</li>
+          </ul>
+        </div>
+        <div class="note-card">
+          <strong>按钮规则</strong>
+          <ul>
+            <li>查看家长端详情页：跳转当前家长端课程详情页，用于核对前台展示效果。</li>
+            <li>新增课程：进入编辑课程页，用于创建新课程，本轮复用编辑页表达。</li>
+            <li>详情：查看当前行课程详情，本轮仅作为列表操作入口展示。</li>
+            <li>编辑：进入当前行对应的编辑课程页，编辑后驱动前台课程详情展示。</li>
+            <li>刷新图标：按当前筛选条件重新加载列表。</li>
+            <li>密度/全屏/列设置类图标：按后台标准列表工具处理，本轮不展开独立业务规则。</li>
+            <li>分页：切换页码或每页条数后刷新课程列表。</li>
+          </ul>
+        </div>
+        <div class="note-card">
+          <strong>与前台关系</strong>
+          <p>该页只负责提供运营管理入口。真正决定家长端课程详情页标题、标签、价格、详情图、评价摘要、推荐课程和滚动成交带的是编辑课程页中的字段与配置分区。</p>
+        </div>
+      </div>
+
+      <div class="notes-body" data-page-notes="page-admin-edit">
+        <div class="note-card">
+          <strong>页面职责</strong>
+          <p>后台编辑课程页用于统一维护课程基础字段、价格字段和前端展示配置，课程详情页的主要展示内容都应能在本页找到来源或配置位。</p>
+        </div>
+        <div class="note-card">
+          <strong>字段逐项说明</strong>
+          <div class="field-qa-list">
+            <div class="field-qa-item">
+              <strong>课程主标题 / 品牌标题</strong>
+              <p>字段定义：前端首屏品牌识别标题来源。规则：单行文本，建议20字内，必填。交互方式：文本输入。影响：用于前端首屏大标题展示，不再与课程名称混用。</p>
+            </div>
+            <div class="field-qa-item">
+              <strong>课程副文案 / 品牌宣传语</strong>
+              <p>字段定义：前端首屏副文案来源。规则：单行文本，建议40字内，可为空。交互方式：文本输入。影响：用于前端首屏品牌宣传语展示，强化课程认知与转化表达。</p>
+            </div>
+            <div class="field-qa-item">
+              <strong>价格区营销短文案</strong>
+              <p>字段定义：前端价格区右侧第二行营销短文案来源。规则：单行文本，建议10字内，长期保留。交互方式：文本输入。影响：用于承接价格利益点下的营销表达，例如“超值好课”。</p>
+            </div>
+            <div class="field-qa-item">
+              <strong>课程名称</strong>
+              <p>字段定义：前台课程标题主来源。规则：单行文本，最多100字，必填。交互方式：文本输入。影响：未填写时不能完整承接前台标题展示。</p>
+            </div>
+            <div class="field-qa-item">
+              <strong>课程类别 / 所属学科</strong>
+              <p>字段定义：前台类目与学科展示来源。规则：均为下拉单选，来源于数字字典。交互方式：下拉选择。影响：同时用于后台筛选与前台摘要标签展示。</p>
+            </div>
+            <div class="field-qa-item">
+              <strong>适用年级</strong>
+              <p>字段定义：前台学段展示来源。规则：多选勾选，来源于数字字典。交互方式：复选项多选。影响：同步影响后台列表适用年级列与前台课程学段展示。</p>
+            </div>
+            <div class="field-qa-item">
+              <strong>课程介绍（最多10张图片）</strong>
+              <p>字段定义：前台课程详情长图内容来源。规则：最多10张，支持拖拽排序，建议800×600px，支持JPG/PNG。交互方式：图片上传、排序、删除。影响：前台详情图文顺序按后台配置顺序展示。</p>
+            </div>
+            <div class="field-qa-item">
+              <strong>课程标签</strong>
+              <p>字段定义：前台标签来源。规则：最多5个，单标签最多10字；优先从数字字典选择，也允许手动补充少量自定义标签。交互方式：字典选择 + 手工输入。影响：前台摘要区按已配置标签展示。</p>
+            </div>
+            <div class="field-qa-item">
+              <strong>课程封面图</strong>
+              <p>字段定义：前台详情主视觉与推荐课程卡片封面来源。规则：单图上传，建议1:1比例、800×800px，支持JPG/PNG，单图不超过10MB。交互方式：上传、替换。影响：同时驱动详情页和推荐卡片封面。</p>
+            </div>
+            <div class="field-qa-item">
+              <strong>课程配置 / 价格字段</strong>
+              <p>字段定义：试听课/正课类型与价格展示来源。规则：课程配置为单选；单价、会员单价、平台服务费、总课时数、原价、会员价、单节课时长为数值输入；虚拟销量、虚拟评分为前台信任增强字段。交互方式：单选切换 + 数值输入。影响：同步影响前台价格区、后台列表与推荐展示。</p>
+            </div>
+            <div class="field-qa-item">
+              <strong>前端展示配置</strong>
+              <p>字段定义：用于维护首屏滚动带、摘要区收藏量、评价摘要、推荐课程的展示规则。规则：收藏量、评价总数、评价摘要、推荐课程销量当前均按后台假数据维护；`小学英语` 按适用年级首选项 + 所选科目生成；滚动带与评价支持新增自定义假数据；推荐课程通过弹窗选择课程后建立关联。交互方式：配置块维护 + 新增弹窗 + 弹窗选择关联。影响：直接决定前台非基础字段展示结果。</p>
+            </div>
+            <div class="field-qa-item">
+              <strong>新增滚动数据按钮</strong>
+              <p>按钮结果：打开“新增滚动数据”弹窗。确认新增后，该条脱敏手机号、下单时间、展示文案、排序值和状态回显到最新下单滚动带配置列表；取消则不新增。</p>
+            </div>
+            <div class="field-qa-item">
+              <strong>新增评价假数据按钮</strong>
+              <p>按钮结果：打开“新增评价假数据”弹窗。确认新增后，该条昵称、头像、评价内容、评价时间、排序值和状态回显到课程评价展示配置列表；取消则不新增。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="notes-body" data-page-notes="page-admin-order-popup">
+        <div class="note-card">
+          <strong>弹窗职责</strong>
+          <p>该弹窗用于给当前课程新增一条最新下单滚动带自定义假数据，归属于编辑课程页的“最新下单滚动带配置”。</p>
+        </div>
+        <div class="note-card">
+          <strong>字段规则</strong>
+          <ul>
+            <li>脱敏手机号：文本输入，用于前台滚动带手机号展示。</li>
+            <li>下单时间：日期时间选择，用于前台滚动带时间展示。</li>
+            <li>展示文案：默认可由手机号、时间和“下单”拼接，也允许后台自定义。</li>
+            <li>排序值：数值越小越靠前。</li>
+            <li>状态：启用后前台可展示，停用后不展示。</li>
+          </ul>
+        </div>
+        <div class="note-card">
+          <strong>按钮结果</strong>
+          <ul>
+            <li>取消：关闭弹窗并返回编辑课程页，不新增数据。</li>
+            <li>确认新增：保存该条假数据，关闭弹窗，并回显到最新下单滚动带配置列表。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="notes-body" data-page-notes="page-admin-review-popup">
+        <div class="note-card">
+          <strong>弹窗职责</strong>
+          <p>该弹窗用于给当前课程新增一条评价摘要自定义假数据，归属于编辑课程页的“课程评价展示配置”。</p>
+        </div>
+        <div class="note-card">
+          <strong>字段规则</strong>
+          <ul>
+            <li>用户昵称：文本输入，必填。</li>
+            <li>用户头像：单图上传，可为空；为空时前台使用默认头像。</li>
+            <li>评价内容：多行文本输入，必填，用于前台评价摘要展示。</li>
+            <li>评价时间：日期时间选择，可用于后续排序或展示。</li>
+            <li>排序值：数值越小越靠前。</li>
+            <li>状态：启用后进入前台摘要候选，停用后不展示。</li>
+          </ul>
+        </div>
+        <div class="note-card">
+          <strong>按钮结果</strong>
+          <ul>
+            <li>取消：关闭弹窗并返回编辑课程页，不新增数据。</li>
+            <li>确认新增：保存该条假数据，关闭弹窗，并回显到课程评价展示配置列表。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="notes-body" data-page-notes="page-admin-recommend-popup">
+        <div class="note-card">
+          <strong>弹窗职责</strong>
+          <p>该弹窗用于给当前课程选择推荐课程。运营在弹窗中搜索、筛选并多选课程，确认后建立推荐关联。</p>
+        </div>
+        <div class="note-card">
+          <strong>交互规则</strong>
+          <ul>
+            <li>支持按课程名称、课程类别、所属学科、课程状态筛选候选课程。</li>
+            <li>支持多选关联，确认后回到编辑课程页下方展示已关联课程。</li>
+            <li>已关联结果展示课程名称、封面、分类/学科、价格、排序值和移除操作。</li>
+            <li>推荐顺序由编辑课程页中的排序值控制，前台按该顺序展示推荐课程。</li>
+          </ul>
+        </div>
+      </div>
+    </aside>
+
+    <script>
+      const pageButtons = document.querySelectorAll(".tree-btn");
+      const pages = document.querySelectorAll(".page");
+      const notes = document.querySelectorAll(".notes-body");
+      const actionTargets = document.querySelectorAll("[data-target]");
+      const detailScroll = document.getElementById("detailScroll");
+      const anchorButtons = document.querySelectorAll(".anchor-btn");
+      const anchorMap = [
+        { id: "anchor-experience", label: "课程体验" },
+        { id: "anchor-review", label: "课程评价" },
+        { id: "anchor-detail", label: "课程详情" },
+        { id: "anchor-recommend", label: "课程推荐" }
+      ];
+
+      function showPage(pageId) {
+        pages.forEach((page) => page.classList.toggle("active", page.id === pageId));
+        pageButtons.forEach((btn) => btn.classList.toggle("active", btn.dataset.target === pageId));
+        notes.forEach((note) => note.classList.toggle("active", note.dataset.pageNotes === pageId));
+        if (pageId === "page-detail") {
+          detailScroll.scrollTop = 0;
+          setActiveAnchor("anchor-experience");
+        }
+      }
+
+      function setActiveAnchor(anchorId) {
+        anchorButtons.forEach((btn) => btn.classList.toggle("active", btn.dataset.anchor === anchorId));
+      }
+
+      pageButtons.forEach((btn) => {
+        btn.addEventListener("click", () => showPage(btn.dataset.target));
+      });
+
+      actionTargets.forEach((node) => {
+        node.addEventListener("click", (event) => {
+          const target = event.currentTarget.dataset.target;
+          if (target) showPage(target);
+        });
+      });
+
+      document.querySelectorAll("[data-action='more-open']").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const pageTip = document.createElement("div");
+          pageTip.className = "page-tip";
+          pageTip.textContent = "小程序标准更多能力：回首页、转发。当前原型不扩展自定义更多业务动作。";
+          const detailPage = document.querySelector(".notes-body.active");
+          const oldTip = detailPage.querySelector(".page-tip");
+          if (oldTip) oldTip.remove();
+          detailPage.appendChild(pageTip);
+        });
+      });
+
+      document.querySelectorAll("[data-action='back-source']").forEach((btn) => {
+        btn.addEventListener("click", () => showPage("page-detail"));
+      });
+
+      anchorButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const target = document.getElementById(btn.dataset.anchor);
+          if (!target) return;
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+          setActiveAnchor(btn.dataset.anchor);
+        });
+      });
+
+      detailScroll.addEventListener("scroll", () => {
+        const current = anchorMap.findLast((item) => {
+          const el = document.getElementById(item.id);
+          return el && el.getBoundingClientRect().top <= 180;
+        });
+        if (current) setActiveAnchor(current.id);
+      });
+    </script>
+  </body>
+</html>
