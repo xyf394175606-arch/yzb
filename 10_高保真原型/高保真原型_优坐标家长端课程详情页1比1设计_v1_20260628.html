@@ -1941,7 +1941,7 @@
               <button class="anchor-btn" data-anchor="anchor-recommend">课程推荐</button>
             </div>
 
-            <section class="section" id="anchor-experience">
+            <section class="section" id="anchor-review">
               <div class="section-head">
                 <div class="section-title">课程评价(66)</div>
                 <button class="link-lite" data-target="page-review">查看更多 ></button>
@@ -3067,8 +3067,8 @@
         <div class="note-card">
           <strong>导航锚点</strong>
           <ul>
-            <li>课程体验：评论摘要锚点。</li>
-            <li>课程评价：评价摘要模块标题锚点。</li>
+            <li>课程体验：点击后回到当前课程详情页顶部。</li>
+            <li>课程评价：点击后跳转到课程评价模块。</li>
             <li>课程详情：课程图文内容锚点。</li>
             <li>课程推荐：推荐课程区域锚点。</li>
           </ul>
@@ -3398,17 +3398,28 @@
 
       anchorButtons.forEach((btn) => {
         btn.addEventListener("click", () => {
-          const target = document.getElementById(btn.dataset.anchor);
+          const anchorId = btn.dataset.anchor;
+          if (anchorId === "anchor-experience") {
+            detailScroll.scrollTo({ top: 0, behavior: "smooth" });
+            setActiveAnchor("anchor-experience");
+            return;
+          }
+          const target = document.getElementById(anchorId);
           if (!target) return;
           target.scrollIntoView({ behavior: "smooth", block: "start" });
-          setActiveAnchor(btn.dataset.anchor);
+          setActiveAnchor(anchorId);
         });
       });
 
       detailScroll.addEventListener("scroll", () => {
-        const current = anchorMap.findLast((item) => {
+        if (detailScroll.scrollTop < 80) {
+          setActiveAnchor("anchor-experience");
+          return;
+        }
+        const containerTop = detailScroll.getBoundingClientRect().top;
+        const current = anchorMap.filter((item) => item.id !== "anchor-experience").findLast((item) => {
           const el = document.getElementById(item.id);
-          return el && el.getBoundingClientRect().top <= 180;
+          return el && el.getBoundingClientRect().top <= containerTop + 110;
         });
         if (current) setActiveAnchor(current.id);
       });
