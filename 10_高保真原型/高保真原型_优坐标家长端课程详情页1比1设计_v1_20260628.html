@@ -378,9 +378,9 @@
         height: 24px;
         padding: 0 8px;
         border-radius: 7px;
-        border: 1px solid #d7deea;
-        color: #7a8699;
-        background: #fff;
+        border: 1px solid #bfd6ff;
+        color: #4a7ce8;
+        background: #f1f6ff;
         display: inline-flex;
         align-items: center;
         font-size: 12px;
@@ -821,6 +821,200 @@
         font-size: 16px;
         font-weight: 900;
         cursor: pointer;
+      }
+      .order-page-scroll {
+        padding: 0;
+        background: #fff;
+      }
+      .order-nav {
+        height: 56px;
+        padding: 0 14px;
+        display: grid;
+        grid-template-columns: 42px 1fr 96px;
+        align-items: center;
+        background: rgba(255,255,255,0.86);
+        color: #9aa4b5;
+      }
+      .order-nav-title {
+        font-size: 22px;
+        font-weight: 700;
+        color: #9aa4b5;
+      }
+      .mini-program-more {
+        justify-self: end;
+        width: 86px;
+        height: 38px;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.92);
+        border: 1px solid rgba(18, 34, 64, 0.08);
+        display: grid;
+        grid-template-columns: 1fr 1px 1fr;
+        align-items: center;
+        justify-items: center;
+        color: #101828;
+        font-weight: 900;
+      }
+      .mini-program-more .divider {
+        width: 1px;
+        height: 22px;
+        background: #e5eaf3;
+      }
+      .order-hero {
+        height: 178px;
+        background: linear-gradient(135deg, #ffe688 0%, #ffd363 52%, #ffb64d 100%);
+        position: relative;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+      }
+      .order-hero::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,0.34);
+      }
+      .order-hero-text {
+        position: relative;
+        z-index: 1;
+        color: #fff7eb;
+        text-align: center;
+        font-size: 44px;
+        line-height: 1.12;
+        font-weight: 1000;
+        text-shadow: 0 4px 0 rgba(164, 69, 23, 0.72), 0 9px 18px rgba(113, 43, 9, 0.38);
+      }
+      .order-content {
+        padding: 18px 16px 96px;
+        background: #fff;
+      }
+      .order-product-card,
+      .order-info-card {
+        border: 1px solid #edf1f7;
+        border-radius: 16px;
+        background: #fff;
+        box-shadow: 0 4px 16px rgba(21, 38, 66, 0.04);
+      }
+      .order-product-card {
+        padding: 16px;
+        display: grid;
+        grid-template-columns: 92px 1fr 112px;
+        gap: 14px;
+        align-items: center;
+      }
+      .order-product-cover {
+        width: 92px;
+        height: 92px;
+        border-radius: 10px;
+        background: linear-gradient(180deg, #ffed96 0%, #ffd56a 100%);
+        display: grid;
+        place-items: center;
+        color: #b54708;
+        font-size: 14px;
+        font-weight: 1000;
+        text-align: center;
+        text-shadow: 0 2px 0 #fff;
+      }
+      .order-pay-label {
+        font-size: 16px;
+        color: #08679c;
+        font-weight: 900;
+      }
+      .order-pay-price {
+        margin-left: 6px;
+        font-size: 34px;
+        color: #08679c;
+        font-weight: 1000;
+      }
+      .order-quantity-label {
+        margin-top: 18px;
+        color: #344054;
+        font-size: 20px;
+      }
+      .quantity-stepper {
+        justify-self: end;
+        align-self: end;
+        width: 106px;
+        height: 44px;
+        border-radius: 999px;
+        background: #f1f3ff;
+        color: #08679c;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        align-items: center;
+        justify-items: center;
+        font-size: 22px;
+        font-weight: 900;
+      }
+      .quantity-stepper .count {
+        color: #101828;
+      }
+      .order-info-card {
+        margin-top: 12px;
+        height: 64px;
+        padding: 0 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: #232b38;
+        font-size: 18px;
+      }
+      .order-info-card .left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .order-info-card .icon {
+        color: #0873a8;
+        font-size: 22px;
+      }
+      .order-info-card .price {
+        color: #344054;
+      }
+      .order-form {
+        margin-top: 18px;
+      }
+      .order-form-label {
+        margin: 14px 0 8px;
+        color: #344054;
+        font-size: 17px;
+      }
+      .order-form-label.required::before {
+        content: "*";
+        color: #e11d48;
+        margin-right: 2px;
+      }
+      .order-field {
+        min-height: 58px;
+        border-radius: 14px;
+        background: #f0f2ff;
+        padding: 0 16px;
+        display: flex;
+        align-items: center;
+        color: #8d95a6;
+        font-size: 19px;
+      }
+      .order-field.textarea {
+        min-height: 94px;
+        align-items: flex-start;
+        padding-top: 18px;
+      }
+      .order-pay-bar {
+        position: sticky;
+        bottom: 0;
+        padding: 16px;
+        background: rgba(255,255,255,0.96);
+        border-top: 1px solid #eef2f7;
+      }
+      .order-pay-btn {
+        width: 100%;
+        height: 58px;
+        border: 0;
+        border-radius: 16px;
+        color: #fff;
+        background: #1297ea;
+        box-shadow: 0 8px 18px rgba(18, 151, 234, 0.28);
+        font-size: 22px;
+        font-weight: 900;
       }
       .login-panel {
         padding: 28px 18px 20px;
@@ -1830,7 +2024,7 @@
         </button>
         <button class="tree-btn" data-target="page-order">
           <strong>确认订单页</strong>
-          <span>统一承接多 SKU 选择与下单</span>
+          <span>订单确认与立即支付承接</span>
         </button>
         <button class="tree-btn" data-target="page-review">
           <strong>课程评价列表页</strong>
@@ -1855,15 +2049,11 @@
         </button>
         <button class="tree-btn" data-target="page-admin-edit">
           <strong>编辑课程页</strong>
-          <span>通过字段配置驱动前台展示</span>
+          <span>新增 / 编辑课程本体内容</span>
         </button>
-        <button class="tree-btn" data-target="page-admin-order-popup">
-          <strong>新增滚动数据弹窗</strong>
-          <span>新增最新下单滚动假数据</span>
-        </button>
-        <button class="tree-btn" data-target="page-admin-review-popup">
-          <strong>新增评价假数据弹窗</strong>
-          <span>新增课程评价摘要假数据</span>
+        <button class="tree-btn" data-target="page-admin-comment-popup">
+          <strong>评论管理弹窗</strong>
+          <span>课程列表操作列进入</span>
         </button>
         <button class="tree-btn" data-target="page-admin-recommend-popup">
           <strong>推荐课程选择弹窗</strong>
@@ -1893,12 +2083,12 @@
               <div class="hero-figure"><div class="hero-cover-label">课程封面图<br />小学英语拼读启蒙</div></div>
               <div class="hero-list">
                 <div class="hero-track">
-                  <div class="hero-ticket">1*********9 2026-5-20 10:20下单</div>
-                  <div class="hero-ticket">1*********6 2026-5-20 10:18下单</div>
-                  <div class="hero-ticket">1*********3 2026-5-20 10:15下单</div>
-                  <div class="hero-ticket">1*********9 2026-5-20 10:20下单</div>
-                  <div class="hero-ticket">1*********6 2026-5-20 10:18下单</div>
-                  <div class="hero-ticket">1*********3 2026-5-20 10:15下单</div>
+                  <div class="hero-ticket" data-order-phone="1*********9"></div>
+                  <div class="hero-ticket" data-order-phone="1*********6"></div>
+                  <div class="hero-ticket" data-order-phone="1*********3"></div>
+                  <div class="hero-ticket" data-order-phone="1*********9"></div>
+                  <div class="hero-ticket" data-order-phone="1*********6"></div>
+                  <div class="hero-ticket" data-order-phone="1*********3"></div>
                 </div>
               </div>
             </div>
@@ -1927,21 +2117,21 @@
                 <div class="summary-title">优选英语-单词拼读体验课【1V1专业教练伴学直播课】</div>
               </div>
               <div class="chips">
-                <span class="chip blue">好课热销</span>
-                <span class="chip blue">300人收藏</span>
+                <span class="chip">好课热销</span>
+                <span class="chip">300人收藏</span>
                 <span class="chip">英语</span>
                 <span class="chip">小学</span>
               </div>
             </div>
 
             <div class="anchor-tabs" id="anchorTabs">
-              <button class="anchor-btn active" data-anchor="anchor-experience">课程体验</button>
+              <button class="anchor-btn active" data-anchor="anchor-experience">课程内容</button>
               <button class="anchor-btn" data-anchor="anchor-review">课程评价</button>
               <button class="anchor-btn" data-anchor="anchor-detail">课程详情</button>
               <button class="anchor-btn" data-anchor="anchor-recommend">课程推荐</button>
             </div>
 
-            <section class="section" id="anchor-experience">
+            <section class="section" id="anchor-review">
               <div class="section-head">
                 <div class="section-title">课程评价(66)</div>
                 <button class="link-lite" data-target="page-review">查看更多 ></button>
@@ -2003,7 +2193,7 @@
 
             <section class="section" id="anchor-recommend">
               <div class="section-head">
-                <div class="section-title">推荐好课</div>
+                <div class="section-title">精选好课</div>
               </div>
               <div class="course-grid">
                 <div class="course-card" data-target="page-recommend">
@@ -2035,6 +2225,7 @@
                   </div>
                 </div>
               </div>
+              <button class="link-lite" style="width:100%;margin-top:10px;justify-content:center;">加载更多关联课程 ></button>
             </section>
           </div>
 
@@ -2061,62 +2252,57 @@
       <section class="page mobile-page" id="page-order">
         <div class="phone">
           <div class="status">
-            <span>23:58</span>
-            <span>5G 100%</span>
+            <span>19:34</span>
+            <span>5G 60%</span>
           </div>
           <div class="screen">
-          <div class="page-scroll simple-page">
-            <div class="inner-topbar">
+          <div class="page-scroll order-page-scroll">
+            <div class="order-nav">
               <button class="icon-btn" data-target="page-detail">‹</button>
-              <div class="inner-title">确认订单</div>
-              <div></div>
-            </div>
-            <div class="sku-card">
-              <div class="sku-course">
-                <div class="sku-cover">拼读优选<br />体验课</div>
-                <div class="sku-info">
-                  <strong>【小学段】拼读超人体验课</strong>
-                  <div style="margin-top:6px;font-size:13px;color:#667085;">直播授课 · 一对一真体验 · 英语启蒙</div>
-                  <div class="sku-price">￥39.9</div>
-                </div>
+              <div class="order-nav-title">商品详情</div>
+              <div class="mini-program-more">
+                <span>•••</span>
+                <span class="divider"></span>
+                <span>◎</span>
               </div>
             </div>
-            <div class="sku-card">
-              <div class="sku-group">
-                <div class="sku-group-title">学段</div>
-                <div class="sku-options">
-                  <span class="sku-option selected">小学</span>
-                  <span class="sku-option">初中</span>
-                </div>
-              </div>
-              <div class="sku-group">
-                <div class="sku-group-title">班型</div>
-                <div class="sku-options">
-                  <span class="sku-option selected">一对一</span>
-                  <span class="sku-option">小班</span>
-                </div>
-              </div>
-              <div class="sku-group">
-                <div class="sku-group-title">上课形式</div>
-                <div class="sku-options">
-                  <span class="sku-option selected">直播</span>
-                  <span class="sku-option">线下</span>
-                </div>
-              </div>
-              <div class="sku-group">
-                <div class="sku-group-title">科目</div>
-                <div class="sku-options">
-                  <span class="sku-option selected">英语</span>
-                  <span class="sku-option">数学</span>
-                </div>
-              </div>
-              <div class="page-tip">当前仅展示可售且有库存的组合。默认选中各维度排序后的第一个可售项，不可售组合不出现在本页。</div>
+            <div class="order-hero">
+              <div class="order-hero-text">优AI专业1对1伴学<br />初高中英语</div>
             </div>
-            <div class="placeholder-card">
-              <div class="order-row"><span>课程金额</span><strong>￥39.9</strong></div>
-              <div class="order-row"><span>优惠减免</span><strong>-￥0</strong></div>
-              <div class="order-row"><span>实付金额</span><strong style="color:#ff5a1f;">￥39.9</strong></div>
-              <button class="order-submit">提交订单</button>
+            <div class="order-content">
+              <div class="order-product-card">
+                <div class="order-product-cover">优AI专业1对1伴学<br />初高中英语</div>
+                <div>
+                  <div><span class="order-pay-label">实付价</span><span class="order-pay-price">¥40.0</span></div>
+                  <div class="order-quantity-label">购买数量</div>
+                </div>
+                <div class="quantity-stepper">
+                  <span>−</span>
+                  <span class="count">1</span>
+                  <span>＋</span>
+                </div>
+              </div>
+              <div class="order-info-card">
+                <div class="left"><span class="icon">▣</span><span>课程（课时）1</span></div>
+                <div class="price">价格: 40.0</div>
+              </div>
+              <div class="order-info-card">
+                <div class="left"><span class="icon">□</span><span>交付课程（课时）1</span></div>
+                <div class="price">价格: 0.0</div>
+              </div>
+              <div class="order-form">
+                <div class="order-form-label">家长信息</div>
+                <div class="order-field">156****3913</div>
+                <div class="order-form-label required">选择学员</div>
+                <div class="order-field">暂无学员信息</div>
+                <div class="order-form-label">推荐人联系电话</div>
+                <div class="order-field">请输入联系电话</div>
+                <div class="order-form-label">订单备注</div>
+                <div class="order-field textarea">请输入订单备注</div>
+              </div>
+            </div>
+            <div class="order-pay-bar">
+              <button class="order-pay-btn">立即支付 ¥40.0</button>
             </div>
           </div>
           </div>
@@ -2356,6 +2542,7 @@
                     <div class="status-green">启用</div>
                     <div class="admin-actions">
                       <button class="text-link">详情</button>
+                      <button class="text-link" data-target="page-admin-comment-popup">评论管理</button>
                       <button class="text-link" data-target="page-admin-edit">编辑</button>
                     </div>
                   </div>
@@ -2390,6 +2577,7 @@
                     <div class="status-green">启用</div>
                     <div class="admin-actions">
                       <button class="text-link">详情</button>
+                      <button class="text-link" data-target="page-admin-comment-popup">评论管理</button>
                       <button class="text-link" data-target="page-admin-edit">编辑</button>
                     </div>
                   </div>
@@ -2424,6 +2612,7 @@
                     <div class="status-green">启用</div>
                     <div class="admin-actions">
                       <button class="text-link">详情</button>
+                      <button class="text-link" data-target="page-admin-comment-popup">评论管理</button>
                       <button class="text-link" data-target="page-admin-edit">编辑</button>
                     </div>
                   </div>
@@ -2458,6 +2647,7 @@
                     <div class="status-green">启用</div>
                     <div class="admin-actions">
                       <button class="text-link">详情</button>
+                      <button class="text-link" data-target="page-admin-comment-popup">评论管理</button>
                       <button class="text-link" data-target="page-admin-edit">编辑</button>
                     </div>
                   </div>
@@ -2492,6 +2682,7 @@
                     <div class="status-green">启用</div>
                     <div class="admin-actions">
                       <button class="text-link">详情</button>
+                      <button class="text-link" data-target="page-admin-comment-popup">评论管理</button>
                       <button class="text-link" data-target="page-admin-edit">编辑</button>
                     </div>
                   </div>
@@ -2534,18 +2725,6 @@
                         <div class="edit-section-title">课程基本信息</div>
                       </div>
                       <div class="form-grid-1">
-                        <div class="form-item">
-                          <div class="form-label">* 课程主标题 / 品牌标题</div>
-                          <div class="form-input">拼读优选<span style="margin-left:auto;color:#98a2b3;">4 / 20</span></div>
-                        </div>
-                        <div class="form-item">
-                          <div class="form-label">课程副文案 / 品牌宣传语</div>
-                          <div class="form-input">掌握「见词能读、听音能写」的超能力<span style="margin-left:auto;color:#98a2b3;">17 / 40</span></div>
-                        </div>
-                        <div class="form-item">
-                          <div class="form-label">价格区营销短文案</div>
-                          <div class="form-input">超值好课<span style="margin-left:auto;color:#98a2b3;">4 / 10</span></div>
-                        </div>
                         <div class="form-item">
                           <div class="form-label">* 课程名称</div>
                           <div class="form-input">优选英语-单词拼读体验课【1V1专业教练伴学直播课】<span style="margin-left:auto;color:#98a2b3;">28 / 100</span></div>
@@ -2676,83 +2855,20 @@
                     </div>
                   </div>
                 </div>
-                <div class="display-config-panel">
+                  <div class="display-config-panel">
                   <div class="display-config-head">
                     <strong>前端展示配置</strong>
-                    <span>本区用于把课程后台字段与家长端课程详情展示关系挂实，滚动成交带、评价摘要、推荐课程均由本页统一配置。</span>
-                  </div>
-                  <div class="config-block">
-                    <strong>课程摘要展示配置</strong>
-                    <span>对应前台价格区与摘要区的组合展示字段。`小学英语` 按适用年级首选项 + 所选科目生成；收藏量按后台假数据配置维护；`好课热销` 归入课程标签体系。</span>
-                    <div class="config-tags">
-                      <span class="config-tag">组合文案：小学 + 英语</span>
-                      <span class="config-tag">收藏量：300人收藏</span>
-                      <span class="config-tag">营销标签：好课热销</span>
-                      <span class="config-tag">数据模式：收藏量假数据</span>
-                    </div>
-                    <div class="config-action-row">
-                      <button class="mini-ghost-btn">维护收藏量</button>
-                      <button class="mini-ghost-btn">维护摘要标签</button>
-                    </div>
-                    <div class="config-data-list">
-                      <div class="config-data-item">
-                        <strong>收藏量假数据：300人收藏</strong>
-                        <span>该字段不走实时聚合，由后台直接维护前台展示数值。</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="config-block">
-                    <strong>最新下单滚动带配置</strong>
-                    <span>对应前台首屏滚动成交带。当前按后台自定义假数据维护，不直接连接实时订单配置页。</span>
-                    <div class="config-tags">
-                      <span class="config-tag">展示开关：开启</span>
-                      <span class="config-tag">展示条数：3条</span>
-                      <span class="config-tag">滚动方式：循环向上</span>
-                      <span class="config-tag">数据模式：自定义假数据</span>
-                    </div>
-                    <div class="config-action-row">
-                      <button class="admin-btn" data-target="page-admin-order-popup">新增滚动数据</button>
-                      <button class="mini-ghost-btn">维护滚动数据</button>
-                    </div>
-                    <div class="config-data-list">
-                      <div class="config-data-item">
-                        <strong>1*********9 2026-05-20 10:20 下单</strong>
-                        <span>用于前台滚动条第 1 条展示，支持自定义脱敏手机号、下单时间和展示顺序。</span>
-                      </div>
-                      <div class="config-data-item">
-                        <strong>1*********6 2026-05-20 10:18 下单</strong>
-                        <span>与前台首屏滚动条逐条对应，删除后前台不再展示该条。</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="config-block">
-                    <strong>课程评价展示配置</strong>
-                    <span>对应前台评价摘要区。当前按后台自定义假数据维护，用于形成前台评价摘要展示，不代表完整评价系统。</span>
-                    <div class="config-tags">
-                      <span class="config-tag">展示开关：开启</span>
-                      <span class="config-tag">评价总数：66</span>
-                      <span class="config-tag">展示条数：5条</span>
-                      <span class="config-tag">排序：推荐排序</span>
-                      <span class="config-tag">数据模式：自定义假数据</span>
-                    </div>
-                    <div class="config-action-row">
-                      <button class="admin-btn" data-target="page-admin-review-popup">新增评价假数据</button>
-                      <button class="mini-ghost-btn">维护评价摘要</button>
-                    </div>
-                    <div class="config-data-list">
-                      <div class="config-data-item">
-                        <strong>张女士 · 拼读方法拆解得很细，直播互动节奏也好</strong>
-                        <span>支持维护昵称、头像、评价内容、展示顺序。前台默认只取配置后的前 5 条摘要，评价总数也由后台假数据维护。</span>
-                      </div>
-                    </div>
+                    <span>本区仅保留精选好课配置；课程评价 / 评论相关功能统一从课程管理列表页“评论管理”入口维护。</span>
                   </div>
                   <div class="config-block" style="border-bottom:0;">
-                    <strong>推荐课程配置</strong>
-                    <span>通过课程选择弹窗关联推荐课程。确认关联后，在下方展示已关联课程信息并支持手动排序。</span>
+                    <strong>精选好课配置</strong>
+                    <span>通过课程选择弹窗关联精选好课。确认关联后，在下方展示已关联课程信息并支持手动排序；前台默认最多展示4个关联课程，无关联课程时不展示该模块，点击加载更多可查看全部关联课程。</span>
                     <div class="config-tags">
-                      <span class="config-tag">推荐课程：2门</span>
+                      <span class="config-tag">精选好课：2门</span>
+                      <span class="config-tag">默认展示：最多4个</span>
                       <span class="config-tag">排序：手动排序</span>
                       <span class="config-tag">跳转目标：课程详情页</span>
+                      <span class="config-tag">无关联：隐藏模块</span>
                       <span class="config-tag">展示开关：开启</span>
                     </div>
                     <div class="config-action-row">
@@ -2791,89 +2907,70 @@
         </div>
       </section>
 
-      <section class="page pc-page" id="page-admin-order-popup">
+      <section class="page pc-page" id="page-admin-comment-popup">
         <div class="pc-shell">
           <div class="pc-topbar">
-            <div class="pc-title">优坐标后台 · 编辑课程</div>
-            <button class="admin-btn" data-target="page-admin-edit">返回编辑课程</button>
+            <div class="pc-title">优坐标后台 · 课程管理</div>
+            <button class="admin-btn" data-target="page-admin-list">返回课程列表</button>
           </div>
           <div class="pc-content admin-page">
             <div class="edit-shell">
               <div class="edit-modal">
                 <div class="edit-close">×</div>
-                <div class="edit-title">编辑课程</div>
+                <div class="edit-title">课程列表</div>
                 <div class="modal-mask active">
                   <div class="popup-panel">
                     <div class="popup-head">
-                      <strong>新增滚动数据</strong>
-                      <button class="text-link" data-target="page-admin-edit">关闭</button>
+                      <strong>评论管理 - 优选英语-单词拼读体验课【1V1专业教练伴学直播课】</strong>
+                      <button class="text-link" data-target="page-admin-list">关闭</button>
                     </div>
                     <div class="popup-body">
-                      <div class="form-grid-2">
-                        <div class="form-item">
-                          <div class="form-label">* 脱敏手机号</div>
-                          <div class="form-input">1*********9</div>
+                      <div class="admin-filters" style="grid-template-columns:1fr 1fr 1fr auto;margin-bottom:14px;">
+                        <div class="admin-filter-field">
+                          <label>用户昵称</label>
+                          <div class="admin-field">请输入昵称关键词</div>
                         </div>
-                        <div class="form-item">
-                          <div class="form-label">* 下单时间</div>
-                          <div class="form-input">2026-05-20 10:20</div>
+                        <div class="admin-filter-field">
+                          <label>展示状态</label>
+                          <div class="admin-field">全部状态</div>
                         </div>
-                        <div class="form-item">
-                          <div class="form-label">展示文案</div>
-                          <div class="form-input">1*********9 2026-05-20 10:20 下单</div>
+                        <div class="admin-filter-field">
+                          <label>评分</label>
+                          <div class="admin-field">全部评分</div>
                         </div>
-                        <div class="form-item">
-                          <div class="form-label">排序值</div>
-                          <div class="form-input">1</div>
+                        <div class="admin-filter-actions" style="align-self:end;">
+                          <button class="admin-ghost-btn">重置</button>
+                          <button class="admin-btn">搜索</button>
                         </div>
                       </div>
-                      <div class="form-item">
-                        <div class="form-label">状态</div>
-                        <div class="config-tags" style="margin-top:0;">
-                          <span class="config-tag" style="background:#1677ff;color:#fff;border-color:#1677ff;">启用</span>
-                          <span class="config-tag">停用</span>
-                        </div>
+                      <div class="config-action-row" style="justify-content:space-between;margin-bottom:12px;">
+                        <strong>评论列表</strong>
+                        <button class="admin-btn">+ 新增评论</button>
                       </div>
                       <div class="config-data-list">
                         <div class="config-data-item">
-                          <strong>确认新增后回显到最新下单滚动带配置</strong>
-                          <span>保存后作为后台自定义假数据展示，前台按启用状态和排序值循环滚动。</span>
+                          <strong>张女士 · ★★★★★ · 启用 · 排序 1</strong>
+                          <span>拼读方法拆解得很细，直播互动节奏也好，孩子能跟着老师及时纠正发音。创建时间：2026-05-20 11:30</span>
+                          <div class="recommend-actions" style="justify-content:flex-start;margin-top:8px;">
+                            <button class="text-link">编辑</button>
+                            <button class="text-link">停用</button>
+                            <button class="text-link">删除</button>
+                          </div>
+                        </div>
+                        <div class="config-data-item">
+                          <strong>李先生 · ★★★★★ · 启用 · 排序 2</strong>
+                          <span>老师会及时纠音，孩子第一次愿意开口读单词，体验课转化效果不错。创建时间：2026-05-18 19:42</span>
+                          <div class="recommend-actions" style="justify-content:flex-start;margin-top:8px;">
+                            <button class="text-link">编辑</button>
+                            <button class="text-link">停用</button>
+                            <button class="text-link">删除</button>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="popup-foot">
-                      <span style="color:#667085;font-size:12px;">该数据不连接真实订单，仅用于前台成交氛围展示。</span>
-                      <div class="recommend-actions">
-                        <button class="admin-ghost-btn" data-target="page-admin-edit">取消</button>
-                        <button class="admin-btn" data-target="page-admin-edit">确认新增</button>
+                      <div class="config-block" style="margin-top:16px;border-bottom:0;">
+                        <strong>新增 / 编辑评论</strong>
+                        <span>同一弹窗内维护当前课程评论假数据，保存后回显到上方评论列表。</span>
                       </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="page pc-page" id="page-admin-review-popup">
-        <div class="pc-shell">
-          <div class="pc-topbar">
-            <div class="pc-title">优坐标后台 · 编辑课程</div>
-            <button class="admin-btn" data-target="page-admin-edit">返回编辑课程</button>
-          </div>
-          <div class="pc-content admin-page">
-            <div class="edit-shell">
-              <div class="edit-modal">
-                <div class="edit-close">×</div>
-                <div class="edit-title">编辑课程</div>
-                <div class="modal-mask active">
-                  <div class="popup-panel">
-                    <div class="popup-head">
-                      <strong>新增评价假数据</strong>
-                      <button class="text-link" data-target="page-admin-edit">关闭</button>
-                    </div>
-                    <div class="popup-body">
                       <div class="form-grid-2">
                         <div class="form-item">
                           <div class="form-label">* 用户昵称</div>
@@ -2882,6 +2979,10 @@
                         <div class="form-item">
                           <div class="form-label">用户头像</div>
                           <div class="form-input">上传头像，可为空</div>
+                        </div>
+                        <div class="form-item">
+                          <div class="form-label">评分</div>
+                          <div class="star-row">★ ★ ★ ★ ★ <span class="score">5</span></div>
                         </div>
                         <div class="form-item">
                           <div class="form-label">评价时间</div>
@@ -2893,7 +2994,7 @@
                         </div>
                       </div>
                       <div class="form-item">
-                        <div class="form-label">* 评价内容</div>
+                        <div class="form-label">* 评论内容</div>
                         <div class="form-textarea">拼读方法拆解得很细，直播互动节奏也好，孩子能跟着老师及时纠正发音。</div>
                       </div>
                       <div class="form-item">
@@ -2905,16 +3006,16 @@
                       </div>
                       <div class="config-data-list">
                         <div class="config-data-item">
-                          <strong>确认新增后回显到课程评价展示配置</strong>
-                          <span>前台默认展示配置后的前 5 条启用评价，评价总数、展示条数和排序方式仍由配置区控制。</span>
+                          <strong>保存后回显到评论列表</strong>
+                          <span>前台课程详情页按启用状态和排序值展示评论摘要，默认展示前 5 条启用评论。</span>
                         </div>
                       </div>
                     </div>
                     <div class="popup-foot">
-                      <span style="color:#667085;font-size:12px;">该评价为后台自定义假数据，不代表完整评价系统。</span>
+                      <span style="color:#667085;font-size:12px;">评论数据当前按后台自定义展示数据处理，不接真实订单评价系统。</span>
                       <div class="recommend-actions">
-                        <button class="admin-ghost-btn" data-target="page-admin-edit">取消</button>
-                        <button class="admin-btn" data-target="page-admin-edit">确认新增</button>
+                        <button class="admin-ghost-btn" data-target="page-admin-list">取消</button>
+                        <button class="admin-btn" data-target="page-admin-list">保存评论</button>
                       </div>
                     </div>
                   </div>
@@ -3052,25 +3153,26 @@
             <li>当前售价、底部价格：当前原型按后台课程规格中的单价字段展示。</li>
             <li>划线原价：当前原型按后台原价字段展示。</li>
             <li>销量：当前原型按后台虚拟销量字段展示。</li>
-            <li>收藏量：当前按后台假数据配置维护，不走实时聚合口径。</li>
-            <li>最新下单滚动带：前台展示最新下单数据，原型阶段允许假数据占位，正式环境取实时成交记录滚动展示。</li>
-            <li>评价摘要与评价总数：通过后台编辑课程页中的课程评价展示配置维护，当前按假数据配置展示。</li>
+            <li>收藏标签：由系统后台配置获取，用于前台摘要标签展示。</li>
+            <li>摘要标签：好课热销、收藏标签、学科、学段等标签统一使用同一颜色。</li>
+            <li>最新下单滚动带：不再由编辑课程页维护；原型按前端展示数据表达，时间为纯前端展示，按当前时间前15-20分钟随机生成。</li>
+            <li>评价摘要与评价总数：通过后台课程管理列表页操作列的“评论管理”弹窗维护，当前按后台自定义评论假数据展示。</li>
             <li>价格区右侧第一行文案：按适用年级首选项 + 所选科目组合生成。</li>
             <li>课程封面图：同时作为前台详情首屏主视觉和推荐课程卡片封面来源。</li>
-            <li>推荐课程：通过后台编辑课程页中的推荐课程配置维护推荐课程列表、顺序、销量和跳转目标。</li>
+            <li>精选好课：通过后台编辑课程页中的推荐课程配置维护关联课程列表、顺序、销量和跳转目标；前台默认最多展示4个，无关联课程时不展示，加载更多可查看全部关联课程。</li>
           </ul>
         </div>
         <div class="note-card">
           <strong>首屏滚动成交带</strong>
-          <p>红框区域为循环滚动的最新下单提示，目的是营造成交氛围并刺激用户尽快下单。前台只展示脱敏手机号与下单时间。</p>
+          <p>红框区域为循环滚动的最新下单提示，目的是营造成交氛围并刺激用户尽快下单。前台展示脱敏手机号与下单时间，其中时间为纯前端展示，按当前时间前15-20分钟随机生成。</p>
         </div>
         <div class="note-card">
           <strong>导航锚点</strong>
           <ul>
-            <li>课程体验：评论摘要锚点。</li>
-            <li>课程评价：评价摘要模块标题锚点。</li>
+            <li>课程内容：点击后回到当前课程详情页顶部。</li>
+            <li>课程评价：点击后跳转到课程评价模块。</li>
             <li>课程详情：课程图文内容锚点。</li>
-            <li>课程推荐：推荐课程区域锚点。</li>
+            <li>课程推荐：精选好课区域锚点。</li>
           </ul>
         </div>
         <div class="note-card">
@@ -3078,7 +3180,8 @@
           <ul>
             <li>立即购买：统一进入确认订单页，不在详情页直接完成 SKU 选择。</li>
             <li>收藏 / 分享 / 客服：登录后可用，未登录先进入登录页承接。</li>
-            <li>推荐课程卡片 / 立即抢购：都进入对应课程详情页，不直接下单。</li>
+            <li>精选好课卡片 / 立即抢购：都进入对应课程详情页，不直接下单。</li>
+            <li>加载更多关联课程：查看当前课程已关联的全部精选好课。</li>
             <li>查看更多评价：进入课程评价列表页占位。</li>
           </ul>
         </div>
@@ -3095,19 +3198,34 @@
       <div class="notes-body" data-page-notes="page-order">
         <div class="note-card">
           <strong>页面职责</strong>
-          <p>确认订单页统一承接多 SKU 商品的规格选择、可售校验和订单提交。</p>
+          <p>确认订单页承接课程详情页的立即购买动作，按照商品详情下单页形态展示课程商品、购买数量、课时信息、家长信息、学员选择、推荐人电话、订单备注和立即支付入口。</p>
         </div>
         <div class="note-card">
-          <strong>SKU 规则</strong>
+          <strong>字段规则</strong>
           <ul>
-            <li>维度顺序：学段、班型、上课形式、科目。</li>
-            <li>默认选中：每个维度排序后的第一个可售项。</li>
-            <li>不可售或无库存组合：直接隐藏，不在页面中展示。</li>
+            <li>顶部商品图：展示当前课程封面或下单页商品宣传图。</li>
+            <li>实付价：展示当前订单应付金额，随购买数量和课程价格联动。</li>
+            <li>购买数量：默认 1，支持减号/加号调整；最小值为 1。</li>
+            <li>课程（课时）：展示购买课程课时数和价格。</li>
+            <li>交付课程（课时）：展示赠送或交付课时数和价格，当前示例为 1 课时、价格 0.0。</li>
+            <li>家长信息：默认读取当前登录家长手机号并脱敏展示。</li>
+            <li>选择学员：必填；无学员时展示“暂无学员信息”，后续需补充选择或新增学员承接。</li>
+            <li>推荐人联系电话：选填，输入手机号。</li>
+            <li>订单备注：选填，多行文本。</li>
+          </ul>
+        </div>
+        <div class="note-card">
+          <strong>按钮规则</strong>
+          <ul>
+            <li>返回：回到课程详情页。</li>
+            <li>数量减号：数量为 1 时不可继续减少。</li>
+            <li>数量加号：增加购买数量后同步刷新实付价和底部立即支付金额。</li>
+            <li>立即支付：校验必填项，当前至少需选择学员；通过后进入支付流程，本原型不展开真实支付页。</li>
           </ul>
         </div>
         <div class="note-card">
           <strong>范围说明</strong>
-          <p>本次只做确认订单页占位，不展开支付、优惠券、地址、约课和库存提示细则。</p>
+          <p>本轮按截图补齐确认订单页视觉和字段规则；支付结果、优惠券、开票、库存轮询、学员新增弹窗和支付失败状态后续在订单专项中继续细化。</p>
         </div>
       </div>
 
@@ -3158,11 +3276,11 @@
       <div class="notes-body" data-page-notes="page-admin-list">
         <div class="note-card">
           <strong>页面职责</strong>
-          <p>后台课程管理列表页用于维护课程清单、筛选课程范围，并通过“编辑”进入课程编辑页。它是后台运营入口页，不直接承担前台字段配置。</p>
+          <p>后台课程管理列表页用于维护课程清单、筛选课程范围，并通过“编辑”进入课程编辑页，通过“评论管理”进入当前课程评论管理弹窗。它是后台课程与评论运营入口页。</p>
         </div>
         <div class="note-card">
           <strong>列表操作</strong>
-          <p>列表对齐真实后台管理页结构，需展示课程信息、分类/学科、适用年级、单价、价格、课时时长、评分、关联老师、状态，并通过“编辑”进入编辑课程页。</p>
+          <p>列表对齐真实后台管理页结构，需展示课程信息、分类/学科、适用年级、单价、价格、课时时长、评分、关联老师、状态，并通过“详情 / 评论管理 / 编辑”完成查看、评论维护和课程编辑。</p>
         </div>
         <div class="note-card">
           <strong>筛选规则</strong>
@@ -3199,6 +3317,7 @@
             <li>查看家长端详情页：跳转当前家长端课程详情页，用于核对前台展示效果。</li>
             <li>新增课程：进入编辑课程页，用于创建新课程，本轮复用编辑页表达。</li>
             <li>详情：查看当前行课程详情，本轮仅作为列表操作入口展示。</li>
+            <li>评论管理：打开当前行课程的评论管理弹窗，用于新增、编辑、启用、停用或删除评论假数据。</li>
             <li>编辑：进入当前行对应的编辑课程页，编辑后驱动前台课程详情展示。</li>
             <li>刷新图标：按当前筛选条件重新加载列表。</li>
             <li>密度/全屏/列设置类图标：按后台标准列表工具处理，本轮不展开独立业务规则。</li>
@@ -3207,30 +3326,18 @@
         </div>
         <div class="note-card">
           <strong>与前台关系</strong>
-          <p>该页只负责提供运营管理入口。真正决定家长端课程详情页标题、标签、价格、详情图、评价摘要、推荐课程和滚动成交带的是编辑课程页中的字段与配置分区。</p>
+          <p>该页提供课程编辑和评论管理入口。家长端课程详情页的标题、标签、价格、详情图和推荐课程由编辑课程页维护；评价摘要与评价总数由课程列表页的评论管理弹窗维护；滚动成交带按前端展示规则处理。</p>
         </div>
       </div>
 
       <div class="notes-body" data-page-notes="page-admin-edit">
         <div class="note-card">
           <strong>页面职责</strong>
-          <p>后台编辑课程页用于统一维护课程基础字段、价格字段和前端展示配置，课程详情页的主要展示内容都应能在本页找到来源或配置位。</p>
+          <p>后台编辑课程页用于维护课程基础字段、价格字段、课程介绍图片、课程标签、封面图和精选好课配置。课程评价 / 评论相关功能不在本页维护，统一从课程管理列表页“评论管理”入口进入。</p>
         </div>
         <div class="note-card">
           <strong>字段逐项说明</strong>
           <div class="field-qa-list">
-            <div class="field-qa-item">
-              <strong>课程主标题 / 品牌标题</strong>
-              <p>字段定义：前端首屏品牌识别标题来源。规则：单行文本，建议20字内，必填。交互方式：文本输入。影响：用于前端首屏大标题展示，不再与课程名称混用。</p>
-            </div>
-            <div class="field-qa-item">
-              <strong>课程副文案 / 品牌宣传语</strong>
-              <p>字段定义：前端首屏副文案来源。规则：单行文本，建议40字内，可为空。交互方式：文本输入。影响：用于前端首屏品牌宣传语展示，强化课程认知与转化表达。</p>
-            </div>
-            <div class="field-qa-item">
-              <strong>价格区营销短文案</strong>
-              <p>字段定义：前端价格区右侧第二行营销短文案来源。规则：单行文本，建议10字内，长期保留。交互方式：文本输入。影响：用于承接价格利益点下的营销表达，例如“超值好课”。</p>
-            </div>
             <div class="field-qa-item">
               <strong>课程名称</strong>
               <p>字段定义：前台课程标题主来源。规则：单行文本，最多100字，必填。交互方式：文本输入。影响：未填写时不能完整承接前台标题展示。</p>
@@ -3261,56 +3368,27 @@
             </div>
             <div class="field-qa-item">
               <strong>前端展示配置</strong>
-              <p>字段定义：用于维护首屏滚动带、摘要区收藏量、评价摘要、推荐课程的展示规则。规则：收藏量、评价总数、评价摘要、推荐课程销量当前均按后台假数据维护；`小学英语` 按适用年级首选项 + 所选科目生成；滚动带与评价支持新增自定义假数据；推荐课程通过弹窗选择课程后建立关联。交互方式：配置块维护 + 新增弹窗 + 弹窗选择关联。影响：直接决定前台非基础字段展示结果。</p>
-            </div>
-            <div class="field-qa-item">
-              <strong>新增滚动数据按钮</strong>
-              <p>按钮结果：打开“新增滚动数据”弹窗。确认新增后，该条脱敏手机号、下单时间、展示文案、排序值和状态回显到最新下单滚动带配置列表；取消则不新增。</p>
-            </div>
-            <div class="field-qa-item">
-              <strong>新增评价假数据按钮</strong>
-              <p>按钮结果：打开“新增评价假数据”弹窗。确认新增后，该条昵称、头像、评价内容、评价时间、排序值和状态回显到课程评价展示配置列表；取消则不新增。</p>
+              <p>字段定义：用于维护精选好课展示规则。规则：精选好课通过弹窗选择课程后建立关联，前台默认最多展示4个，无关联时隐藏。交互方式：配置块维护 + 弹窗选择关联。影响：决定前台精选好课展示结果。评价摘要不在编辑课程页维护。</p>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="notes-body" data-page-notes="page-admin-order-popup">
+      <div class="notes-body" data-page-notes="page-admin-comment-popup">
         <div class="note-card">
           <strong>弹窗职责</strong>
-          <p>该弹窗用于给当前课程新增一条最新下单滚动带自定义假数据，归属于编辑课程页的“最新下单滚动带配置”。</p>
+          <p>该弹窗由课程管理列表页操作列“评论管理”打开，用于维护当前课程的评论假数据，包括新增、编辑、启用、停用和删除。</p>
         </div>
         <div class="note-card">
           <strong>字段规则</strong>
           <ul>
-            <li>脱敏手机号：文本输入，用于前台滚动带手机号展示。</li>
-            <li>下单时间：日期时间选择，用于前台滚动带时间展示。</li>
-            <li>展示文案：默认可由手机号、时间和“下单”拼接，也允许后台自定义。</li>
-            <li>排序值：数值越小越靠前。</li>
-            <li>状态：启用后前台可展示，停用后不展示。</li>
-          </ul>
-        </div>
-        <div class="note-card">
-          <strong>按钮结果</strong>
-          <ul>
-            <li>取消：关闭弹窗并返回编辑课程页，不新增数据。</li>
-            <li>确认新增：保存该条假数据，关闭弹窗，并回显到最新下单滚动带配置列表。</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="notes-body" data-page-notes="page-admin-review-popup">
-        <div class="note-card">
-          <strong>弹窗职责</strong>
-          <p>该弹窗用于给当前课程新增一条评价摘要自定义假数据，归属于编辑课程页的“课程评价展示配置”。</p>
-        </div>
-        <div class="note-card">
-          <strong>字段规则</strong>
-          <ul>
+            <li>课程绑定：弹窗按当前课程行打开，标题展示当前课程名称。</li>
+            <li>筛选区：支持按用户昵称、展示状态、评分筛选评论列表。</li>
             <li>用户昵称：文本输入，必填。</li>
             <li>用户头像：单图上传，可为空；为空时前台使用默认头像。</li>
-            <li>评价内容：多行文本输入，必填，用于前台评价摘要展示。</li>
-            <li>评价时间：日期时间选择，可用于后续排序或展示。</li>
+            <li>评分：星级选择，用于前台评价摘要展示。</li>
+            <li>评论内容：多行文本输入，必填，用于前台评价摘要展示。</li>
+            <li>评价时间：日期时间选择，用于后台记录和前台展示候选。</li>
             <li>排序值：数值越小越靠前。</li>
             <li>状态：启用后进入前台摘要候选，停用后不展示。</li>
           </ul>
@@ -3318,8 +3396,12 @@
         <div class="note-card">
           <strong>按钮结果</strong>
           <ul>
-            <li>取消：关闭弹窗并返回编辑课程页，不新增数据。</li>
-            <li>确认新增：保存该条假数据，关闭弹窗，并回显到课程评价展示配置列表。</li>
+            <li>新增评论：在弹窗内打开新增 / 编辑评论表单区。</li>
+            <li>编辑：回填当前评论到表单区，保存后更新列表。</li>
+            <li>启用 / 停用：切换当前评论是否进入前台评价摘要候选。</li>
+            <li>删除：移除当前评论假数据。</li>
+            <li>取消：关闭弹窗并返回课程管理列表页。</li>
+            <li>保存评论：保存当前表单内容，回显到评论列表，并按启用状态和排序影响前台评价摘要。</li>
           </ul>
         </div>
       </div>
@@ -3327,7 +3409,7 @@
       <div class="notes-body" data-page-notes="page-admin-recommend-popup">
         <div class="note-card">
           <strong>弹窗职责</strong>
-          <p>该弹窗用于给当前课程选择推荐课程。运营在弹窗中搜索、筛选并多选课程，确认后建立推荐关联。</p>
+          <p>该弹窗用于给当前课程选择精选好课。运营在弹窗中搜索、筛选并多选课程，确认后建立推荐关联。</p>
         </div>
         <div class="note-card">
           <strong>交互规则</strong>
@@ -3335,7 +3417,9 @@
             <li>支持按课程名称、课程类别、所属学科、课程状态筛选候选课程。</li>
             <li>支持多选关联，确认后回到编辑课程页下方展示已关联课程。</li>
             <li>已关联结果展示课程名称、封面、分类/学科、价格、排序值和移除操作。</li>
-            <li>推荐顺序由编辑课程页中的排序值控制，前台按该顺序展示推荐课程。</li>
+            <li>推荐顺序由编辑课程页中的排序值控制，前台按该顺序展示精选好课。</li>
+            <li>前台默认最多展示4个关联课程；超过4个时通过“加载更多”查看全部关联课程。</li>
+            <li>当前课程没有关联课程时，前台不展示精选好课模块。</li>
           </ul>
         </div>
       </div>
@@ -3349,7 +3433,7 @@
       const detailScroll = document.getElementById("detailScroll");
       const anchorButtons = document.querySelectorAll(".anchor-btn");
       const anchorMap = [
-        { id: "anchor-experience", label: "课程体验" },
+        { id: "anchor-experience", label: "课程内容" },
         { id: "anchor-review", label: "课程评价" },
         { id: "anchor-detail", label: "课程详情" },
         { id: "anchor-recommend", label: "课程推荐" }
@@ -3367,6 +3451,20 @@
 
       function setActiveAnchor(anchorId) {
         anchorButtons.forEach((btn) => btn.classList.toggle("active", btn.dataset.anchor === anchorId));
+      }
+
+      function formatOrderTime(date) {
+        const pad = (value) => String(value).padStart(2, "0");
+        return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${pad(date.getHours())}:${pad(date.getMinutes())}`;
+      }
+
+      function renderFakeOrderTimes() {
+        document.querySelectorAll("[data-order-phone]").forEach((item, index) => {
+          const now = new Date();
+          const offsetMinutes = 15 + ((index * 2 + Math.floor(Math.random() * 6)) % 6);
+          const orderTime = new Date(now.getTime() - offsetMinutes * 60 * 1000);
+          item.textContent = `${item.dataset.orderPhone} ${formatOrderTime(orderTime)}下单`;
+        });
       }
 
       pageButtons.forEach((btn) => {
@@ -3398,20 +3496,33 @@
 
       anchorButtons.forEach((btn) => {
         btn.addEventListener("click", () => {
-          const target = document.getElementById(btn.dataset.anchor);
+          const anchorId = btn.dataset.anchor;
+          if (anchorId === "anchor-experience") {
+            detailScroll.scrollTo({ top: 0, behavior: "smooth" });
+            setActiveAnchor("anchor-experience");
+            return;
+          }
+          const target = document.getElementById(anchorId);
           if (!target) return;
           target.scrollIntoView({ behavior: "smooth", block: "start" });
-          setActiveAnchor(btn.dataset.anchor);
+          setActiveAnchor(anchorId);
         });
       });
 
       detailScroll.addEventListener("scroll", () => {
-        const current = anchorMap.findLast((item) => {
+        if (detailScroll.scrollTop < 80) {
+          setActiveAnchor("anchor-experience");
+          return;
+        }
+        const containerTop = detailScroll.getBoundingClientRect().top;
+        const current = anchorMap.filter((item) => item.id !== "anchor-experience").findLast((item) => {
           const el = document.getElementById(item.id);
-          return el && el.getBoundingClientRect().top <= 180;
+          return el && el.getBoundingClientRect().top <= containerTop + 110;
         });
         if (current) setActiveAnchor(current.id);
       });
+
+      renderFakeOrderTimes();
     </script>
   </body>
 </html>
