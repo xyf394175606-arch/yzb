@@ -2111,8 +2111,8 @@
           <span>课程列表操作列进入</span>
         </button>
         <button class="tree-btn" data-target="page-admin-recommend-popup">
-          <strong>推荐课程选择弹窗</strong>
-          <span>选择关联课程并回挂详情页</span>
+          <strong>关联课程弹窗</strong>
+          <span>课程列表操作列进入</span>
         </button>
       </div>
     </aside>
@@ -2598,6 +2598,7 @@
                     <div class="admin-actions">
                       <button class="text-link">详情</button>
                       <button class="text-link" data-target="page-admin-comment-popup">评论管理</button>
+                      <button class="text-link" data-target="page-admin-recommend-popup">关联课程</button>
                       <button class="text-link" data-target="page-admin-edit">编辑</button>
                     </div>
                   </div>
@@ -2633,6 +2634,7 @@
                     <div class="admin-actions">
                       <button class="text-link">详情</button>
                       <button class="text-link" data-target="page-admin-comment-popup">评论管理</button>
+                      <button class="text-link" data-target="page-admin-recommend-popup">关联课程</button>
                       <button class="text-link" data-target="page-admin-edit">编辑</button>
                     </div>
                   </div>
@@ -2668,6 +2670,7 @@
                     <div class="admin-actions">
                       <button class="text-link">详情</button>
                       <button class="text-link" data-target="page-admin-comment-popup">评论管理</button>
+                      <button class="text-link" data-target="page-admin-recommend-popup">关联课程</button>
                       <button class="text-link" data-target="page-admin-edit">编辑</button>
                     </div>
                   </div>
@@ -2703,6 +2706,7 @@
                     <div class="admin-actions">
                       <button class="text-link">详情</button>
                       <button class="text-link" data-target="page-admin-comment-popup">评论管理</button>
+                      <button class="text-link" data-target="page-admin-recommend-popup">关联课程</button>
                       <button class="text-link" data-target="page-admin-edit">编辑</button>
                     </div>
                   </div>
@@ -2738,6 +2742,7 @@
                     <div class="admin-actions">
                       <button class="text-link">详情</button>
                       <button class="text-link" data-target="page-admin-comment-popup">评论管理</button>
+                      <button class="text-link" data-target="page-admin-recommend-popup">关联课程</button>
                       <button class="text-link" data-target="page-admin-edit">编辑</button>
                     </div>
                   </div>
@@ -2910,52 +2915,6 @@
                     </div>
                   </div>
                 </div>
-                  <div class="display-config-panel">
-                  <div class="display-config-head">
-                    <strong>前端展示配置</strong>
-                    <span>本区仅保留精选好课配置；课程评价 / 评论相关功能统一从课程管理列表页“评论管理”入口维护。</span>
-                  </div>
-                  <div class="config-block" style="border-bottom:0;">
-                    <strong>精选好课配置</strong>
-                    <span>通过课程选择弹窗关联精选好课。确认关联后，在下方展示已关联课程信息并支持手动排序；前台默认最多展示4个关联课程，无关联课程时不展示该模块，点击加载更多可查看全部关联课程。</span>
-                    <div class="config-tags">
-                      <span class="config-tag">精选好课：2门</span>
-                      <span class="config-tag">默认展示：最多4个</span>
-                      <span class="config-tag">排序：手动排序</span>
-                      <span class="config-tag">跳转目标：课程详情页</span>
-                      <span class="config-tag">无关联：隐藏模块</span>
-                      <span class="config-tag">展示开关：开启</span>
-                    </div>
-                    <div class="config-action-row">
-                      <button class="admin-btn" data-target="page-admin-recommend-popup">选择课程</button>
-                      <button class="mini-ghost-btn">批量移除</button>
-                    </div>
-                    <div class="recommend-result-list">
-                      <div class="recommend-result-item">
-                        <div class="recommend-thumb">拼读优选<br />体验课</div>
-                        <div class="recommend-main">
-                          <strong>优选英语-单词拼读体验课</strong>
-                          <span>课程ID：39012 · 语言 / 英语 · 体验价￥39.9 · 销量3k+</span>
-                        </div>
-                        <div class="recommend-actions">
-                          <div class="recommend-sort">排序 1</div>
-                          <button class="text-link">移除</button>
-                        </div>
-                      </div>
-                      <div class="recommend-result-item">
-                        <div class="recommend-thumb">自然拼读<br />体验课</div>
-                        <div class="recommend-main">
-                          <strong>优选英语-自然拼读启蒙体验课</strong>
-                          <span>课程ID：39013 · 语言 / 英语 · 体验价￥39.9 · 销量2.6k+</span>
-                        </div>
-                        <div class="recommend-actions">
-                          <div class="recommend-sort">排序 2</div>
-                          <button class="text-link">移除</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -3073,19 +3032,19 @@
       <section class="page pc-page" id="page-admin-recommend-popup">
         <div class="pc-shell">
           <div class="pc-topbar">
-            <div class="pc-title">优坐标后台 · 编辑课程</div>
-            <button class="admin-btn" data-target="page-admin-edit">返回编辑课程</button>
+            <div class="pc-title">优坐标后台 · 课程管理</div>
+            <button class="admin-btn" data-target="page-admin-list">返回课程列表</button>
           </div>
           <div class="pc-content admin-page">
             <div class="edit-shell">
               <div class="edit-modal">
                 <div class="edit-close">×</div>
-                <div class="edit-title">编辑课程</div>
+                <div class="edit-title">课程列表</div>
                 <div class="modal-mask active">
                   <div class="popup-panel">
                     <div class="popup-head">
-                      <strong>选择推荐课程</strong>
-                      <button class="text-link" data-target="page-admin-edit">关闭</button>
+                      <strong>关联课程 - 优选英语-单词拼读体验课【1V1专业教练伴学直播课】</strong>
+                      <button class="text-link" data-target="page-admin-list">关闭</button>
                     </div>
                     <div class="popup-body">
                       <div class="popup-filters">
@@ -3165,10 +3124,10 @@
                       </div>
                     </div>
                     <div class="popup-foot">
-                      <span style="color:#667085;font-size:12px;">已选择 2 门课程，确认后将建立推荐关联并回显到编辑课程页。</span>
+                      <span style="color:#667085;font-size:12px;">已选择 2 门课程，确认后将为当前课程建立关联课程关系，用于前台精选好课展示。</span>
                       <div class="recommend-actions">
-                        <button class="admin-ghost-btn" data-target="page-admin-edit">取消</button>
-                        <button class="admin-btn" data-target="page-admin-edit">确认关联</button>
+                        <button class="admin-ghost-btn" data-target="page-admin-list">取消</button>
+                        <button class="admin-btn" data-target="page-admin-list">确认关联</button>
                       </div>
                     </div>
                   </div>
@@ -3203,7 +3162,7 @@
             <li>评价摘要与评价总数：通过后台课程管理列表页操作列的“评论管理”弹窗维护，当前按后台自定义评论假数据展示。</li>
             <li>价格区右侧第一行文案：按适用年级首选项 + 所选科目组合生成。</li>
             <li>课程封面图：同时作为前台详情首屏主视觉和推荐课程卡片封面来源。</li>
-            <li>精选好课：通过后台编辑课程页中的推荐课程配置维护关联课程列表、顺序、销量和跳转目标；前台默认最多展示4个，无关联课程时不展示，加载更多可查看全部关联课程。</li>
+            <li>精选好课：通过后台课程管理列表页操作列的“关联课程”弹窗维护关联课程列表、顺序、销量和跳转目标；前台默认最多展示4个，无关联课程时不展示，加载更多可查看全部关联课程。</li>
           </ul>
         </div>
         <div class="note-card">
@@ -3320,11 +3279,11 @@
       <div class="notes-body" data-page-notes="page-admin-list">
         <div class="note-card">
           <strong>页面职责</strong>
-          <p>后台课程管理列表页用于维护课程清单、筛选课程范围，并通过“编辑”进入课程编辑页，通过“评论管理”进入当前课程评论管理弹窗。它是后台课程与评论运营入口页。</p>
+          <p>后台课程管理列表页用于维护课程清单、筛选课程范围，并通过“编辑”进入课程编辑页，通过“评论管理”进入当前课程评论管理弹窗，通过“关联课程”进入当前课程关联课程弹窗。它是后台课程、评论和关联课程运营入口页。</p>
         </div>
         <div class="note-card">
           <strong>列表操作</strong>
-          <p>列表对齐真实后台管理页结构，需展示课程信息、分类/学科、适用年级、单价、价格、课时时长、评分、关联老师、状态，并通过“详情 / 评论管理 / 编辑”完成查看、评论维护和课程编辑。</p>
+          <p>列表对齐真实后台管理页结构，需展示课程信息、分类/学科、适用年级、单价、价格、课时时长、评分、关联老师、状态，并通过“详情 / 评论管理 / 关联课程 / 编辑”完成查看、评论维护、关联课程维护和课程编辑。</p>
         </div>
         <div class="note-card">
           <strong>筛选规则</strong>
@@ -3362,6 +3321,7 @@
             <li>新增课程：进入编辑课程页，用于创建新课程，本轮复用编辑页表达。</li>
             <li>详情：查看当前行课程详情，本轮仅作为列表操作入口展示。</li>
             <li>评论管理：打开当前行课程的评论管理弹窗，用于新增、编辑、启用、停用或删除评论假数据。</li>
+            <li>关联课程：打开当前行课程的关联课程弹窗，用于选择关联课程并维护前台精选好课展示。</li>
             <li>编辑：进入当前行对应的编辑课程页，编辑后驱动前台课程详情展示。</li>
             <li>刷新图标：按当前筛选条件重新加载列表。</li>
             <li>密度/全屏/列设置类图标：按后台标准列表工具处理，本轮不展开独立业务规则。</li>
@@ -3370,14 +3330,14 @@
         </div>
         <div class="note-card">
           <strong>与前台关系</strong>
-          <p>该页提供课程编辑和评论管理入口。家长端课程详情页的标题、标签、价格、详情图和推荐课程由编辑课程页维护；评价摘要与评价总数由课程列表页的评论管理弹窗维护；滚动成交带按前端展示规则处理。</p>
+          <p>该页提供课程编辑、评论管理和关联课程入口。家长端课程详情页的标题、标签、价格和详情图由编辑课程页维护；评价摘要与评价总数由课程列表页的评论管理弹窗维护；精选好课由课程列表页的关联课程弹窗维护；滚动成交带按前端展示规则处理。</p>
         </div>
       </div>
 
       <div class="notes-body" data-page-notes="page-admin-edit">
         <div class="note-card">
           <strong>页面职责</strong>
-          <p>后台编辑课程页用于维护课程基础字段、价格字段、课程介绍图片、课程标签、封面图和精选好课配置。课程评价 / 评论相关功能不在本页维护，统一从课程管理列表页“评论管理”入口进入。</p>
+          <p>后台编辑课程页用于维护课程基础字段、价格字段、课程介绍图片、课程标签和封面图。课程评价 / 评论和关联课程相关功能不在本页维护，统一从课程管理列表页对应操作入口进入。</p>
         </div>
         <div class="note-card">
           <strong>字段逐项说明</strong>
@@ -3409,10 +3369,6 @@
             <div class="field-qa-item">
               <strong>课程配置 / 价格字段</strong>
               <p>字段定义：试听课/正课类型与价格展示来源。规则：课程配置为单选；单价、会员单价、平台服务费、总课时数、原价、会员价、单节课时长为数值输入；虚拟销量、虚拟评分为前台信任增强字段。交互方式：单选切换 + 数值输入。影响：同步影响前台价格区、后台列表与推荐展示。</p>
-            </div>
-            <div class="field-qa-item">
-              <strong>前端展示配置</strong>
-              <p>字段定义：用于维护精选好课展示规则。规则：精选好课通过弹窗选择课程后建立关联，前台默认最多展示4个，无关联时隐藏。交互方式：配置块维护 + 弹窗选择关联。影响：决定前台精选好课展示结果。评价摘要不在编辑课程页维护。</p>
             </div>
           </div>
         </div>
@@ -3451,15 +3407,15 @@
       <div class="notes-body" data-page-notes="page-admin-recommend-popup">
         <div class="note-card">
           <strong>弹窗职责</strong>
-          <p>该弹窗用于给当前课程选择精选好课。运营在弹窗中搜索、筛选并多选课程，确认后建立推荐关联。</p>
+          <p>该弹窗由课程管理列表页操作列“关联课程”打开，用于给当前课程选择精选好课。运营在弹窗中搜索、筛选并多选课程，确认后建立推荐关联。</p>
         </div>
         <div class="note-card">
           <strong>交互规则</strong>
           <ul>
             <li>支持按课程名称、课程类别、所属学科、课程状态筛选候选课程。</li>
-            <li>支持多选关联，确认后回到编辑课程页下方展示已关联课程。</li>
+            <li>支持多选关联，确认后返回课程管理列表页，关联结果用于当前课程前台精选好课展示。</li>
             <li>已关联结果展示课程名称、封面、分类/学科、价格、排序值和移除操作。</li>
-            <li>推荐顺序由编辑课程页中的排序值控制，前台按该顺序展示精选好课。</li>
+            <li>推荐顺序由关联课程弹窗中的排序值控制，前台按该顺序展示精选好课。</li>
             <li>前台默认最多展示4个关联课程；超过4个时通过“加载更多”查看全部关联课程。</li>
             <li>当前课程没有关联课程时，前台不展示精选好课模块。</li>
           </ul>
