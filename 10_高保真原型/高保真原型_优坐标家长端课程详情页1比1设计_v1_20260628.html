@@ -1775,6 +1775,61 @@
         font-size: 12px;
         line-height: 1.6;
       }
+      .comment-table {
+        margin-top: 12px;
+        border: 1px solid #e7edf6;
+        border-radius: 10px;
+        overflow: hidden;
+        background: #fff;
+      }
+      .comment-row {
+        display: grid;
+        grid-template-columns: 92px 90px 72px minmax(220px, 1fr) 132px 118px;
+        min-height: 46px;
+        border-bottom: 1px solid #edf1f6;
+      }
+      .comment-row:last-child {
+        border-bottom: 0;
+      }
+      .comment-row.header {
+        min-height: 38px;
+        background: #f7f9fc;
+        color: #667085;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .comment-row > div {
+        padding: 10px 12px;
+        border-right: 1px solid #edf1f6;
+        color: #1f2937;
+        font-size: 12px;
+        line-height: 1.5;
+        display: flex;
+        align-items: center;
+      }
+      .comment-row > div:last-child {
+        border-right: 0;
+      }
+      .comment-row.draft {
+        background: #fbfdff;
+      }
+      .comment-stars {
+        color: #f59e0b;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+      .comment-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .comment-actions .text-link {
+        padding: 0;
+        font-size: 12px;
+      }
+      .comment-placeholder {
+        color: #98a2b3;
+      }
       .recommend-result-list {
         margin-top: 12px;
         display: grid;
@@ -2947,67 +3002,56 @@
                         <strong>评论列表</strong>
                         <button class="admin-btn">+ 新增评论</button>
                       </div>
-                      <div class="config-data-list">
-                        <div class="config-data-item">
-                          <strong>张女士 · ★★★★★ · 启用 · 排序 1</strong>
-                          <span>拼读方法拆解得很细，直播互动节奏也好，孩子能跟着老师及时纠正发音。创建时间：2026-05-20 11:30</span>
-                          <div class="recommend-actions" style="justify-content:flex-start;margin-top:8px;">
-                            <button class="text-link">编辑</button>
+                      <div class="comment-table">
+                        <div class="comment-row header">
+                          <div>姓名</div>
+                          <div>评价星</div>
+                          <div>排序</div>
+                          <div>评价内容</div>
+                          <div>创建时间</div>
+                          <div>操作</div>
+                        </div>
+                        <div class="comment-row">
+                          <div>张女士</div>
+                          <div><span class="comment-stars">★★★★★ 5</span></div>
+                          <div>1</div>
+                          <div>拼读方法拆解得很细，直播互动节奏也好，孩子能跟着老师及时纠正发音。</div>
+                          <div>2026-05-20 11:30</div>
+                          <div class="comment-actions">
+                            <button class="text-link">启用</button>
                             <button class="text-link">停用</button>
                             <button class="text-link">删除</button>
                           </div>
                         </div>
-                        <div class="config-data-item">
-                          <strong>李先生 · ★★★★★ · 启用 · 排序 2</strong>
-                          <span>老师会及时纠音，孩子第一次愿意开口读单词，体验课转化效果不错。创建时间：2026-05-18 19:42</span>
-                          <div class="recommend-actions" style="justify-content:flex-start;margin-top:8px;">
-                            <button class="text-link">编辑</button>
+                        <div class="comment-row">
+                          <div>李先生</div>
+                          <div><span class="comment-stars">★★★★★ 5</span></div>
+                          <div>2</div>
+                          <div>老师会及时纠音，孩子第一次愿意开口读单词，体验课转化效果不错。</div>
+                          <div>2026-05-18 19:42</div>
+                          <div class="comment-actions">
+                            <button class="text-link">启用</button>
+                            <button class="text-link">停用</button>
+                            <button class="text-link">删除</button>
+                          </div>
+                        </div>
+                        <div class="comment-row draft">
+                          <div>王女士</div>
+                          <div><span class="comment-stars">★★★★☆ 4</span></div>
+                          <div>3</div>
+                          <div>新增评论后在表格末尾新增一行，可继续维护排序、内容和展示状态。</div>
+                          <div class="comment-placeholder">保存时生成</div>
+                          <div class="comment-actions">
+                            <button class="text-link">启用</button>
                             <button class="text-link">停用</button>
                             <button class="text-link">删除</button>
                           </div>
                         </div>
                       </div>
-                      <div class="config-block" style="margin-top:16px;border-bottom:0;">
-                        <strong>新增 / 编辑评论</strong>
-                        <span>同一弹窗内维护当前课程评论假数据，保存后回显到上方评论列表。</span>
-                      </div>
-                      <div class="form-grid-2">
-                        <div class="form-item">
-                          <div class="form-label">* 用户昵称</div>
-                          <div class="form-input">张女士</div>
-                        </div>
-                        <div class="form-item">
-                          <div class="form-label">用户头像</div>
-                          <div class="form-input">上传头像，可为空</div>
-                        </div>
-                        <div class="form-item">
-                          <div class="form-label">评分</div>
-                          <div class="star-row">★ ★ ★ ★ ★ <span class="score">5</span></div>
-                        </div>
-                        <div class="form-item">
-                          <div class="form-label">评价时间</div>
-                          <div class="form-input">2026-05-20 11:30</div>
-                        </div>
-                        <div class="form-item">
-                          <div class="form-label">排序值</div>
-                          <div class="form-input">1</div>
-                        </div>
-                      </div>
-                      <div class="form-item">
-                        <div class="form-label">* 评论内容</div>
-                        <div class="form-textarea">拼读方法拆解得很细，直播互动节奏也好，孩子能跟着老师及时纠正发音。</div>
-                      </div>
-                      <div class="form-item">
-                        <div class="form-label">状态</div>
-                        <div class="config-tags" style="margin-top:0;">
-                          <span class="config-tag" style="background:#1677ff;color:#fff;border-color:#1677ff;">启用</span>
-                          <span class="config-tag">停用</span>
-                        </div>
-                      </div>
                       <div class="config-data-list">
                         <div class="config-data-item">
-                          <strong>保存后回显到评论列表</strong>
-                          <span>前台课程详情页按启用状态和排序值展示评论摘要，默认展示前 5 条启用评论。</span>
+                          <strong>新增评论展示规则</strong>
+                          <span>点击“新增评论”后，在评论表格末尾新增一条评论行；前台课程详情页按启用状态和排序值展示评论摘要，默认展示前 5 条启用评论。</span>
                         </div>
                       </div>
                     </div>
@@ -3385,7 +3429,6 @@
             <li>课程绑定：弹窗按当前课程行打开，标题展示当前课程名称。</li>
             <li>筛选区：支持按用户昵称、展示状态、评分筛选评论列表。</li>
             <li>用户昵称：文本输入，必填。</li>
-            <li>用户头像：单图上传，可为空；为空时前台使用默认头像。</li>
             <li>评分：星级选择，用于前台评价摘要展示。</li>
             <li>评论内容：多行文本输入，必填，用于前台评价摘要展示。</li>
             <li>评价时间：日期时间选择，用于后台记录和前台展示候选。</li>
@@ -3396,8 +3439,7 @@
         <div class="note-card">
           <strong>按钮结果</strong>
           <ul>
-            <li>新增评论：在弹窗内打开新增 / 编辑评论表单区。</li>
-            <li>编辑：回填当前评论到表单区，保存后更新列表。</li>
+            <li>新增评论：在评论表格末尾新增一条评论行。</li>
             <li>启用 / 停用：切换当前评论是否进入前台评价摘要候选。</li>
             <li>删除：移除当前评论假数据。</li>
             <li>取消：关闭弹窗并返回课程管理列表页。</li>
