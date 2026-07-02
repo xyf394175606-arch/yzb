@@ -55,7 +55,7 @@
       max-width: 455px;
       padding: 12px;
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       gap: 8px;
       background: rgba(255, 255, 255, .84);
       border: 1px solid #e5edf6;
@@ -292,6 +292,31 @@
       font-weight: 800;
     }
 
+    .filter-actions {
+      grid-column: 1 / -1;
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+      padding-top: 4px;
+    }
+
+    .filter-actions button {
+      height: 34px;
+      padding: 0 14px;
+      border-radius: 10px;
+      border: 1px solid #d8e4f0;
+      background: #fff;
+      color: #516175;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .filter-actions .confirm {
+      border-color: #1c7ed6;
+      background: #1c7ed6;
+      color: #fff;
+    }
+
     .list {
       background: #fff;
     }
@@ -434,6 +459,88 @@
 
     .state-panel.show { display: block; }
 
+    .detail-screen {
+      display: none;
+      min-height: 552px;
+      background: #fff;
+      border-bottom: 8px solid #f4f8fc;
+    }
+
+    .detail-screen.show { display: block; }
+
+    .detail-head {
+      height: 50px;
+      padding: 0 18px;
+      display: grid;
+      grid-template-columns: 42px 1fr 42px;
+      align-items: center;
+      border-bottom: 1px solid #eef3f8;
+      font-size: 18px;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .detail-back {
+      width: 34px;
+      height: 34px;
+      border: 0;
+      border-radius: 50%;
+      background: #f4f8fc;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .detail-back::before {
+      content: "";
+      position: absolute;
+      left: 13px;
+      top: 10px;
+      width: 10px;
+      height: 10px;
+      border-left: 2px solid #111827;
+      border-bottom: 2px solid #111827;
+      transform: rotate(45deg);
+    }
+
+    .detail-body {
+      padding: 22px;
+    }
+
+    .detail-profile {
+      display: grid;
+      grid-template-columns: 82px 1fr;
+      gap: 16px;
+      align-items: center;
+      padding-bottom: 18px;
+      border-bottom: 1px solid #edf3f8;
+    }
+
+    .detail-name {
+      font-size: 26px;
+      line-height: 1.1;
+      font-weight: 950;
+    }
+
+    .detail-section {
+      margin-top: 18px;
+      padding: 14px;
+      border-radius: 12px;
+      background: #fbfdff;
+      border: 1px solid #edf3f8;
+    }
+
+    .detail-section h4 {
+      margin: 0 0 8px;
+      font-size: 15px;
+    }
+
+    .detail-section p {
+      margin: 0;
+      color: #687385;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
     .skeleton-card {
       padding: 22px 0 20px;
       display: grid;
@@ -469,6 +576,22 @@
       text-align: center;
       color: #64748b;
       gap: 10px;
+    }
+
+    .default-avatar {
+      width: 82px;
+      height: 82px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 26px;
+      font-weight: 950;
+      background: linear-gradient(145deg, #7ab6f3, #2c78c4);
+    }
+
+    .default-avatar.female {
+      background: linear-gradient(145deg, #f5a3c4, #d65d93);
     }
 
     .state-icon {
@@ -611,6 +734,7 @@
         <button type="button" data-state="loading">加载</button>
         <button type="button" data-state="empty">空态</button>
         <button type="button" data-state="error">错误</button>
+        <button type="button" data-state="forbidden">无权限</button>
       </div>
 
       <div class="phone">
@@ -648,6 +772,10 @@
                 <button class="option" type="button" data-target="subjectLabel" data-value="英语">英语</button>
                 <button class="option" type="button" data-target="subjectLabel" data-value="物理">物理</button>
                 <button class="option" type="button" data-target="subjectLabel" data-value="化学">化学</button>
+                <div class="filter-actions">
+                  <button type="button" data-clear="subjectOptions">重置</button>
+                  <button class="confirm" type="button" data-confirm="subjectOptions">确认</button>
+                </div>
               </div>
               <div class="dropdown" id="gradeOptions" aria-label="年级筛选项">
                 <button class="option selected" type="button" data-target="gradeLabel" data-value="年级">全部</button>
@@ -655,12 +783,16 @@
                 <button class="option" type="button" data-target="gradeLabel" data-value="初中">初中</button>
                 <button class="option" type="button" data-target="gradeLabel" data-value="高中">高中</button>
                 <button class="option" type="button" data-target="gradeLabel" data-value="竞赛">竞赛</button>
+                <div class="filter-actions">
+                  <button type="button" data-clear="gradeOptions">重置</button>
+                  <button class="confirm" type="button" data-confirm="gradeOptions">确认</button>
+                </div>
               </div>
             </div>
           </header>
 
           <section class="list" id="defaultState">
-            <article class="teacher-card">
+            <article class="teacher-card" data-teacher="袁教员" data-degree="硕博老师" data-exp="8年" data-score="4.9" data-sales="100+" data-avatar="../work/优坐标老师列表截图资产_v1_20260702/老师头像_袁教员_v1_20260702.jpg">
               <div class="teacher-main">
                 <img class="avatar" src="../work/优坐标老师列表截图资产_v1_20260702/老师头像_袁教员_v1_20260702.jpg" alt="袁教员头像">
                 <div>
@@ -668,12 +800,10 @@
                     <div class="name">袁教员</div>
                     <span class="degree">硕博老师</span>
                   </div>
-                  <div class="subject">擅长科目：数学·化学·物理</div>
                   <div class="badges">
                     <span class="badge-blue">师范类院校</span>
                     <span class="badge-green">双一流</span>
                     <span class="badge-gold">985</span>
-                    <span class="badge-gold">211</span>
                   </div>
                   <div class="tags">
                     <span class="tag">初中数学</span>
@@ -692,14 +822,13 @@
               </div>
             </article>
 
-            <article class="teacher-card">
+            <article class="teacher-card" data-teacher="张教员" data-degree="" data-exp="11年" data-score="4.9" data-sales="100+" data-avatar="../work/优坐标老师列表截图资产_v1_20260702/老师头像_张教员_v1_20260702.jpg">
               <div class="teacher-main">
                 <img class="avatar" src="../work/优坐标老师列表截图资产_v1_20260702/老师头像_张教员_v1_20260702.jpg" alt="张教员头像">
                 <div>
                   <div class="name-row">
                     <div class="name">张教员</div>
                   </div>
-                  <div class="subject">擅长科目：数学·化学·物理</div>
                   <div class="badges">
                     <span class="badge-blue">师范类院校</span>
                     <span class="badge-green">双一流</span>
@@ -722,7 +851,7 @@
               </div>
             </article>
 
-            <article class="teacher-card">
+            <article class="teacher-card" data-teacher="李教员" data-degree="硕博老师" data-exp="6年" data-score="4.8" data-sales="78" data-avatar="../work/优坐标老师列表截图资产_v1_20260702/老师头像_李教员_v1_20260702.jpg">
               <div class="teacher-main">
                 <img class="avatar" src="../work/优坐标老师列表截图资产_v1_20260702/老师头像_李教员_v1_20260702.jpg" alt="李教员头像">
                 <div>
@@ -730,7 +859,6 @@
                     <div class="name">李教员</div>
                     <span class="degree">硕博老师</span>
                   </div>
-                  <div class="subject">擅长科目：数学·化学·物理</div>
                   <div class="tags">
                     <span class="tag">初中语文</span>
                     <span class="tag">小学语文</span>
@@ -782,12 +910,50 @@
             <div class="state-error">
               <div class="state-icon">!</div>
               <div class="state-title">老师列表加载失败</div>
-              <div class="state-desc">网络异常或服务暂不可用，请稍后重新加载。</div>
+              <div class="state-desc">当前网络不稳定，老师列表暂时加载失败。请点击重新加载再试。</div>
               <button class="reload" type="button" id="reloadBtn">重新加载</button>
             </div>
           </section>
+
+          <section class="state-panel" id="forbiddenState">
+            <div class="state-error">
+              <div class="state-icon">锁</div>
+              <div class="state-title">暂无查看权限</div>
+              <div class="state-desc">当前账号暂不能查看全部老师列表，请切换家长身份或联系平台客服处理。</div>
+            </div>
+          </section>
+
+          <section class="detail-screen" id="detailState">
+            <div class="detail-head">
+              <button class="detail-back" type="button" aria-label="返回老师列表"></button>
+              <div>教师详情</div>
+              <div></div>
+            </div>
+            <div class="detail-body">
+              <div class="detail-profile">
+                <img class="avatar" id="detailAvatar" src="../work/优坐标老师列表截图资产_v1_20260702/老师头像_袁教员_v1_20260702.jpg" alt="教师头像">
+                <div>
+                  <div class="detail-name" id="detailName">袁教员</div>
+                  <div class="badges" id="detailDegree"><span class="badge-gold">硕博老师</span></div>
+                </div>
+              </div>
+              <div class="metrics">
+                <div class="metric"><strong id="detailExp">8年</strong><span>教学经验</span></div>
+                <div class="metric"><strong id="detailScore">4.9</strong><span>教师评分</span></div>
+                <div class="metric"><strong id="detailSales">100+</strong><span>课程销量</span></div>
+              </div>
+              <div class="detail-section">
+                <h4>授课特色</h4>
+                <p>擅长针对学生薄弱点拆解题型，结合历年考情总结解题方法。当前详情页仅作为列表跳转承接，完整字段、预约入口和课程列表暂不进入下一轮。</p>
+              </div>
+              <div class="detail-section">
+                <h4>页面说明</h4>
+                <p>本页用于承接“老师卡片”和“更多”点击后的目标页面，当前仅保留详情页入口与核心字段。</p>
+              </div>
+            </div>
+          </section>
         </div>
-        <div class="toast" id="toast">“更多”按钮结果待确认：可选择展开完整授课特色，或进入老师详情页。</div>
+        <div class="toast" id="toast">已进入教师详情页面。</div>
       </div>
     </section>
 
@@ -802,18 +968,18 @@
         <ul>
           <li>顶部标题为“全部老师”，提供返回按钮和小程序胶囊区域。</li>
           <li>筛选入口为“学科”“年级”。</li>
-          <li>老师卡片展示头像、姓名、硕博老师标签、擅长科目、资质标签、年级科目标签、教学经验、教师评分、课程销量和授课特色。</li>
-          <li>截图中保留“擅长科目”和“教师评分”，本轮原型按截图复刻。</li>
+          <li>老师卡片展示头像、姓名、硕博老师标签、资质标签、年级科目标签、教学经验、教师评分、课程销量和授课特色。</li>
+          <li>根据本轮反馈，删除“擅长科目”字段；教师评分、课程销量按后台配置假数据展示。</li>
         </ul>
       </section>
 
       <section class="note-card">
         <h3>字段说明</h3>
         <div class="note-grid">
-          <div class="note-chip"><strong>擅长科目</strong><br>截图展示为“数学·化学·物理”，具体来源待确认。</div>
-          <div class="note-chip"><strong>教师评分</strong><br>截图展示 4.9/4.8，评分来源、周期和精度待确认。</div>
-          <div class="note-chip"><strong>课程销量</strong><br>截图展示 100+ 或 78，销量统计口径待确认。</div>
-          <div class="note-chip"><strong>资质标签</strong><br>师范类院校、双一流、985、211 的来源和排序待确认。</div>
+          <div class="note-chip"><strong>学科/年级</strong><br>筛选项调用后台字典，支持多选，点击确认后刷新列表。</div>
+          <div class="note-chip"><strong>教师评分</strong><br>后台配置假数据；指标缺失时不展示该指标。</div>
+          <div class="note-chip"><strong>课程销量</strong><br>后台配置假数据；指标缺失时不展示该指标。</div>
+          <div class="note-chip"><strong>标签展示</strong><br>标签过多时仅展示前 3 个；头像缺失按性别展示默认头像。</div>
         </div>
       </section>
 
@@ -821,10 +987,10 @@
         <h3>按钮与结果</h3>
         <ul>
           <li>返回：返回上一页，具体目标取决于小程序历史栈。</li>
-          <li>学科/年级：原型内展开筛选项；正式枚举待确认。</li>
-          <li>筛选项：原型内模拟刷新列表；物理或高中触发空态。</li>
-          <li>老师卡片：推测进入老师详情页，目标页待确认。</li>
-          <li>更多：结果待确认，可能为展开授课特色或进入详情页。</li>
+          <li>学科/年级：展开后台字典选项，支持多选。</li>
+          <li>筛选项：选择后不立即刷新，点击确认后刷新；物理或高中用于原型模拟空态。</li>
+          <li>老师卡片：进入教师详情页面。</li>
+          <li>更多：进入教师详情页面。</li>
         </ul>
       </section>
 
@@ -833,19 +999,21 @@
         <ul>
           <li>默认状态：展示 3 位老师样例卡片。</li>
           <li>加载态：展示骨架屏，不使用转圈加载。</li>
-          <li>空态：用于筛选无结果。</li>
-          <li>错误态：提供重新加载入口。</li>
-          <li>无权限态：截图无依据，本轮列为待确认。</li>
+          <li>空态文案：暂无符合条件的老师，可更换学科或年级后再查看。</li>
+          <li>错误态文案：当前网络不稳定，老师列表暂时加载失败。请点击重新加载再试。</li>
+          <li>无权限文案：当前账号暂不能查看全部老师列表，请切换家长身份或联系平台客服处理。</li>
         </ul>
       </section>
 
       <section class="note-card">
-        <h3>待确认问题</h3>
+        <h3>本轮反馈处理记录</h3>
         <ul>
-          <li>筛选项枚举、单选/多选、刷新时机和默认排序。</li>
-          <li>老师卡片与“更多”的真实跳转或展开方式。</li>
-          <li>教师评分、课程销量、标签来源的业务口径。</li>
-          <li>是否存在未登录、无权限、头像缺失、指标缺失等特殊状态。</li>
+          <li>筛选：已改为后台字典、多选、确认后刷新。</li>
+          <li>排序：已按“推荐”作为默认排序规则记录。</li>
+          <li>字段：已删除擅长科目；教师评分和课程销量改为后台配置假数据。</li>
+          <li>跳转：老师卡片和“更多”均进入教师详情页面。</li>
+          <li>状态文案：空态、错误态、无权限文案已确认采用。</li>
+          <li>范围：教师详情页完整字段暂不进入下一轮。</li>
         </ul>
       </section>
     </aside>
@@ -856,7 +1024,9 @@
       default: document.getElementById('defaultState'),
       loading: document.getElementById('loadingState'),
       empty: document.getElementById('emptyState'),
-      error: document.getElementById('errorState')
+      error: document.getElementById('errorState'),
+      forbidden: document.getElementById('forbiddenState'),
+      detail: document.getElementById('detailState')
     };
 
     const toolbarButtons = document.querySelectorAll('.review-toolbar button');
@@ -869,6 +1039,8 @@
       Object.entries(states).forEach(([name, el]) => {
         if (name === 'default') {
           el.style.display = next === 'default' ? 'block' : 'none';
+        } else if (name === 'detail') {
+          el.classList.toggle('show', next === 'detail');
         } else {
           el.classList.toggle('show', name === next);
         }
@@ -891,27 +1063,75 @@
 
     document.querySelectorAll('.option').forEach(option => {
       option.addEventListener('click', () => {
-        const label = document.getElementById(option.dataset.target);
-        label.textContent = option.dataset.value;
-        option.parentElement.querySelectorAll('.option').forEach(item => item.classList.remove('selected'));
-        option.classList.add('selected');
-        Object.values(dropdowns).forEach(el => el.classList.remove('open'));
-        if (option.dataset.value === '物理' || option.dataset.value === '高中') {
-          setState('empty');
+        const group = option.parentElement;
+        const allOption = group.querySelector('.option[data-value="学科"], .option[data-value="年级"]');
+        if (option === allOption) {
+          group.querySelectorAll('.option').forEach(item => item.classList.remove('selected'));
+          option.classList.add('selected');
         } else {
-          setState('default');
+          if (allOption) allOption.classList.remove('selected');
+          option.classList.toggle('selected');
+          const selected = group.querySelectorAll('.option.selected');
+          if (selected.length === 0 && allOption) allOption.classList.add('selected');
         }
       });
     });
 
     const toast = document.getElementById('toast');
-    document.querySelectorAll('.more').forEach(btn => {
+    function applyFilter(panelId) {
+      const panel = document.getElementById(panelId);
+      const selected = Array.from(panel.querySelectorAll('.option.selected'));
+      const first = selected[0];
+      const label = first ? document.getElementById(first.dataset.target) : null;
+      if (label) {
+        const realValues = selected.map(item => item.dataset.value).filter(value => value !== '学科' && value !== '年级');
+        label.textContent = realValues.length ? realValues.join('、') : (label.id === 'subjectLabel' ? '学科' : '年级');
+      }
+      Object.values(dropdowns).forEach(el => el.classList.remove('open'));
+      const values = selected.map(item => item.dataset.value);
+      setState(values.includes('物理') || values.includes('高中') ? 'empty' : 'default');
+    }
+
+    document.querySelectorAll('[data-confirm]').forEach(btn => {
+      btn.addEventListener('click', () => applyFilter(btn.dataset.confirm));
+    });
+
+    document.querySelectorAll('[data-clear]').forEach(btn => {
       btn.addEventListener('click', () => {
-        toast.classList.add('show');
-        window.clearTimeout(window.__teacherToastTimer);
-        window.__teacherToastTimer = window.setTimeout(() => toast.classList.remove('show'), 2600);
+        const panel = document.getElementById(btn.dataset.clear);
+        panel.querySelectorAll('.option').forEach(item => item.classList.remove('selected'));
+        const allOption = panel.querySelector('.option[data-value="学科"], .option[data-value="年级"]');
+        if (allOption) allOption.classList.add('selected');
       });
     });
+
+    function openTeacherDetail(card) {
+      document.getElementById('detailName').textContent = card.dataset.teacher;
+      document.getElementById('detailAvatar').src = card.dataset.avatar;
+      document.getElementById('detailExp').textContent = card.dataset.exp;
+      document.getElementById('detailScore').textContent = card.dataset.score;
+      document.getElementById('detailSales').textContent = card.dataset.sales;
+      const degree = document.getElementById('detailDegree');
+      degree.innerHTML = card.dataset.degree ? '<span class="badge-gold">' + card.dataset.degree + '</span>' : '<span class="badge-blue">教师资料</span>';
+      setState('detail');
+      toast.textContent = '已进入教师详情页面。';
+      toast.classList.add('show');
+      window.clearTimeout(window.__teacherToastTimer);
+      window.__teacherToastTimer = window.setTimeout(() => toast.classList.remove('show'), 1800);
+    }
+
+    document.querySelectorAll('.teacher-card').forEach(card => {
+      card.addEventListener('click', () => openTeacherDetail(card));
+    });
+
+    document.querySelectorAll('.more').forEach(btn => {
+      btn.addEventListener('click', event => {
+        event.stopPropagation();
+        openTeacherDetail(btn.closest('.teacher-card'));
+      });
+    });
+
+    document.querySelector('.detail-back').addEventListener('click', () => setState('default'));
 
     document.querySelector('.back').addEventListener('click', () => {
       toast.textContent = '返回目标待确认：按小程序历史栈返回上一页。';
@@ -919,7 +1139,7 @@
       window.clearTimeout(window.__teacherToastTimer);
       window.__teacherToastTimer = window.setTimeout(() => {
         toast.classList.remove('show');
-        toast.textContent = '“更多”按钮结果待确认：可选择展开完整授课特色，或进入老师详情页。';
+        toast.textContent = '已进入教师详情页面。';
       }, 2400);
     });
 
