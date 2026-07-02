@@ -1,0 +1,768 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>高保真原型_优坐标老师列表Axure设计_v1_20260702</title>
+  <style>
+    :root {
+      --bg: #eef3f8;
+      --panel: #fff;
+      --ink: #172033;
+      --muted: #7a8595;
+      --line: #dbe5ef;
+      --blue: #1f7bd1;
+      --blue-soft: #edf6ff;
+      --yellow: #fff8cf;
+      --yellow-line: #e5cf66;
+      --green: #1da978;
+      --gold: #d49418;
+      --shadow: 0 18px 42px rgba(41, 72, 102, .12);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+      letter-spacing: 0;
+    }
+
+    button { font: inherit; color: inherit; }
+
+    .topbar {
+      height: 64px;
+      padding: 0 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #162033;
+      color: #fff;
+      border-bottom: 1px solid rgba(255,255,255,.12);
+    }
+
+    .top-title {
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .top-meta {
+      display: flex;
+      gap: 10px;
+      color: #cfdae7;
+      font-size: 13px;
+    }
+
+    .layout {
+      height: calc(100vh - 64px);
+      display: grid;
+      grid-template-columns: 280px minmax(440px, 1fr) 430px;
+      min-height: 760px;
+    }
+
+    .sidebar {
+      padding: 18px 14px;
+      background: #f8fbff;
+      border-right: 1px solid var(--line);
+      overflow-y: auto;
+    }
+
+    .nav-section {
+      margin-bottom: 18px;
+    }
+
+    .nav-title {
+      margin: 0 0 8px;
+      color: #526072;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .nav-btn {
+      width: 100%;
+      min-height: 38px;
+      margin: 4px 0;
+      padding: 8px 10px 8px 18px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      background: transparent;
+      text-align: left;
+      color: #334155;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .nav-btn::before {
+      content: "";
+      position: absolute;
+      left: 7px;
+      top: 16px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #9aa8b8;
+    }
+
+    .nav-btn.active {
+      background: var(--blue-soft);
+      border-color: #cbe2f8;
+      color: #145ea5;
+      font-weight: 900;
+    }
+
+    .stage {
+      padding: 22px;
+      overflow: auto;
+    }
+
+    .page {
+      display: none;
+      min-height: 100%;
+    }
+
+    .page.active { display: block; }
+
+    .canvas-title {
+      margin: 0 0 14px;
+      font-size: 20px;
+      font-weight: 950;
+    }
+
+    .entry-card {
+      max-width: 920px;
+      padding: 22px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+    }
+
+    .entry-card h2 {
+      margin: 0 0 12px;
+      font-size: 22px;
+    }
+
+    .entry-grid {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .entry-item {
+      padding: 14px;
+      border-radius: 8px;
+      border: 1px solid #e5edf5;
+      background: #fbfdff;
+    }
+
+    .entry-item strong { display: block; margin-bottom: 6px; }
+    .entry-item span { color: var(--muted); font-size: 13px; line-height: 1.6; }
+
+    .phone-wrap {
+      display: flex;
+      justify-content: center;
+    }
+
+    .phone {
+      width: 390px;
+      height: 844px;
+      overflow: hidden;
+      border-radius: 34px;
+      background: #fff;
+      border: 1px solid #d8e3ef;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .phone-scroll {
+      height: 100%;
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+
+    .phone-scroll::-webkit-scrollbar { display: none; }
+
+    .hero {
+      padding: 18px 20px 14px;
+      background: linear-gradient(135deg, #dceeff 0%, #f8fcff 70%, #fff 100%);
+      border-bottom: 1px solid #eef3f8;
+    }
+
+    .status {
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 16px;
+      font-weight: 900;
+    }
+
+    .nav {
+      height: 44px;
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: 50px 1fr 88px;
+      align-items: center;
+    }
+
+    .back {
+      width: 36px;
+      height: 36px;
+      border: 0;
+      border-radius: 50%;
+      background: rgba(255,255,255,.78);
+      position: relative;
+      cursor: pointer;
+    }
+
+    .back::before {
+      content: "";
+      position: absolute;
+      left: 14px;
+      top: 11px;
+      width: 11px;
+      height: 11px;
+      border-left: 3px solid #111;
+      border-bottom: 3px solid #111;
+      transform: rotate(45deg);
+    }
+
+    .title {
+      text-align: center;
+      font-size: 21px;
+      font-weight: 950;
+    }
+
+    .capsule {
+      justify-self: end;
+      width: 82px;
+      height: 31px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      border-radius: 18px;
+      background: rgba(255,255,255,.86);
+      border: 1px solid #d5e1ed;
+      font-weight: 950;
+    }
+
+    .filters {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      position: relative;
+    }
+
+    .filter-btn {
+      height: 50px;
+      border: 1px solid #edf3f8;
+      border-radius: 14px;
+      background: rgba(255,255,255,.94);
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 18px;
+      font-weight: 950;
+      cursor: pointer;
+    }
+
+    .chev {
+      width: 10px;
+      height: 10px;
+      border-right: 3px solid #111;
+      border-bottom: 3px solid #111;
+      transform: rotate(45deg) translateY(-3px);
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 58px;
+      left: 0;
+      right: 0;
+      z-index: 5;
+      padding: 12px;
+      border: 1px solid #dce8f4;
+      border-radius: 14px;
+      background: #fff;
+      box-shadow: 0 18px 40px rgba(44, 76, 104, .16);
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .dropdown.open { display: grid; }
+
+    .option,
+    .mini-btn {
+      min-height: 34px;
+      border-radius: 9px;
+      border: 1px solid #e5eef7;
+      background: #f8fbff;
+      color: #4d6177;
+      cursor: pointer;
+    }
+
+    .option.selected {
+      border-color: var(--blue);
+      background: #e8f4ff;
+      color: #1769b8;
+      font-weight: 900;
+    }
+
+    .filter-actions {
+      grid-column: 1 / -1;
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      padding-top: 4px;
+    }
+
+    .mini-btn.primary {
+      background: var(--blue);
+      color: #fff;
+      border-color: var(--blue);
+      font-weight: 900;
+    }
+
+    .teacher-card {
+      padding: 22px;
+      border-bottom: 8px solid #f4f8fc;
+      cursor: pointer;
+    }
+
+    .teacher-main {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 18px;
+    }
+
+    .avatar {
+      width: 82px;
+      height: 82px;
+      object-fit: cover;
+      border-radius: 14px;
+      background: #eef1f5;
+    }
+
+    .name-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .name {
+      font-size: 28px;
+      line-height: 1.05;
+      font-weight: 950;
+    }
+
+    .degree {
+      padding: 5px 9px;
+      border-radius: 8px;
+      background: #ffe7b4;
+      color: #b77b13;
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .badges {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .blue { color: var(--blue); }
+    .green { color: var(--green); }
+    .gold { color: var(--gold); }
+
+    .tags {
+      margin-top: 10px;
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      padding: 4px 9px;
+      color: #327dd0;
+      background: #f0f6ff;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .metrics {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      text-align: center;
+    }
+
+    .metric + .metric { border-left: 1px solid #e8edf3; }
+
+    .metric strong {
+      display: block;
+      font-size: 26px;
+      line-height: 1;
+      font-weight: 950;
+      color: #05070a;
+    }
+
+    .metric span {
+      display: block;
+      margin-top: 5px;
+      font-size: 14px;
+      color: #9ba3ad;
+      font-weight: 700;
+    }
+
+    .intro {
+      margin-top: 18px;
+      padding: 13px 14px;
+      border-radius: 10px;
+      background: #fbfdff;
+      color: #687385;
+      font-size: 15px;
+      line-height: 1.7;
+      box-shadow: inset 0 0 0 1px #eef4fa;
+    }
+
+    .more {
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: #4d5562;
+      font-weight: 950;
+      cursor: pointer;
+    }
+
+    .detail-head {
+      height: 52px;
+      display: grid;
+      grid-template-columns: 48px 1fr 48px;
+      align-items: center;
+      border-bottom: 1px solid #eef3f8;
+      text-align: center;
+      font-size: 18px;
+      font-weight: 950;
+    }
+
+    .detail-body { padding: 22px; }
+
+    .detail-profile {
+      display: grid;
+      grid-template-columns: 82px 1fr;
+      gap: 16px;
+      align-items: center;
+      padding-bottom: 18px;
+      border-bottom: 1px solid #edf3f8;
+    }
+
+    .detail-name {
+      font-size: 26px;
+      font-weight: 950;
+    }
+
+    .detail-section {
+      margin-top: 18px;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid #edf3f8;
+      background: #fbfdff;
+    }
+
+    .detail-section h4 { margin: 0 0 8px; }
+
+    .detail-section p {
+      margin: 0;
+      color: #687385;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .notes {
+      padding: 22px 18px;
+      overflow-y: auto;
+      background: #f6f9fc;
+      border-left: 1px solid var(--line);
+    }
+
+    .note-page { display: none; }
+    .note-page.active { display: block; }
+
+    .note-card {
+      margin-bottom: 14px;
+      padding: 14px 16px;
+      border-radius: 8px;
+      background: var(--yellow);
+      border: 1px solid var(--yellow-line);
+      box-shadow: 0 10px 22px rgba(131, 111, 20, .08);
+    }
+
+    .note-card h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+    }
+
+    .note-card p,
+    .note-card li {
+      color: #625923;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .note-card p { margin: 0 0 8px; }
+    .note-card ul { margin: 0; padding-left: 20px; }
+
+    .state-demo {
+      margin-top: 8px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .state-chip {
+      padding: 10px;
+      border-radius: 8px;
+      background: rgba(255,255,255,.58);
+      border: 1px solid rgba(215,190,80,.6);
+      color: #625923;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 1080px) {
+      .layout {
+        height: auto;
+        grid-template-columns: 1fr;
+      }
+      .sidebar,
+      .notes {
+        border: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="top-title">优坐标 / 全部老师列表页 Axure 原型设计</div>
+    <div class="top-meta">
+      <span>版本 v1</span>
+      <span>端范围：移动端小程序</span>
+      <span>日期：20260702</span>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="页面层级导航">
+      <div class="nav-section">
+        <p class="nav-title">入口</p>
+        <button class="nav-btn active" data-page="entry">版本与页面目录</button>
+      </div>
+      <div class="nav-section">
+        <p class="nav-title">移动端 / 优坐标家长端 / 老师模块</p>
+        <button class="nav-btn" data-page="list">全部老师列表页</button>
+        <button class="nav-btn" data-page="detail">教师详情承接页</button>
+      </div>
+    </aside>
+
+    <main class="stage">
+      <section class="page active" id="page-entry">
+        <h1 class="canvas-title">版本与页面目录</h1>
+        <div class="entry-card">
+          <h2>原型范围</h2>
+          <p>本 Axure 风格原型基于已确认的需求分析、专项 PRD 和上一版高保真 HTML，覆盖优坐标家长端“全部老师”列表页，以及老师卡片/更多点击后的教师详情承接页。</p>
+          <div class="entry-grid">
+            <div class="entry-item"><strong>页面 1：全部老师列表页</strong><span>默认展示推荐老师列表，支持学科/年级后台字典多选，点击确认后刷新。</span></div>
+            <div class="entry-item"><strong>页面 2：教师详情承接页</strong><span>仅承接卡片和“更多”跳转，完整详情字段、预约入口和课程列表暂不进入下一轮。</span></div>
+            <div class="entry-item"><strong>原型约束</strong><span>手机线框只放真实用户可见 UI；字段来源、按钮结果、状态和风险放右侧黄色说明区。</span></div>
+            <div class="entry-item"><strong>上游缺口</strong><span>06-09 本页专项产物未齐，接口字段、权限触发条件和入口来源继续作为回流项。</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="page-list">
+        <h1 class="canvas-title">全部老师列表页</h1>
+        <div class="phone-wrap">
+          <div class="phone">
+            <div class="phone-scroll">
+              <header class="hero">
+                <div class="status"><span>23:58</span><span>▮▮▮⌁▭</span></div>
+                <div class="nav">
+                  <button class="back" type="button" data-back></button>
+                  <div class="title">全部老师</div>
+                  <div class="capsule">••• ◎</div>
+                </div>
+                <div class="filters">
+                  <button class="filter-btn" type="button" data-filter="subject"><span id="subjectLabel">学科</span><span class="chev"></span></button>
+                  <button class="filter-btn" type="button" data-filter="grade"><span id="gradeLabel">年级</span><span class="chev"></span></button>
+                  <div class="dropdown" id="subjectOptions">
+                    <button class="option selected" type="button" data-value="学科">全部</button>
+                    <button class="option" type="button" data-value="数学">数学</button>
+                    <button class="option" type="button" data-value="语文">语文</button>
+                    <button class="option" type="button" data-value="英语">英语</button>
+                    <button class="option" type="button" data-value="物理">物理</button>
+                    <button class="option" type="button" data-value="化学">化学</button>
+                    <div class="filter-actions"><button class="mini-btn" data-clear="subjectOptions">重置</button><button class="mini-btn primary" data-confirm="subjectOptions">确认</button></div>
+                  </div>
+                  <div class="dropdown" id="gradeOptions">
+                    <button class="option selected" type="button" data-value="年级">全部</button>
+                    <button class="option" type="button" data-value="小学">小学</button>
+                    <button class="option" type="button" data-value="初中">初中</button>
+                    <button class="option" type="button" data-value="高中">高中</button>
+                    <button class="option" type="button" data-value="竞赛">竞赛</button>
+                    <div class="filter-actions"><button class="mini-btn" data-clear="gradeOptions">重置</button><button class="mini-btn primary" data-confirm="gradeOptions">确认</button></div>
+                  </div>
+                </div>
+              </header>
+
+              <article class="teacher-card" data-teacher="袁教员" data-avatar="../work/优坐标老师列表截图资产_v1_20260702/老师头像_袁教员_v1_20260702.jpg">
+                <div class="teacher-main">
+                  <img class="avatar" src="../work/优坐标老师列表截图资产_v1_20260702/老师头像_袁教员_v1_20260702.jpg" alt="袁教员头像">
+                  <div>
+                    <div class="name-row"><div class="name">袁教员</div><span class="degree">硕博老师</span></div>
+                    <div class="badges"><span class="blue">师范类院校</span><span class="green">双一流</span><span class="gold">985</span></div>
+                    <div class="tags"><span class="tag">初中数学</span><span class="tag">小学数学</span><span class="tag">数学竞赛</span></div>
+                  </div>
+                </div>
+                <div class="metrics"><div class="metric"><strong>8年</strong><span>教学经验</span></div><div class="metric"><strong>4.9</strong><span>教师评分</span></div><div class="metric"><strong>100+</strong><span>课程销量</span></div></div>
+                <div class="intro">授课特色：擅长数学领域教学，精准抓考点、易错点，结合历年考情总结独家速解技巧；逻辑拆解式教学，复杂题型分层拆解，零基础也能听懂...<button class="more" type="button">更多</button></div>
+              </article>
+
+              <article class="teacher-card" data-teacher="张教员" data-avatar="../work/优坐标老师列表截图资产_v1_20260702/老师头像_张教员_v1_20260702.jpg">
+                <div class="teacher-main">
+                  <img class="avatar" src="../work/优坐标老师列表截图资产_v1_20260702/老师头像_张教员_v1_20260702.jpg" alt="张教员头像">
+                  <div>
+                    <div class="name-row"><div class="name">张教员</div></div>
+                    <div class="badges"><span class="blue">师范类院校</span><span class="green">双一流</span><span class="gold">211</span></div>
+                    <div class="tags"><span class="tag">初中语文</span><span class="tag">小学语文</span><span class="tag">作文竞赛</span></div>
+                  </div>
+                </div>
+                <div class="metrics"><div class="metric"><strong>11年</strong><span>教学经验</span></div><div class="metric"><strong>4.9</strong><span>教师评分</span></div><div class="metric"><strong>100+</strong><span>课程销量</span></div></div>
+                <div class="intro">授课特色：擅长基础梳理与表达训练，帮助学生建立答题思路...<button class="more" type="button">更多</button></div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="page-detail">
+        <h1 class="canvas-title">教师详情承接页</h1>
+        <div class="phone-wrap">
+          <div class="phone">
+            <div class="phone-scroll">
+              <div class="detail-head"><button class="back" type="button" data-page-jump="list"></button><div>教师详情</div><div></div></div>
+              <div class="detail-body">
+                <div class="detail-profile">
+                  <img class="avatar" src="../work/优坐标老师列表截图资产_v1_20260702/老师头像_袁教员_v1_20260702.jpg" alt="袁教员头像">
+                  <div><div class="detail-name">袁教员</div><div class="badges"><span class="gold">硕博老师</span></div></div>
+                </div>
+                <div class="metrics"><div class="metric"><strong>8年</strong><span>教学经验</span></div><div class="metric"><strong>4.9</strong><span>教师评分</span></div><div class="metric"><strong>100+</strong><span>课程销量</span></div></div>
+                <div class="detail-section"><h4>授课特色</h4><p>擅长针对学生薄弱点拆解题型，结合历年考情总结解题方法。</p></div>
+                <div class="detail-section"><h4>范围说明</h4><p>本页仅作为列表页跳转承接；完整详情字段、预约入口和课程列表暂不进入下一轮。</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <aside class="notes" aria-label="右侧黄色说明区">
+      <div class="note-page active" id="note-entry">
+        <div class="note-card"><h3>版本说明</h3><p>本文件为 Axure 风格业务原型，面向评审使用。页面线框只放真实用户可见内容，说明、字段来源、状态、待确认和回流项统一放在黄色说明区。</p></div>
+        <div class="note-card"><h3>页面层级</h3><ul><li>入口：版本与页面目录</li><li>移动端 / 优坐标家长端 / 老师模块 / 全部老师列表页</li><li>移动端 / 优坐标家长端 / 老师模块 / 教师详情承接页</li></ul></div>
+        <div class="note-card"><h3>输入来源</h3><ul><li>05 需求分析：老师列表截图反推 v1</li><li>11 专项 PRD：优坐标老师列表最终 PRD v1</li><li>10 高保真原型：截图反推 v1</li></ul></div>
+      </div>
+
+      <div class="note-page" id="note-list">
+        <div class="note-card"><h3>页面规则</h3><ul><li>默认按推荐排序展示老师列表。</li><li>学科、年级筛选项调用后台字典。</li><li>筛选支持多选，点击确认后刷新列表。</li><li>列表不展示“擅长科目”。</li></ul></div>
+        <div class="note-card"><h3>字段说明</h3><ul><li>教师评分、课程销量为后台配置假数据；缺失时不展示。</li><li>标签过多只展示前 3 个。</li><li>头像缺失时按性别展示默认头像。</li><li>身份标签、资质标签、年级科目标签来源待数据交互阶段补充。</li></ul></div>
+        <div class="note-card"><h3>按钮说明</h3><ul><li>返回：返回上一页，具体历史栈由小程序决定。</li><li>筛选确认：按多选条件刷新列表。</li><li>老师卡片：进入教师详情承接页。</li><li>更多：进入教师详情承接页。</li></ul></div>
+        <div class="note-card"><h3>全部状态</h3><div class="state-demo"><div class="state-chip"><strong>默认：</strong>展示推荐老师列表。</div><div class="state-chip"><strong>加载：</strong>展示骨架屏。</div><div class="state-chip"><strong>空态：</strong>暂无符合条件的老师，可更换学科或年级后再查看。</div><div class="state-chip"><strong>错误：</strong>当前网络不稳定，老师列表暂时加载失败。请点击重新加载再试。</div><div class="state-chip"><strong>无权限：</strong>当前账号暂不能查看全部老师列表，请切换家长身份或联系平台客服处理。</div></div></div>
+      </div>
+
+      <div class="note-page" id="note-detail">
+        <div class="note-card"><h3>页面规则</h3><ul><li>本页由老师卡片或“更多”进入。</li><li>当前仅作为跳转承接页，不进入完整详情字段设计。</li><li>不展示预约入口、课程列表、购买入口。</li></ul></div>
+        <div class="note-card"><h3>字段说明</h3><ul><li>仅展示头像、姓名、身份标签、教学经验、教师评分、课程销量、授课特色摘要。</li><li>完整字段、预约入口和课程列表暂不进入下一轮。</li></ul></div>
+        <div class="note-card"><h3>回流说明</h3><ul><li>入口来源、返回目标需 07 信息架构补齐。</li><li>字典接口、列表接口、权限状态码需 09 数据交互补齐。</li><li>本原型不编造接口字段。</li></ul></div>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    const pageButtons = document.querySelectorAll('[data-page]');
+    const pages = document.querySelectorAll('.page');
+    const notes = document.querySelectorAll('.note-page');
+
+    function showPage(name) {
+      pages.forEach(page => page.classList.toggle('active', page.id === 'page-' + name));
+      notes.forEach(note => note.classList.toggle('active', note.id === 'note-' + name));
+      pageButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.page === name));
+      location.hash = name;
+    }
+
+    pageButtons.forEach(btn => btn.addEventListener('click', () => showPage(btn.dataset.page)));
+    document.querySelectorAll('[data-page-jump]').forEach(el => el.addEventListener('click', () => showPage(el.dataset.pageJump)));
+    document.querySelectorAll('.teacher-card, .more').forEach(el => {
+      el.addEventListener('click', event => {
+        event.stopPropagation();
+        showPage('detail');
+      });
+    });
+
+    document.querySelectorAll('[data-filter]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.filter === 'subject' ? 'subjectOptions' : 'gradeOptions';
+        document.querySelectorAll('.dropdown').forEach(drop => drop.classList.toggle('open', drop.id === target && !drop.classList.contains('open')));
+      });
+    });
+
+    document.querySelectorAll('.option').forEach(option => {
+      option.addEventListener('click', () => {
+        const group = option.parentElement;
+        const first = group.querySelector('.option');
+        if (option === first) {
+          group.querySelectorAll('.option').forEach(item => item.classList.remove('selected'));
+          option.classList.add('selected');
+        } else {
+          first.classList.remove('selected');
+          option.classList.toggle('selected');
+          if (!group.querySelector('.option.selected')) first.classList.add('selected');
+        }
+      });
+    });
+
+    document.querySelectorAll('[data-clear]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const group = document.getElementById(btn.dataset.clear);
+        group.querySelectorAll('.option').forEach(item => item.classList.remove('selected'));
+        group.querySelector('.option').classList.add('selected');
+      });
+    });
+
+    document.querySelectorAll('[data-confirm]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const group = document.getElementById(btn.dataset.confirm);
+        const values = Array.from(group.querySelectorAll('.option.selected')).map(item => item.dataset.value);
+        const label = btn.dataset.confirm === 'subjectOptions' ? document.getElementById('subjectLabel') : document.getElementById('gradeLabel');
+        const defaultLabel = btn.dataset.confirm === 'subjectOptions' ? '学科' : '年级';
+        const selected = values.filter(value => value !== defaultLabel);
+        label.textContent = selected.length ? selected.join('、') : defaultLabel;
+        group.classList.remove('open');
+      });
+    });
+
+    if (location.hash) {
+      const initial = location.hash.replace('#', '');
+      if (document.getElementById('page-' + initial)) showPage(initial);
+    }
+  </script>
+</body>
+</html>
