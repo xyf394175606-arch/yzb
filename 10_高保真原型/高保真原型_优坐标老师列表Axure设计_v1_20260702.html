@@ -639,59 +639,639 @@
       cursor: pointer;
     }
 
-    .detail-head {
-      height: 52px;
+    .detail-phone {
+      background: #eef5ff;
+    }
+
+    .teacher-detail {
+      min-height: 100%;
+      padding-bottom: 74px;
+      background: #eef5ff;
+      color: #1a2433;
+    }
+
+    .detail-hero {
+      padding: 20px 16px 0;
+      background: linear-gradient(180deg, #e6f4ff 0%, #d7ecff 62%, #cfe6ff 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .detail-hero::after {
+      content: "";
+      position: absolute;
+      right: 20px;
+      top: 96px;
+      width: 112px;
+      height: 112px;
+      background: rgba(255,255,255,.22);
+      clip-path: polygon(50% 0, 100% 26%, 100% 78%, 50% 100%, 0 78%, 0 26%);
+    }
+
+    .detail-topbar {
+      height: 74px;
+      position: relative;
+      z-index: 5;
+    }
+
+    .detail-topbar .status {
+      height: 22px;
+      font-size: 15px;
+    }
+
+    .detail-nav {
+      margin-top: 10px;
       display: grid;
-      grid-template-columns: 48px 1fr 48px;
+      grid-template-columns: 78px 1fr 96px;
       align-items: center;
-      border-bottom: 1px solid #eef3f8;
+    }
+
+    .detail-left-pills,
+    .detail-right-pills {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .round-btn,
+    .home-pill,
+    .detail-menu {
+      height: 30px;
+      border: 1px solid rgba(214,226,237,.9);
+      background: rgba(255,255,255,.76);
+      color: #1e2630;
+      box-shadow: 0 1px 3px rgba(63,105,142,.06);
+    }
+
+    .round-btn {
+      width: 30px;
+      border-radius: 50%;
+      position: relative;
+    }
+
+    .round-btn.back-mini::before {
+      content: "";
+      position: absolute;
+      left: 11px;
+      top: 9px;
+      width: 8px;
+      height: 8px;
+      border-left: 2px solid #1b2530;
+      border-bottom: 2px solid #1b2530;
+      transform: rotate(45deg);
+    }
+
+    .round-btn.refresh::before {
+      content: "↻";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+      font-weight: 900;
+      color: #4a5b6f;
+    }
+
+    .home-pill {
+      width: 32px;
+      border-radius: 16px;
+      font-size: 15px;
+      line-height: 28px;
       text-align: center;
+    }
+
+    .detail-menu {
+      width: 62px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      font-weight: 950;
+    }
+
+    .detail-mini-circle {
+      width: 19px;
+      height: 19px;
+      border: 2px solid #1b2530;
+      border-radius: 50%;
+      position: relative;
+    }
+
+    .detail-mini-circle::after {
+      content: "";
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #1b2530;
+      position: absolute;
+      left: 5px;
+      top: 5px;
+    }
+
+    .detail-title {
+      text-align: center;
+      color: #161f2d;
+      font-size: 16px;
+      font-weight: 950;
+    }
+
+    .profile-summary {
+      position: relative;
+      z-index: 1;
+      min-height: 196px;
+      padding-top: 2px;
+      display: grid;
+      grid-template-columns: 132px 1fr;
+      column-gap: 12px;
+    }
+
+    .profile-photo-wrap {
+      width: 118px;
+      height: 118px;
+      margin-top: 4px;
+      border-radius: 59px;
+      border: 3px solid rgba(255,255,255,.9);
+      box-shadow: 0 8px 18px rgba(44,83,120,.16);
+      position: relative;
+    }
+
+    .profile-photo {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    .profile-role {
+      position: absolute;
+      left: 18px;
+      right: 0;
+      bottom: -13px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      border-radius: 15px 15px 6px 15px;
+      background: linear-gradient(180deg, #ffe8ba, #ffd88d);
+      border: 1px solid #f0bd5a;
+      color: #9f6a1a;
+      font-size: 12px;
+      font-weight: 950;
+      box-shadow: 0 3px 6px rgba(160,108,20,.18);
+    }
+
+    .profile-role::before {
+      content: "✓";
+      width: 18px;
+      height: 18px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #f5a923;
+      color: #fff;
+      font-size: 12px;
+    }
+
+    .profile-info {
+      min-width: 0;
+      padding-top: 2px;
+    }
+
+    .profile-name-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .profile-name {
+      font-size: 26px;
+      font-weight: 950;
+      line-height: 1.1;
+    }
+
+    .fav-btn {
+      height: 28px;
+      padding: 0 13px;
+      border: 1px solid #5c9dff;
+      border-radius: 16px;
+      background: rgba(244,250,255,.78);
+      color: #2d82ff;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .detail-metrics {
+      margin-top: 9px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      text-align: center;
+    }
+
+    .detail-metric + .detail-metric { border-left: 1px solid rgba(151,173,198,.46); }
+
+    .detail-metric strong {
+      display: block;
+      color: #3288ff;
+      font-size: 20px;
+      line-height: 1;
+      font-weight: 950;
+    }
+
+    .detail-metric span {
+      display: block;
+      margin-top: 4px;
+      color: #728092;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .profile-tags {
+      margin-top: 11px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .profile-tag {
+      padding: 3px 10px;
+      border-radius: 11px;
+      background: rgba(255,255,255,.74);
+      border: 1px solid rgba(168,188,210,.5);
+      color: #7b8795;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .quality-strip {
+      height: 49px;
+      margin: 0 -16px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(87,151,255,.18);
+      color: #1f82ff;
+      font-size: 16px;
+      font-weight: 950;
+    }
+
+    .guarantee-card {
+      margin: 12px 0 0;
+      height: 46px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 9px;
+      padding: 0 10px;
+      border-radius: 4px;
+      background: rgba(255,255,255,.72);
+      color: #7a8796;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .guarantee-card strong { color: #3a96ff; font-size: 15px; }
+
+    .follow-btn {
+      height: 30px;
+      padding: 0 14px;
+      border: 0;
+      border-radius: 15px;
+      background: #3b88ff;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 950;
+    }
+
+    .detail-tabs {
+      height: 48px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      background: #fff;
+      border-bottom: 1px solid #e8eff7;
+      position: sticky;
+      top: 0;
+      z-index: 4;
+    }
+
+    .detail-tab {
+      border: 0;
+      background: #fff;
+      color: #6c7480;
+      font-size: 16px;
+      font-weight: 800;
+      position: relative;
+    }
+
+    .detail-tab.active { color: #2f82ff; }
+
+    .detail-tab.active::after {
+      content: "";
+      position: absolute;
+      left: 26px;
+      right: 26px;
+      bottom: 0;
+      height: 3px;
+      border-radius: 3px;
+      background: #2f82ff;
+    }
+
+    .detail-content {
+      padding: 10px 12px 0;
+    }
+
+    .detail-card {
+      margin-bottom: 10px;
+      padding: 13px 14px;
+      border-radius: 9px;
+      background: #fff;
+      box-shadow: 0 1px 5px rgba(66,100,135,.06);
+    }
+
+    .detail-card h3 {
+      margin: 0 0 12px;
+      color: #1d2734;
+      font-size: 17px;
+      font-weight: 950;
+    }
+
+    .review-item {
+      padding: 9px 0;
+      border-bottom: 1px solid #edf2f7;
+      color: #6b7481;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .review-item:last-child { border-bottom: 0; }
+
+    .review-head {
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: #2d3744;
+      font-weight: 850;
+    }
+
+    .review-avatar {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: inline-grid;
+      place-items: center;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 900;
+      background: #5aa8ff;
+    }
+
+    .stars { color: #ffb21b; letter-spacing: .5px; }
+    .score { color: #f09a12; }
+
+    .more-row {
+      height: 28px;
+      display: grid;
+      place-items: center;
+      color: #9aa4b2;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .info-section {
+      padding: 12px 0 4px;
+      border-top: 1px solid #edf2f7;
+    }
+
+    .info-section:first-of-type { border-top: 0; }
+
+    .section-title {
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #2b3644;
+      font-size: 15px;
+      font-weight: 950;
+    }
+
+    .section-icon {
+      width: 20px;
+      height: 20px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #edf5ff;
+      color: #4b91ff;
+      font-size: 13px;
+    }
+
+    .bio-text {
+      margin: 0;
+      color: #303b49;
+      font-size: 14px;
+      line-height: 1.72;
+      font-weight: 700;
+    }
+
+    .subject-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .subject-tags span {
+      padding: 5px 11px;
+      border-radius: 5px;
+      background: #edf5ff;
+      color: #4a91ff;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .experience-item {
+      display: grid;
+      grid-template-columns: 22px 1fr;
+      gap: 9px;
+      margin-bottom: 12px;
+    }
+
+    .experience-num {
+      width: 22px;
+      height: 22px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #4c94ff;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 950;
+    }
+
+    .experience-title {
+      margin-bottom: 4px;
+      color: #303b49;
+      font-size: 14px;
+      font-weight: 950;
+    }
+
+    .experience-desc {
+      color: #7a8492;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .feature-pill {
+      margin-top: 8px;
+      padding: 12px;
+      border-radius: 6px;
+      background: #f8fbff;
+      color: #697586;
+      font-size: 13px;
+      line-height: 1.5;
+      font-weight: 700;
+    }
+
+    .course-title {
+      margin: 10px 12px 8px;
+      color: #0e1726;
       font-size: 18px;
       font-weight: 950;
     }
 
-    .detail-body { padding: 22px; }
-
-    .detail-profile {
+    .course-card {
+      margin: 0 12px 10px;
+      min-height: 136px;
       display: grid;
-      grid-template-columns: 82px 1fr;
-      gap: 16px;
+      grid-template-columns: 140px 1fr;
+      overflow: hidden;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(67, 96, 126, .12);
+    }
+
+    .course-cover {
+      position: relative;
+      min-height: 136px;
+      background: #e9f5ff;
+    }
+
+    .course-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .course-type {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 24px;
+      padding: 0 10px;
+      display: flex;
       align-items: center;
-      padding-bottom: 18px;
-      border-bottom: 1px solid #edf3f8;
-    }
-
-    .detail-profile .avatar-wrap,
-    .detail-profile .avatar {
-      width: 82px;
-      height: 82px;
-    }
-
-    .detail-profile .degree-badge {
-      height: 21px;
+      border-radius: 0 0 8px 0;
+      color: #fff;
       font-size: 12px;
+      font-weight: 950;
+      background: #ffad20;
     }
 
-    .detail-name {
-      font-size: 26px;
+    .course-type.official { background: #33c584; }
+
+    .course-info {
+      padding: 14px 12px 10px;
+      min-width: 0;
+    }
+
+    .course-name {
+      color: #111827;
+      font-size: 14px;
+      line-height: 1.35;
       font-weight: 950;
     }
 
-    .detail-section {
-      margin-top: 18px;
-      padding: 14px;
-      border-radius: 12px;
-      border: 1px solid #edf3f8;
-      background: #fbfdff;
+    .course-meta {
+      margin-top: 5px;
+      color: #8d98a6;
+      font-size: 12px;
     }
 
-    .detail-section h4 { margin: 0 0 8px; }
+    .course-price {
+      margin-top: 10px;
+      color: #ff6b00;
+      font-size: 13px;
+      font-weight: 900;
+    }
 
-    .detail-section p {
-      margin: 0;
-      color: #687385;
-      font-size: 14px;
-      line-height: 1.7;
+    .course-price strong {
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    .course-bottom {
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .sold { color: #a3adba; font-size: 12px; }
+
+    .buy-small {
+      height: 30px;
+      padding: 0 14px;
+      border: 0;
+      border-radius: 8px;
+      background: #3f8bff;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 950;
+    }
+
+    .detail-footer {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 64px;
+      display: grid;
+      grid-template-columns: 58px 58px 58px 1fr;
+      align-items: center;
+      gap: 2px;
+      padding: 7px 12px 9px;
+      background: rgba(255,255,255,.97);
+      border-top: 1px solid #e3ecf5;
+      z-index: 6;
+    }
+
+    .footer-link {
+      border: 0;
+      background: transparent;
+      color: #697586;
+      font-size: 11px;
+      font-weight: 850;
+      display: grid;
+      place-items: center;
+      gap: 2px;
+    }
+
+    .footer-link span:first-child { font-size: 20px; line-height: 1; }
+
+    .buy-main {
+      height: 42px;
+      border: 0;
+      border-radius: 8px;
+      background: #ff6a00;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 950;
     }
 
     .notes {
@@ -775,7 +1355,7 @@
       <div class="nav-section">
         <p class="nav-title">移动端 / 优坐标家长端 / 老师模块</p>
         <button class="nav-btn" data-page="list">全部老师列表页</button>
-        <button class="nav-btn" data-page="detail">教师详情承接页</button>
+        <button class="nav-btn" data-page="detail">教师详情页</button>
       </div>
     </aside>
 
@@ -784,10 +1364,10 @@
         <h1 class="canvas-title">版本与页面目录</h1>
         <div class="entry-card">
           <h2>原型范围</h2>
-          <p>本 Axure 风格原型基于已确认的需求分析、专项 PRD 和上一版高保真 HTML，覆盖优坐标家长端“全部老师”列表页，以及老师卡片/更多点击后的教师详情承接页。</p>
+          <p>本 Axure 风格原型基于已确认的需求分析、专项 PRD 和上一版高保真 HTML，覆盖优坐标家长端“全部老师”列表页，以及老师卡片/更多点击后的教师详情页。</p>
           <div class="entry-grid">
             <div class="entry-item"><strong>页面 1：全部老师列表页</strong><span>默认展示推荐老师列表，支持学科/年级后台字典多选，点击确认后刷新。</span></div>
-            <div class="entry-item"><strong>页面 2：教师详情承接页</strong><span>仅承接卡片和“更多”跳转，完整详情字段、预约入口和课程列表暂不进入下一轮。</span></div>
+            <div class="entry-item"><strong>页面 2：教师详情页</strong><span>由卡片和“更多”进入，展示教师资料、评价、简介、课程和购买操作。</span></div>
             <div class="entry-item"><strong>原型约束</strong><span>手机线框只放真实用户可见 UI；字段来源、按钮结果、状态和风险放右侧黄色说明区。</span></div>
             <div class="entry-item"><strong>上游缺口</strong><span>06-09 本页专项产物未齐，接口字段、权限触发条件和入口来源继续作为回流项。</span></div>
           </div>
@@ -965,21 +1545,62 @@
       </section>
 
       <section class="page" id="page-detail">
-        <h1 class="canvas-title">教师详情承接页</h1>
+        <h1 class="canvas-title">教师详情页</h1>
         <div class="phone-wrap">
-          <div class="phone">
-            <div class="phone-scroll">
-              <div class="detail-head"><button class="back" type="button" data-page-jump="list"></button><div>教师详情</div><div></div></div>
-              <div class="detail-body">
-                <div class="detail-profile">
-                  <div class="avatar-wrap"><img class="avatar" src="../work/优坐标老师列表截图资产_v1_20260702/老师头像_袁教员_v1_20260702.jpg" alt="袁教员头像"><span class="degree-badge">硕博</span></div>
-                  <div><div class="detail-name">袁教员</div><div class="badges"><span class="gold">数学提分</span></div></div>
+          <div class="phone detail-phone">
+            <div class="phone-scroll teacher-detail">
+              <header class="detail-hero">
+                <div class="detail-topbar">
+                  <div class="status"><span>23:58</span><span class="status-icons"><span class="cell-bars"><span></span><span></span><span></span><span></span></span><span class="wifi"></span><span class="battery"></span></span></div>
+                  <div class="detail-nav">
+                    <div class="detail-left-pills"><button class="round-btn back-mini" type="button" data-page-jump="list" aria-label="返回"></button><button class="home-pill" type="button" aria-label="首页">⌂</button></div>
+                    <div class="detail-title">老师详情</div>
+                    <div class="detail-right-pills"><button class="round-btn refresh" type="button" aria-label="刷新"></button><div class="detail-menu"><span>•••</span><span class="detail-mini-circle"></span></div></div>
+                  </div>
                 </div>
-                <div class="metrics"><div class="metric"><strong>8年</strong><span>教学经验</span></div><div class="metric"><strong>1280h</strong><span>累计上课时长</span></div><div class="metric"><strong>100+</strong><span>课程销量</span></div></div>
-                <div class="detail-section"><h4>授课特色</h4><p>擅长针对学生薄弱点拆解题型，结合历年考情总结解题方法。</p></div>
-                <div class="detail-section"><h4>范围说明</h4><p>本页仅作为列表页跳转承接；完整详情字段、预约入口和课程列表暂不进入下一轮。</p></div>
-              </div>
+
+                <div class="profile-summary">
+                  <div class="profile-photo-wrap"><img class="profile-photo" src="../work/优坐标教师详情截图资产_v1_20260703/教师头像_张琴琴_v1_20260703.png" alt="张琴琴头像"><span class="profile-role">骨干教师</span></div>
+                  <div class="profile-info">
+                    <div class="profile-name-row"><div class="profile-name">张琴琴</div><button class="fav-btn" type="button">+收藏</button></div>
+                    <div class="detail-metrics"><div class="detail-metric"><strong>6年</strong><span>教学经验</span></div><div class="detail-metric"><strong>602</strong><span>授课时长</span></div><div class="detail-metric"><strong>87</strong><span>收藏人数</span></div></div>
+                    <div class="profile-tags"><span class="profile-tag">培育名校学子</span><span class="profile-tag">零投诉</span><span class="profile-tag">211</span><span class="profile-tag">高好评率</span></div>
+                  </div>
+                </div>
+
+                <div class="quality-strip">优选师资，优坐标精选师资</div>
+                <div class="guarantee-card"><strong>优选保障</strong><span>更多内容关注公众号</span><button class="follow-btn" type="button">立即关注</button></div>
+              </header>
+
+              <nav class="detail-tabs" aria-label="教师详情标签页"><button class="detail-tab active" type="button">教师介绍</button><button class="detail-tab" type="button">教师评价</button><button class="detail-tab" type="button">购买课程</button></nav>
+
+              <main class="detail-content">
+                <section class="detail-card">
+                  <h3>教师评价(66)</h3>
+                  <div class="review-item"><div class="review-head"><span class="review-avatar">王</span><span>王**</span><span class="stars">★★★★★</span><span class="score">4.6</span></div><div>老师特别负责，讲课逻辑清晰，知识点讲得透彻，孩子听得懂、愿意学，课程性价比很高！</div></div>
+                  <div class="review-item"><div class="review-head"><span class="review-avatar">张</span><span>张**</span><span class="stars">★★★★★</span><span class="score">4.8</span></div><div>教学十分用心，全程耐心答疑，课程体系完整，重点抓得准，进步肉眼可见。</div></div>
+                  <div class="review-item"><div class="review-head"><span class="review-avatar">李</span><span>李**</span><span class="stars">★★★★★</span><span class="score">4.7</span></div><div>课程质量没得说，老师认真细致，针对性查漏补缺，对待每个孩子都很上心。</div></div>
+                  <div class="review-item"><div class="review-head"><span class="review-avatar">赵</span><span>赵**</span><span class="stars">★★★★★</span><span class="score">4.7</span></div><div>孩子学习积极改善了不少。</div></div>
+                  <div class="review-item"><div class="review-head"><span class="review-avatar">李</span><span>李**</span><span class="stars">★★★★★</span><span class="score">4.7</span></div><div>老师专业又负责，讲课条理分明，课堂氛围轻松不压抑。课程规划循序渐进，由浅入深，适配不同基础的学生。</div></div>
+                  <div class="more-row">查看更多⌄</div>
+                </section>
+
+                <section class="detail-card">
+                  <h3>教师简介</h3>
+                  <div class="info-section"><div class="section-title"><span class="section-icon">♙</span>个人简介</div><p class="bio-text">本人从事教学教学 9 年，是校区认证优秀师资。长期钻研题型考点，擅长分层教学，针对基础薄弱、拔高冲刺不同学生定制学习方案。课堂通俗易懂，注重培养逻辑推理与解题思路，多年教学沉淀完整的错题归纳、提分技巧体系。用心对待每一位学生，用多年教学经验帮大家扫清数学学习障碍，高效提升分数。</p></div>
+                  <div class="info-section"><div class="section-title"><span class="section-icon">♙</span>主讲科目</div><div class="subject-tags"><span>高中数学</span><span>初中数学</span><span>初中物理</span><span>高中物理</span><span>（一、二、三年级）数学</span></div></div>
+                  <div class="info-section"><div class="section-title"><span class="section-icon">▣</span>教学经验</div><div class="experience-item"><div class="experience-num">1</div><div><div class="experience-title">基础薄弱生补差案例</div><div class="experience-desc">多名及格线以下学生，梳理知识断层，专项补基础，总结题型模板，训练逻辑推导，半学期稳定提升至优秀区间。</div></div></div><div class="experience-item"><div class="experience-num">2</div><div><div class="experience-title">2026届高中升学考试</div><div class="experience-desc">针对只会基础、难题无思路学生，拓展竞赛、综合拓展题型，强化一题多解，冲刺高分满分，稳定年级前列。</div></div></div><div class="experience-item"><div class="experience-num">3</div><div><div class="experience-title">考前短期冲刺提分案例</div><div class="experience-desc">学生看不懂题干、不会列式，拆解文字逻辑模型，结合历年真题梳理高频考点，传授速解技巧，短期快速提升应试得分能力。</div></div></div><div class="more-row">查看更多⌄</div></div>
+                  <div class="info-section"><div class="section-title"><span class="section-icon">◎</span>授课特色</div><div class="feature-pill">逻辑拆解式教学，复杂题型分层拆解，零基础也能听懂</div><div class="feature-pill">精准抓考点、易错点，结合历年考情总结独家速解技巧</div></div>
+                </section>
+              </main>
+
+              <h2 class="course-title">购买课程</h2>
+              <section class="course-card"><div class="course-cover"><span class="course-type">体验课</span><img src="../work/优坐标教师详情截图资产_v1_20260703/课程封面_拼读优选体验课_v1_20260703.png" alt="拼读优选体验课"></div><div class="course-info"><div class="course-name">优选英语-英语伴学体验课【小学段】</div><div class="course-meta">★ 4.8　◷ 40分钟</div><div class="course-price">体验价¥<strong>39.9</strong></div><div class="course-bottom"><span class="sold">已售200</span><button class="buy-small" type="button">立即抢购</button></div></div></section>
+              <section class="course-card"><div class="course-cover"><span class="course-type">体验课</span><img src="../work/优坐标教师详情截图资产_v1_20260703/课程封面_数学学伴体验课_v1_20260703.png" alt="数学学伴体验课"></div><div class="course-info"><div class="course-name">优选数学-数学伴学体验课【初中段】</div><div class="course-meta">★ 4.8　◷ 40分钟</div><div class="course-price">体验价¥<strong>49.9</strong></div><div class="course-bottom"><span class="sold">已650</span><button class="buy-small" type="button">立即抢购</button></div></div></section>
+              <section class="course-card"><div class="course-cover"><span class="course-type official">正式课</span><img src="../work/优坐标教师详情截图资产_v1_20260703/课程封面_英语学正式课_v1_20260703.png" alt="英语伴学正式课"></div><div class="course-info"><div class="course-name">优选英语-英语伴学正式课【初中段】</div><div class="course-meta">★ 4.8　◷ 360分钟</div><div class="course-price">优惠价¥<strong>169</strong></div><div class="course-bottom"><span class="sold">已196</span><button class="buy-small" type="button">立即抢购</button></div></div></section>
+              <div class="more-row">查看更多⌄</div>
             </div>
+            <footer class="detail-footer"><button class="footer-link" type="button"><span>◔</span><span>客服</span></button><button class="footer-link" type="button"><span>↗</span><span>分享</span></button><button class="footer-link" type="button"><span>☆</span><span>收藏</span></button><button class="buy-main" type="button">立即购买</button></footer>
           </div>
         </div>
       </section>
@@ -988,22 +1609,22 @@
     <aside class="notes" aria-label="右侧黄色说明区">
       <div class="note-page active" id="note-entry">
         <div class="note-card"><h3>版本说明</h3><p>本文件为 Axure 风格业务原型，面向评审使用。页面线框只放真实用户可见内容，说明、字段来源、状态、待确认和回流项统一放在黄色说明区。</p></div>
-        <div class="note-card"><h3>页面层级</h3><ul><li>入口：版本与页面目录</li><li>移动端 / 优坐标家长端 / 老师模块 / 全部老师列表页</li><li>移动端 / 优坐标家长端 / 老师模块 / 教师详情承接页</li></ul></div>
+        <div class="note-card"><h3>页面层级</h3><ul><li>入口：版本与页面目录</li><li>移动端 / 优坐标家长端 / 老师模块 / 全部老师列表页</li><li>移动端 / 优坐标家长端 / 老师模块 / 教师详情页</li></ul></div>
         <div class="note-card"><h3>输入来源</h3><ul><li>05 需求分析：老师列表截图反推 v1</li><li>11 专项 PRD：优坐标老师列表最终 PRD v1</li><li>10 高保真原型：截图反推 v1</li></ul></div>
       </div>
 
       <div class="note-page" id="note-list">
-        <div class="note-card"><h3>本轮反馈处理记录</h3><ul><li>反馈：按设计图对老师列表页进行 1:1 复刻。</li><li>分类：原型视觉复刻 + 字段展示口径调整。</li><li>需求文档影响：不新增详情页范围；列表字段展示口径需在后续数据交互中确认来源。</li><li>原型影响：已调整顶部筛选、老师卡片、头像身份条、标签、指标和简介块。</li></ul></div>
         <div class="note-card"><h3>页面规则</h3><ul><li>默认按推荐排序展示老师列表。</li><li>学科、年级、教员类型筛选项调用后台字典。</li><li>筛选支持多选，点击确认后刷新列表。</li><li>收藏为列表筛选/排序入口；具体展开逻辑待确认。</li><li>列表不展示“擅长科目”。</li></ul></div>
         <div class="note-card"><h3>字段说明</h3><ul><li>授课时长、收藏人数为后台配置假数据；缺失时不展示。</li><li>标签过多时按设计图换行展示，不再限制只展示 3 个。</li><li>头像缺失时按性别展示默认头像；教员类型在头像底部金色条展示。</li><li>身份标签、资质标签、年级科目标签来源待数据交互阶段补充。</li></ul></div>
-        <div class="note-card"><h3>按钮说明</h3><ul><li>返回：返回上一页，具体历史栈由小程序决定。</li><li>学科/年级/教员类型确认：按多选条件刷新列表。</li><li>收藏：筛选收藏老师或按收藏维度过滤，具体规则待确认。</li><li>老师卡片：进入教师详情承接页。</li><li>更多：进入教师详情承接页。</li></ul></div>
+        <div class="note-card"><h3>按钮说明</h3><ul><li>返回：返回上一页，具体历史栈由小程序决定。</li><li>学科/年级/教员类型确认：按多选条件刷新列表。</li><li>收藏：筛选收藏老师或按收藏维度过滤，具体规则待确认。</li><li>老师卡片：进入教师详情页。</li><li>更多：进入教师详情页。</li></ul></div>
         <div class="note-card"><h3>全部状态</h3><div class="state-demo"><div class="state-chip"><strong>默认：</strong>展示推荐老师列表。</div><div class="state-chip"><strong>加载：</strong>展示骨架屏。</div><div class="state-chip"><strong>空态：</strong>暂无符合条件的老师，可更换学科或年级后再查看。</div><div class="state-chip"><strong>错误：</strong>当前网络不稳定，老师列表暂时加载失败。请点击重新加载再试。</div><div class="state-chip"><strong>无权限：</strong>当前账号暂不能查看全部老师列表，请切换家长身份或联系平台客服处理。</div></div></div>
       </div>
 
       <div class="note-page" id="note-detail">
-        <div class="note-card"><h3>页面规则</h3><ul><li>本页由老师卡片或“更多”进入。</li><li>当前仅作为跳转承接页，不进入完整详情字段设计。</li><li>不展示预约入口、课程列表、购买入口。</li></ul></div>
-        <div class="note-card"><h3>字段说明</h3><ul><li>仅展示头像、姓名、身份标签、教学经验、累计上课时长、课程销量、授课特色摘要。</li><li>完整字段、预约入口和课程列表暂不进入下一轮。</li></ul></div>
-        <div class="note-card"><h3>回流说明</h3><ul><li>入口来源、返回目标需 07 信息架构补齐。</li><li>字典接口、列表接口、权限状态码需 09 数据交互补齐。</li><li>本原型不编造接口字段。</li></ul></div>
+        <div class="note-card"><h3>页面规则</h3><ul><li>本页由老师卡片或“更多”进入，当前默认展示教师介绍页签。</li><li>页签包含教师介绍、教师评价、购买课程；当前原型为单页纵向复刻，页签切换行为待确认。</li><li>底部固定操作栏包含客服、分享、收藏、立即购买。</li><li>购买课程区域展示体验课和正式课样例，价格、销量、课时均为截图样例数据。</li></ul></div>
+        <div class="note-card"><h3>字段说明</h3><ul><li>教师头部展示头像、姓名、教员身份、收藏状态、教学经验、授课时长、收藏人数和标签。</li><li>教师评价展示评价人数、用户昵称脱敏、星级、评分和评价内容。</li><li>教师简介展示个人简介、主讲科目、教学经验案例、授课特色。</li><li>课程卡片展示课程类型、封面、名称、评分、时长、价格、销量和立即抢购按钮。</li></ul></div>
+        <div class="note-card"><h3>按钮说明</h3><ul><li>返回：回到全部老师列表页。</li><li>+收藏、底部收藏：收藏/取消收藏结果待确认。</li><li>立即关注：跳转公众号关注或弹出关注引导，具体方式待确认。</li><li>教师介绍/教师评价/购买课程：页签切换锚点或内容切换待确认。</li><li>立即抢购、立即购买：进入课程购买链路，目标页和下单规则待确认。</li></ul></div>
+        <div class="note-card"><h3>状态与回流</h3><ul><li>评价为空、课程为空、课程售罄、无购买权限、购买失败等异常状态需后续补充。</li><li>课程接口、评价接口、收藏状态、关注状态和购买权限需 09 数据交互阶段补齐。</li><li>当前截图中部分字段来源未给出，已作为展示样例处理。</li></ul></div>
       </div>
     </aside>
   </div>
