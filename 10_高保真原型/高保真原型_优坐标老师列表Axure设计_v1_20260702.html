@@ -341,12 +341,53 @@
       gap: 18px;
     }
 
+    .avatar-wrap {
+      position: relative;
+      width: 82px;
+      height: 82px;
+    }
+
     .avatar {
       width: 82px;
       height: 82px;
       object-fit: cover;
       border-radius: 14px;
       background: #eef1f5;
+      flex: 0 0 auto;
+    }
+
+    .default-avatar {
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 30px;
+      font-weight: 950;
+    }
+
+    .default-avatar.female {
+      background: linear-gradient(135deg, #f58ca8, #d45f8f);
+    }
+
+    .default-avatar.male {
+      background: linear-gradient(135deg, #6da6ef, #2d75c9);
+    }
+
+    .degree-badge {
+      position: absolute;
+      top: -7px;
+      right: -8px;
+      min-width: 54px;
+      padding: 4px 7px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #ffe7b4, #ffc75a);
+      color: #9b6100;
+      border: 2px solid #fff;
+      box-shadow: 0 4px 10px rgba(140, 94, 12, .18);
+      font-size: 12px;
+      line-height: 1;
+      font-weight: 950;
+      text-align: center;
+      white-space: nowrap;
     }
 
     .name-row {
@@ -359,15 +400,6 @@
       font-size: 28px;
       line-height: 1.05;
       font-weight: 950;
-    }
-
-    .degree {
-      padding: 5px 9px;
-      border-radius: 8px;
-      background: #ffe7b4;
-      color: #b77b13;
-      font-size: 14px;
-      font-weight: 900;
     }
 
     .badges {
@@ -402,7 +434,7 @@
     .metrics {
       margin-top: 18px;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
       text-align: center;
     }
 
@@ -625,14 +657,14 @@
 
               <article class="teacher-card" data-teacher="袁教员" data-avatar="../work/优坐标老师列表截图资产_v1_20260702/老师头像_袁教员_v1_20260702.jpg">
                 <div class="teacher-main">
-                  <img class="avatar" src="../work/优坐标老师列表截图资产_v1_20260702/老师头像_袁教员_v1_20260702.jpg" alt="袁教员头像">
+                  <div class="avatar-wrap"><img class="avatar" src="../work/优坐标老师列表截图资产_v1_20260702/老师头像_袁教员_v1_20260702.jpg" alt="袁教员头像"><span class="degree-badge">硕博</span></div>
                   <div>
-                    <div class="name-row"><div class="name">袁教员</div><span class="degree">硕博老师</span></div>
+                    <div class="name-row"><div class="name">袁教员</div></div>
                     <div class="badges"><span class="blue">师范类院校</span><span class="green">双一流</span><span class="gold">985</span></div>
                     <div class="tags"><span class="tag">初中数学</span><span class="tag">小学数学</span><span class="tag">数学竞赛</span></div>
                   </div>
                 </div>
-                <div class="metrics"><div class="metric"><strong>8年</strong><span>教学经验</span></div><div class="metric"><strong>4.9</strong><span>教师评分</span></div><div class="metric"><strong>100+</strong><span>课程销量</span></div></div>
+                <div class="metrics"><div class="metric"><strong>8年</strong><span>教学经验</span></div><div class="metric"><strong>1280h</strong><span>累计上课时长</span></div><div class="metric"><strong>100+</strong><span>课程销量</span></div></div>
                 <div class="intro">授课特色：擅长数学领域教学，精准抓考点、易错点，结合历年考情总结独家速解技巧；逻辑拆解式教学，复杂题型分层拆解，零基础也能听懂...<button class="more" type="button">更多</button></div>
               </article>
 
@@ -645,8 +677,112 @@
                     <div class="tags"><span class="tag">初中语文</span><span class="tag">小学语文</span><span class="tag">作文竞赛</span></div>
                   </div>
                 </div>
-                <div class="metrics"><div class="metric"><strong>11年</strong><span>教学经验</span></div><div class="metric"><strong>4.9</strong><span>教师评分</span></div><div class="metric"><strong>100+</strong><span>课程销量</span></div></div>
+                <div class="metrics"><div class="metric"><strong>11年</strong><span>教学经验</span></div><div class="metric"><strong>1280h</strong><span>累计上课时长</span></div><div class="metric"><strong>100+</strong><span>课程销量</span></div></div>
                 <div class="intro">授课特色：擅长基础梳理与表达训练，帮助学生建立答题思路...<button class="more" type="button">更多</button></div>
+              </article>
+
+              <article class="teacher-card" data-teacher="李教员">
+                <div class="teacher-main">
+                  <div class="avatar-wrap"><div class="avatar default-avatar female" aria-label="女老师默认头像">李</div><span class="degree-badge">硕博</span></div>
+                  <div>
+                    <div class="name-row"><div class="name">李教员</div></div>
+                    <div class="badges"><span class="blue">海外名校</span><span class="green">双一流</span><span class="gold">雅思高分</span></div>
+                    <div class="tags"><span class="tag">高中英语</span><span class="tag">初中英语</span><span class="tag">口语表达</span></div>
+                  </div>
+                </div>
+                <div class="metrics"><div class="metric"><strong>7年</strong><span>教学经验</span></div><div class="metric"><strong>960h</strong><span>累计上课时长</span></div><div class="metric"><strong>86</strong><span>课程销量</span></div></div>
+                <div class="intro">授课特色：注重语法体系和阅读方法训练，结合校内考试与能力提升安排阶段目标...<button class="more" type="button">更多</button></div>
+              </article>
+
+              <article class="teacher-card" data-teacher="王教员">
+                <div class="teacher-main">
+                  <div class="avatar default-avatar male" aria-label="男老师默认头像">王</div>
+                  <div>
+                    <div class="name-row"><div class="name">王教员</div></div>
+                    <div class="badges"><span class="blue">重点高中</span><span class="green">竞赛教练</span><span class="gold">10年教龄</span></div>
+                    <div class="tags"><span class="tag">高中物理</span><span class="tag">初中物理</span><span class="tag">物理竞赛</span></div>
+                  </div>
+                </div>
+                <div class="metrics"><div class="metric"><strong>10年</strong><span>教学经验</span></div><div class="metric"><strong>1280h</strong><span>累计上课时长</span></div><div class="metric"><strong>120+</strong><span>课程销量</span></div></div>
+                <div class="intro">授课特色：用模型归纳力学、电学核心题型，帮助学生从题目条件快速定位解法...<button class="more" type="button">更多</button></div>
+              </article>
+
+              <article class="teacher-card" data-teacher="陈教员">
+                <div class="teacher-main">
+                  <div class="avatar-wrap"><div class="avatar default-avatar female" aria-label="女老师默认头像">陈</div><span class="degree-badge">硕博</span></div>
+                  <div>
+                    <div class="name-row"><div class="name">陈教员</div></div>
+                    <div class="badges"><span class="blue">师范类院校</span><span class="green">教研组长</span><span class="gold">中考专项</span></div>
+                    <div class="tags"><span class="tag">初中化学</span><span class="tag">高中化学</span><span class="tag">实验推断</span></div>
+                  </div>
+                </div>
+                <div class="metrics"><div class="metric"><strong>9年</strong><span>教学经验</span></div><div class="metric"><strong>960h</strong><span>累计上课时长</span></div></div>
+                <div class="intro">授课特色：擅长元素化合物、实验探究与推断题训练，重视知识点之间的迁移应用...<button class="more" type="button">更多</button></div>
+              </article>
+
+              <article class="teacher-card" data-teacher="刘教员">
+                <div class="teacher-main">
+                  <div class="avatar default-avatar male" aria-label="男老师默认头像">刘</div>
+                  <div>
+                    <div class="name-row"><div class="name">刘教员</div></div>
+                    <div class="badges"><span class="blue">一线教师</span><span class="green">小升初</span><span class="gold">家长好评</span></div>
+                    <div class="tags"><span class="tag">小学数学</span><span class="tag">奥数启蒙</span><span class="tag">思维训练</span></div>
+                  </div>
+                </div>
+                <div class="metrics"><div class="metric"><strong>6年</strong><span>教学经验</span></div><div class="metric"><strong>72</strong><span>课程销量</span></div></div>
+                <div class="intro">授课特色：通过图形化和生活化例题建立数学兴趣，适合基础巩固和思维拓展...<button class="more" type="button">更多</button></div>
+              </article>
+
+              <article class="teacher-card" data-teacher="赵教员">
+                <div class="teacher-main">
+                  <div class="avatar-wrap"><div class="avatar default-avatar female" aria-label="女老师默认头像">赵</div><span class="degree-badge">硕博</span></div>
+                  <div>
+                    <div class="name-row"><div class="name">赵教员</div></div>
+                    <div class="badges"><span class="blue">双一流</span><span class="green">文综教研</span><span class="gold">高考专项</span></div>
+                    <div class="tags"><span class="tag">高中语文</span><span class="tag">古诗文</span><span class="tag">作文提升</span></div>
+                  </div>
+                </div>
+                <div class="metrics"><div class="metric"><strong>12年</strong><span>教学经验</span></div><div class="metric"><strong>1280h</strong><span>累计上课时长</span></div><div class="metric"><strong>150+</strong><span>课程销量</span></div></div>
+                <div class="intro">授课特色：围绕阅读理解、古诗文和作文结构进行专项突破，提升答题规范度...<button class="more" type="button">更多</button></div>
+              </article>
+
+              <article class="teacher-card" data-teacher="周教员">
+                <div class="teacher-main">
+                  <div class="avatar default-avatar male" aria-label="男老师默认头像">周</div>
+                  <div>
+                    <div class="name-row"><div class="name">周教员</div></div>
+                    <div class="badges"><span class="blue">高校助教</span><span class="green">竞赛方向</span><span class="gold">逻辑训练</span></div>
+                    <div class="tags"><span class="tag">高中数学</span><span class="tag">函数导数</span><span class="tag">解析几何</span></div>
+                  </div>
+                </div>
+                <div class="metrics"><div class="metric"><strong>5年</strong><span>教学经验</span></div><div class="metric"><strong>720h</strong><span>累计上课时长</span></div><div class="metric"><strong>64</strong><span>课程销量</span></div></div>
+                <div class="intro">授课特色：强调一题多解和知识网络整理，适合冲刺压轴题与数学竞赛入门...<button class="more" type="button">更多</button></div>
+              </article>
+
+              <article class="teacher-card" data-teacher="孙教员">
+                <div class="teacher-main">
+                  <div class="avatar default-avatar female" aria-label="女老师默认头像">孙</div>
+                  <div>
+                    <div class="name-row"><div class="name">孙教员</div></div>
+                    <div class="badges"><span class="blue">师范类院校</span><span class="green">班主任经验</span><span class="gold">基础巩固</span></div>
+                    <div class="tags"><span class="tag">小学英语</span><span class="tag">自然拼读</span><span class="tag">校内同步</span></div>
+                  </div>
+                </div>
+                <div class="metrics"><div class="metric"><strong>8年</strong><span>教学经验</span></div><div class="metric"><strong>960h</strong><span>累计上课时长</span></div></div>
+                <div class="intro">授课特色：从听说读写同步推进，帮助低年级学生建立词汇和句型表达习惯...<button class="more" type="button">更多</button></div>
+              </article>
+
+              <article class="teacher-card" data-teacher="黄教员">
+                <div class="teacher-main">
+                  <div class="avatar-wrap"><div class="avatar default-avatar male" aria-label="男老师默认头像">黄</div><span class="degree-badge">硕博</span></div>
+                  <div>
+                    <div class="name-row"><div class="name">黄教员</div></div>
+                    <div class="badges"><span class="blue">985</span><span class="green">强基方向</span><span class="gold">理综提升</span></div>
+                    <div class="tags"><span class="tag">高中生物</span><span class="tag">初中生物</span><span class="tag">实验分析</span></div>
+                  </div>
+                </div>
+                <div class="metrics"><div class="metric"><strong>7年</strong><span>教学经验</span></div><div class="metric"><strong>960h</strong><span>累计上课时长</span></div><div class="metric"><strong>98</strong><span>课程销量</span></div></div>
+                <div class="intro">授课特色：擅长遗传、生态和实验分析模块，用图表归纳帮助学生形成稳定解题路径...<button class="more" type="button">更多</button></div>
               </article>
             </div>
           </div>
@@ -661,10 +797,10 @@
               <div class="detail-head"><button class="back" type="button" data-page-jump="list"></button><div>教师详情</div><div></div></div>
               <div class="detail-body">
                 <div class="detail-profile">
-                  <img class="avatar" src="../work/优坐标老师列表截图资产_v1_20260702/老师头像_袁教员_v1_20260702.jpg" alt="袁教员头像">
-                  <div><div class="detail-name">袁教员</div><div class="badges"><span class="gold">硕博老师</span></div></div>
+                  <div class="avatar-wrap"><img class="avatar" src="../work/优坐标老师列表截图资产_v1_20260702/老师头像_袁教员_v1_20260702.jpg" alt="袁教员头像"><span class="degree-badge">硕博</span></div>
+                  <div><div class="detail-name">袁教员</div><div class="badges"><span class="gold">数学提分</span></div></div>
                 </div>
-                <div class="metrics"><div class="metric"><strong>8年</strong><span>教学经验</span></div><div class="metric"><strong>4.9</strong><span>教师评分</span></div><div class="metric"><strong>100+</strong><span>课程销量</span></div></div>
+                <div class="metrics"><div class="metric"><strong>8年</strong><span>教学经验</span></div><div class="metric"><strong>1280h</strong><span>累计上课时长</span></div><div class="metric"><strong>100+</strong><span>课程销量</span></div></div>
                 <div class="detail-section"><h4>授课特色</h4><p>擅长针对学生薄弱点拆解题型，结合历年考情总结解题方法。</p></div>
                 <div class="detail-section"><h4>范围说明</h4><p>本页仅作为列表页跳转承接；完整详情字段、预约入口和课程列表暂不进入下一轮。</p></div>
               </div>
@@ -683,14 +819,14 @@
 
       <div class="note-page" id="note-list">
         <div class="note-card"><h3>页面规则</h3><ul><li>默认按推荐排序展示老师列表。</li><li>学科、年级筛选项调用后台字典。</li><li>筛选支持多选，点击确认后刷新列表。</li><li>列表不展示“擅长科目”。</li></ul></div>
-        <div class="note-card"><h3>字段说明</h3><ul><li>教师评分、课程销量为后台配置假数据；缺失时不展示。</li><li>标签过多只展示前 3 个。</li><li>头像缺失时按性别展示默认头像。</li><li>身份标签、资质标签、年级科目标签来源待数据交互阶段补充。</li></ul></div>
+        <div class="note-card"><h3>字段说明</h3><ul><li>累计上课时长、课程销量为后台配置假数据；缺失时不展示。</li><li>标签过多只展示前 3 个。</li><li>头像缺失时按性别展示默认头像。</li><li>身份标签、资质标签、年级科目标签来源待数据交互阶段补充。</li></ul></div>
         <div class="note-card"><h3>按钮说明</h3><ul><li>返回：返回上一页，具体历史栈由小程序决定。</li><li>筛选确认：按多选条件刷新列表。</li><li>老师卡片：进入教师详情承接页。</li><li>更多：进入教师详情承接页。</li></ul></div>
         <div class="note-card"><h3>全部状态</h3><div class="state-demo"><div class="state-chip"><strong>默认：</strong>展示推荐老师列表。</div><div class="state-chip"><strong>加载：</strong>展示骨架屏。</div><div class="state-chip"><strong>空态：</strong>暂无符合条件的老师，可更换学科或年级后再查看。</div><div class="state-chip"><strong>错误：</strong>当前网络不稳定，老师列表暂时加载失败。请点击重新加载再试。</div><div class="state-chip"><strong>无权限：</strong>当前账号暂不能查看全部老师列表，请切换家长身份或联系平台客服处理。</div></div></div>
       </div>
 
       <div class="note-page" id="note-detail">
         <div class="note-card"><h3>页面规则</h3><ul><li>本页由老师卡片或“更多”进入。</li><li>当前仅作为跳转承接页，不进入完整详情字段设计。</li><li>不展示预约入口、课程列表、购买入口。</li></ul></div>
-        <div class="note-card"><h3>字段说明</h3><ul><li>仅展示头像、姓名、身份标签、教学经验、教师评分、课程销量、授课特色摘要。</li><li>完整字段、预约入口和课程列表暂不进入下一轮。</li></ul></div>
+        <div class="note-card"><h3>字段说明</h3><ul><li>仅展示头像、姓名、身份标签、教学经验、累计上课时长、课程销量、授课特色摘要。</li><li>完整字段、预约入口和课程列表暂不进入下一轮。</li></ul></div>
         <div class="note-card"><h3>回流说明</h3><ul><li>入口来源、返回目标需 07 信息架构补齐。</li><li>字典接口、列表接口、权限状态码需 09 数据交互补齐。</li><li>本原型不编造接口字段。</li></ul></div>
       </div>
     </aside>
