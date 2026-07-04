@@ -169,7 +169,7 @@
     .phone {
       width: 390px;
       height: 844px;
-      overflow: hidden;
+      overflow: auto;
       border-radius: 34px;
       background: #fff;
       border: 1px solid #d8e3ef;
@@ -1274,6 +1274,376 @@
       font-weight: 950;
     }
 
+    .pc-board {
+      max-width: 1120px;
+      min-width: 920px;
+      border: 1px solid #dbe5ef;
+      border-radius: 10px;
+      background: #fff;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .pc-head {
+      height: 58px;
+      padding: 0 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #edf2f7;
+      background: #fbfdff;
+    }
+
+    .pc-head h2 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 950;
+    }
+
+    .pc-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .pc-btn {
+      height: 34px;
+      padding: 0 14px;
+      border: 1px solid #cfdbea;
+      border-radius: 6px;
+      background: #fff;
+      color: #334155;
+      font-weight: 850;
+      cursor: pointer;
+    }
+
+    .pc-btn.primary {
+      border-color: #2f82ff;
+      background: #2f82ff;
+      color: #fff;
+    }
+
+    .pc-btn.warn {
+      border-color: #ffd3ad;
+      background: #fff7ed;
+      color: #c26100;
+    }
+
+    .pc-filter {
+      padding: 14px 18px;
+      display: grid;
+      grid-template-columns: 1.3fr repeat(4, 1fr) auto;
+      gap: 10px;
+      border-bottom: 1px solid #edf2f7;
+      background: #fff;
+    }
+
+    .pc-field {
+      min-width: 0;
+    }
+
+    .pc-field label {
+      display: block;
+      margin-bottom: 5px;
+      color: #64748b;
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .pc-input,
+    .pc-select,
+    .pc-textarea {
+      width: 100%;
+      min-height: 34px;
+      border: 1px solid #d8e2ee;
+      border-radius: 6px;
+      background: #fff;
+      color: #1f2937;
+      padding: 0 10px;
+      font: inherit;
+    }
+
+    .pc-textarea {
+      min-height: 76px;
+      padding: 9px 10px;
+      line-height: 1.5;
+      resize: none;
+    }
+
+    .pc-filter .pc-actions {
+      align-items: end;
+    }
+
+    .teacher-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .teacher-table th,
+    .teacher-table td {
+      padding: 11px 10px;
+      border-bottom: 1px solid #edf2f7;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    .teacher-table th {
+      color: #526072;
+      background: #f8fbff;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .teacher-cell {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-width: 142px;
+    }
+
+    .pc-avatar {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #e8f2ff;
+      color: #2563eb;
+      font-weight: 950;
+      overflow: hidden;
+    }
+
+    .pc-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      height: 22px;
+      padding: 0 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 850;
+      background: #edf7ed;
+      color: #16834d;
+      white-space: nowrap;
+    }
+
+    .status-pill.gray { background: #f1f5f9; color: #64748b; }
+    .status-pill.orange { background: #fff7ed; color: #c26100; }
+    .status-pill.blue { background: #eef6ff; color: #2772d8; }
+    .status-pill.red { background: #fff1f2; color: #e11d48; }
+
+    .row-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      min-width: 170px;
+    }
+
+    .link-btn {
+      border: 0;
+      background: transparent;
+      color: #2563eb;
+      font-weight: 850;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .link-btn.danger { color: #dc2626; }
+
+    .pagination {
+      height: 48px;
+      padding: 0 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #64748b;
+      font-size: 13px;
+      background: #fbfdff;
+    }
+
+    .teacher-modal {
+      display: none;
+      position: fixed;
+      inset: 64px 430px 0 280px;
+      z-index: 20;
+      background: rgba(15, 23, 42, .34);
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+    }
+
+    .teacher-modal.open {
+      display: flex;
+    }
+
+    .modal-panel {
+      width: min(1080px, 100%);
+      height: min(780px, calc(100vh - 118px));
+      display: grid;
+      grid-template-rows: 56px 1fr 58px;
+      border-radius: 10px;
+      background: #fff;
+      box-shadow: 0 24px 70px rgba(15, 23, 42, .28);
+      overflow: hidden;
+    }
+
+    .modal-head,
+    .modal-foot {
+      padding: 0 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #e7eef7;
+      background: #fbfdff;
+    }
+
+    .modal-foot {
+      justify-content: flex-end;
+      gap: 8px;
+      border-top: 1px solid #e7eef7;
+      border-bottom: 0;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 950;
+    }
+
+    .modal-body {
+      display: grid;
+      grid-template-columns: 178px 1fr;
+      min-height: 0;
+    }
+
+    .modal-tabs {
+      padding: 12px;
+      border-right: 1px solid #edf2f7;
+      background: #f8fbff;
+      overflow-y: auto;
+    }
+
+    .modal-tab {
+      width: 100%;
+      height: 36px;
+      margin-bottom: 6px;
+      padding: 0 10px;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      background: transparent;
+      text-align: left;
+      color: #526072;
+      font-weight: 850;
+    }
+
+    .modal-tab.active {
+      border-color: #bfdbfe;
+      background: #eaf4ff;
+      color: #1d65b7;
+    }
+
+    .modal-form {
+      padding: 16px 18px 24px;
+      overflow-y: auto;
+    }
+
+    .form-section {
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #edf2f7;
+    }
+
+    .form-section h3 {
+      margin: 0 0 12px;
+      font-size: 16px;
+      font-weight: 950;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .form-grid.two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .form-grid.one {
+      grid-template-columns: 1fr;
+    }
+
+    .upload-box {
+      height: 86px;
+      display: grid;
+      place-items: center;
+      border: 1px dashed #b7c7dc;
+      border-radius: 8px;
+      background: #fbfdff;
+      color: #64748b;
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .chip-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      min-height: 34px;
+      padding: 6px;
+      border: 1px solid #d8e2ee;
+      border-radius: 6px;
+      background: #fff;
+    }
+
+    .config-chip {
+      height: 24px;
+      padding: 0 8px;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 5px;
+      background: #edf5ff;
+      color: #2475df;
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .nested-row {
+      margin-bottom: 10px;
+      padding: 10px;
+      border: 1px solid #e3ebf5;
+      border-radius: 8px;
+      background: #fbfdff;
+    }
+
+    .nested-title {
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #334155;
+      font-weight: 950;
+    }
+
+    .course-bind {
+      display: grid;
+      grid-template-columns: 1.5fr 80px 100px 90px;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .hint {
+      margin-top: 8px;
+      color: #7c8796;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
     .notes {
       padding: 22px 18px;
       overflow-y: auto;
@@ -1341,7 +1711,7 @@
     <div class="top-title">优坐标 / 全部老师列表页 Axure 原型设计</div>
     <div class="top-meta">
       <span>版本 v1</span>
-      <span>端范围：移动端小程序</span>
+      <span>端范围：移动端小程序 / PC 后台</span>
       <span>日期：20260702</span>
     </div>
   </header>
@@ -1357,6 +1727,11 @@
         <button class="nav-btn" data-page="list">全部老师列表页</button>
         <button class="nav-btn" data-page="detail">教师详情页</button>
       </div>
+      <div class="nav-section">
+        <p class="nav-title">PC 后台 / 教师管理</p>
+        <button class="nav-btn" data-page="admin-teachers">教师列表</button>
+        <button class="nav-btn" data-page="admin-teacher-modal">新增/编辑教师弹窗</button>
+      </div>
     </aside>
 
     <main class="stage">
@@ -1364,12 +1739,14 @@
         <h1 class="canvas-title">版本与页面目录</h1>
         <div class="entry-card">
           <h2>原型范围</h2>
-          <p>本 Axure 风格原型基于已确认的需求分析、专项 PRD 和上一版高保真 HTML，覆盖优坐标家长端“全部老师”列表页，以及老师卡片/更多点击后的教师详情页。</p>
+          <p>本 Axure 风格原型基于已确认的需求分析、专项 PRD 和上一版高保真 HTML，覆盖优坐标家长端“全部老师”列表页、教师详情页，以及 PC 后台教师管理的列表与新增/编辑弹窗。</p>
           <div class="entry-grid">
             <div class="entry-item"><strong>页面 1：全部老师列表页</strong><span>默认展示推荐老师列表，支持学科/年级后台字典多选，点击确认后刷新。</span></div>
             <div class="entry-item"><strong>页面 2：教师详情页</strong><span>由卡片和“更多”进入，展示教师资料、评价、简介、课程和购买操作。</span></div>
-            <div class="entry-item"><strong>原型约束</strong><span>手机线框只放真实用户可见 UI；字段来源、按钮结果、状态和风险放右侧黄色说明区。</span></div>
-            <div class="entry-item"><strong>上游缺口</strong><span>06-09 本页专项产物未齐，接口字段、权限触发条件和入口来源继续作为回流项。</span></div>
+            <div class="entry-item"><strong>页面 3：后台教师列表</strong><span>运营在 PC 后台筛选、查看、编辑、上下架、删除、调整排序老师。</span></div>
+            <div class="entry-item"><strong>页面 4：新增/编辑教师弹窗</strong><span>从教师列表打开大弹窗，按 7 个分组配置前台教师详情展示内容。</span></div>
+            <div class="entry-item"><strong>原型约束</strong><span>手机/PC 线框只放真实用户可见 UI；字段来源、按钮结果、状态和风险放右侧黄色说明区。</span></div>
+            <div class="entry-item"><strong>上游缺口</strong><span>接口字段、权限触发条件、真实评价与真实收藏统计继续作为 09 数据交互回流项。</span></div>
           </div>
         </div>
       </section>
@@ -1604,12 +1981,192 @@
           </div>
         </div>
       </section>
+
+      <section class="page" id="page-admin-teachers">
+        <h1 class="canvas-title">教师列表</h1>
+        <div class="pc-board">
+          <div class="pc-head">
+            <h2>教师管理</h2>
+            <div class="pc-actions">
+              <button class="pc-btn" type="button">导出</button>
+              <button class="pc-btn primary" type="button" data-open-teacher-modal="create">新增教师</button>
+            </div>
+          </div>
+          <div class="pc-filter">
+            <div class="pc-field"><label>教师姓名</label><input class="pc-input" value="张琴琴" aria-label="教师姓名"></div>
+            <div class="pc-field"><label>教师类型</label><select class="pc-select"><option>全部</option><option>硕博教师</option><option>骨干教师</option><option>专业教师</option></select></div>
+            <div class="pc-field"><label>主讲科目</label><select class="pc-select"><option>全部科目</option><option>数学</option><option>语文</option><option>英语</option><option>物理</option></select></div>
+            <div class="pc-field"><label>展示状态</label><select class="pc-select"><option>全部</option><option>上架</option><option>下架</option></select></div>
+            <div class="pc-field"><label>审核状态</label><select class="pc-select"><option>全部</option><option>草稿</option><option>待审核</option><option>已通过</option><option>已驳回</option></select></div>
+            <div class="pc-actions"><button class="pc-btn primary" type="button">查询</button><button class="pc-btn" type="button">重置</button></div>
+          </div>
+          <table class="teacher-table" aria-label="教师列表">
+            <thead>
+              <tr>
+                <th>教师</th><th>教师类型</th><th>主讲科目</th><th>教学经验</th><th>授课时长</th><th>收藏人数</th><th>关联课程数</th><th>展示状态</th><th>审核状态</th><th>排序值</th><th>更新时间</th><th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><div class="teacher-cell"><span class="pc-avatar"><img src="../work/优坐标教师详情截图资产_v1_20260703/教师头像_张琴琴_v1_20260703.png" alt="张琴琴头像"></span><div><strong>张琴琴</strong><div class="hint">女 / 高中数学</div></div></div></td>
+                <td>骨干教师</td><td>高中数学、初中数学</td><td>6年</td><td>602</td><td>87</td><td>3</td><td><span class="status-pill">上架</span></td><td><span class="status-pill blue">已通过</span></td><td>980</td><td>2026-07-05</td>
+                <td><div class="row-actions"><button class="link-btn" type="button" data-open-teacher-modal="view">查看</button><button class="link-btn" type="button" data-open-teacher-modal="edit">编辑</button><button class="link-btn" type="button">下架</button><button class="link-btn danger" type="button">删除</button><button class="link-btn" type="button">排序</button></div></td>
+              </tr>
+              <tr>
+                <td><div class="teacher-cell"><span class="pc-avatar"><img src="../work/优坐标老师列表截图资产_v1_20260702/老师头像_袁教员_v1_20260702.jpg" alt="袁教员头像"></span><div><strong>袁教员</strong><div class="hint">男 / 数学竞赛</div></div></div></td>
+                <td>硕博教师</td><td>高中数学、竞赛</td><td>8年</td><td>1012</td><td>100</td><td>2</td><td><span class="status-pill">上架</span></td><td><span class="status-pill blue">已通过</span></td><td>960</td><td>2026-07-04</td>
+                <td><div class="row-actions"><button class="link-btn" type="button" data-open-teacher-modal="view">查看</button><button class="link-btn" type="button" data-open-teacher-modal="edit">编辑</button><button class="link-btn" type="button">下架</button><button class="link-btn danger" type="button">删除</button><button class="link-btn" type="button">排序</button></div></td>
+              </tr>
+              <tr>
+                <td><div class="teacher-cell"><span class="pc-avatar"><img src="../work/优坐标老师列表截图资产_v1_20260702/老师头像_李教员_v1_20260702.jpg" alt="李教员头像"></span><div><strong>李教员</strong><div class="hint">女 / 初中英语</div></div></div></td>
+                <td>专业教师</td><td>初中英语、高中英语</td><td>6年</td><td>602</td><td>87</td><td>1</td><td><span class="status-pill gray">下架</span></td><td><span class="status-pill orange">待审核</span></td><td>900</td><td>2026-07-03</td>
+                <td><div class="row-actions"><button class="link-btn" type="button" data-open-teacher-modal="view">查看</button><button class="link-btn" type="button" data-open-teacher-modal="edit">编辑</button><button class="link-btn" type="button">上架</button><button class="link-btn danger" type="button">删除</button><button class="link-btn" type="button">排序</button></div></td>
+              </tr>
+              <tr>
+                <td><div class="teacher-cell"><span class="pc-avatar">王</span><div><strong>王教员</strong><div class="hint">男 / 初中物理</div></div></div></td>
+                <td>骨干教师</td><td>初中物理、高中物理</td><td>10年</td><td>880</td><td>76</td><td>0</td><td><span class="status-pill gray">下架</span></td><td><span class="status-pill red">已驳回</span></td><td>820</td><td>2026-07-02</td>
+                <td><div class="row-actions"><button class="link-btn" type="button" data-open-teacher-modal="view">查看</button><button class="link-btn" type="button" data-open-teacher-modal="edit">编辑</button><button class="link-btn" type="button">上架</button><button class="link-btn danger" type="button">删除</button><button class="link-btn" type="button">排序</button></div></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="pagination"><span>共 42 位教师，当前第 1 / 5 页</span><span>上一页　1　2　3　下一页</span></div>
+        </div>
+      </section>
+
+      <section class="page" id="page-admin-teacher-modal">
+        <h1 class="canvas-title">新增/编辑教师弹窗</h1>
+        <div class="pc-board">
+          <div class="pc-head">
+            <h2>教师管理</h2>
+            <div class="pc-actions">
+              <button class="pc-btn primary" type="button" data-open-teacher-modal="create">新增教师</button>
+            </div>
+          </div>
+          <div class="pagination"><span>此节点用于评审弹窗结构：从教师列表点击“新增教师 / 编辑 / 查看”打开。</span><span>弹窗已默认打开</span></div>
+        </div>
+      </section>
+
+      <div class="teacher-modal" id="teacherConfigModal" aria-modal="true" role="dialog" aria-label="新增编辑教师弹窗">
+        <div class="modal-panel">
+          <div class="modal-head">
+            <div class="modal-title" id="teacherModalTitle">编辑教师 - 张琴琴</div>
+            <button class="pc-btn" type="button" data-close-teacher-modal>关闭</button>
+          </div>
+          <div class="modal-body">
+            <nav class="modal-tabs" aria-label="教师配置分组">
+              <button class="modal-tab active" type="button" data-scroll-section="base">基础资料</button>
+              <button class="modal-tab" type="button" data-scroll-section="display">展示标签与指标</button>
+              <button class="modal-tab" type="button" data-scroll-section="intro">教师简介</button>
+              <button class="modal-tab" type="button" data-scroll-section="cases">教学经验案例</button>
+              <button class="modal-tab" type="button" data-scroll-section="features">授课特色</button>
+              <button class="modal-tab" type="button" data-scroll-section="reviews">评价假数据</button>
+              <button class="modal-tab" type="button" data-scroll-section="courses">关联课程与发布</button>
+            </nav>
+            <div class="modal-form" id="teacherModalForm">
+              <section class="form-section" id="section-base">
+                <h3>1. 基础资料</h3>
+                <div class="form-grid">
+                  <div class="pc-field"><label>教师姓名 *</label><input class="pc-input" value="张琴琴"></div>
+                  <div class="pc-field"><label>性别</label><select class="pc-select"><option>女</option><option>男</option></select></div>
+                  <div class="pc-field"><label>教师类型 *</label><select class="pc-select"><option>骨干教师</option><option>硕博教师</option><option>专业教师</option></select></div>
+                  <div class="pc-field"><label>教师头像 *</label><div class="upload-box">上传头像 / 缺失按性别默认头像</div></div>
+                  <div class="pc-field"><label>教师状态</label><select class="pc-select"><option>已通过</option><option>草稿</option><option>待审核</option><option>已驳回</option></select></div>
+                  <div class="pc-field"><label>展示状态</label><select class="pc-select"><option>上架</option><option>下架</option></select></div>
+                  <div class="pc-field"><label>排序值</label><input class="pc-input" value="980"></div>
+                </div>
+                <div class="hint">排序规则需后台统一：建议数值越大越靠前，并与前台默认推荐排序一致。</div>
+              </section>
+
+              <section class="form-section" id="section-display">
+                <h3>2. 展示标签与指标</h3>
+                <div class="form-grid">
+                  <div class="pc-field"><label>教学经验</label><input class="pc-input" value="6 年"></div>
+                  <div class="pc-field"><label>授课时长</label><input class="pc-input" value="602"></div>
+                  <div class="pc-field"><label>收藏人数</label><input class="pc-input" value="87"></div>
+                  <div class="pc-field"><label>是否推荐</label><select class="pc-select"><option>推荐</option><option>不推荐</option></select></div>
+                  <div class="pc-field"><label>主讲科目</label><div class="chip-list"><span class="config-chip">高中数学</span><span class="config-chip">初中数学</span><span class="config-chip">初中物理</span></div></div>
+                  <div class="pc-field"><label>教师标签</label><div class="chip-list"><span class="config-chip">培育名校学子</span><span class="config-chip">零投诉</span><span class="config-chip">211</span><span class="config-chip">高好评率</span></div></div>
+                </div>
+                <div class="hint">授课时长、收藏人数当前为后台配置假数据；指标为空时前台不展示该指标，标签按后台排序展示。</div>
+              </section>
+
+              <section class="form-section" id="section-intro">
+                <h3>3. 教师简介</h3>
+                <div class="form-grid one">
+                  <div class="pc-field"><label>个人简介 *</label><textarea class="pc-textarea">本人从事教学 9 年，是校区认证优秀师资。长期钻研题型考点，擅长分层教学，针对基础薄弱、拔高冲刺不同学生定制学习方案。</textarea></div>
+                  <div class="pc-field"><label>简介展示开关</label><select class="pc-select"><option>展示</option><option>隐藏</option></select></div>
+                </div>
+              </section>
+
+              <section class="form-section" id="section-cases">
+                <h3>4. 教学经验案例</h3>
+                <div class="nested-row">
+                  <div class="nested-title"><span>案例 1：基础薄弱生补差案例</span><button class="link-btn" type="button">删除</button></div>
+                  <div class="form-grid"><div class="pc-field"><label>案例标题</label><input class="pc-input" value="基础薄弱生补差案例"></div><div class="pc-field"><label>排序</label><input class="pc-input" value="1"></div><div class="pc-field"><label>是否展示</label><select class="pc-select"><option>展示</option><option>隐藏</option></select></div></div>
+                  <div class="pc-field"><label>案例描述</label><textarea class="pc-textarea">多名及格线以下学生，梳理知识断层，专项补基础，总结题型模板，训练逻辑推导。</textarea></div>
+                </div>
+                <div class="nested-row">
+                  <div class="nested-title"><span>案例 2：考前短期冲刺提分案例</span><button class="link-btn" type="button">删除</button></div>
+                  <div class="form-grid"><div class="pc-field"><label>案例标题</label><input class="pc-input" value="考前短期冲刺提分案例"></div><div class="pc-field"><label>排序</label><input class="pc-input" value="2"></div><div class="pc-field"><label>是否展示</label><select class="pc-select"><option>展示</option><option>隐藏</option></select></div></div>
+                </div>
+                <button class="pc-btn" type="button">新增案例</button>
+              </section>
+
+              <section class="form-section" id="section-features">
+                <h3>5. 授课特色</h3>
+                <div class="nested-row">
+                  <div class="form-grid"><div class="pc-field"><label>特色文案</label><input class="pc-input" value="逻辑拆解式教学，复杂题型分层拆解"></div><div class="pc-field"><label>排序</label><input class="pc-input" value="1"></div><div class="pc-field"><label>是否展示</label><select class="pc-select"><option>展示</option><option>隐藏</option></select></div></div>
+                </div>
+                <button class="pc-btn" type="button">新增特色</button>
+              </section>
+
+              <section class="form-section" id="section-reviews">
+                <h3>6. 评价假数据</h3>
+                <div class="form-grid"><div class="pc-field"><label>评价总数</label><input class="pc-input" value="66"></div></div>
+                <div class="nested-row">
+                  <div class="nested-title"><span>评价 1：王**</span><button class="link-btn" type="button">删除</button></div>
+                  <div class="form-grid"><div class="pc-field"><label>评价人昵称</label><input class="pc-input" value="王**"></div><div class="pc-field"><label>星级</label><input class="pc-input" value="5"></div><div class="pc-field"><label>评分</label><input class="pc-input" value="4.6"></div><div class="pc-field"><label>头像/头像色</label><input class="pc-input" value="蓝色头像"></div><div class="pc-field"><label>排序</label><input class="pc-input" value="1"></div><div class="pc-field"><label>是否展示</label><select class="pc-select"><option>展示</option><option>隐藏</option></select></div></div>
+                  <div class="pc-field"><label>评价内容</label><textarea class="pc-textarea">老师特别负责，讲课逻辑清晰，知识点讲得透彻，孩子听得懂、愿意学。</textarea></div>
+                </div>
+                <button class="pc-btn" type="button">新增评价</button>
+              </section>
+
+              <section class="form-section" id="section-courses">
+                <h3>7. 关联课程与发布</h3>
+                <div class="nested-row course-bind">
+                  <div><strong>优选数学-数学伴学体验课【初中段】</strong><div class="hint">课程价格、封面、课时从课程后台读取</div></div>
+                  <input class="pc-input" value="1" aria-label="课程排序">
+                  <select class="pc-select"><option>展示</option><option>隐藏</option></select>
+                  <button class="link-btn danger" type="button">移除</button>
+                </div>
+                <div class="nested-row course-bind">
+                  <div><strong>优选英语-英语伴学正式课【初中段】</strong><div class="hint">教师弹窗不可修改课程基础信息</div></div>
+                  <input class="pc-input" value="2" aria-label="课程排序">
+                  <select class="pc-select"><option>展示</option><option>隐藏</option></select>
+                  <button class="link-btn danger" type="button">移除</button>
+                </div>
+                <div class="form-grid two">
+                  <button class="pc-btn" type="button">选择关联课程</button>
+                  <div class="pc-field"><label>发布设置</label><select class="pc-select"><option>保存草稿</option><option>提交审核</option><option>上架</option><option>下架</option></select></div>
+                </div>
+                <div class="hint">未关联课程时，前台购买课程区展示空态；老师账号只能选择关联课程，不能修改课程价格、封面、课时。</div>
+              </section>
+            </div>
+          </div>
+          <div class="modal-foot">
+            <button class="pc-btn" type="button" data-close-teacher-modal>取消</button>
+            <button class="pc-btn" type="button">保存草稿</button>
+            <button class="pc-btn warn" type="button">提交审核</button>
+            <button class="pc-btn primary" type="button">保存并上架</button>
+          </div>
+        </div>
+      </div>
     </main>
 
     <aside class="notes" aria-label="右侧黄色说明区">
       <div class="note-page active" id="note-entry">
         <div class="note-card"><h3>版本说明</h3><p>本文件为 Axure 风格业务原型，面向评审使用。页面线框只放真实用户可见内容，说明、字段来源、状态、待确认和回流项统一放在黄色说明区。</p></div>
-        <div class="note-card"><h3>页面层级</h3><ul><li>入口：版本与页面目录</li><li>移动端 / 优坐标家长端 / 老师模块 / 全部老师列表页</li><li>移动端 / 优坐标家长端 / 老师模块 / 教师详情页</li></ul></div>
+        <div class="note-card"><h3>页面层级</h3><ul><li>入口：版本与页面目录</li><li>移动端 / 优坐标家长端 / 老师模块 / 全部老师列表页</li><li>移动端 / 优坐标家长端 / 老师模块 / 教师详情页</li><li>PC 后台 / 教师管理 / 教师列表</li><li>PC 后台 / 教师管理 / 新增/编辑教师弹窗</li></ul></div>
         <div class="note-card"><h3>输入来源</h3><ul><li>05 需求分析：老师列表截图反推 v1</li><li>11 专项 PRD：优坐标老师列表最终 PRD v1</li><li>10 高保真原型：截图反推 v1</li></ul></div>
       </div>
 
@@ -1626,6 +2183,20 @@
         <div class="note-card"><h3>按钮说明</h3><ul><li>返回：回到全部老师列表页。</li><li>+收藏、底部收藏：收藏/取消收藏结果待确认。</li><li>立即关注：跳转公众号关注或弹出关注引导，具体方式待确认。</li><li>教师介绍/教师评价/购买课程：页签切换锚点或内容切换待确认。</li><li>立即抢购、立即购买：进入课程购买链路，目标页和下单规则待确认。</li></ul></div>
         <div class="note-card"><h3>状态与回流</h3><ul><li>评价为空、课程为空、课程售罄、无购买权限、购买失败等异常状态需后续补充。</li><li>课程接口、评价接口、收藏状态、关注状态和购买权限需 09 数据交互阶段补齐。</li><li>当前截图中部分字段来源未给出，已作为展示样例处理。</li></ul></div>
       </div>
+
+      <div class="note-page" id="note-admin-teachers">
+        <div class="note-card"><h3>页面规则</h3><ul><li>后台入口定为教师列表，不单独新增“教师详情配置”页面。</li><li>新增、编辑、查看教师资料都从列表页打开大弹窗。</li><li>列表用于运营管理老师，支持筛选、查看、编辑、上下架、删除、调整排序。</li><li>下架教师后，前台老师列表和详情页不可见。</li></ul></div>
+        <div class="note-card"><h3>字段说明</h3><ul><li>列表展示教师头像、教师姓名、教师类型、主讲科目、教学经验、授课时长、收藏人数、关联课程数、展示状态、审核状态、排序值、更新时间。</li><li>授课时长、收藏人数当前按后台配置假数据处理，后续接真实统计时替换数据来源。</li><li>关联课程数只显示数量，课程价格、封面、课时等基础信息由课程后台维护。</li><li>排序值影响前台默认推荐排序，建议统一为数值越大越靠前。</li></ul></div>
+        <div class="note-card"><h3>按钮说明</h3><ul><li>新增教师：打开新增教师弹窗，默认可保存草稿或提交审核。</li><li>查看：打开只读弹窗，用于核对前台展示配置。</li><li>编辑：打开编辑弹窗，允许按权限修改资料、标签、指标、评价假数据和关联课程。</li><li>上架/下架：改变前台展示状态。</li><li>删除：仅草稿或下架状态允许删除。</li><li>调整排序：影响前台推荐排序。</li></ul></div>
+        <div class="note-card"><h3>权限与状态</h3><ul><li>老师账号可编辑自己的入驻资料和选择关联课程。</li><li>运营账号可审核、修改、上下架、调整排序。</li><li>课程价格和课程基础信息只允许课程后台维护。</li><li>审核状态包含草稿、待审核、已通过、已驳回；展示状态包含上架、下架。</li></ul></div>
+      </div>
+
+      <div class="note-page" id="note-admin-teacher-modal">
+        <div class="note-card"><h3>页面规则</h3><ul><li>新增/编辑教师使用大弹窗承载，宽度按 900-1100px 设计，避免普通小弹窗字段过多。</li><li>弹窗分 7 个配置分组：基础资料、展示标签与指标、教师简介、教学经验案例、授课特色、评价假数据、关联课程与发布。</li><li>左侧分组导航用于快速定位字段；当前原型展示全部字段，便于评审字段完整性。</li></ul></div>
+        <div class="note-card"><h3>字段说明</h3><ul><li>基础资料包含教师姓名、性别、头像、教师类型、教师状态、展示状态、排序值。</li><li>展示标签与指标包含教学经验、授课时长、收藏人数、教师标签、主讲科目、是否推荐。</li><li>教学经验案例、授课特色、评价假数据均支持新增多条，按排序值控制前台展示顺序。</li><li>关联课程从课程后台已创建课程中选择，教师弹窗不允许直接改课程价格、封面、课时。</li></ul></div>
+        <div class="note-card"><h3>前台展示规则</h3><ul><li>指标缺失时前台不展示对应指标。</li><li>教师标签按后台排序展示；教师类型展示在头像身份条。</li><li>教学经验案例前台默认展示前 3 条，更多通过查看更多展开或进入更多内容。</li><li>评价前台默认展示前 5 条，无评价时展示评价空态。</li><li>未关联课程时，前台购买课程区展示空态。</li></ul></div>
+        <div class="note-card"><h3>按钮与发布</h3><ul><li>取消：关闭弹窗，不保存。</li><li>保存草稿：保存资料但不上架。</li><li>提交审核：状态进入待审核。</li><li>保存并上架：运营权限可用，保存后前台可见。</li><li>选择关联课程：只选择课程关系和展示排序，不维护课程基础字段。</li></ul></div>
+      </div>
     </aside>
   </div>
 
@@ -1633,16 +2204,55 @@
     const pageButtons = document.querySelectorAll('[data-page]');
     const pages = document.querySelectorAll('.page');
     const notes = document.querySelectorAll('.note-page');
+    const teacherModal = document.getElementById('teacherConfigModal');
+    const teacherModalTitle = document.getElementById('teacherModalTitle');
 
     function showPage(name) {
       pages.forEach(page => page.classList.toggle('active', page.id === 'page-' + name));
       notes.forEach(note => note.classList.toggle('active', note.id === 'note-' + name));
       pageButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.page === name));
       location.hash = name;
+      if (name === 'admin-teacher-modal') {
+        openTeacherModal('edit');
+      } else if (teacherModal) {
+        teacherModal.classList.remove('open');
+      }
+    }
+
+    function openTeacherModal(mode) {
+      if (!teacherModal) return;
+      const titleMap = {
+        create: '新增教师',
+        edit: '编辑教师 - 张琴琴',
+        view: '查看教师 - 张琴琴'
+      };
+      teacherModalTitle.textContent = titleMap[mode] || titleMap.edit;
+      teacherModal.classList.add('open');
+      if (location.hash !== '#admin-teacher-modal' && !document.getElementById('page-admin-teachers').classList.contains('active')) {
+        showPage('admin-teachers');
+      }
     }
 
     pageButtons.forEach(btn => btn.addEventListener('click', () => showPage(btn.dataset.page)));
     document.querySelectorAll('[data-page-jump]').forEach(el => el.addEventListener('click', () => showPage(el.dataset.pageJump)));
+    document.querySelectorAll('[data-open-teacher-modal]').forEach(el => {
+      el.addEventListener('click', event => {
+        event.stopPropagation();
+        openTeacherModal(el.dataset.openTeacherModal);
+      });
+    });
+    document.querySelectorAll('[data-close-teacher-modal]').forEach(el => {
+      el.addEventListener('click', () => {
+        teacherModal.classList.remove('open');
+        if (location.hash === '#admin-teacher-modal') showPage('admin-teachers');
+      });
+    });
+    document.querySelectorAll('[data-scroll-section]').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.modal-tab').forEach(item => item.classList.toggle('active', item === tab));
+        document.getElementById('section-' + tab.dataset.scrollSection).scrollIntoView({ block: 'start', behavior: 'smooth' });
+      });
+    });
     document.querySelectorAll('.teacher-card, .more').forEach(el => {
       el.addEventListener('click', event => {
         event.stopPropagation();
@@ -1712,6 +2322,11 @@
       const initial = location.hash.replace('#', '');
       if (document.getElementById('page-' + initial)) showPage(initial);
     }
+
+    window.addEventListener('hashchange', () => {
+      const next = location.hash.replace('#', '');
+      if (next && document.getElementById('page-' + next)) showPage(next);
+    });
   </script>
 </body>
 </html>
