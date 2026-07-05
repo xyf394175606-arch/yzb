@@ -1313,6 +1313,539 @@
       font-weight: 950;
     }
 
+    .order-phone {
+      background: #f5f7fb;
+    }
+
+    .order-scroll {
+      background: linear-gradient(180deg, #dcecff 0%, #eef5ff 160px, #f5f7fb 160px, #f5f7fb 100%);
+    }
+
+    .order-topbar {
+      padding: 0 16px 14px;
+    }
+
+    .order-nav {
+      margin-top: 10px;
+      display: grid;
+      grid-template-columns: 40px 1fr 74px;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .order-nav .detail-title {
+      text-align: center;
+      font-size: 17px;
+    }
+
+    .order-ghost {
+      height: 32px;
+      display: grid;
+      place-items: center;
+      color: #6c7a8e;
+      font-size: 12px;
+      font-weight: 800;
+      text-align: right;
+    }
+
+    .order-content {
+      padding: 0 12px 104px;
+    }
+
+    .order-card {
+      margin-bottom: 12px;
+      padding: 14px 14px 16px;
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: 0 8px 18px rgba(50, 77, 112, .08);
+    }
+
+    .order-card h3 {
+      margin: 0 0 12px;
+      color: #152031;
+      font-size: 15px;
+      font-weight: 950;
+    }
+
+    .order-summary {
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .order-summary-cover {
+      width: 72px;
+      height: 72px;
+      border-radius: 10px;
+      object-fit: cover;
+      display: block;
+      background: #e8f1fd;
+    }
+
+    .order-summary-info {
+      min-width: 0;
+    }
+
+    .order-summary-type {
+      display: inline-flex;
+      align-items: center;
+      height: 22px;
+      padding: 0 8px;
+      border-radius: 999px;
+      background: #edf5ff;
+      color: #3579d8;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .order-summary-name {
+      margin-top: 8px;
+      color: #152031;
+      font-size: 14px;
+      line-height: 1.45;
+      font-weight: 950;
+    }
+
+    .order-summary-meta {
+      margin-top: 6px;
+      color: #6f7d91;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .order-teacher {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid #edf2f8;
+      color: #344154;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .selector-group {
+      margin-top: 16px;
+    }
+
+    .selector-head {
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: #364256;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .selector-value {
+      color: #8d98a6;
+      font-weight: 700;
+      text-align: right;
+    }
+
+    .choice-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .choice-chip {
+      min-height: 34px;
+      padding: 6px 12px;
+      border: 1px solid #dce6f0;
+      border-radius: 18px;
+      background: #fff;
+      color: #364256;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .choice-chip.active {
+      border-color: #4f92ff;
+      background: #edf5ff;
+      color: #2b6fc8;
+    }
+
+    .choice-chip.disabled,
+    .choice-chip:disabled {
+      opacity: .45;
+      cursor: not-allowed;
+    }
+
+    .quantity-box {
+      margin-top: 8px;
+      padding: 12px;
+      border: 1px solid #dce8f5;
+      border-radius: 10px;
+      background: #fbfdff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .quantity-main {
+      min-width: 0;
+    }
+
+    .quantity-title {
+      color: #152031;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .quantity-desc {
+      margin-top: 4px;
+      color: #7a8798;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .stepper {
+      display: inline-grid;
+      grid-template-columns: 32px 52px 32px;
+      align-items: center;
+      border: 1px solid #dce8f5;
+      border-radius: 8px;
+      background: #fff;
+      overflow: hidden;
+      flex: none;
+    }
+
+    .stepper-btn {
+      height: 32px;
+      border: 0;
+      background: #fff;
+      color: #2e3b4f;
+      font-size: 18px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .stepper-btn:disabled {
+      color: #b8c5d4;
+      cursor: not-allowed;
+    }
+
+    .stepper-value {
+      height: 32px;
+      display: grid;
+      place-items: center;
+      border-left: 1px solid #edf2f8;
+      border-right: 1px solid #edf2f8;
+      color: #152031;
+      font-size: 14px;
+      font-weight: 950;
+    }
+
+    .quantity-rule {
+      margin-top: 8px;
+      color: #8d98a6;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .sku-hint {
+      margin-top: 10px;
+      color: #7a8798;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .member-options {
+      display: grid;
+      gap: 8px;
+    }
+
+    .member-option {
+      min-height: 56px;
+      padding: 10px 12px;
+      border: 1px solid #dce8f5;
+      border-radius: 10px;
+      background: #fff;
+      display: grid;
+      grid-template-columns: 18px 1fr auto;
+      gap: 10px;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .member-option.active {
+      border-color: #4f92ff;
+      background: #edf5ff;
+      box-shadow: inset 0 0 0 1px rgba(79, 146, 255, .08);
+    }
+
+    .member-check {
+      width: 18px;
+      height: 18px;
+      border: 1.5px solid #b8c5d4;
+      border-radius: 4px;
+      background: #fff;
+      position: relative;
+    }
+
+    .member-option.active .member-check {
+      border-color: #4f92ff;
+      background: #4f92ff;
+    }
+
+    .member-option.active .member-check::after {
+      content: "";
+      position: absolute;
+      left: 5px;
+      top: 1px;
+      width: 4px;
+      height: 9px;
+      border: solid #fff;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+
+    .member-main {
+      min-width: 0;
+    }
+
+    .member-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .member-name {
+      color: #152031;
+      font-size: 13px;
+      font-weight: 950;
+    }
+
+    .member-tag {
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: #fff3e8;
+      color: #ff7a1a;
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .member-desc {
+      margin-top: 3px;
+      color: #6f7d91;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .member-price {
+      color: #ff6a00;
+      font-size: 15px;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .amount-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .amount-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: #344154;
+      font-size: 14px;
+    }
+
+    .amount-row strong {
+      color: #152031;
+      font-size: 15px;
+    }
+
+    .amount-row.total {
+      margin-top: 4px;
+      padding-top: 12px;
+      border-top: 1px solid #edf2f8;
+      font-weight: 950;
+    }
+
+    .amount-row.total strong {
+      color: #ff6a00;
+      font-size: 22px;
+    }
+
+    .amount-row.muted {
+      color: #8d98a6;
+      font-size: 12px;
+    }
+
+    .amount-notes {
+      margin-top: 8px;
+      display: grid;
+      gap: 6px;
+      color: #8d98a6;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .order-footer {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 10px 12px 12px;
+      background: rgba(255,255,255,.98);
+      border-top: 1px solid #e3ecf5;
+      z-index: 6;
+    }
+
+    .order-footer-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .order-total-box {
+      min-width: 0;
+    }
+
+    .order-total-label {
+      color: #8d98a6;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .order-total-value {
+      margin-top: 2px;
+      color: #ff6a00;
+      font-size: 24px;
+      font-weight: 950;
+      line-height: 1;
+    }
+
+    .submit-order-btn {
+      height: 44px;
+      min-width: 182px;
+      padding: 0 18px;
+      border: 0;
+      border-radius: 10px;
+      background: #ff6a00;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 950;
+      cursor: pointer;
+    }
+
+    .submit-order-btn:disabled {
+      background: #c9d5e3;
+      cursor: not-allowed;
+    }
+
+    .order-footer-note {
+      margin-top: 8px;
+      color: #8d98a6;
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .wait-status-card {
+      padding: 18px 16px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #2d7cff 0%, #54a1ff 100%);
+      color: #fff;
+      box-shadow: 0 14px 30px rgba(44, 102, 196, .24);
+    }
+
+    .wait-status-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .wait-status-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.2);
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      font-weight: 950;
+    }
+
+    .wait-status-title {
+      font-size: 20px;
+      font-weight: 950;
+    }
+
+    .wait-status-desc {
+      margin-top: 4px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: rgba(255,255,255,.86);
+    }
+
+    .wait-tags {
+      margin-top: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .wait-tag {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.18);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .wait-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .wait-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      color: #344154;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .wait-row strong {
+      display: block;
+      margin-bottom: 2px;
+      color: #152031;
+      font-size: 14px;
+    }
+
+    .wait-actions {
+      display: grid;
+      gap: 10px;
+    }
+
+    .wait-btn {
+      height: 42px;
+      border: 1px solid #d7e3f0;
+      border-radius: 10px;
+      background: #fff;
+      color: #2d3b4f;
+      font-size: 14px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .wait-btn.primary {
+      border-color: #ff6a00;
+      background: #ff6a00;
+      color: #fff;
+    }
+
     .pc-board {
       max-width: 1120px;
       min-width: 920px;
@@ -1895,6 +2428,8 @@
         <p class="nav-title">移动端 / 优坐标家长端 / 老师模块</p>
         <button class="nav-btn" data-page="list">全部老师列表页</button>
         <button class="nav-btn" data-page="detail">教师详情页</button>
+        <button class="nav-btn" data-page="buy-confirm">确认订单页</button>
+        <button class="nav-btn" data-page="order-wait">待约课订单页</button>
       </div>
       <div class="nav-section">
         <p class="nav-title">PC 后台 / 教师管理</p>
@@ -1908,12 +2443,14 @@
         <h1 class="canvas-title">版本与页面目录</h1>
         <div class="entry-card">
           <h2>原型范围</h2>
-          <p>本 Axure 风格原型基于已确认的需求分析、专项 PRD 和上一版高保真 HTML，覆盖优坐标家长端“全部老师”列表页、教师详情页，以及 PC 后台教师管理的列表与新增/编辑弹窗。</p>
+          <p>本 Axure 风格原型基于已确认的需求分析、专项 PRD 和上一版高保真 HTML，覆盖优坐标家长端“全部老师”列表页、教师详情页、确认订单页、待约课订单页，以及 PC 后台教师管理的列表与新增/编辑弹窗。</p>
           <div class="entry-grid">
             <div class="entry-item"><strong>页面 1：全部老师列表页</strong><span>默认展示推荐老师列表，支持学科/年级后台字典多选，点击确认后刷新。</span></div>
             <div class="entry-item"><strong>页面 2：教师详情页</strong><span>由卡片和“更多”进入，展示教师资料、评价、简介、课程和购买操作。</span></div>
-            <div class="entry-item"><strong>页面 3：后台教师列表</strong><span>运营在 PC 后台筛选、查看、编辑、上下架、作废、调整排序老师。</span></div>
-            <div class="entry-item"><strong>页面 4：新增/编辑教师弹窗</strong><span>从教师列表打开大弹窗，按 7 个分组配置前台教师详情展示内容。</span></div>
+            <div class="entry-item"><strong>页面 3：确认订单页</strong><span>承接课程 SKU 与会员卡加购，联动计算课程会员价、会员卡金额和实付总价。</span></div>
+            <div class="entry-item"><strong>页面 4：待约课订单页</strong><span>支付成功后直达，展示课程、老师、会员方案和待约课状态。</span></div>
+            <div class="entry-item"><strong>页面 5：后台教师列表</strong><span>运营在 PC 后台筛选、查看、编辑、上下架、作废、调整排序老师。</span></div>
+            <div class="entry-item"><strong>页面 6：新增/编辑教师弹窗</strong><span>从教师列表打开大弹窗，按当前已确认分组配置前台教师详情展示内容。</span></div>
             <div class="entry-item"><strong>原型约束</strong><span>手机/PC 线框只放真实用户可见 UI；字段来源、按钮结果、状态和风险放右侧黄色说明区。</span></div>
             <div class="entry-item"><strong>上游缺口</strong><span>接口字段、权限触发条件、真实评价与真实收藏统计继续作为 09 数据交互回流项。</span></div>
           </div>
@@ -2140,12 +2677,175 @@
               </main>
 
               <h2 class="course-title" id="detail-courses-anchor">购买课程</h2>
-              <section class="course-card"><div class="course-cover"><span class="course-type">体验课</span><img src="../work/优坐标教师详情截图资产_v1_20260703/课程封面_拼读优选体验课_v1_20260703.png" alt="拼读优选体验课"></div><div class="course-info"><div class="course-name">优选英语-英语伴学体验课【小学段】</div><div class="course-meta">★ 4.8　◷ 40分钟</div><div class="course-price">体验价¥<strong>39.9</strong></div><div class="course-bottom"><span class="sold">已售200</span><button class="buy-small" type="button">立即抢购</button></div></div></section>
-              <section class="course-card"><div class="course-cover"><span class="course-type">体验课</span><img src="../work/优坐标教师详情截图资产_v1_20260703/课程封面_数学学伴体验课_v1_20260703.png" alt="数学学伴体验课"></div><div class="course-info"><div class="course-name">优选数学-数学伴学体验课【初中段】</div><div class="course-meta">★ 4.8　◷ 40分钟</div><div class="course-price">体验价¥<strong>49.9</strong></div><div class="course-bottom"><span class="sold">已650</span><button class="buy-small" type="button">立即抢购</button></div></div></section>
-              <section class="course-card"><div class="course-cover"><span class="course-type official">正式课</span><img src="../work/优坐标教师详情截图资产_v1_20260703/课程封面_英语学正式课_v1_20260703.png" alt="英语伴学正式课"></div><div class="course-info"><div class="course-name">优选英语-英语伴学正式课【初中段】</div><div class="course-meta">★ 4.8　◷ 360分钟</div><div class="course-price">优惠价¥<strong>169</strong></div><div class="course-bottom"><span class="sold">已196</span><button class="buy-small" type="button">立即抢购</button></div></div></section>
+              <section class="course-card" data-course-id="english-trial"><div class="course-cover"><span class="course-type">体验课</span><img src="../work/优坐标教师详情截图资产_v1_20260703/课程封面_拼读优选体验课_v1_20260703.png" alt="拼读优选体验课"></div><div class="course-info"><div class="course-name">优选英语-英语伴学体验课【小学段】</div><div class="course-meta">★ 4.8　◷ 40分钟</div><div class="course-price">体验价¥<strong>39.9</strong></div><div class="course-bottom"><span class="sold">已售200</span><button class="buy-small" type="button" data-buy-course="english-trial">立即抢购</button></div></div></section>
+              <section class="course-card" data-course-id="math-trial"><div class="course-cover"><span class="course-type">体验课</span><img src="../work/优坐标教师详情截图资产_v1_20260703/课程封面_数学学伴体验课_v1_20260703.png" alt="数学学伴体验课"></div><div class="course-info"><div class="course-name">优选数学-数学伴学体验课【初中段】</div><div class="course-meta">★ 4.8　◷ 40分钟</div><div class="course-price">体验价¥<strong>49.9</strong></div><div class="course-bottom"><span class="sold">已650</span><button class="buy-small" type="button" data-buy-course="math-trial">立即抢购</button></div></div></section>
+              <section class="course-card" data-course-id="english-formal"><div class="course-cover"><span class="course-type official">正式课</span><img src="../work/优坐标教师详情截图资产_v1_20260703/课程封面_英语学正式课_v1_20260703.png" alt="英语伴学正式课"></div><div class="course-info"><div class="course-name">优选英语-英语伴学正式课【初中段】</div><div class="course-meta">★ 4.8　◷ 360分钟</div><div class="course-price">优惠价¥<strong>169</strong></div><div class="course-bottom"><span class="sold">已196</span><button class="buy-small" type="button" data-buy-course="english-formal">立即抢购</button></div></div></section>
               <div class="more-row">查看更多⌄</div>
             </div>
-            <footer class="detail-footer"><button class="footer-link" type="button"><span>◔</span><span>客服</span></button><button class="footer-link" type="button"><span>↗</span><span>分享</span></button><button class="footer-link" type="button"><span>☆</span><span>收藏</span></button><button class="buy-main" type="button">立即购买</button></footer>
+            <footer class="detail-footer"><button class="footer-link" type="button"><span>◔</span><span>客服</span></button><button class="footer-link" type="button"><span>↗</span><span>分享</span></button><button class="footer-link" type="button"><span>☆</span><span>收藏</span></button><button class="buy-main" type="button" data-buy-main>立即购买</button></footer>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="page-buy-confirm">
+        <h1 class="canvas-title">确认订单页</h1>
+        <div class="phone-wrap">
+          <div class="phone order-phone">
+            <div class="phone-scroll order-scroll" id="buyConfirmScroll">
+              <header class="order-topbar">
+                <div class="status"><span>23:58</span><span class="status-icons"><span class="cell-bars"><span></span><span></span><span></span><span></span></span><span class="wifi"></span><span class="battery"></span></span></div>
+                <div class="order-nav">
+                  <button class="round-btn back-mini" type="button" data-page-jump="detail" aria-label="返回"></button>
+                  <div class="detail-title">确认订单</div>
+                  <div class="order-ghost">支付前确认</div>
+                </div>
+              </header>
+
+              <main class="order-content">
+                <section class="order-card">
+                  <h3>老师与课程摘要</h3>
+                  <div class="order-summary">
+                    <img class="order-summary-cover" id="orderSummaryCover" src="../work/优坐标教师详情截图资产_v1_20260703/课程封面_数学学伴体验课_v1_20260703.png" alt="课程封面">
+                    <div class="order-summary-info">
+                      <span class="order-summary-type" id="orderSummaryType">体验课</span>
+                      <div class="order-summary-name" id="orderSummaryName">优选数学-数学伴学体验课【初中段】</div>
+                      <div class="order-summary-meta" id="orderSummaryMeta">已默认选择当前课程的科目、年级和最少课时数</div>
+                    </div>
+                  </div>
+                  <div class="order-teacher">所属老师：<strong id="orderSummaryTeacher">张琴琴</strong><br>支付成功后直接进入待约课订单页，由客服继续跟进约课。</div>
+                </section>
+
+                <section class="order-card">
+                  <div class="selector-group">
+                    <div class="selector-head"><span>科目</span><span class="selector-value" id="selectedSubjectLabel">未选择</span></div>
+                    <div class="choice-row" id="subjectChoices"></div>
+                  </div>
+                  <div class="selector-group">
+                    <div class="selector-head"><span>年级</span><span class="selector-value" id="selectedGradeLabel">未选择</span></div>
+                    <div class="choice-row" id="gradeChoices"></div>
+                  </div>
+                  <div class="selector-group">
+                    <div class="selector-head"><span>课数量</span><span class="selector-value" id="selectedPackageLabel">10 课时</span></div>
+                    <div class="quantity-box">
+                      <div class="quantity-main">
+                        <div class="quantity-title" id="quantityTitle">10 课时 x 1 份</div>
+                        <div class="quantity-desc" id="quantityDesc">支持增加或减少购买份数，一次可购买多个课时包。</div>
+                        <div class="quantity-rule" id="quantityRuleText">当前规则：10 课时起购，按 1 课时递增</div>
+                      </div>
+                      <div class="stepper">
+                        <button class="stepper-btn" id="quantityMinusBtn" type="button" aria-label="减少课时包">-</button>
+                        <div class="stepper-value" id="quantityValue">1</div>
+                        <button class="stepper-btn" id="quantityPlusBtn" type="button" aria-label="增加课时包">+</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="sku-hint" id="skuHintText">当前课程已默认带入，并默认选中科目、年级与最少课时数；增加购买份数后，价格会同步刷新。</div>
+                </section>
+
+                <section class="order-card">
+                  <h3>会员加购</h3>
+                  <div class="member-options">
+                    <button class="member-option none-plan" type="button" data-membership-plan="none">
+                      <span class="member-check" aria-hidden="true"></span>
+                      <div class="member-main"><div class="member-line"><span class="member-name">不加购会员卡</span></div><div class="member-desc">本次仅购买课程，按普通课价结算</div></div>
+                      <span class="member-price">不加购</span>
+                    </button>
+                    <button class="member-option active" type="button" data-membership-plan="vip1000">
+                      <span class="member-check" aria-hidden="true"></span>
+                      <div class="member-main"><div class="member-line"><span class="member-name">1000 元会员卡</span><span class="member-tag">推荐</span></div><div class="member-desc">无限次按会员价购买课时</div></div>
+                      <span class="member-price">¥1000</span>
+                    </button>
+                    <button class="member-option" type="button" data-membership-plan="vip499">
+                      <span class="member-check" aria-hidden="true"></span>
+                      <div class="member-main"><div class="member-line"><span class="member-name">499 元会员卡</span></div><div class="member-desc">20 次按会员价购买课时权益</div></div>
+                      <span class="member-price">¥499</span>
+                    </button>
+                  </div>
+                </section>
+
+                <section class="order-card">
+                  <h3>金额明细</h3>
+                  <div class="amount-list">
+                    <div class="amount-row"><span>课程原价</span><strong id="amountOriginal">--</strong></div>
+                    <div class="amount-row"><span>会员优惠金额</span><strong id="amountDiscount">--</strong></div>
+                    <div class="amount-row" id="membershipCardRow"><span>会员卡金额</span><strong id="amountMembershipCard">¥1000</strong></div>
+                    <div class="amount-row total"><span>实付总价</span><strong id="amountPayable">--</strong></div>
+                    <div class="amount-notes">
+                      <div id="memberPriceText">会员价待选择 SKU 后计算</div>
+                      <div id="payHintText">未选完整 SKU 时不可提交订单。</div>
+                    </div>
+                  </div>
+                </section>
+              </main>
+            </div>
+            <footer class="order-footer">
+              <div class="order-footer-top">
+                <div class="order-total-box">
+                  <div class="order-total-label">实付总价</div>
+                  <div class="order-total-value" id="footerPayable">--</div>
+                </div>
+                <button class="submit-order-btn" id="submitOrderBtn" type="button" disabled>提交订单并支付</button>
+              </div>
+            </footer>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="page-order-wait">
+        <h1 class="canvas-title">待约课订单页</h1>
+        <div class="phone-wrap">
+          <div class="phone order-phone">
+            <div class="phone-scroll order-scroll">
+              <header class="order-topbar">
+                <div class="status"><span>23:58</span><span class="status-icons"><span class="cell-bars"><span></span><span></span><span></span><span></span></span><span class="wifi"></span><span class="battery"></span></span></div>
+                <div class="order-nav">
+                  <button class="round-btn back-mini" type="button" data-page-jump="detail" aria-label="返回"></button>
+                  <div class="detail-title">待约课订单</div>
+                  <div class="order-ghost">支付成功</div>
+                </div>
+              </header>
+
+              <main class="order-content">
+                <section class="wait-status-card">
+                  <div class="wait-status-top">
+                    <div class="wait-status-icon">✓</div>
+                    <div>
+                      <div class="wait-status-title">已购买，待约课</div>
+                      <div class="wait-status-desc">订单已支付成功，客服会根据课程信息协助安排约课与排课。</div>
+                    </div>
+                  </div>
+                  <div class="wait-tags">
+                    <span class="wait-tag" id="waitOrderStatus">订单状态：已购买</span>
+                    <span class="wait-tag" id="waitBookingStatus">约课状态：待约课</span>
+                    <span class="wait-tag" id="waitMembershipStatus">会员状态：已开通</span>
+                  </div>
+                </section>
+
+                <section class="order-card">
+                  <h3>订单信息</h3>
+                  <div class="wait-grid">
+                    <div class="wait-row"><div><strong>购买课程</strong><span id="waitCourseName">优选数学-数学伴学体验课【初中段】</span></div><span id="waitCoursePrice">¥1088</span></div>
+                    <div class="wait-row"><div><strong>课程 SKU</strong><span id="waitSkuText">初一 / 数学 / 10 课时</span></div><span id="waitTeacherName">张琴琴</span></div>
+                    <div class="wait-row"><div><strong>会员方案</strong><span id="waitMembershipPlan">1000 元会员卡</span></div><span id="waitMembershipDesc">无限次会员价购买课时</span></div>
+                    <div class="wait-row"><div><strong>支付状态</strong><span id="waitPaymentStatus">支付成功</span></div><span id="waitPayableAmount">¥1088</span></div>
+                  </div>
+                </section>
+
+                <section class="order-card">
+                  <h3>后续说明</h3>
+                  <div class="wait-grid">
+                    <div class="wait-row"><div><strong>约课说明</strong><span>客服会根据孩子年级、科目和课时包配置，联系家长确认约课时间。</span></div></div>
+                    <div class="wait-row"><div><strong>会员权益</strong><span id="waitBenefitText">本单已开通会员卡，后续购买课时可按会员价结算。</span></div></div>
+                    <div class="wait-row"><div><strong>订单详情</strong><span>可继续查看订单明细、课程信息和客服跟进状态。</span></div></div>
+                  </div>
+                </section>
+
+                <section class="wait-actions">
+                  <button class="wait-btn primary" type="button">查看订单详情</button>
+                  <button class="wait-btn" type="button" data-page-jump="detail">返回教师详情页</button>
+                </section>
+              </main>
+            </div>
           </div>
         </div>
       </section>
@@ -2400,7 +3100,7 @@
     <aside class="notes" aria-label="右侧黄色说明区">
       <div class="note-page active" id="note-entry">
         <div class="note-card"><h3>版本说明</h3><p>本文件为 Axure 风格业务原型，面向评审使用。页面线框只放真实用户可见内容，说明、字段来源、状态、待确认和回流项统一放在黄色说明区。</p></div>
-        <div class="note-card"><h3>页面层级</h3><ul><li>入口：版本与页面目录</li><li>移动端 / 优坐标家长端 / 老师模块 / 全部老师列表页</li><li>移动端 / 优坐标家长端 / 老师模块 / 教师详情页</li><li>PC 后台 / 教师管理 / 教师列表</li><li>PC 后台 / 教师管理 / 新增/编辑教师弹窗</li></ul></div>
+        <div class="note-card"><h3>页面层级</h3><ul><li>入口：版本与页面目录</li><li>移动端 / 优坐标家长端 / 老师模块 / 全部老师列表页</li><li>移动端 / 优坐标家长端 / 老师模块 / 教师详情页</li><li>移动端 / 优坐标家长端 / 老师模块 / 确认订单页</li><li>移动端 / 优坐标家长端 / 老师模块 / 待约课订单页</li><li>PC 后台 / 教师管理 / 教师列表</li><li>PC 后台 / 教师管理 / 新增/编辑教师弹窗</li></ul></div>
         <div class="note-card"><h3>输入来源</h3><ul><li>05 需求分析：老师列表截图反推 v1</li><li>11 专项 PRD：优坐标老师列表最终 PRD v1</li><li>10 高保真原型：截图反推 v1</li></ul></div>
       </div>
 
@@ -2412,10 +3112,24 @@
       </div>
 
       <div class="note-page" id="note-detail">
-        <div class="note-card"><h3>页面规则</h3><ul><li>本页由老师卡片或“更多”进入，当前默认展示教师介绍页签。</li><li>页签包含教师介绍、教师评价、购买课程；点击后按页面锚点滚动到对应模块。</li><li>教师介绍锚点对应教师简介模块，教师评价锚点对应教师评价模块，购买课程锚点对应购买课程模块。</li><li>底部固定操作栏包含客服、分享、收藏、立即购买。</li><li>购买课程区域展示体验课和正式课样例，价格、销量、课时均为截图样例数据。</li></ul></div>
+        <div class="note-card"><h3>页面规则</h3><ul><li>本页由老师卡片或“更多”进入，当前默认展示教师介绍页签。</li><li>页签包含教师介绍、教师评价、购买课程；点击后按页面锚点滚动到对应模块。</li><li>教师介绍锚点对应教师简介模块，教师评价锚点对应教师评价模块，购买课程锚点对应购买课程模块。</li><li>底部固定操作栏包含客服、分享、收藏、立即购买。</li><li>购买课程区域展示体验课和正式课样例；立即抢购和立即购买均进入确认订单页。</li></ul></div>
         <div class="note-card"><h3>字段说明</h3><ul><li>教师头部展示头像、姓名、一级教员类型、二级类型标识、教学经验、授课时长、收藏人数和标签。</li><li>二级类型标识有填写则展示；未填写则不展示、不占位。</li><li>教师评价展示评价人数、用户昵称脱敏、星级、评分和评价内容。</li><li>教师简介展示个人简介、主讲科目、教学经验案例、授课特色。</li><li>课程卡片展示课程类型、封面、名称、评分、时长、价格、销量和立即抢购按钮。</li></ul></div>
-        <div class="note-card"><h3>按钮说明</h3><ul><li>返回：回到全部老师列表页。</li><li>底部收藏：收藏/取消收藏结果待确认。</li><li>立即关注：跳转公众号关注或弹出关注引导，具体方式待确认。</li><li>教师介绍/教师评价/购买课程：作为页面锚点使用，点击滚动到对应模块，并更新当前激活态。</li><li>立即抢购、立即购买：进入课程购买链路，目标页和下单规则待确认。</li></ul></div>
-        <div class="note-card"><h3>状态与回流</h3><ul><li>评价为空、课程为空、课程售罄、无购买权限、购买失败等异常状态需后续补充。</li><li>课程接口、评价接口、收藏状态、关注状态和购买权限需 09 数据交互阶段补齐。</li><li>当前截图中部分字段来源未给出，已作为展示样例处理。</li></ul></div>
+        <div class="note-card"><h3>按钮说明</h3><ul><li>返回：回到全部老师列表页。</li><li>底部收藏：收藏/取消收藏结果待确认。</li><li>立即关注：跳转公众号关注或弹出关注引导，具体方式待确认。</li><li>教师介绍/教师评价/购买课程：作为页面锚点使用，点击滚动到对应模块，并更新当前激活态。</li><li>立即抢购：带入当前点击课程进入确认订单页。</li><li>立即购买：带入当前老师首个可售课程进入确认订单页。</li></ul></div>
+        <div class="note-card"><h3>状态与回流</h3><ul><li>评价为空、课程为空、课程售罄、无购买权限、购买失败等异常状态需后续补充。</li><li>购买主链路已明确为“确认订单页 -> 支付 -> 待约课订单页”，本轮原型不展开退款、排课和支付渠道细节。</li><li>课程接口、评价接口、收藏状态、关注状态和购买权限需 09 数据交互阶段补齐。</li><li>当前截图中部分字段来源未给出，已作为展示样例处理。</li></ul></div>
+      </div>
+
+      <div class="note-page" id="note-buy-confirm">
+        <div class="note-card"><h3>页面规则</h3><ul><li>本页承接教师详情页底部“立即购买”和课程卡“立即抢购”两类入口。</li><li>进入页面时默认带入当前课程；若来自底部主按钮，则带入当前老师首个可售课程。</li><li>当前课程进入订单页后默认已选中，不再额外展示“课程选择”区。</li><li>课程 SKU 选择顺序为：科目、年级、课数量；进入页面后默认选中当前课程下的默认科目、默认年级和最少课时数。</li><li>课时增长方式由后台配置控制：可按 1 课时递增，也可按 1 个课时包递增。</li><li>会员卡为同单可选加购项，默认选中 1000 元会员卡方案。</li></ul></div>
+        <div class="note-card"><h3>价格规则</h3><ul><li>未加购会员卡：课程按普通课价结算，会员卡金额不计入总价。</li><li>加购会员卡：课程切换到会员价，总价 = 课程会员价小计 + 会员卡价格。</li><li>若后台配置为“按 1 课时递增”，则课程金额按单课时价格随总课时数增加。</li><li>若后台配置为“按 1 个课时包递增”，则课程金额按课时包价格随课时包数量增加。</li><li>1000 元会员卡：无限次按会员价购买课时。</li><li>499 元会员卡：20 次按会员价购买课时权益。</li></ul></div>
+        <div class="note-card"><h3>字段说明</h3><ul><li>页面承接字段至少包含 teacherId、courseId、skuId、grade、subject、lessonPackage、courseOriginalPrice、courseMemberPrice、membershipPlanId、membershipPlanPrice。</li><li>课时购买规则需由后台配置：起购课时数、递增方式、递增步长、课时包价格口径。</li><li>金额区展示课程原价、会员优惠金额、会员卡金额、实付总价。</li><li>预计约课说明随 SKU 变化刷新，用于提示支付后进入待约课。</li></ul></div>
+        <div class="note-card"><h3>按钮说明</h3><ul><li>返回：回到教师详情页。</li><li>选择科目/年级：刷新默认课时包和预计约课信息。</li><li>增加/减少课时：按后台配置的递增方式调整购买数量，并刷新金额。</li><li>会员加购：采用更轻量的勾选式卡片，便于用户直接切换方案。</li><li>提交订单并支付：模拟支付成功后，直接进入待约课订单页。</li></ul></div>
+      </div>
+
+      <div class="note-page" id="note-order-wait">
+        <div class="note-card"><h3>页面规则</h3><ul><li>本页为支付成功后的直接落地页，不单独增加支付成功中间页。</li><li>订单状态口径固定为已购买 / 待约课。</li><li>若同单加购会员卡，页面需同时体现课程购买结果和会员开通结果。</li></ul></div>
+        <div class="note-card"><h3>字段说明</h3><ul><li>至少展示订单状态、支付状态、约课状态、购买课程、课程 SKU、所属老师、会员方案、会员权益说明、实付金额。</li><li>membershipOpenStatus 依据会员卡是否加购决定：已开通 / 未开通。</li><li>课程来源仍为教师已关联课程，会员价只影响当前课程结算单价。</li></ul></div>
+        <div class="note-card"><h3>按钮说明</h3><ul><li>查看订单详情：进入订单详情承接页，当前原型只保留入口。</li><li>返回教师详情页：回到当前老师详情页面。</li></ul></div>
+        <div class="note-card"><h3>后续范围</h3><ul><li>本轮不展开退款、排课日历、支付回调和订单管理后台。</li><li>客服约课、订单追踪和真实消息提醒后续在订单模块补充。</li></ul></div>
       </div>
 
       <div class="note-page" id="note-admin-teachers">
@@ -2450,10 +3164,345 @@
       reviews: document.getElementById('detail-reviews-anchor'),
       courses: document.getElementById('detail-courses-anchor')
     };
+    const purchaseCourses = [
+      {
+        id: 'english-trial',
+        teacherId: 'teacher-zhang-qinqin',
+        teacherName: '张琴琴',
+        name: '优选英语-英语伴学体验课【小学段】',
+        typeLabel: '体验课',
+        ratingText: '★ 4.8',
+        durationText: '40分钟',
+        soldText: '已售200',
+        cover: '../work/优坐标教师详情截图资产_v1_20260703/课程封面_拼读优选体验课_v1_20260703.png',
+        sellable: true,
+        skus: [
+          { id: 'sku-et-1', grade: '三年级', subject: '英语', lessonPackage: '4 课时', originalPrice: 199, memberPrice: 159, bookingText: '预计支付后 1 个工作日内完成约课', purchaseRule: { mode: 'single', minLessons: 4, stepLessons: 1 } },
+          { id: 'sku-et-2', grade: '四年级', subject: '英语', lessonPackage: '8 课时', originalPrice: 359, memberPrice: 299, bookingText: '预计支付后 1 个工作日内完成约课', purchaseRule: { mode: 'single', minLessons: 8, stepLessons: 1 } },
+          { id: 'sku-et-3', grade: '五年级', subject: '英语', lessonPackage: '12 课时', originalPrice: 499, memberPrice: 419, bookingText: '预计支付后 2 个工作日内完成约课', purchaseRule: { mode: 'single', minLessons: 12, stepLessons: 1 } }
+        ]
+      },
+      {
+        id: 'math-trial',
+        teacherId: 'teacher-zhang-qinqin',
+        teacherName: '张琴琴',
+        name: '优选数学-数学伴学体验课【初中段】',
+        typeLabel: '体验课',
+        ratingText: '★ 4.8',
+        durationText: '40分钟',
+        soldText: '已售650',
+        cover: '../work/优坐标教师详情截图资产_v1_20260703/课程封面_数学学伴体验课_v1_20260703.png',
+        sellable: true,
+        skus: [
+          { id: 'sku-mt-1', grade: '初一', subject: '数学', lessonPackage: '10 课时', originalPrice: 299, memberPrice: 239, bookingText: '预计支付后 24 小时内由客服联系约课', purchaseRule: { mode: 'single', minLessons: 10, stepLessons: 1 } },
+          { id: 'sku-mt-2', grade: '初二', subject: '数学', lessonPackage: '20 课时', originalPrice: 569, memberPrice: 459, bookingText: '预计支付后 24 小时内由客服联系约课', purchaseRule: { mode: 'single', minLessons: 20, stepLessons: 1 } },
+          { id: 'sku-mt-3', grade: '初三', subject: '数学', lessonPackage: '30 课时', originalPrice: 799, memberPrice: 649, bookingText: '预计支付后 2 个工作日内确认排课', purchaseRule: { mode: 'single', minLessons: 30, stepLessons: 1 } }
+        ]
+      },
+      {
+        id: 'english-formal',
+        teacherId: 'teacher-zhang-qinqin',
+        teacherName: '张琴琴',
+        name: '优选英语-英语伴学正式课【初中段】',
+        typeLabel: '正式课',
+        ratingText: '★ 4.8',
+        durationText: '360分钟',
+        soldText: '已售196',
+        cover: '../work/优坐标教师详情截图资产_v1_20260703/课程封面_英语学正式课_v1_20260703.png',
+        sellable: true,
+        skus: [
+          { id: 'sku-ef-1', grade: '初一', subject: '英语', lessonPackage: '24 课时', originalPrice: 1299, memberPrice: 999, bookingText: '预计支付后 2 个工作日内完成分班与约课', purchaseRule: { mode: 'package', minLessons: 24, stepLessons: 24 } },
+          { id: 'sku-ef-2', grade: '初二', subject: '英语', lessonPackage: '36 课时', originalPrice: 1799, memberPrice: 1399, bookingText: '预计支付后 2 个工作日内完成分班与约课', purchaseRule: { mode: 'package', minLessons: 36, stepLessons: 36 } },
+          { id: 'sku-ef-3', grade: '初三', subject: '英语', lessonPackage: '48 课时', originalPrice: 2299, memberPrice: 1799, bookingText: '预计支付后 3 个工作日内完成排课确认', purchaseRule: { mode: 'package', minLessons: 48, stepLessons: 48 } }
+        ]
+      }
+    ];
+    const membershipPlans = {
+      none: { id: 'none', name: '不加购会员卡', price: 0, rights: '本单不包含会员价购买课时权益', openStatus: '未开通' },
+      vip1000: { id: 'vip1000', name: '1000 元会员卡', price: 1000, rights: '无限次按会员价购买课时', openStatus: '已开通' },
+      vip499: { id: 'vip499', name: '499 元会员卡', price: 499, rights: '20 次按会员价购买课时权益', openStatus: '已开通' }
+    };
+    const purchaseState = {
+      courseId: null,
+      grade: '',
+      subject: '',
+      lessonPackage: '',
+      quantity: 1,
+      membershipPlanId: 'vip1000'
+    };
     const teacherTypeDict = {
       '骨干教员': ['硕博', '名校骨干', '竞赛教研', '升学规划'],
       '专业教员': ['一线专业', '专项提分', '基础巩固', '兴趣启蒙']
     };
+
+    function formatPrice(value) {
+      return typeof value === 'number' ? '¥' + value.toFixed(value % 1 === 0 ? 0 : 1) : '--';
+    }
+
+    function getCurrentCourse() {
+      return purchaseCourses.find(course => course.id === purchaseState.courseId) || null;
+    }
+
+    function getSelectedSku() {
+      const course = getCurrentCourse();
+      if (!course) return null;
+      return course.skus.find(sku => sku.grade === purchaseState.grade && sku.subject === purchaseState.subject && sku.lessonPackage === purchaseState.lessonPackage) || null;
+    }
+
+    function parseLessonCount(lessonPackage) {
+      const matched = String(lessonPackage || '').match(/(\d+(?:\.\d+)?)/);
+      return matched ? Number(matched[1]) : 0;
+    }
+
+    function getDefaultSkuForCourse(course) {
+      if (!course || !course.skus.length) return null;
+      return course.skus[0];
+    }
+
+    function getPurchaseRule(sku) {
+      return sku?.purchaseRule || { mode: 'package', minLessons: parseLessonCount(sku?.lessonPackage), stepLessons: parseLessonCount(sku?.lessonPackage) };
+    }
+
+    function getEffectiveLessonCount(sku) {
+      const rule = getPurchaseRule(sku);
+      if (!sku) return 0;
+      return rule.mode === 'single'
+        ? rule.minLessons + ((purchaseState.quantity || 1) - 1) * rule.stepLessons
+        : rule.minLessons * (purchaseState.quantity || 1);
+    }
+
+    function getQuantityModeLabel(sku) {
+      const rule = getPurchaseRule(sku);
+      return rule.mode === 'single'
+        ? `${rule.minLessons} 课时起购，按 ${rule.stepLessons} 课时递增`
+        : `${rule.minLessons} 课时起购，按 1 个课时包递增`;
+    }
+
+    function getAvailableSubjects(course) {
+      if (!course) return [];
+      return [...new Set(course.skus.map(sku => sku.subject))];
+    }
+
+    function getAvailableGrades(course) {
+      if (!course || !purchaseState.subject) return [];
+      return [...new Set(course.skus.filter(sku => sku.subject === purchaseState.subject).map(sku => sku.grade))];
+    }
+
+    function getAvailablePackages(course) {
+      if (!course || !purchaseState.subject || !purchaseState.grade) return [];
+      return [...new Set(course.skus.filter(sku => sku.grade === purchaseState.grade && sku.subject === purchaseState.subject).map(sku => sku.lessonPackage))];
+    }
+
+    function computePurchaseAmounts() {
+      const sku = getSelectedSku();
+      const plan = membershipPlans[purchaseState.membershipPlanId] || membershipPlans.none;
+      if (!sku) {
+        return {
+          courseSubtotal: null,
+          membershipDiscountAmount: null,
+          membershipCardAmount: plan.price,
+          payableAmount: null,
+          hasMembershipBundle: plan.id !== 'none'
+        };
+      }
+      const useMemberPrice = plan.id !== 'none';
+      const quantity = purchaseState.quantity || 1;
+      const rule = getPurchaseRule(sku);
+      const ratio = rule.mode === 'single' ? getEffectiveLessonCount(sku) / rule.minLessons : quantity;
+      const courseSubtotal = (useMemberPrice ? sku.memberPrice : sku.originalPrice) * ratio;
+      const membershipDiscountAmount = useMemberPrice ? Math.max((sku.originalPrice - sku.memberPrice) * ratio, 0) : 0;
+      const membershipCardAmount = useMemberPrice ? plan.price : 0;
+      return {
+        courseSubtotal,
+        membershipDiscountAmount,
+        membershipCardAmount,
+        payableAmount: courseSubtotal + membershipCardAmount,
+        hasMembershipBundle: useMemberPrice
+      };
+    }
+
+    function renderChoiceRow(containerId, values, currentValue, type, disabledWhenEmpty) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      container.innerHTML = values.map(value => `
+        <button class="choice-chip${value === currentValue ? ' active' : ''}" type="button" data-choice-type="${type}" data-choice-value="${value}">${value}</button>
+      `).join('');
+      if (!values.length && disabledWhenEmpty) {
+        container.innerHTML = `<button class="choice-chip disabled" type="button" disabled>请先选择上一级条件</button>`;
+      }
+      container.querySelectorAll('[data-choice-type]').forEach(btn => {
+        btn.addEventListener('click', () => handleSkuChoice(btn.dataset.choiceType, btn.dataset.choiceValue));
+      });
+    }
+
+    function renderBuyConfirmPage() {
+      const course = getCurrentCourse();
+      const sku = getSelectedSku();
+      const amounts = computePurchaseAmounts();
+      const plan = membershipPlans[purchaseState.membershipPlanId] || membershipPlans.none;
+      const gradeLabel = document.getElementById('selectedGradeLabel');
+      const subjectLabel = document.getElementById('selectedSubjectLabel');
+      const packageLabel = document.getElementById('selectedPackageLabel');
+      const quantityTitle = document.getElementById('quantityTitle');
+      const quantityDesc = document.getElementById('quantityDesc');
+      const quantityValue = document.getElementById('quantityValue');
+      const quantityRuleText = document.getElementById('quantityRuleText');
+      const quantityMinusBtn = document.getElementById('quantityMinusBtn');
+      const quantityPlusBtn = document.getElementById('quantityPlusBtn');
+      const summaryCover = document.getElementById('orderSummaryCover');
+      const summaryType = document.getElementById('orderSummaryType');
+      const summaryName = document.getElementById('orderSummaryName');
+      const summaryMeta = document.getElementById('orderSummaryMeta');
+      const summaryTeacher = document.getElementById('orderSummaryTeacher');
+      const hintText = document.getElementById('skuHintText');
+      const originalEl = document.getElementById('amountOriginal');
+      const discountEl = document.getElementById('amountDiscount');
+      const membershipCardRow = document.getElementById('membershipCardRow');
+      const membershipCardEl = document.getElementById('amountMembershipCard');
+      const payableEl = document.getElementById('amountPayable');
+      const footerPayable = document.getElementById('footerPayable');
+      const memberPriceText = document.getElementById('memberPriceText');
+      const payHintText = document.getElementById('payHintText');
+      const submitOrderBtn = document.getElementById('submitOrderBtn');
+
+      if (course) {
+        summaryCover.src = course.cover;
+        summaryCover.alt = course.name;
+        summaryType.textContent = course.typeLabel;
+        summaryName.textContent = course.name;
+        summaryTeacher.textContent = course.teacherName;
+      }
+
+      gradeLabel.textContent = purchaseState.grade || '未选择';
+      subjectLabel.textContent = purchaseState.subject || '未选择';
+      packageLabel.textContent = sku ? `${getEffectiveLessonCount(sku)} 课时` : (purchaseState.lessonPackage || '未选择');
+
+      const subjects = getAvailableSubjects(course);
+      const grades = getAvailableGrades(course);
+      renderChoiceRow('subjectChoices', subjects, purchaseState.subject, 'subject', true);
+      renderChoiceRow('gradeChoices', grades, purchaseState.grade, 'grade', true);
+
+      document.querySelectorAll('[data-membership-plan]').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.membershipPlan === purchaseState.membershipPlanId);
+      });
+
+      if (sku) {
+        const totalLessons = getEffectiveLessonCount(sku);
+        const rule = getPurchaseRule(sku);
+        const originalTotal = (sku.originalPrice / rule.minLessons) * totalLessons;
+        const memberTotal = (sku.memberPrice / rule.minLessons) * totalLessons;
+        summaryMeta.textContent = `${sku.subject} / ${sku.grade} / ${totalLessons} 课时 · ${course.ratingText} · ${course.durationText}`;
+        hintText.textContent = sku.bookingText;
+        originalEl.textContent = formatPrice(originalTotal);
+        discountEl.textContent = plan.id === 'none' ? '¥0' : formatPrice(originalTotal - memberTotal);
+        membershipCardEl.textContent = formatPrice(amounts.membershipCardAmount);
+        payableEl.textContent = formatPrice(amounts.payableAmount);
+        footerPayable.textContent = formatPrice(amounts.payableAmount);
+        memberPriceText.textContent = plan.id === 'none'
+          ? `当前按普通课价结算，已选 ${totalLessons} 课时`
+          : `当前按会员课价结算，已选 ${totalLessons} 课时`;
+        payHintText.textContent = `购买须知：支付完成后直接进入待约课订单页，当前课程预计${sku.bookingText}`;
+        quantityTitle.textContent = rule.mode === 'single'
+          ? `${totalLessons} 课时`
+          : `${sku.lessonPackage} x ${purchaseState.quantity} 包`;
+        quantityDesc.textContent = rule.mode === 'single'
+          ? `最少 ${rule.minLessons} 课时起买，当前可按 ${rule.stepLessons} 课时逐节增加。`
+          : `最少 ${rule.minLessons} 课时起买，当前按整包增加课时数量。`;
+        quantityRuleText.textContent = `当前规则：${getQuantityModeLabel(sku)}`;
+        quantityValue.textContent = String(purchaseState.quantity);
+        quantityMinusBtn.disabled = purchaseState.quantity <= 1;
+        quantityPlusBtn.disabled = false;
+        submitOrderBtn.disabled = false;
+      } else {
+        summaryMeta.textContent = '请先选择科目、年级和课数量后提交订单';
+        hintText.textContent = '当前课程已默认带入，并默认选中最少课时数；你可以继续调整科目、年级和购买份数。';
+        originalEl.textContent = '--';
+        discountEl.textContent = '--';
+        membershipCardEl.textContent = formatPrice(plan.price);
+        payableEl.textContent = '--';
+        footerPayable.textContent = '--';
+        memberPriceText.textContent = plan.id === 'none' ? '当前未加购会员卡' : '会员价待选择 SKU 后计算';
+        payHintText.textContent = '未选完整 SKU 时不可提交订单。';
+        quantityTitle.textContent = '未选择课时包';
+        quantityDesc.textContent = '请先完成科目和年级选择。';
+        quantityRuleText.textContent = '当前规则：待选择课程后展示';
+        quantityValue.textContent = String(purchaseState.quantity);
+        quantityMinusBtn.disabled = purchaseState.quantity <= 1;
+        quantityPlusBtn.disabled = true;
+        submitOrderBtn.disabled = true;
+      }
+
+      membershipCardRow.style.display = plan.id === 'none' ? 'none' : 'flex';
+    }
+
+    function renderOrderWaitPage() {
+      const course = getCurrentCourse();
+      const sku = getSelectedSku();
+      const plan = membershipPlans[purchaseState.membershipPlanId] || membershipPlans.none;
+      const amounts = computePurchaseAmounts();
+      if (!course || !sku) return;
+
+      document.getElementById('waitCourseName').textContent = course.name;
+      document.getElementById('waitCoursePrice').textContent = formatPrice(amounts.payableAmount);
+      document.getElementById('waitSkuText').textContent = `${sku.subject} / ${sku.grade} / ${getEffectiveLessonCount(sku)} 课时`;
+      document.getElementById('waitTeacherName').textContent = course.teacherName;
+      document.getElementById('waitMembershipPlan').textContent = plan.name;
+      document.getElementById('waitMembershipDesc').textContent = plan.id === 'none' ? '未加购会员卡' : plan.rights;
+      document.getElementById('waitPaymentStatus').textContent = '支付成功';
+      document.getElementById('waitPayableAmount').textContent = formatPrice(amounts.payableAmount);
+      document.getElementById('waitMembershipStatus').textContent = `会员状态：${plan.openStatus}`;
+      document.getElementById('waitBenefitText').textContent = plan.id === 'none'
+        ? '本单未加购会员卡，后续课程仍按普通课价结算。'
+        : `本单已开通${plan.name}，${plan.rights}。`;
+    }
+
+    function selectCourseForOrder(courseId, resetSku) {
+      purchaseState.courseId = courseId;
+      if (resetSku) {
+        purchaseState.grade = '';
+        purchaseState.subject = '';
+        purchaseState.lessonPackage = '';
+        purchaseState.quantity = 1;
+      }
+      const course = getCurrentCourse();
+      const defaultSku = getDefaultSkuForCourse(course);
+      if (defaultSku) {
+        purchaseState.subject = defaultSku.subject;
+        purchaseState.grade = defaultSku.grade;
+        purchaseState.lessonPackage = defaultSku.lessonPackage;
+      }
+      renderBuyConfirmPage();
+    }
+
+    function handleSkuChoice(type, value) {
+      if (type === 'grade') {
+        purchaseState.grade = value;
+        const course = getCurrentCourse();
+        const nextPackage = getAvailablePackages(course)[0];
+        purchaseState.lessonPackage = nextPackage || '';
+        purchaseState.quantity = 1;
+      }
+      if (type === 'subject') {
+        purchaseState.subject = value;
+        const course = getCurrentCourse();
+        const nextGrade = getAvailableGrades(course)[0];
+        purchaseState.grade = nextGrade || '';
+        const nextPackage = getAvailablePackages(course)[0];
+        purchaseState.lessonPackage = nextPackage || '';
+        purchaseState.quantity = 1;
+      }
+      renderBuyConfirmPage();
+    }
+
+    function openBuyConfirm(courseId) {
+      const targetCourse = purchaseCourses.find(course => course.id === courseId && course.sellable) || purchaseCourses.find(course => course.sellable);
+      if (!targetCourse) return;
+      purchaseState.membershipPlanId = purchaseState.membershipPlanId || 'vip1000';
+      selectCourseForOrder(targetCourse.id, true);
+      showPage('buy-confirm');
+      const confirmScroll = document.getElementById('buyConfirmScroll');
+      if (confirmScroll) confirmScroll.scrollTop = 0;
+    }
 
     function refreshTeacherSecondType() {
       if (!teacherPrimaryType || !teacherSecondType) return;
@@ -2565,6 +3614,47 @@
         setActiveDetailTab(tab.dataset.detailAnchor);
       });
     });
+    document.querySelectorAll('[data-buy-course]').forEach(btn => {
+      btn.addEventListener('click', event => {
+        event.stopPropagation();
+        openBuyConfirm(btn.dataset.buyCourse);
+      });
+    });
+    document.querySelectorAll('[data-buy-main]').forEach(btn => {
+      btn.addEventListener('click', event => {
+        event.stopPropagation();
+        openBuyConfirm();
+      });
+    });
+    document.querySelectorAll('[data-membership-plan]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        purchaseState.membershipPlanId = btn.dataset.membershipPlan;
+        renderBuyConfirmPage();
+      });
+    });
+    const quantityMinusBtn = document.getElementById('quantityMinusBtn');
+    const quantityPlusBtn = document.getElementById('quantityPlusBtn');
+    if (quantityMinusBtn) {
+      quantityMinusBtn.addEventListener('click', () => {
+        if (purchaseState.quantity <= 1) return;
+        purchaseState.quantity -= 1;
+        renderBuyConfirmPage();
+      });
+    }
+    if (quantityPlusBtn) {
+      quantityPlusBtn.addEventListener('click', () => {
+        purchaseState.quantity += 1;
+        renderBuyConfirmPage();
+      });
+    }
+    const submitOrderBtn = document.getElementById('submitOrderBtn');
+    if (submitOrderBtn) {
+      submitOrderBtn.addEventListener('click', () => {
+        if (!getSelectedSku()) return;
+        renderOrderWaitPage();
+        showPage('order-wait');
+      });
+    }
     document.querySelectorAll('.teacher-card, .more').forEach(el => {
       el.addEventListener('click', event => {
         event.stopPropagation();
@@ -2643,6 +3733,18 @@
     });
 
     syncDetailAnchorByScroll();
+    purchaseState.membershipPlanId = 'vip1000';
+    selectCourseForOrder('math-trial', true);
+    if (location.hash) {
+      const initial = location.hash.replace('#', '');
+      if (document.getElementById('page-' + initial)) {
+        showPage(initial);
+      } else {
+        showPage('entry');
+      }
+    } else {
+      showPage('entry');
+    }
   </script>
 </body>
 </html>
