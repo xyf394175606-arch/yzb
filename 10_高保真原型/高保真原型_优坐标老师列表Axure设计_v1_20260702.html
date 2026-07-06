@@ -542,20 +542,38 @@
     }
 
     .degree-badge {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 25px;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(180deg, #ffe8ba 0%, #ffefd3 100%);
+      height: 22px;
+      padding: 0 8px;
+      border-radius: 999px;
+      background: #fff4df;
       color: #a77728;
-      font-size: 15px;
+      border: 1px solid #f4d69d;
+      font-size: 12px;
       line-height: 1;
       font-weight: 950;
-      text-align: center;
+      white-space: nowrap;
+    }
+
+    .avatar-scholar-badge {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      min-width: 46px;
+      height: 23px;
+      padding: 0 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #ffb340 0%, #ff8b24 100%);
+      color: #fff;
+      font-size: 12px;
+      line-height: 1;
+      font-weight: 950;
+      box-shadow: 0 4px 10px rgba(255, 140, 36, .28);
       white-space: nowrap;
     }
 
@@ -588,9 +606,9 @@
       height: 21px;
       padding: 0 7px;
       border-radius: 999px;
-      background: #fff4df;
-      color: #a77728;
-      border: 1px solid #f4d69d;
+      background: #eef6ff;
+      color: #4b90ff;
+      border: 1px solid #d7e8ff;
       font-size: 12px;
       line-height: 1;
       font-weight: 950;
@@ -2674,9 +2692,9 @@
               <div class="teacher-list">
               <article class="teacher-card" data-teacher="袁教员" data-avatar="../work/优坐标老师列表截图资产_v1_20260702/老师头像_袁教员_v1_20260702.jpg">
                 <div class="teacher-main">
-                  <div class="avatar-wrap"><img class="avatar" src="../work/优坐标老师列表截图资产_v1_20260702/老师头像_袁教员_v1_20260702.jpg" alt="袁教员头像"><span class="degree-badge">骨干教员</span></div>
+                  <div class="avatar-wrap"><img class="avatar" src="../work/优坐标老师列表截图资产_v1_20260702/老师头像_袁教员_v1_20260702.jpg" alt="袁教员头像"><span class="avatar-scholar-badge">硕博</span></div>
                   <div class="teacher-info">
-                    <div class="name-row"><div class="name">袁教员</div><span class="scholar-badge">硕博</span></div>
+                    <div class="name-row"><div class="name">袁教员</div><span class="degree-badge">骨干教员</span></div>
                     <div class="tags"><span class="tag">985</span><span class="tag">211</span><span class="tag">清华硕士</span><span class="tag">零投诉</span><span class="tag">数学竞赛导师</span><span class="tag">高好评率</span></div>
                     <div class="metrics"><div class="metric"><strong>8年</strong><span>教学经验</span></div><div class="metric"><strong>1012</strong><span>授课时长</span></div><div class="metric"><strong>100</strong><span>收藏人数</span></div></div>
                   </div>
@@ -2686,9 +2704,9 @@
 
               <article class="teacher-card" data-teacher="张教员" data-avatar="../work/优坐标老师列表截图资产_v1_20260702/老师头像_张教员_v1_20260702.jpg">
                 <div class="teacher-main">
-                  <div class="avatar-wrap"><img class="avatar" src="../work/优坐标老师列表截图资产_v1_20260702/老师头像_张教员_v1_20260702.jpg" alt="张教员头像"><span class="degree-badge">骨干教员</span></div>
+                  <div class="avatar-wrap"><img class="avatar" src="../work/优坐标老师列表截图资产_v1_20260702/老师头像_张教员_v1_20260702.jpg" alt="张教员头像"><span class="avatar-scholar-badge">硕博</span></div>
                   <div class="teacher-info">
-                    <div class="name-row"><div class="name">张教员</div><span class="scholar-badge">硕博</span></div>
+                    <div class="name-row"><div class="name">张教员</div><span class="degree-badge">骨干教员</span></div>
                     <div class="tags"><span class="tag">陕西师范硕士</span><span class="tag">211</span><span class="tag">教材编写者</span></div>
                     <div class="metrics"><div class="metric"><strong>11年</strong><span>教学经验</span></div><div class="metric"><strong>462</strong><span>授课时长</span></div><div class="metric"><strong>90</strong><span>收藏人数</span></div></div>
                   </div>
@@ -2698,9 +2716,9 @@
 
               <article class="teacher-card" data-teacher="李教员" data-avatar="../work/优坐标老师列表截图资产_v1_20260702/老师头像_李教员_v1_20260702.jpg">
                 <div class="teacher-main">
-                  <div class="avatar-wrap"><img class="avatar" src="../work/优坐标老师列表截图资产_v1_20260702/老师头像_李教员_v1_20260702.jpg" alt="李教员头像"><span class="degree-badge">专业教员</span></div>
+                  <div class="avatar-wrap"><img class="avatar" src="../work/优坐标老师列表截图资产_v1_20260702/老师头像_李教员_v1_20260702.jpg" alt="李教员头像"></div>
                   <div class="teacher-info">
-                    <div class="name-row"><div class="name">李教员</div></div>
+                    <div class="name-row"><div class="name">李教员</div><span class="degree-badge">专业教员</span></div>
                     <div class="tags"><span class="tag">211</span><span class="tag">教材编写者</span><span class="tag">高好评率</span><span class="tag">培育名校学子</span><span class="tag">零投诉</span></div>
                     <div class="metrics"><div class="metric"><strong>6年</strong><span>教学经验</span></div><div class="metric"><strong>602</strong><span>授课时长</span></div><div class="metric"><strong>87</strong><span>收藏人数</span></div></div>
                   </div>
@@ -2710,9 +2728,9 @@
 
               <article class="teacher-card" data-teacher="王教员">
                 <div class="teacher-main">
-                  <div class="avatar-wrap"><div class="avatar default-avatar male" aria-label="男老师默认头像">王</div><span class="degree-badge">骨干教员</span></div>
+                  <div class="avatar-wrap"><div class="avatar default-avatar male" aria-label="男老师默认头像">王</div></div>
                   <div class="teacher-info">
-                    <div class="name-row"><div class="name">王教员</div></div>
+                    <div class="name-row"><div class="name">王教员</div><span class="degree-badge">骨干教员</span></div>
                     <div class="tags"><span class="tag">重点高中</span><span class="tag">竞赛教练</span><span class="tag">高好评率</span></div>
                     <div class="metrics"><div class="metric"><strong>10年</strong><span>教学经验</span></div><div class="metric"><strong>880</strong><span>授课时长</span></div><div class="metric"><strong>76</strong><span>收藏人数</span></div></div>
                   </div>
@@ -2722,9 +2740,9 @@
 
               <article class="teacher-card" data-teacher="陈教员">
                 <div class="teacher-main">
-                  <div class="avatar-wrap"><div class="avatar default-avatar female" aria-label="女老师默认头像">陈</div><span class="degree-badge">骨干教员</span></div>
+                  <div class="avatar-wrap"><div class="avatar default-avatar female" aria-label="女老师默认头像">陈</div><span class="avatar-scholar-badge">硕博</span></div>
                   <div class="teacher-info">
-                    <div class="name-row"><div class="name">陈教员</div><span class="scholar-badge">硕博</span></div>
+                    <div class="name-row"><div class="name">陈教员</div><span class="degree-badge">骨干教员</span></div>
                     <div class="tags"><span class="tag">师范类院校</span><span class="tag">教研组长</span><span class="tag">中考专项</span></div>
                     <div class="metrics"><div class="metric"><strong>9年</strong><span>教学经验</span></div><div class="metric"><strong>735</strong><span>授课时长</span></div><div class="metric"><strong>68</strong><span>收藏人数</span></div></div>
                   </div>
@@ -2734,9 +2752,9 @@
 
               <article class="teacher-card" data-teacher="刘教员">
                 <div class="teacher-main">
-                  <div class="avatar-wrap"><div class="avatar default-avatar male" aria-label="男老师默认头像">刘</div><span class="degree-badge">专业教员</span></div>
+                  <div class="avatar-wrap"><div class="avatar default-avatar male" aria-label="男老师默认头像">刘</div></div>
                   <div class="teacher-info">
-                    <div class="name-row"><div class="name">刘教员</div></div>
+                    <div class="name-row"><div class="name">刘教员</div><span class="degree-badge">专业教员</span></div>
                     <div class="tags"><span class="tag">一线教师</span><span class="tag">小升初</span><span class="tag">家长好评</span></div>
                     <div class="metrics"><div class="metric"><strong>6年</strong><span>教学经验</span></div><div class="metric"><strong>520</strong><span>授课时长</span></div><div class="metric"><strong>55</strong><span>收藏人数</span></div></div>
                   </div>
@@ -2746,9 +2764,9 @@
 
               <article class="teacher-card" data-teacher="赵教员">
                 <div class="teacher-main">
-                  <div class="avatar-wrap"><div class="avatar default-avatar female" aria-label="女老师默认头像">赵</div><span class="degree-badge">骨干教员</span></div>
+                  <div class="avatar-wrap"><div class="avatar default-avatar female" aria-label="女老师默认头像">赵</div><span class="avatar-scholar-badge">硕博</span></div>
                   <div class="teacher-info">
-                    <div class="name-row"><div class="name">赵教员</div><span class="scholar-badge">硕博</span></div>
+                    <div class="name-row"><div class="name">赵教员</div><span class="degree-badge">骨干教员</span></div>
                     <div class="tags"><span class="tag">双一流</span><span class="tag">文综教研</span><span class="tag">高考专项</span></div>
                     <div class="metrics"><div class="metric"><strong>12年</strong><span>教学经验</span></div><div class="metric"><strong>1260</strong><span>授课时长</span></div><div class="metric"><strong>132</strong><span>收藏人数</span></div></div>
                   </div>
@@ -2758,9 +2776,9 @@
 
               <article class="teacher-card" data-teacher="周教员">
                 <div class="teacher-main">
-                  <div class="avatar-wrap"><div class="avatar default-avatar male" aria-label="男老师默认头像">周</div><span class="degree-badge">骨干教员</span></div>
+                  <div class="avatar-wrap"><div class="avatar default-avatar male" aria-label="男老师默认头像">周</div></div>
                   <div class="teacher-info">
-                    <div class="name-row"><div class="name">周教员</div></div>
+                    <div class="name-row"><div class="name">周教员</div><span class="degree-badge">骨干教员</span></div>
                     <div class="tags"><span class="tag">高校助教</span><span class="tag">竞赛方向</span><span class="tag">逻辑训练</span></div>
                     <div class="metrics"><div class="metric"><strong>5年</strong><span>教学经验</span></div><div class="metric"><strong>430</strong><span>授课时长</span></div><div class="metric"><strong>49</strong><span>收藏人数</span></div></div>
                   </div>
@@ -2770,9 +2788,9 @@
 
               <article class="teacher-card" data-teacher="孙教员">
                 <div class="teacher-main">
-                  <div class="avatar-wrap"><div class="avatar default-avatar female" aria-label="女老师默认头像">孙</div><span class="degree-badge">专业教员</span></div>
+                  <div class="avatar-wrap"><div class="avatar default-avatar female" aria-label="女老师默认头像">孙</div></div>
                   <div class="teacher-info">
-                    <div class="name-row"><div class="name">孙教员</div></div>
+                    <div class="name-row"><div class="name">孙教员</div><span class="degree-badge">专业教员</span></div>
                     <div class="tags"><span class="tag">师范类院校</span><span class="tag">班主任经验</span><span class="tag">基础巩固</span></div>
                     <div class="metrics"><div class="metric"><strong>8年</strong><span>教学经验</span></div><div class="metric"><strong>690</strong><span>授课时长</span></div><div class="metric"><strong>61</strong><span>收藏人数</span></div></div>
                   </div>
@@ -2782,9 +2800,9 @@
 
               <article class="teacher-card" data-teacher="黄教员">
                 <div class="teacher-main">
-                  <div class="avatar-wrap"><div class="avatar default-avatar male" aria-label="男老师默认头像">黄</div><span class="degree-badge">骨干教员</span></div>
+                  <div class="avatar-wrap"><div class="avatar default-avatar male" aria-label="男老师默认头像">黄</div><span class="avatar-scholar-badge">硕博</span></div>
                   <div class="teacher-info">
-                    <div class="name-row"><div class="name">黄教员</div><span class="scholar-badge">硕博</span></div>
+                    <div class="name-row"><div class="name">黄教员</div><span class="degree-badge">骨干教员</span></div>
                     <div class="tags"><span class="tag">985</span><span class="tag">强基方向</span><span class="tag">理综提升</span></div>
                     <div class="metrics"><div class="metric"><strong>7年</strong><span>教学经验</span></div><div class="metric"><strong>810</strong><span>授课时长</span></div><div class="metric"><strong>74</strong><span>收藏人数</span></div></div>
                   </div>
