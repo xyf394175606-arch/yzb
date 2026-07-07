@@ -2448,6 +2448,22 @@
       align-items: end;
     }
 
+    .pc-rule-tip {
+      margin: 14px 18px 0;
+      padding: 12px 14px;
+      border: 1px solid #bae0ff;
+      border-radius: 8px;
+      background: #f0f7ff;
+      color: #24476f;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .pc-rule-tip strong {
+      color: #0958d9;
+      font-weight: 700;
+    }
+
     .teacher-table {
       width: 100%;
       border-collapse: collapse;
@@ -2820,6 +2836,36 @@
 
     .config-table .pc-textarea {
       min-height: 74px;
+    }
+
+    .config-table.compact th,
+    .config-table.compact td {
+      padding: 8px 10px;
+      vertical-align: middle;
+    }
+
+    .config-table .inline-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .source-course {
+      display: grid;
+      grid-template-columns: 1fr 90px 90px 90px 104px;
+      gap: 8px;
+      align-items: center;
+      padding: 10px 12px;
+      border: 1px solid var(--pc-border-soft);
+      border-radius: var(--pc-radius);
+      background: #fbfdff;
+    }
+
+    .course-source-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 10px;
     }
 
     .nested-row {
@@ -3459,10 +3505,11 @@
             <div class="pc-field"><label>审核状态</label><select class="pc-select"><option>全部</option><option>草稿</option><option>待审核</option><option>已通过</option><option>已驳回</option></select></div>
             <div class="pc-actions"><button class="pc-btn primary" type="button">查询</button><button class="pc-btn" type="button">重置</button></div>
           </div>
+          <div class="pc-rule-tip"><strong>排序用途：</strong>排序值用于控制前端展示顺序，覆盖首页老师推荐、全部老师列表页，以及首页各模块列表，例如专业教师、骨干教师等老师模块。建议数值越大越靠前，同类型同模块内按排序值优先展示。</div>
           <table class="teacher-table" aria-label="教师列表">
             <thead>
               <tr>
-                <th>教师</th><th>教师类型</th><th>主讲科目</th><th>教学经验</th><th>授课时长</th><th>收藏人数</th><th>关联课程数</th><th>展示状态</th><th>审核状态</th><th>排序值</th><th>更新时间</th><th>操作</th>
+                <th>教师</th><th>教师类型</th><th>主讲科目</th><th>教学经验</th><th>授课时长</th><th>收藏人数</th><th>关联课程数</th><th>展示状态</th><th>审核状态</th><th>前台排序值</th><th>更新时间</th><th>操作</th>
               </tr>
             </thead>
             <tbody>
@@ -3593,9 +3640,9 @@
                     <div class="pc-field"><label>教师类型 *</label><select class="pc-select" id="teacherPrimaryType"><option>骨干教员</option><option>专业教员</option></select></div>
                     <div class="pc-field"><label>二级类型 *</label><select class="pc-select" id="teacherSecondType" aria-label="教师二级类型"></select></div>
                     <div class="pc-field"><label>教师状态</label><select class="pc-select"><option>已通过</option><option>草稿</option><option>待审核</option><option>已驳回</option></select></div>
-                    <div class="pc-field"><label>排序值</label><input class="pc-input" value="980"></div>
+                    <div class="pc-field"><label>前台排序值</label><input class="pc-input" value="980"></div>
                   </div>
-                  <div class="hint">教师类型和二级类型均从后台数据字典获取；二级类型跟随教师类型联动刷新。当前样例：骨干教员下含“硕博、名校骨干、竞赛教研、升学规划”，专业教员下含“一线专业、专项提分、基础巩固、兴趣启蒙”。排序规则建议数值越大越靠前，并与前台默认推荐排序一致。</div>
+                  <div class="hint">教师类型和二级类型均从后台数据字典获取；二级类型跟随教师类型联动刷新。当前样例：骨干教员下含“硕博、名校骨干、竞赛教研、升学规划”，专业教员下含“一线专业、专项提分、基础巩固、兴趣启蒙”。前台排序值用于控制首页、教师列表页、首页各模块列表的老师展示顺序，建议数值越大越靠前。</div>
                 </section>
 
                 <section class="form-section" id="section-display-metrics">
@@ -3692,12 +3739,47 @@
               </section>
               <section class="form-section">
                 <h3>评价列表</h3>
-                <div class="nested-row">
-                  <div class="nested-title"><span>评价 1：王**</span><button class="link-btn danger" type="button">删除</button></div>
-                  <div class="form-grid"><div class="pc-field"><label>评价人昵称</label><input class="pc-input" value="王**"></div><div class="pc-field"><label>头像/头像色</label><input class="pc-input" value="蓝色头像"></div><div class="pc-field"><label>星级</label><input class="pc-input" value="5"></div><div class="pc-field"><label>评分</label><input class="pc-input" value="4.6"></div><div class="pc-field"><label>排序</label><input class="pc-input" value="1"></div><div class="pc-field"><label>是否展示</label><select class="pc-select"><option>展示</option><option>隐藏</option></select></div></div>
-                  <div class="pc-field"><label>评价内容</label><textarea class="pc-textarea">老师特别负责，讲课逻辑清晰，知识点讲得透彻，孩子听得懂、愿意学。</textarea></div>
+                <div class="config-table-wrap">
+                  <table class="config-table compact" aria-label="全部评价列表">
+                    <thead>
+                      <tr>
+                        <th style="width: 96px;">姓名</th>
+                        <th style="width: 86px;">评价星</th>
+                        <th style="width: 72px;">排序</th>
+                        <th>评价内容</th>
+                        <th style="width: 128px;">创建时间</th>
+                        <th style="width: 118px;">操作</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><input class="pc-input" value="王**" aria-label="评价姓名"></td>
+                        <td><select class="pc-select" aria-label="评价星"><option>5 星</option><option>4 星</option><option>3 星</option></select></td>
+                        <td><input class="pc-input" value="1" aria-label="评价排序"></td>
+                        <td><textarea class="pc-textarea" aria-label="评价内容">老师特别负责，讲课逻辑清晰，知识点讲得透彻，孩子听得懂、愿意学。</textarea></td>
+                        <td>2026-07-05</td>
+                        <td><div class="inline-actions"><button class="link-btn" type="button">停用</button><button class="link-btn danger" type="button">删除</button></div></td>
+                      </tr>
+                      <tr>
+                        <td><input class="pc-input" value="李**" aria-label="评价姓名"></td>
+                        <td><select class="pc-select" aria-label="评价星"><option>4 星</option><option>5 星</option><option>3 星</option></select></td>
+                        <td><input class="pc-input" value="2" aria-label="评价排序"></td>
+                        <td><textarea class="pc-textarea" aria-label="评价内容">孩子基础薄弱，老师会先帮忙梳理知识点，再安排练习，反馈很及时。</textarea></td>
+                        <td>2026-07-03</td>
+                        <td><div class="inline-actions"><button class="link-btn" type="button">启用</button><button class="link-btn danger" type="button">删除</button></div></td>
+                      </tr>
+                      <tr>
+                        <td><input class="pc-input" placeholder="输入姓名" aria-label="新增评价姓名"></td>
+                        <td><select class="pc-select" aria-label="新增评价星"><option>5 星</option><option>4 星</option><option>3 星</option></select></td>
+                        <td><input class="pc-input" placeholder="排序" aria-label="新增评价排序"></td>
+                        <td><textarea class="pc-textarea" placeholder="在这里录入新增评论内容" aria-label="新增评价内容"></textarea></td>
+                        <td>保存后生成</td>
+                        <td><div class="inline-actions"><button class="link-btn" type="button">启用</button><button class="link-btn danger" type="button">删除</button></div></td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
-                <button class="pc-btn" type="button">新增评价</button>
+                <div class="hint">新增评论直接在表格底部新增一行；操作列只保留启用、停用、删除。真实评价与后台补充评价统一进入该表格维护。</div>
               </section>
             </div>
           </div>
@@ -3718,20 +3800,61 @@
             <div class="modal-form">
               <section class="form-section">
                 <h3>关联课程</h3>
-                <div class="nested-row course-bind">
-                  <div><strong>优选数学-数学伴学体验课【初中段】</strong><div class="hint">课程价格、封面、课时从课程后台读取</div></div>
-                  <input class="pc-input" value="1" aria-label="课程排序">
-                  <select class="pc-select"><option>展示</option><option>隐藏</option></select>
-                  <button class="link-btn danger" type="button">移除</button>
+                <div class="form-grid">
+                  <div class="pc-field"><label>课程名称</label><input class="pc-input" placeholder="从课程管理课程中搜索"></div>
+                  <div class="pc-field"><label>课程状态</label><select class="pc-select"><option>仅可售课程</option><option>全部课程</option></select></div>
+                  <div class="pc-field"><label>课程来源</label><select class="pc-select"><option>课程管理</option></select></div>
                 </div>
-                <div class="nested-row course-bind">
-                  <div><strong>优选英语-英语伴学正式课【初中段】</strong><div class="hint">教师弹窗不可修改课程基础信息</div></div>
-                  <input class="pc-input" value="2" aria-label="课程排序">
-                  <select class="pc-select"><option>展示</option><option>隐藏</option></select>
-                  <button class="link-btn danger" type="button">移除</button>
+                <div class="course-source-list">
+                  <div class="source-course">
+                    <div><strong>优选数学-数学伴学体验课【初中段】</strong><div class="hint">课时、封面、价格、SKU 由课程管理维护</div></div>
+                    <span class="status-pill">可售</span>
+                    <span>¥199 起</span>
+                    <span>已关联</span>
+                    <button class="pc-btn" type="button" disabled>已选择</button>
+                  </div>
+                  <div class="source-course">
+                    <div><strong>优选英语-英语伴学正式课【初中段】</strong><div class="hint">课程管理同步更新后，教师详情页课程卡自动读取</div></div>
+                    <span class="status-pill">可售</span>
+                    <span>¥599 起</span>
+                    <span>未关联</span>
+                    <button class="pc-btn" type="button">添加关联</button>
+                  </div>
                 </div>
-                <button class="pc-btn" type="button">从课程管理选择课程</button>
-                <div class="hint">课程数据来源于课程管理。教师可在教师端自行关联课程，后台也可帮助教师关联课程；关联后，教师详情页展示对应课程，用户可直接下单购买。未关联可售课程时教师不可上架，前台不展示课程空态。</div>
+                <div class="hint">关联课程弹窗从教师列表行操作进入，课程候选数据来自课程管理；当前弹窗只建立老师与课程的售卖关系，不修改课程价格、封面、课时包等基础信息。</div>
+              </section>
+              <section class="form-section">
+                <h3>已关联课程</h3>
+                <div class="config-table-wrap">
+                  <table class="config-table compact" aria-label="已关联课程列表">
+                    <thead>
+                      <tr>
+                        <th>课程名称</th>
+                        <th style="width: 96px;">课程状态</th>
+                        <th style="width: 82px;">排序</th>
+                        <th style="width: 96px;">前台展示</th>
+                        <th style="width: 108px;">操作</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><strong>优选数学-数学伴学体验课【初中段】</strong><div class="hint">数据来源：课程管理</div></td>
+                        <td><span class="status-pill">可售</span></td>
+                        <td><input class="pc-input" value="1" aria-label="课程排序"></td>
+                        <td><select class="pc-select"><option>展示</option><option>隐藏</option></select></td>
+                        <td><button class="link-btn danger" type="button">取消关联</button></td>
+                      </tr>
+                      <tr>
+                        <td><strong>优选语文-阅读写作提升课【小学段】</strong><div class="hint">课程下架后前台不展示，需重新选择可售课程</div></td>
+                        <td><span class="status-pill gray">下架</span></td>
+                        <td><input class="pc-input" value="2" aria-label="课程排序"></td>
+                        <td><select class="pc-select"><option>隐藏</option><option>展示</option></select></td>
+                        <td><button class="link-btn danger" type="button">取消关联</button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="hint">保存后返回教师列表并刷新关联课程数。未关联至少 1 门可售课程时，教师不能上架，教师详情页不展示购买课程区。</div>
               </section>
               <section class="form-section">
                 <h3>展示与售卖状态</h3>
@@ -3790,8 +3913,8 @@
 
       <div class="note-page" id="note-admin-teachers">
         <div class="note-card"><h3>页面规则</h3><ul><li>后台入口定为教师列表，不单独新增“教师详情配置”页面。</li><li>新增、编辑、查看教师资料都从列表页打开大弹窗。</li><li>列表用于运营管理老师，支持筛选、查看、编辑、上下架、作废、调整排序。</li><li>下架教师后，前台老师列表和详情页不可见；作废为逻辑删除，作废后老师数据不再对前台展示。</li></ul></div>
-        <div class="note-card"><h3>字段说明</h3><ul><li>列表展示教师头像、教师姓名、一级教师类型、二级类型、主讲科目、教学经验、授课时长、收藏人数、关联课程数、展示状态、审核状态、排序值、更新时间。</li><li>手机号、身份证号、企业微信绑定、学历背景、资质证明等属于教师认证资料，只在查看/编辑弹窗中维护，不在列表默认展示。</li><li>一级教师类型和二级类型从后台数据字典获取；二级类型按一级类型联动。</li><li>授课时长、收藏人数当前按后台配置假数据处理，后续接真实统计时替换数据来源。</li><li>关联课程数只显示数量，课程价格、封面、课时等基础信息来自课程管理。</li><li>全部评价、关联课程不放在教师资料弹窗内，统一从列表操作进入。</li><li>排序值影响前台默认推荐排序，建议统一为数值越大越靠前。</li></ul></div>
-        <div class="note-card"><h3>按钮说明</h3><ul><li>新增教师：打开新增教师资料弹窗，默认进入“基本认证资料”Tab，可保存草稿或提交审核。</li><li>查看：打开只读弹窗，用于核对认证资料与页面展示资料配置。</li><li>编辑：打开双 Tab 教师资料弹窗，分别维护认证资料与页面展示资料。</li><li>全部评价：打开独立评价弹窗，给家长展示老师评价；后台可新增假数据，也可混合真实评价并控制展示。</li><li>关联课程：打开独立关联课程弹窗，从课程管理获取课程；教师端和后台都可帮助老师关联课程。</li><li>上架/下架：改变前台展示状态。</li><li>作废：逻辑删除，作废后老师不再对前台展示，后台可按作废状态留痕。</li><li>调整排序：影响前台推荐排序。</li></ul></div>
+        <div class="note-card"><h3>字段说明</h3><ul><li>列表展示教师头像、教师姓名、一级教师类型、二级类型、主讲科目、教学经验、授课时长、收藏人数、关联课程数、展示状态、审核状态、前台排序值、更新时间。</li><li>手机号、身份证号、企业微信绑定、学历背景、资质证明等属于教师认证资料，只在查看/编辑弹窗中维护，不在列表默认展示。</li><li>一级教师类型和二级类型从后台数据字典获取；二级类型按一级类型联动。</li><li>授课时长、收藏人数当前按后台配置假数据处理，后续接真实统计时替换数据来源。</li><li>关联课程数只显示数量，课程价格、封面、课时等基础信息来自课程管理。</li><li>全部评价、关联课程不放在教师资料弹窗内，统一从列表操作进入。</li><li>前台排序值用于控制前端多入口的老师展示顺序，覆盖首页老师推荐、全部老师列表页、首页各模块列表，例如专业教师、骨干教师等模块。</li><li>排序规则建议统一为数值越大越靠前；同一展示入口、同一模块内按前台排序值优先展示。</li></ul></div>
+        <div class="note-card"><h3>按钮说明</h3><ul><li>新增教师：打开新增教师资料弹窗，默认进入“基本认证资料”Tab，可保存草稿或提交审核。</li><li>查看：打开只读弹窗，用于核对认证资料与页面展示资料配置。</li><li>编辑：打开双 Tab 教师资料弹窗，分别维护认证资料与页面展示资料。</li><li>全部评价：打开独立评价弹窗；评价内容按表格维护，列为姓名、评价星、排序、评价内容、创建时间、操作，新增评论直接在表格底部新增一行。</li><li>全部评价操作列只保留启用、停用、删除；后台可混合真实评价和补充评价，并控制是否展示。</li><li>关联课程：打开独立关联课程弹窗，从课程管理获取可售课程；教师端和后台都可帮助老师关联课程。</li><li>关联课程只建立老师与课程的对外售卖关系，不允许在该弹窗修改课程价格、封面、课时包等课程基础信息。</li><li>上架/下架：改变前台展示状态。</li><li>作废：逻辑删除，作废后老师不再对前台展示，后台可按作废状态留痕。</li><li>调整排序：维护前台排序值，影响首页、教师列表页和首页各老师模块的展示顺序。</li></ul></div>
         <div class="note-card"><h3>权限与状态</h3><ul><li>老师账号可编辑自己的入驻资料和自行关联课程。</li><li>运营账号可审核、修改、上下架、调整排序，也可帮助教师关联课程。</li><li>课程价格和课程基础信息只允许课程管理维护。</li><li>审核状态包含草稿、待审核、已通过、已驳回；展示状态包含上架、下架。</li></ul></div>
       </div>
 
