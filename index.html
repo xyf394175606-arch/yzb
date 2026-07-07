@@ -45,18 +45,28 @@
     }
     h1 { margin: 0 0 8px; font-size: 24px; line-height: 1.25; }
     p { margin: 0; color: var(--muted); line-height: 1.7; }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 22px;
+    }
     a {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       min-height: 44px;
-      margin-top: 22px;
       padding: 0 18px;
       border-radius: 10px;
       background: var(--blue);
       color: #fff;
       text-decoration: none;
       font-weight: 800;
+    }
+    a.secondary {
+      background: #fff;
+      color: var(--blue);
+      border: 1px solid #bad0ff;
     }
     .meta {
       margin-top: 18px;
@@ -69,10 +79,13 @@
 <body>
   <main>
     <div class="mark">K12</div>
-    <h1>K12 分销模块最新原型</h1>
-    <p>当前最新版本：分销模块整体原型 v8，创建时间 20260623。</p>
-    <a href="10_高保真原型/高保真原型_分销模块整体原型_v8_20260623.html">打开分销模块原型</a>
-    <p class="meta">本页用于 GitHub Pages 访问最新分销模块原型。</p>
+    <h1>K12 优坐标老师列表原型</h1>
+    <p>当前最新版本：优坐标老师列表 Axure 设计 v1，创建时间 20260702。</p>
+    <div class="actions">
+      <a href="10_高保真原型/高保真原型_优坐标老师列表Axure设计_v1_20260702.html">打开完整原型</a>
+      <a class="secondary" href="10_高保真原型/高保真原型_优坐标老师列表Axure设计_v1_20260702.html#buy-confirm">直接打开确认订单页</a>
+    </div>
+    <p class="meta">本页用于 GitHub Pages 访问当前评审 HTML 原型。</p>
   </main>
 </body>
 </html>
