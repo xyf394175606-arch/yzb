@@ -2069,6 +2069,39 @@
       font-size: 14px;
     }
 
+    .wait-row span:last-child {
+      text-align: right;
+      color: #152031;
+      font-weight: 850;
+      max-width: 122px;
+    }
+
+    .wait-row div span {
+      color: #6f7d91;
+      font-weight: 600;
+    }
+
+    .success-amount {
+      margin-top: 10px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,.24);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .success-amount span {
+      color: rgba(255,255,255,.82);
+      font-size: 12px;
+    }
+
+    .success-amount strong {
+      color: #fff;
+      font-size: 24px;
+      font-weight: 950;
+    }
+
     .wait-actions {
       display: grid;
       gap: 10px;
@@ -2731,7 +2764,7 @@
         <button class="nav-btn" data-page="list">全部老师列表页</button>
         <button class="nav-btn" data-page="detail">教师详情页</button>
         <button class="nav-btn" data-page="buy-confirm">确认订单页</button>
-        <button class="nav-btn" data-page="order-wait">待约课订单页</button>
+        <button class="nav-btn" data-page="order-wait">订单支付成功确认页</button>
       </div>
       <div class="nav-section">
         <p class="nav-title">PC 后台 / 教师管理</p>
@@ -2745,12 +2778,12 @@
         <h1 class="canvas-title">版本与页面目录</h1>
         <div class="entry-card">
           <h2>原型范围</h2>
-          <p>本 Axure 风格原型基于已确认的需求分析、专项 PRD 和上一版高保真 HTML，覆盖优坐标家长端“全部老师”列表页、教师详情页、确认订单页、待约课订单页，以及 PC 后台教师管理的列表与新增/编辑弹窗。</p>
+          <p>本 Axure 风格原型基于已确认的需求分析、专项 PRD 和上一版高保真 HTML，覆盖优坐标家长端“全部老师”列表页、教师详情页、确认订单页、订单支付成功确认页，以及 PC 后台教师管理的列表与新增/编辑弹窗。</p>
           <div class="entry-grid">
             <div class="entry-item"><strong>页面 1：全部老师列表页</strong><span>默认展示推荐老师列表，支持学科/年级后台字典多选，点击确认后刷新。</span></div>
             <div class="entry-item"><strong>页面 2：教师详情页</strong><span>由卡片和“更多”进入，展示教师资料、评价、简介、课程和购买操作。</span></div>
             <div class="entry-item"><strong>页面 3：确认订单页</strong><span>承接课程 SKU 与会员卡加购，联动计算课程会员价、会员卡金额和实付总价。</span></div>
-            <div class="entry-item"><strong>页面 4：待约课订单页</strong><span>支付成功后直达，展示课程、老师、会员方案和待约课状态。</span></div>
+            <div class="entry-item"><strong>页面 4：订单支付成功确认页</strong><span>支付成功后直达，展示订单编号、课程、老师、学员、会员方案、金额和后续约课说明。</span></div>
             <div class="entry-item"><strong>页面 5：后台教师列表</strong><span>运营在 PC 后台筛选、查看、编辑、上下架、作废、调整排序老师。</span></div>
             <div class="entry-item"><strong>页面 6：新增/编辑教师弹窗</strong><span>从教师列表打开大弹窗，按当前已确认分组配置前台教师详情展示内容。</span></div>
             <div class="entry-item"><strong>原型约束</strong><span>手机/PC 线框只放真实用户可见 UI；字段来源、按钮结果、状态和风险放右侧黄色说明区。</span></div>
@@ -3040,7 +3073,7 @@
                       <div class="order-summary-meta" id="orderSummaryMeta">已默认选择当前课程的科目、年级和最少课时数</div>
                     </div>
                   </div>
-                  <div class="order-teacher">所属老师：<strong id="orderSummaryTeacher">张琴琴</strong><br>支付成功后直接进入待约课订单页，由客服继续跟进约课。</div>
+                  <div class="order-teacher">所属老师：<strong id="orderSummaryTeacher">张琴琴</strong><br>支付成功后进入订单支付成功确认页，并展示本次订单详情。</div>
                 </section>
 
                 <section class="order-card">
@@ -3146,7 +3179,7 @@
       </section>
 
       <section class="page" id="page-order-wait">
-        <h1 class="canvas-title">待约课订单页</h1>
+        <h1 class="canvas-title">订单支付成功确认页</h1>
         <div class="phone-wrap">
           <div class="phone order-phone">
             <div class="phone-scroll order-scroll">
@@ -3154,7 +3187,7 @@
                 <div class="status"><span>23:58</span><span class="status-icons"><span class="cell-bars"><span></span><span></span><span></span><span></span></span><span class="wifi"></span><span class="battery"></span></span></div>
                 <div class="order-nav">
                   <button class="round-btn back-mini" type="button" data-page-jump="detail" aria-label="返回"></button>
-                  <div class="detail-title">待约课订单</div>
+                  <div class="detail-title">支付成功</div>
                   <div class="order-ghost">支付成功</div>
                 </div>
               </header>
@@ -3164,33 +3197,43 @@
                   <div class="wait-status-top">
                     <div class="wait-status-icon">✓</div>
                     <div>
-                      <div class="wait-status-title">已购买，待约课</div>
-                      <div class="wait-status-desc">订单已支付成功，客服会根据课程信息协助安排约课与排课。</div>
+                      <div class="wait-status-title">订单支付成功</div>
+                      <div class="wait-status-desc">以下为本次订单详情，请核对课程、学员、会员和支付金额。</div>
                     </div>
                   </div>
+                  <div class="success-amount"><span>实付金额</span><strong id="waitPayableAmount">¥1088</strong></div>
                   <div class="wait-tags">
-                    <span class="wait-tag" id="waitOrderStatus">订单状态：已购买</span>
-                    <span class="wait-tag" id="waitBookingStatus">约课状态：待约课</span>
-                    <span class="wait-tag" id="waitMembershipStatus">会员状态：已开通</span>
+                    <span class="wait-tag" id="waitOrderNo">订单号：YZ202607070001</span>
+                    <span class="wait-tag" id="waitPaymentStatus">支付状态：支付成功</span>
+                    <span class="wait-tag" id="waitPaymentTime">支付时间：2026-07-07 09:58</span>
                   </div>
                 </section>
 
                 <section class="order-card">
-                  <h3>订单信息</h3>
+                  <h3>订单详情</h3>
                   <div class="wait-grid">
                     <div class="wait-row"><div><strong>购买课程</strong><span id="waitCourseName">优选数学-数学伴学体验课【初中段】</span></div><span id="waitCoursePrice">¥1088</span></div>
-                    <div class="wait-row"><div><strong>课程 SKU</strong><span id="waitSkuText">初一 / 数学 / 10 课时</span></div><span id="waitTeacherName">张琴琴</span></div>
+                    <div class="wait-row"><div><strong>课程规格</strong><span id="waitSkuText">初一 / 数学 / 10 课时</span></div><span id="waitTeacherName">张琴琴</span></div>
+                    <div class="wait-row"><div><strong>学员信息</strong><span id="waitStudentName">李小一</span></div><span id="waitParentPhone">13800138000</span></div>
+                    <div class="wait-row"><div><strong>推荐人联系电话</strong><span id="waitReferrerPhone">未填写</span></div></div>
+                    <div class="wait-row"><div><strong>订单备注</strong><span id="waitOrderRemark">未填写</span></div></div>
+                  </div>
+                </section>
+
+                <section class="order-card">
+                  <h3>金额与权益</h3>
+                  <div class="wait-grid">
                     <div class="wait-row"><div><strong>会员方案</strong><span id="waitMembershipPlan">1000 元会员卡</span></div><span id="waitMembershipDesc">无限次会员价购买课时</span></div>
-                    <div class="wait-row"><div><strong>支付状态</strong><span id="waitPaymentStatus">支付成功</span></div><span id="waitPayableAmount">¥1088</span></div>
+                    <div class="wait-row"><div><strong>会员权益</strong><span id="waitBenefitText">本单已开通会员卡，后续购买课时可按会员价结算。</span></div></div>
+                    <div class="wait-row"><div><strong>实付总价</strong><span>课程金额与会员卡金额已合并支付。</span></div><span id="waitPayableAmountDetail">¥1088</span></div>
                   </div>
                 </section>
 
                 <section class="order-card">
                   <h3>后续说明</h3>
                   <div class="wait-grid">
-                    <div class="wait-row"><div><strong>约课说明</strong><span>客服会根据孩子年级、科目和课时包配置，联系家长确认约课时间。</span></div></div>
-                    <div class="wait-row"><div><strong>会员权益</strong><span id="waitBenefitText">本单已开通会员卡，后续购买课时可按会员价结算。</span></div></div>
-                    <div class="wait-row"><div><strong>订单详情</strong><span>可继续查看订单明细、课程信息和客服跟进状态。</span></div></div>
+                    <div class="wait-row"><div><strong>约课说明</strong><span id="waitBookingDesc">客服会根据孩子年级、科目和课时包配置，联系家长确认约课时间。</span></div></div>
+                    <div class="wait-row"><div><strong>订单查看</strong><span>可在订单详情中查看支付明细、课程信息和后续客服跟进记录。</span></div></div>
                   </div>
                 </section>
 
@@ -3519,7 +3562,7 @@
     <aside class="notes" aria-label="右侧黄色说明区">
       <div class="note-page active" id="note-entry">
         <div class="note-card"><h3>版本说明</h3><p>本文件为 Axure 风格业务原型，面向评审使用。页面线框只放真实用户可见内容，说明、字段来源、状态、待确认和回流项统一放在黄色说明区。</p></div>
-        <div class="note-card"><h3>页面层级</h3><ul><li>入口：版本与页面目录</li><li>移动端 / 优坐标家长端 / 老师模块 / 全部老师列表页</li><li>移动端 / 优坐标家长端 / 老师模块 / 教师详情页</li><li>移动端 / 优坐标家长端 / 老师模块 / 确认订单页</li><li>移动端 / 优坐标家长端 / 老师模块 / 待约课订单页</li><li>PC 后台 / 教师管理 / 教师列表</li><li>PC 后台 / 教师管理 / 新增/编辑教师弹窗</li></ul></div>
+        <div class="note-card"><h3>页面层级</h3><ul><li>入口：版本与页面目录</li><li>移动端 / 优坐标家长端 / 老师模块 / 全部老师列表页</li><li>移动端 / 优坐标家长端 / 老师模块 / 教师详情页</li><li>移动端 / 优坐标家长端 / 老师模块 / 确认订单页</li><li>移动端 / 优坐标家长端 / 老师模块 / 订单支付成功确认页</li><li>PC 后台 / 教师管理 / 教师列表</li><li>PC 后台 / 教师管理 / 新增/编辑教师弹窗</li></ul></div>
         <div class="note-card"><h3>输入来源</h3><ul><li>05 需求分析：老师列表截图反推 v1</li><li>11 专项 PRD：优坐标老师列表最终 PRD v1</li><li>10 高保真原型：截图反推 v1</li></ul></div>
       </div>
 
@@ -3534,19 +3577,19 @@
         <div class="note-card"><h3>页面规则</h3><ul><li>本页由老师卡片或“更多”进入，当前默认展示教师介绍页签。</li><li>页签包含教师介绍、教师评价、购买课程；点击后按页面锚点滚动到对应模块。</li><li>教师介绍锚点对应教师简介模块，教师评价锚点对应教师评价模块，购买课程锚点对应购买课程模块。</li><li>底部固定操作栏包含客服、分享、收藏、立即购买。</li><li>购买课程区域展示体验课和正式课样例；立即抢购和立即购买均进入确认订单页。</li></ul></div>
         <div class="note-card"><h3>字段说明</h3><ul><li>教师头部展示头像、姓名、一级教员类型、二级类型标识、教学经验、授课时长、收藏人数和标签。</li><li>二级类型标识有填写则展示；未填写则不展示、不占位。</li><li>教师评价展示评价人数、用户昵称脱敏、星级、评分和评价内容。</li><li>教师简介展示个人简介、主讲科目、教学经验案例、授课特色。</li><li>课程卡片展示课程类型、封面、名称、评分、时长、价格、销量和立即抢购按钮。</li></ul></div>
         <div class="note-card"><h3>按钮说明</h3><ul><li>返回：回到全部老师列表页。</li><li>底部收藏：收藏/取消收藏结果待确认。</li><li>立即关注：打开关注引导弹层，明确引导用户关注“优坐标服务号”。</li><li>去关注服务号：跳转服务号关注引导页；当前原型保留为明确业务结果，不展开实际跳转页。</li><li>教师介绍/教师评价/购买课程：作为页面锚点使用，点击滚动到对应模块，并更新当前激活态。</li><li>立即抢购：带入当前点击课程进入确认订单页。</li><li>立即购买：带入当前老师首个可售课程进入确认订单页。</li></ul></div>
-        <div class="note-card"><h3>状态与回流</h3><ul><li>评价为空：教师评价模块标题展示“教师评价(0)”，列表区域展示“暂无评价”。</li><li>课程为空：后台不允许教师上架，前台教师详情页不展示课程空态。</li><li>课程售罄、无购买权限：当前业务不存在这两个前台状态，不在原型中展示。</li><li>购买失败：保留在支付链路或订单链路后续补充，不放在教师详情默认态。</li><li>购买主链路已明确为“确认订单页 -> 支付 -> 待约课订单页”，本轮原型不展开退款、排课和支付渠道细节。</li><li>评价接口、课程接口、收藏状态和关注状态需 09 数据交互阶段补齐。</li><li>当前截图中部分字段来源未给出，已作为展示样例处理。</li></ul></div>
+        <div class="note-card"><h3>状态与回流</h3><ul><li>评价为空：教师评价模块标题展示“教师评价(0)”，列表区域展示“暂无评价”。</li><li>课程为空：后台不允许教师上架，前台教师详情页不展示课程空态。</li><li>课程售罄、无购买权限：当前业务不存在这两个前台状态，不在原型中展示。</li><li>购买失败：保留在支付链路或订单链路后续补充，不放在教师详情默认态。</li><li>购买主链路已明确为“确认订单页 -> 支付 -> 订单支付成功确认页”，本轮原型不展开退款、排课和支付渠道细节。</li><li>评价接口、课程接口、收藏状态和关注状态需 09 数据交互阶段补齐。</li><li>当前截图中部分字段来源未给出，已作为展示样例处理。</li></ul></div>
       </div>
 
       <div class="note-page" id="note-buy-confirm">
         <div class="note-card"><h3>页面规则</h3><ul><li>本页承接教师详情页底部“立即购买”和课程卡“立即抢购”两类入口。</li><li>进入页面时默认带入当前课程；若来自底部主按钮，则带入当前老师首个可售课程。</li><li>当前课程进入订单页后默认已选中，不再额外展示“课程选择”区。</li><li>确认订单需先确认家长账号与学员信息；家长手机号由登录账号自动带入。</li><li>学员信息只展示一个学生姓名；有资料时默认带入该学生，没有资料时直接在同一个输入框填写学生姓名。</li><li>课程 SKU 选择顺序为：科目、年级、课数量；进入页面后默认选中当前课程下的默认科目、默认年级和最少课时数。</li><li>课时增长方式由后台配置控制：可按 1 课时递增，也可按 1 个课时包递增。</li><li>会员卡为同单可选加购项，默认选中 1000 元会员卡方案。</li></ul></div>
         <div class="note-card"><h3>价格规则</h3><ul><li>未加购会员卡：课程按普通课价结算，会员卡金额不计入总价。</li><li>加购会员卡：课程切换到会员价，总价 = 课程会员价小计 + 会员卡价格。</li><li>若后台配置为“按 1 课时递增”，则课程金额按单课时价格随总课时数增加。</li><li>若后台配置为“按 1 个课时包递增”，则课程金额按课时包价格随课时包数量增加。</li><li>1000 元会员卡：无限次按会员价购买课时。</li><li>499 元会员卡：20 次按会员价购买课时权益。</li></ul></div>
-        <div class="note-card"><h3>字段说明</h3><ul><li>订单页需要展示并确认：当前老师、当前课程、科目、年级、课数量、家长手机号、学员信息、推荐人联系电话、会员加购方案、订单备注和金额明细。</li><li>家长手机号：登录账号手机号自动带入，只读展示。</li><li>学员信息：只保留一个学生姓名字段，有资料时自动带入，用户可直接修改输入框内容。</li><li>学员姓名：必填，10 字以内；为空时不可提交订单。</li><li>推荐人联系电话：用于记录本次购买来源推荐人手机号，非必填。</li><li>订单备注：会员加购下方填写，纯文本，50 字以内，非必填。</li><li>课时购买规则需由后台配置：起购课时数、递增方式、递增步长、课时包价格口径。</li><li>金额区展示课程原价、会员优惠金额、会员卡金额、实付总价。</li><li>预计约课说明随 SKU 变化刷新，用于提示支付后进入待约课。</li></ul></div>
-        <div class="note-card"><h3>按钮说明</h3><ul><li>返回：回到教师详情页。</li><li>学员姓名快捷项：仅用于展示当前带入的学生姓名，用户仍可直接在输入框中修改。</li><li>选择科目/年级：刷新默认课时包和预计约课信息。</li><li>增加/减少课时：按后台配置的递增方式调整购买数量，并刷新金额。</li><li>会员加购：采用更轻量的勾选式卡片，便于用户直接切换方案。</li><li>提交订单并支付：需 SKU 完整且学员信息已填写；模拟支付成功后，直接进入待约课订单页。</li></ul></div>
+        <div class="note-card"><h3>字段说明</h3><ul><li>订单页需要展示并确认：当前老师、当前课程、科目、年级、课数量、家长手机号、学员信息、推荐人联系电话、会员加购方案、订单备注和金额明细。</li><li>家长手机号：登录账号手机号自动带入，只读展示。</li><li>学员信息：只保留一个学生姓名字段，有资料时自动带入，用户可直接修改输入框内容。</li><li>学员姓名：必填，10 字以内；为空时不可提交订单。</li><li>推荐人联系电话：用于记录本次购买来源推荐人手机号，非必填。</li><li>订单备注：会员加购下方填写，纯文本，50 字以内，非必填。</li><li>课时购买规则需由后台配置：起购课时数、递增方式、递增步长、课时包价格口径。</li><li>金额区展示课程原价、会员优惠金额、会员卡金额、实付总价。</li><li>支付后进入订单支付成功确认页，继续展示订单详情和后续约课说明。</li></ul></div>
+        <div class="note-card"><h3>按钮说明</h3><ul><li>返回：回到教师详情页。</li><li>学员姓名快捷项：仅用于展示当前带入的学生姓名，用户仍可直接在输入框中修改。</li><li>选择科目/年级：刷新默认课时包和预计约课信息。</li><li>增加/减少课时：按后台配置的递增方式调整购买数量，并刷新金额。</li><li>会员加购：采用更轻量的勾选式卡片，便于用户直接切换方案。</li><li>提交订单并支付：需 SKU 完整且学员信息已填写；模拟支付成功后，直接进入订单支付成功确认页。</li></ul></div>
       </div>
 
       <div class="note-page" id="note-order-wait">
-        <div class="note-card"><h3>页面规则</h3><ul><li>本页为支付成功后的直接落地页，不单独增加支付成功中间页。</li><li>订单状态口径固定为已购买 / 待约课。</li><li>若同单加购会员卡，页面需同时体现课程购买结果和会员开通结果。</li></ul></div>
-        <div class="note-card"><h3>字段说明</h3><ul><li>至少展示订单状态、支付状态、约课状态、购买课程、课程 SKU、所属老师、会员方案、会员权益说明、实付金额。</li><li>membershipOpenStatus 依据会员卡是否加购决定：已开通 / 未开通。</li><li>课程来源仍为教师已关联课程，会员价只影响当前课程结算单价。</li></ul></div>
+        <div class="note-card"><h3>页面规则</h3><ul><li>本页为支付成功后的直接落地页，页面定位为“订单支付成功确认页”。</li><li>页面重点展示本次订单详情，不再把默认态做成“已购买 / 待约课”状态页。</li><li>约课安排作为后续说明展示，不作为页面主状态。</li><li>若同单加购会员卡，页面需同时体现课程购买结果和会员开通结果。</li></ul></div>
+        <div class="note-card"><h3>字段说明</h3><ul><li>至少展示订单号、支付状态、支付时间、购买课程、课程规格、所属老师、学员姓名、家长手机号、推荐人联系电话、订单备注、会员方案、会员权益说明、实付金额。</li><li>会员开通结果依据会员卡是否加购决定：已开通 / 未开通；页面以会员方案和会员权益说明表达。</li><li>课程来源仍为教师已关联课程，会员价只影响当前课程结算单价。</li></ul></div>
         <div class="note-card"><h3>按钮说明</h3><ul><li>查看订单详情：进入订单详情承接页，当前原型只保留入口。</li><li>返回教师详情页：回到当前老师详情页面。</li></ul></div>
         <div class="note-card"><h3>后续范围</h3><ul><li>本轮不展开退款、排课日历、支付回调和订单管理后台。</li><li>客服约课、订单追踪和真实消息提醒后续在订单模块补充。</li></ul></div>
       </div>
@@ -3844,7 +3887,7 @@
         memberPriceText.textContent = plan.id === 'none'
           ? `当前按普通课价结算，已选 ${totalLessons} 课时`
           : `当前按会员课价结算，已选 ${totalLessons} 课时`;
-        payHintText.textContent = `购买须知：支付完成后直接进入待约课订单页，当前课程预计${sku.bookingText}`;
+        payHintText.textContent = `购买须知：支付完成后直接进入订单支付成功确认页，页面展示本次订单详情。`;
         quantityTitle.textContent = rule.mode === 'single'
           ? `${totalLessons} 课时`
           : `${sku.lessonPackage} x ${purchaseState.quantity} 包`;
@@ -3885,15 +3928,30 @@
       const amounts = computePurchaseAmounts();
       if (!course || !sku) return;
 
+      const studentName = document.getElementById('studentNameInput')?.value.trim() || '李小一';
+      const parentPhone = document.getElementById('parentPhoneInput')?.value.trim() || '13800138000';
+      const referrerPhone = document.getElementById('referrerPhoneInput')?.value.trim() || '未填写';
+      const orderRemark = document.getElementById('orderRemarkInput')?.value.trim() || '未填写';
+      const now = new Date();
+      const pad = value => String(value).padStart(2, '0');
+      const paymentTime = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
+      const orderNo = `YZ${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}0001`;
+
+      document.getElementById('waitOrderNo').textContent = `订单号：${orderNo}`;
+      document.getElementById('waitPaymentTime').textContent = `支付时间：${paymentTime}`;
       document.getElementById('waitCourseName').textContent = course.name;
       document.getElementById('waitCoursePrice').textContent = formatPrice(amounts.payableAmount);
       document.getElementById('waitSkuText').textContent = `${sku.subject} / ${sku.grade} / ${getEffectiveLessonCount(sku)} 课时`;
       document.getElementById('waitTeacherName').textContent = course.teacherName;
+      document.getElementById('waitStudentName').textContent = studentName;
+      document.getElementById('waitParentPhone').textContent = parentPhone;
+      document.getElementById('waitReferrerPhone').textContent = referrerPhone;
+      document.getElementById('waitOrderRemark').textContent = orderRemark;
       document.getElementById('waitMembershipPlan').textContent = plan.name;
       document.getElementById('waitMembershipDesc').textContent = plan.id === 'none' ? '未加购会员卡' : plan.rights;
-      document.getElementById('waitPaymentStatus').textContent = '支付成功';
       document.getElementById('waitPayableAmount').textContent = formatPrice(amounts.payableAmount);
-      document.getElementById('waitMembershipStatus').textContent = `会员状态：${plan.openStatus}`;
+      document.getElementById('waitPayableAmountDetail').textContent = formatPrice(amounts.payableAmount);
+      document.getElementById('waitBookingDesc').textContent = `支付成功后，客服将按${sku.subject} / ${sku.grade} / ${getEffectiveLessonCount(sku)} 课时信息联系家长确认约课安排。`;
       document.getElementById('waitBenefitText').textContent = plan.id === 'none'
         ? '本单未加购会员卡，后续课程仍按普通课价结算。'
         : `本单已开通${plan.name}，${plan.rights}。`;
