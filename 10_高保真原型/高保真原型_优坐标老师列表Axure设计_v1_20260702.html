@@ -456,6 +456,7 @@
     .dropdown.open { display: grid; }
 
     .option,
+    .teacher-filter-chip,
     .mini-btn {
       min-height: 34px;
       border-radius: 9px;
@@ -465,11 +466,35 @@
       cursor: pointer;
     }
 
-    .option.selected {
+    .option.selected,
+    .teacher-filter-chip.selected {
       border-color: var(--blue);
       background: #e8f4ff;
       color: #1769b8;
       font-weight: 900;
+    }
+
+    .teacher-filter-chip:disabled {
+      opacity: .45;
+      cursor: not-allowed;
+      background: #f3f6fa;
+    }
+
+    .filter-section-title,
+    .filter-hint {
+      grid-column: 1 / -1;
+      color: #8a98a9;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .filter-section-title {
+      margin-top: 2px;
+      font-weight: 900;
+    }
+
+    .filter-hint {
+      padding: 2px 0;
     }
 
     .filter-actions {
@@ -2769,9 +2794,14 @@
                     <div class="filter-actions"><button class="mini-btn" data-clear="gradeOptions">重置</button><button class="mini-btn primary" data-confirm="gradeOptions">确认</button></div>
                   </div>
                   <div class="dropdown" id="teacherTypeOptions">
-                    <button class="option selected" type="button" data-value="教员类型">全部</button>
-                    <button class="option" type="button" data-value="骨干教员">骨干教员</button>
-                    <button class="option" type="button" data-value="专业教员">专业教员</button>
+                    <div class="filter-section-title">一级类型</div>
+                    <button class="teacher-filter-chip selected" type="button" data-teacher-filter-level="primary" data-value="全部">全部</button>
+                    <button class="teacher-filter-chip" type="button" data-teacher-filter-level="primary" data-value="骨干教员">骨干教员</button>
+                    <button class="teacher-filter-chip" type="button" data-teacher-filter-level="primary" data-value="专业教员">专业教员</button>
+                    <div class="filter-section-title">二级类型</div>
+                    <button class="teacher-filter-chip selected" type="button" data-teacher-filter-level="secondary" data-value="全部">全部</button>
+                    <button class="teacher-filter-chip" type="button" data-teacher-filter-level="secondary" data-value="硕博" disabled>硕博</button>
+                    <div class="filter-hint">默认全部；选择一级“骨干教员”后，可继续选择二级“硕博”。</div>
                     <div class="filter-actions"><button class="mini-btn" data-clear="teacherTypeOptions">重置</button><button class="mini-btn primary" data-confirm="teacherTypeOptions">确认</button></div>
                   </div>
                 </div>
@@ -3495,9 +3525,9 @@
       </div>
 
       <div class="note-page" id="note-list">
-        <div class="note-card"><h3>页面规则</h3><ul><li>默认按推荐排序展示老师列表。</li><li>学科、年级、教员类型筛选项调用后台字典。</li><li>筛选支持多选，点击确认后刷新列表。</li><li>收藏为列表筛选/排序入口；具体展开逻辑待确认。</li><li>列表不展示“擅长科目”。</li></ul></div>
-        <div class="note-card"><h3>字段说明</h3><ul><li>授课时长、收藏人数为后台配置假数据；缺失时不展示。</li><li>标签过多时按设计图换行展示，不再限制只展示 3 个。</li><li>头像缺失时按性别展示默认头像；一级教员类型分专业教员、骨干教员，并在头像底部金色条展示。</li><li>硕博来自骨干教员下的二级类型；老师配置到该二级类型时，在教员姓名后展示“硕博”。</li><li>身份标签、资质标签、年级科目标签来源待数据交互阶段补充。</li></ul></div>
-        <div class="note-card"><h3>按钮说明</h3><ul><li>返回：返回上一页，具体历史栈由小程序决定。</li><li>学科/年级/教员类型确认：按多选条件刷新列表。</li><li>收藏：筛选收藏老师或按收藏维度过滤，具体规则待确认。</li><li>老师卡片：进入教师详情页。</li><li>更多：进入教师详情页。</li></ul></div>
+        <div class="note-card"><h3>页面规则</h3><ul><li>默认按推荐排序展示老师列表。</li><li>学科、年级筛选项调用后台字典并支持多选，点击确认后刷新列表。</li><li>教员类型改为二级筛选：一级类型默认全部，可选骨干教员、专业教员；二级类型默认全部，一级选择骨干教员后可选硕博。</li><li>收藏为列表筛选/排序入口；具体展开逻辑待确认。</li><li>列表不展示“擅长科目”。</li></ul></div>
+        <div class="note-card"><h3>字段说明</h3><ul><li>授课时长、收藏人数为后台配置假数据；缺失时不展示。</li><li>标签过多时按设计图换行展示，不再限制只展示 3 个。</li><li>头像缺失时按性别展示默认头像；一级教员类型分专业教员、骨干教员，并在姓名旁展示。</li><li>硕博来自骨干教员下的二级类型；老师配置到该二级类型时，在头像右上角展示“硕博”。</li><li>身份标签、资质标签、年级科目标签来源待数据交互阶段补充。</li></ul></div>
+        <div class="note-card"><h3>按钮说明</h3><ul><li>返回：返回上一页，具体历史栈由小程序决定。</li><li>学科/年级确认：按多选条件刷新列表。</li><li>教员类型确认：按“一级类型 + 二级类型”刷新列表；默认全部，选择骨干教员后可继续选择硕博。</li><li>收藏：筛选收藏老师或按收藏维度过滤，具体规则待确认。</li><li>老师卡片：进入教师详情页。</li><li>更多：进入教师详情页。</li></ul></div>
         <div class="note-card"><h3>全部状态</h3><div class="state-demo"><div class="state-chip"><strong>默认：</strong>展示推荐老师列表。</div><div class="state-chip"><strong>加载：</strong>展示骨架屏。</div><div class="state-chip"><strong>空态：</strong>暂无符合条件的老师，可更换学科或年级后再查看。</div><div class="state-chip"><strong>错误：</strong>当前网络不稳定，老师列表暂时加载失败。请点击重新加载再试。</div><div class="state-chip"><strong>无权限：</strong>当前账号暂不能查看全部老师列表，请切换家长身份或联系平台客服处理。</div></div></div>
       </div>
 
@@ -4165,9 +4195,51 @@
       });
     });
 
+    function syncTeacherTypeSecondary() {
+      const group = document.getElementById('teacherTypeOptions');
+      if (!group) return;
+      const primarySelected = group.querySelector('[data-teacher-filter-level="primary"].selected');
+      const secondaryAll = group.querySelector('[data-teacher-filter-level="secondary"][data-value="全部"]');
+      const secondaryItems = group.querySelectorAll('[data-teacher-filter-level="secondary"]:not([data-value="全部"])');
+      const enableSecondary = primarySelected && primarySelected.dataset.value === '骨干教员';
+      secondaryItems.forEach(item => {
+        item.disabled = !enableSecondary;
+        if (!enableSecondary) item.classList.remove('selected');
+      });
+      if (!enableSecondary && secondaryAll) secondaryAll.classList.add('selected');
+    }
+
+    function resetTeacherTypeFilter() {
+      const group = document.getElementById('teacherTypeOptions');
+      if (!group) return;
+      group.querySelectorAll('[data-teacher-filter-level]').forEach(item => item.classList.remove('selected'));
+      group.querySelector('[data-teacher-filter-level="primary"][data-value="全部"]').classList.add('selected');
+      group.querySelector('[data-teacher-filter-level="secondary"][data-value="全部"]').classList.add('selected');
+      syncTeacherTypeSecondary();
+    }
+
+    document.querySelectorAll('[data-teacher-filter-level]').forEach(option => {
+      option.addEventListener('click', () => {
+        if (option.disabled) return;
+        const group = document.getElementById('teacherTypeOptions');
+        const level = option.dataset.teacherFilterLevel;
+        group.querySelectorAll(`[data-teacher-filter-level="${level}"]`).forEach(item => item.classList.remove('selected'));
+        option.classList.add('selected');
+        if (level === 'primary') {
+          group.querySelectorAll('[data-teacher-filter-level="secondary"]').forEach(item => item.classList.remove('selected'));
+          group.querySelector('[data-teacher-filter-level="secondary"][data-value="全部"]').classList.add('selected');
+          syncTeacherTypeSecondary();
+        }
+      });
+    });
+
     document.querySelectorAll('[data-clear]').forEach(btn => {
       btn.addEventListener('click', () => {
         const group = document.getElementById(btn.dataset.clear);
+        if (btn.dataset.clear === 'teacherTypeOptions') {
+          resetTeacherTypeFilter();
+          return;
+        }
         group.querySelectorAll('.option').forEach(item => item.classList.remove('selected'));
         group.querySelector('.option').classList.add('selected');
       });
@@ -4189,6 +4261,19 @@
         };
         const label = labelMap[btn.dataset.confirm];
         const defaultLabel = defaultMap[btn.dataset.confirm];
+        if (btn.dataset.confirm === 'teacherTypeOptions') {
+          const primary = group.querySelector('[data-teacher-filter-level="primary"].selected')?.dataset.value || '全部';
+          const secondary = group.querySelector('[data-teacher-filter-level="secondary"].selected')?.dataset.value || '全部';
+          if (primary === '全部') {
+            label.textContent = defaultLabel;
+          } else if (secondary !== '全部') {
+            label.textContent = `${primary}/${secondary}`;
+          } else {
+            label.textContent = primary;
+          }
+          group.classList.remove('open');
+          return;
+        }
         const selected = values.filter(value => value !== defaultLabel);
         label.textContent = selected.length ? selected.join('、') : defaultLabel;
         group.classList.remove('open');
