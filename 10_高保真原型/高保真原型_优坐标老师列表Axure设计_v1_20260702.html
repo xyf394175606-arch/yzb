@@ -2851,6 +2851,22 @@
       align-items: center;
     }
 
+    .admin-review-avatar {
+      width: 34px;
+      height: 34px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 850;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .55);
+    }
+
+    .admin-review-avatar.blue { background: linear-gradient(135deg, #60a5fa, #2563eb); }
+    .admin-review-avatar.pink { background: linear-gradient(135deg, #f9a8d4, #ec4899); }
+    .admin-review-avatar.default { background: #e8f2ff; color: #2563eb; border: 1px solid #bfd9ff; }
+
     .nested-row {
       margin-bottom: 10px;
       padding: 10px;
@@ -3728,6 +3744,7 @@
                   <table class="config-table compact" aria-label="全部评价列表">
                     <thead>
                       <tr>
+                        <th style="width: 72px;">头像</th>
                         <th style="width: 96px;">姓名</th>
                         <th style="width: 86px;">评价星</th>
                         <th style="width: 72px;">排序</th>
@@ -3738,6 +3755,7 @@
                     </thead>
                     <tbody>
                       <tr>
+                        <td><span class="admin-review-avatar blue" aria-label="随机头像">王</span></td>
                         <td><input class="pc-input" value="王**" aria-label="评价姓名"></td>
                         <td><select class="pc-select" aria-label="评价星"><option>5 星</option><option>4 星</option><option>3 星</option></select></td>
                         <td><input class="pc-input" value="1" aria-label="评价排序"></td>
@@ -3746,6 +3764,7 @@
                         <td><div class="inline-actions"><button class="link-btn" type="button">停用</button><button class="link-btn danger" type="button">删除</button></div></td>
                       </tr>
                       <tr>
+                        <td><span class="admin-review-avatar pink" aria-label="随机头像">李</span></td>
                         <td><input class="pc-input" value="李**" aria-label="评价姓名"></td>
                         <td><select class="pc-select" aria-label="评价星"><option>4 星</option><option>5 星</option><option>3 星</option></select></td>
                         <td><input class="pc-input" value="2" aria-label="评价排序"></td>
@@ -3754,6 +3773,7 @@
                         <td><div class="inline-actions"><button class="link-btn" type="button">启用</button><button class="link-btn danger" type="button">删除</button></div></td>
                       </tr>
                       <tr>
+                        <td><select class="pc-select" aria-label="新增评价头像"><option>随机头像</option><option>默认头像</option></select></td>
                         <td><input class="pc-input" placeholder="输入姓名" aria-label="新增评价姓名"></td>
                         <td><select class="pc-select" aria-label="新增评价星"><option>5 星</option><option>4 星</option><option>3 星</option></select></td>
                         <td><input class="pc-input" placeholder="排序" aria-label="新增评价排序"></td>
@@ -3764,7 +3784,7 @@
                     </tbody>
                   </table>
                 </div>
-                <div class="hint">新增评论直接在表格底部新增一行；操作列只保留启用、停用、删除。真实评价与后台补充评价统一进入该表格维护。</div>
+                <div class="hint">新增评论直接在表格底部新增一行；假数据可使用随机头像或默认头像，真实评价优先使用用户头像。操作列只保留启用、停用、删除。</div>
               </section>
             </div>
           </div>
@@ -3888,7 +3908,7 @@
       <div class="note-page" id="note-admin-teachers">
         <div class="note-card"><h3>页面规则</h3><ul><li>后台入口定为教师列表，不单独新增“教师详情配置”页面。</li><li>新增、编辑、查看教师资料都从列表页打开大弹窗。</li><li>列表用于运营管理老师，支持筛选、查看、编辑、上下架、作废、调整排序。</li><li>下架教师后，前台老师列表和详情页不可见；作废为逻辑删除，作废后老师数据不再对前台展示。</li></ul></div>
         <div class="note-card"><h3>字段说明</h3><ul><li>列表展示教师头像、教师姓名、一级教师类型、二级类型、主讲科目、教学经验、授课时长、收藏人数、关联课程数、展示状态、审核状态、前台排序值、更新时间。</li><li>手机号、身份证号、企业微信绑定、学历背景、资质证明等属于教师认证资料，只在查看/编辑弹窗中维护，不在列表默认展示。</li><li>一级教师类型和二级类型从后台数据字典获取；二级类型按一级类型联动。</li><li>授课时长、收藏人数当前按后台配置假数据处理，后续接真实统计时替换数据来源。</li><li>关联课程数只显示数量，课程价格、封面、课时等基础信息来自课程管理。</li><li>全部评价、关联课程不放在教师资料弹窗内，统一从列表操作进入。</li><li>前台排序值用于控制前端多入口的老师展示顺序，覆盖首页老师推荐、全部老师列表页、首页各模块列表，例如专业教师、骨干教师等模块。</li><li>排序规则建议统一为数值越大越靠前；同一展示入口、同一模块内按前台排序值优先展示。</li></ul></div>
-        <div class="note-card"><h3>按钮说明</h3><ul><li>新增教师：打开新增教师资料弹窗，默认进入“基本认证资料”Tab，可保存草稿或提交审核。</li><li>查看：打开只读弹窗，用于核对认证资料与页面展示资料配置。</li><li>编辑：打开双 Tab 教师资料弹窗，分别维护认证资料与页面展示资料。</li><li>全部评价：打开独立评价弹窗；评价内容按表格维护，列为姓名、评价星、排序、评价内容、创建时间、操作，新增评论直接在表格底部新增一行。</li><li>全部评价操作列只保留启用、停用、删除；后台可混合真实评价和补充评价，并控制是否展示。</li><li>关联课程：打开独立关联课程弹窗，从课程管理获取课程；关联状态、课程状态、排序、前台展示、上架校验和操作统一在一个表格内维护。</li><li>关联课程只建立老师与课程的对外售卖关系，不允许在该弹窗修改课程价格、封面、课时包等课程基础信息。</li><li>上架/下架：改变前台展示状态。</li><li>作废：逻辑删除，作废后老师不再对前台展示，后台可按作废状态留痕。</li><li>调整排序：维护前台排序值，影响首页、教师列表页和首页各老师模块的展示顺序。</li></ul></div>
+        <div class="note-card"><h3>按钮说明</h3><ul><li>新增教师：打开新增教师资料弹窗，默认进入“基本认证资料”Tab，可保存草稿或提交审核。</li><li>查看：打开只读弹窗，用于核对认证资料与页面展示资料配置。</li><li>编辑：打开双 Tab 教师资料弹窗，分别维护认证资料与页面展示资料。</li><li>全部评价：打开独立评价弹窗；评价内容按表格维护，列为头像、姓名、评价星、排序、评价内容、创建时间、操作，新增评论直接在表格底部新增一行。</li><li>全部评价头像：真实评价优先使用用户头像；后台补充的假数据可选择随机头像或默认头像。</li><li>全部评价操作列只保留启用、停用、删除；后台可混合真实评价和补充评价，并控制是否展示。</li><li>关联课程：打开独立关联课程弹窗，从课程管理获取课程；关联状态、课程状态、排序、前台展示、上架校验和操作统一在一个表格内维护。</li><li>关联课程只建立老师与课程的对外售卖关系，不允许在该弹窗修改课程价格、封面、课时包等课程基础信息。</li><li>上架/下架：改变前台展示状态。</li><li>作废：逻辑删除，作废后老师不再对前台展示，后台可按作废状态留痕。</li><li>调整排序：维护前台排序值，影响首页、教师列表页和首页各老师模块的展示顺序。</li></ul></div>
         <div class="note-card"><h3>权限与状态</h3><ul><li>老师账号可编辑自己的入驻资料和自行关联课程。</li><li>运营账号可审核、修改、上下架、调整排序，也可帮助教师关联课程。</li><li>课程价格和课程基础信息只允许课程管理维护。</li><li>审核状态包含草稿、待审核、已通过、已驳回；展示状态包含上架、下架。</li></ul></div>
       </div>
 
