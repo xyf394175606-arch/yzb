@@ -2102,6 +2102,178 @@
       font-weight: 950;
     }
 
+    .success-meta {
+      margin-top: 8px;
+      color: rgba(255,255,255,.78);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .success-section-title {
+      margin: 14px 0 8px;
+      color: #7a8798;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .success-course-card {
+      display: grid;
+      grid-template-columns: 68px 1fr;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .success-course-cover {
+      width: 68px;
+      height: 68px;
+      border-radius: 10px;
+      object-fit: cover;
+      background: #eaf1f8;
+    }
+
+    .success-course-name {
+      color: #152031;
+      font-size: 14px;
+      font-weight: 950;
+      line-height: 1.45;
+    }
+
+    .success-course-sub {
+      margin-top: 6px;
+      color: #6f7d91;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .success-chip-row {
+      margin-top: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .success-chip {
+      padding: 4px 7px;
+      border-radius: 999px;
+      background: #eef6ff;
+      color: #2372c8;
+      font-size: 11px;
+      font-weight: 850;
+    }
+
+    .success-info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .success-info-item {
+      min-height: 58px;
+      padding: 10px;
+      border-radius: 10px;
+      background: #f7faff;
+      border: 1px solid #edf3fa;
+    }
+
+    .success-info-item.full {
+      grid-column: 1 / -1;
+    }
+
+    .success-info-item label {
+      display: block;
+      color: #8a98a9;
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 1.4;
+    }
+
+    .success-info-item strong,
+    .success-info-item span {
+      display: block;
+      margin-top: 4px;
+      color: #152031;
+      font-size: 13px;
+      line-height: 1.45;
+      font-weight: 900;
+      word-break: break-all;
+    }
+
+    .pay-detail {
+      display: grid;
+      gap: 8px;
+    }
+
+    .pay-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: #657386;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .pay-line strong {
+      color: #152031;
+      font-size: 14px;
+    }
+
+    .pay-line.discount strong {
+      color: #1d9f5f;
+    }
+
+    .pay-line.total {
+      margin-top: 4px;
+      padding-top: 10px;
+      border-top: 1px solid #edf2f8;
+      color: #152031;
+      font-weight: 950;
+    }
+
+    .pay-line.total strong {
+      color: #ff6a00;
+      font-size: 20px;
+    }
+
+    .next-step-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .next-step {
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      gap: 8px;
+      color: #344154;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .next-step-index {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: #edf5ff;
+      color: #2372c8;
+      font-size: 12px;
+      font-weight: 950;
+    }
+
+    .next-step strong {
+      display: block;
+      color: #152031;
+      font-size: 13px;
+    }
+
+    .next-step span {
+      display: block;
+      margin-top: 2px;
+      color: #7a8798;
+      font-size: 12px;
+    }
+
     .wait-actions {
       display: grid;
       gap: 10px;
@@ -3198,10 +3370,11 @@
                     <div class="wait-status-icon">✓</div>
                     <div>
                       <div class="wait-status-title">订单支付成功</div>
-                      <div class="wait-status-desc">以下为本次订单详情，请核对课程、学员、会员和支付金额。</div>
+                      <div class="wait-status-desc">本次支付已完成，订单已生成。</div>
                     </div>
                   </div>
                   <div class="success-amount"><span>实付金额</span><strong id="waitPayableAmount">¥1088</strong></div>
+                  <div class="success-meta">课程和会员权益已写入订单，客服将按订单信息继续跟进约课。</div>
                   <div class="wait-tags">
                     <span class="wait-tag" id="waitOrderNo">订单号：YZ202607070001</span>
                     <span class="wait-tag" id="waitPaymentStatus">支付状态：支付成功</span>
@@ -3210,30 +3383,51 @@
                 </section>
 
                 <section class="order-card">
-                  <h3>订单详情</h3>
-                  <div class="wait-grid">
-                    <div class="wait-row"><div><strong>购买课程</strong><span id="waitCourseName">优选数学-数学伴学体验课【初中段】</span></div><span id="waitCoursePrice">¥1088</span></div>
-                    <div class="wait-row"><div><strong>课程规格</strong><span id="waitSkuText">初一 / 数学 / 10 课时</span></div><span id="waitTeacherName">张琴琴</span></div>
-                    <div class="wait-row"><div><strong>学员信息</strong><span id="waitStudentName">李小一</span></div><span id="waitParentPhone">13800138000</span></div>
-                    <div class="wait-row"><div><strong>推荐人联系电话</strong><span id="waitReferrerPhone">未填写</span></div></div>
-                    <div class="wait-row"><div><strong>订单备注</strong><span id="waitOrderRemark">未填写</span></div></div>
+                  <h3>课程订单</h3>
+                  <div class="success-course-card">
+                    <img class="success-course-cover" id="waitCourseCover" src="../work/优坐标教师详情截图资产_v1_20260703/课程封面_数学学伴体验课_v1_20260703.png" alt="课程封面">
+                    <div>
+                      <div class="success-course-name" id="waitCourseName">优选数学-数学伴学体验课【初中段】</div>
+                      <div class="success-course-sub">授课老师：<span id="waitTeacherName">张琴琴</span></div>
+                      <div class="success-chip-row">
+                        <span class="success-chip" id="waitSkuText">数学 / 初一 / 10 课时</span>
+                        <span class="success-chip" id="waitCourseType">体验课</span>
+                      </div>
+                    </div>
                   </div>
                 </section>
 
                 <section class="order-card">
-                  <h3>金额与权益</h3>
-                  <div class="wait-grid">
-                    <div class="wait-row"><div><strong>会员方案</strong><span id="waitMembershipPlan">1000 元会员卡</span></div><span id="waitMembershipDesc">无限次会员价购买课时</span></div>
-                    <div class="wait-row"><div><strong>会员权益</strong><span id="waitBenefitText">本单已开通会员卡，后续购买课时可按会员价结算。</span></div></div>
-                    <div class="wait-row"><div><strong>实付总价</strong><span>课程金额与会员卡金额已合并支付。</span></div><span id="waitPayableAmountDetail">¥1088</span></div>
+                  <h3>上课人信息</h3>
+                  <div class="success-info-grid">
+                    <div class="success-info-item"><label>学员</label><strong id="waitStudentName">李小一</strong></div>
+                    <div class="success-info-item"><label>家长手机号</label><strong id="waitParentPhone">13800138000</strong></div>
+                    <div class="success-info-item"><label>推荐人电话</label><span id="waitReferrerPhone">未填写</span></div>
+                    <div class="success-info-item"><label>订单备注</label><span id="waitOrderRemark">未填写</span></div>
                   </div>
                 </section>
 
                 <section class="order-card">
-                  <h3>后续说明</h3>
-                  <div class="wait-grid">
-                    <div class="wait-row"><div><strong>约课说明</strong><span id="waitBookingDesc">客服会根据孩子年级、科目和课时包配置，联系家长确认约课时间。</span></div></div>
-                    <div class="wait-row"><div><strong>订单查看</strong><span>可在订单详情中查看支付明细、课程信息和后续客服跟进记录。</span></div></div>
+                  <h3>支付明细</h3>
+                  <div class="pay-detail">
+                    <div class="pay-line"><span>课程金额</span><strong id="waitCourseSubtotal">¥239</strong></div>
+                    <div class="pay-line discount"><span>会员优惠</span><strong id="waitMembershipDiscount">-¥60</strong></div>
+                    <div class="pay-line"><span>会员卡金额</span><strong id="waitMembershipCardAmount">¥1000</strong></div>
+                    <div class="pay-line total"><span>实付总价</span><strong id="waitPayableAmountDetail">¥1239</strong></div>
+                  </div>
+                  <div class="success-section-title">会员权益</div>
+                  <div class="success-info-item full">
+                    <label id="waitMembershipPlan">1000 元会员卡</label>
+                    <span id="waitBenefitText">本单已开通会员卡，后续购买课时可按会员价结算。</span>
+                  </div>
+                </section>
+
+                <section class="order-card">
+                  <h3>下一步</h3>
+                  <div class="next-step-list">
+                    <div class="next-step"><span class="next-step-index">1</span><div><strong>等待客服联系</strong><span id="waitBookingDesc">客服会根据孩子年级、科目和课时包配置，联系家长确认约课时间。</span></div></div>
+                    <div class="next-step"><span class="next-step-index">2</span><div><strong>确认上课安排</strong><span>沟通上课时间、授课方式和课前准备。</span></div></div>
+                    <div class="next-step"><span class="next-step-index">3</span><div><strong>查看订单详情</strong><span>可继续查看支付明细、课程信息和客服跟进记录。</span></div></div>
                   </div>
                 </section>
 
@@ -3588,8 +3782,8 @@
       </div>
 
       <div class="note-page" id="note-order-wait">
-        <div class="note-card"><h3>页面规则</h3><ul><li>本页为支付成功后的直接落地页，页面定位为“订单支付成功确认页”。</li><li>页面重点展示本次订单详情，不再把默认态做成“已购买 / 待约课”状态页。</li><li>约课安排作为后续说明展示，不作为页面主状态。</li><li>若同单加购会员卡，页面需同时体现课程购买结果和会员开通结果。</li></ul></div>
-        <div class="note-card"><h3>字段说明</h3><ul><li>至少展示订单号、支付状态、支付时间、购买课程、课程规格、所属老师、学员姓名、家长手机号、推荐人联系电话、订单备注、会员方案、会员权益说明、实付金额。</li><li>会员开通结果依据会员卡是否加购决定：已开通 / 未开通；页面以会员方案和会员权益说明表达。</li><li>课程来源仍为教师已关联课程，会员价只影响当前课程结算单价。</li></ul></div>
+        <div class="note-card"><h3>页面规则</h3><ul><li>本页为支付成功后的直接落地页，页面定位为“订单支付成功确认页”。</li><li>信息层级按支付后用户关注顺序组织：支付结果与实付金额、课程订单、上课人信息、支付明细、下一步。</li><li>页面重点展示本次订单详情，不再把默认态做成“已购买 / 待约课”状态页。</li><li>约课安排作为下一步说明展示，不作为页面主状态。</li><li>若同单加购会员卡，页面需同时体现课程购买结果和会员开通结果。</li></ul></div>
+        <div class="note-card"><h3>字段说明</h3><ul><li>顶部成功区展示订单号、支付状态、支付时间和实付金额。</li><li>课程订单区展示课程封面、课程名称、授课老师、课程规格和课程类型。</li><li>上课人信息区展示学员姓名、家长手机号、推荐人联系电话和订单备注。</li><li>支付明细区展示课程金额、会员优惠、会员卡金额、实付总价、会员方案和会员权益说明。</li><li>课程来源仍为教师已关联课程，会员价只影响当前课程结算单价。</li></ul></div>
         <div class="note-card"><h3>按钮说明</h3><ul><li>查看订单详情：进入订单详情承接页，当前原型只保留入口。</li><li>返回教师详情页：回到当前老师详情页面。</li></ul></div>
         <div class="note-card"><h3>后续范围</h3><ul><li>本轮不展开退款、排课日历、支付回调和订单管理后台。</li><li>客服约课、订单追踪和真实消息提醒后续在订单模块补充。</li></ul></div>
       </div>
@@ -3939,17 +4133,21 @@
 
       document.getElementById('waitOrderNo').textContent = `订单号：${orderNo}`;
       document.getElementById('waitPaymentTime').textContent = `支付时间：${paymentTime}`;
+      document.getElementById('waitCourseCover').src = course.cover;
+      document.getElementById('waitCourseCover').alt = course.name;
       document.getElementById('waitCourseName').textContent = course.name;
-      document.getElementById('waitCoursePrice').textContent = formatPrice(amounts.payableAmount);
       document.getElementById('waitSkuText').textContent = `${sku.subject} / ${sku.grade} / ${getEffectiveLessonCount(sku)} 课时`;
       document.getElementById('waitTeacherName').textContent = course.teacherName;
+      document.getElementById('waitCourseType').textContent = course.typeLabel;
       document.getElementById('waitStudentName').textContent = studentName;
       document.getElementById('waitParentPhone').textContent = parentPhone;
       document.getElementById('waitReferrerPhone').textContent = referrerPhone;
       document.getElementById('waitOrderRemark').textContent = orderRemark;
       document.getElementById('waitMembershipPlan').textContent = plan.name;
-      document.getElementById('waitMembershipDesc').textContent = plan.id === 'none' ? '未加购会员卡' : plan.rights;
       document.getElementById('waitPayableAmount').textContent = formatPrice(amounts.payableAmount);
+      document.getElementById('waitCourseSubtotal').textContent = formatPrice(amounts.courseSubtotal);
+      document.getElementById('waitMembershipDiscount').textContent = amounts.membershipDiscountAmount > 0 ? `-${formatPrice(amounts.membershipDiscountAmount)}` : '¥0';
+      document.getElementById('waitMembershipCardAmount').textContent = formatPrice(amounts.membershipCardAmount);
       document.getElementById('waitPayableAmountDetail').textContent = formatPrice(amounts.payableAmount);
       document.getElementById('waitBookingDesc').textContent = `支付成功后，客服将按${sku.subject} / ${sku.grade} / ${getEffectiveLessonCount(sku)} 课时信息联系家长确认约课安排。`;
       document.getElementById('waitBenefitText').textContent = plan.id === 'none'
