@@ -2851,22 +2851,21 @@
       align-items: center;
     }
 
-    .source-course {
-      display: grid;
-      grid-template-columns: 1fr 90px 90px 90px 104px;
-      gap: 8px;
-      align-items: center;
-      padding: 10px 12px;
-      border: 1px solid var(--pc-border-soft);
-      border-radius: var(--pc-radius);
-      background: #fbfdff;
+    .admin-review-avatar {
+      width: 34px;
+      height: 34px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 850;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .55);
     }
 
-    .course-source-list {
-      display: grid;
-      gap: 8px;
-      margin-top: 10px;
-    }
+    .admin-review-avatar.blue { background: linear-gradient(135deg, #60a5fa, #2563eb); }
+    .admin-review-avatar.pink { background: linear-gradient(135deg, #f9a8d4, #ec4899); }
+    .admin-review-avatar.default { background: #e8f2ff; color: #2563eb; border: 1px solid #bfd9ff; }
 
     .nested-row {
       margin-bottom: 10px;
@@ -2988,6 +2987,8 @@
         <p class="nav-title">PC 后台 / 教师管理</p>
         <button class="nav-btn" data-page="admin-teachers">教师列表</button>
         <button class="nav-btn" data-page="admin-teacher-modal">新增/编辑教师弹窗</button>
+        <button class="nav-btn" data-page="admin-review-modal">全部评价弹窗</button>
+        <button class="nav-btn" data-page="admin-course-modal">关联课程弹窗</button>
       </div>
     </aside>
 
@@ -2996,7 +2997,7 @@
         <h1 class="canvas-title">版本与页面目录</h1>
         <div class="entry-card">
           <h2>原型范围</h2>
-          <p>本 Axure 风格原型基于已确认的需求分析、专项 PRD 和上一版高保真 HTML，覆盖优坐标家长端“全部老师”列表页、教师详情页、确认订单页、订单支付成功确认页，以及 PC 后台教师管理的列表与新增/编辑弹窗。</p>
+          <p>本 Axure 风格原型基于已确认的需求分析、专项 PRD 和上一版高保真 HTML，覆盖优坐标家长端“全部老师”列表页、教师详情页、确认订单页、订单支付成功确认页，以及 PC 后台教师管理的列表、教师资料弹窗、全部评价弹窗和关联课程弹窗。</p>
           <div class="entry-grid">
             <div class="entry-item"><strong>页面 1：全部老师列表页</strong><span>默认展示推荐老师列表，支持学科/年级后台字典多选，点击确认后刷新。</span></div>
             <div class="entry-item"><strong>页面 2：教师详情页</strong><span>由卡片和“更多”进入，展示教师资料、评价、简介、课程和购买操作。</span></div>
@@ -3743,6 +3744,7 @@
                   <table class="config-table compact" aria-label="全部评价列表">
                     <thead>
                       <tr>
+                        <th style="width: 72px;">头像</th>
                         <th style="width: 96px;">姓名</th>
                         <th style="width: 86px;">评价星</th>
                         <th style="width: 72px;">排序</th>
@@ -3753,6 +3755,7 @@
                     </thead>
                     <tbody>
                       <tr>
+                        <td><span class="admin-review-avatar blue" aria-label="随机头像">王</span></td>
                         <td><input class="pc-input" value="王**" aria-label="评价姓名"></td>
                         <td><select class="pc-select" aria-label="评价星"><option>5 星</option><option>4 星</option><option>3 星</option></select></td>
                         <td><input class="pc-input" value="1" aria-label="评价排序"></td>
@@ -3761,6 +3764,7 @@
                         <td><div class="inline-actions"><button class="link-btn" type="button">停用</button><button class="link-btn danger" type="button">删除</button></div></td>
                       </tr>
                       <tr>
+                        <td><span class="admin-review-avatar pink" aria-label="随机头像">李</span></td>
                         <td><input class="pc-input" value="李**" aria-label="评价姓名"></td>
                         <td><select class="pc-select" aria-label="评价星"><option>4 星</option><option>5 星</option><option>3 星</option></select></td>
                         <td><input class="pc-input" value="2" aria-label="评价排序"></td>
@@ -3769,6 +3773,7 @@
                         <td><div class="inline-actions"><button class="link-btn" type="button">启用</button><button class="link-btn danger" type="button">删除</button></div></td>
                       </tr>
                       <tr>
+                        <td><select class="pc-select" aria-label="新增评价头像"><option>随机头像</option><option>默认头像</option></select></td>
                         <td><input class="pc-input" placeholder="输入姓名" aria-label="新增评价姓名"></td>
                         <td><select class="pc-select" aria-label="新增评价星"><option>5 星</option><option>4 星</option><option>3 星</option></select></td>
                         <td><input class="pc-input" placeholder="排序" aria-label="新增评价排序"></td>
@@ -3779,7 +3784,7 @@
                     </tbody>
                   </table>
                 </div>
-                <div class="hint">新增评论直接在表格底部新增一行；操作列只保留启用、停用、删除。真实评价与后台补充评价统一进入该表格维护。</div>
+                <div class="hint">新增评论直接在表格底部新增一行；假数据可使用随机头像或默认头像，真实评价优先使用用户头像。操作列只保留启用、停用、删除。</div>
               </section>
             </div>
           </div>
@@ -3805,71 +3810,60 @@
                   <div class="pc-field"><label>课程状态</label><select class="pc-select"><option>仅可售课程</option><option>全部课程</option></select></div>
                   <div class="pc-field"><label>课程来源</label><select class="pc-select"><option>课程管理</option></select></div>
                 </div>
-                <div class="course-source-list">
-                  <div class="source-course">
-                    <div><strong>优选数学-数学伴学体验课【初中段】</strong><div class="hint">课时、封面、价格、SKU 由课程管理维护</div></div>
-                    <span class="status-pill">可售</span>
-                    <span>¥199 起</span>
-                    <span>已关联</span>
-                    <button class="pc-btn" type="button" disabled>已选择</button>
-                  </div>
-                  <div class="source-course">
-                    <div><strong>优选英语-英语伴学正式课【初中段】</strong><div class="hint">课程管理同步更新后，教师详情页课程卡自动读取</div></div>
-                    <span class="status-pill">可售</span>
-                    <span>¥599 起</span>
-                    <span>未关联</span>
-                    <button class="pc-btn" type="button">添加关联</button>
-                  </div>
-                </div>
-                <div class="hint">关联课程弹窗从教师列表行操作进入，课程候选数据来自课程管理；当前弹窗只建立老师与课程的售卖关系，不修改课程价格、封面、课时包等基础信息。</div>
-              </section>
-              <section class="form-section">
-                <h3>已关联课程</h3>
                 <div class="config-table-wrap">
-                  <table class="config-table compact" aria-label="已关联课程列表">
+                  <table class="config-table compact" aria-label="关联课程列表">
                     <thead>
                       <tr>
                         <th>课程名称</th>
-                        <th style="width: 96px;">课程状态</th>
+                        <th style="width: 82px;">关联状态</th>
+                        <th style="width: 88px;">课程状态</th>
+                        <th style="width: 86px;">起售价</th>
                         <th style="width: 82px;">排序</th>
-                        <th style="width: 96px;">前台展示</th>
-                        <th style="width: 108px;">操作</th>
+                        <th style="width: 98px;">前台展示</th>
+                        <th style="width: 132px;">上架校验</th>
+                        <th style="width: 104px;">操作</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td><strong>优选数学-数学伴学体验课【初中段】</strong><div class="hint">数据来源：课程管理</div></td>
+                        <td><strong>优选数学-数学伴学体验课【初中段】</strong><div class="hint">来源：课程管理；课时、封面、价格、SKU 不在此修改</div></td>
+                        <td><span class="status-pill blue">已关联</span></td>
                         <td><span class="status-pill">可售</span></td>
+                        <td>¥199 起</td>
                         <td><input class="pc-input" value="1" aria-label="课程排序"></td>
                         <td><select class="pc-select"><option>展示</option><option>隐藏</option></select></td>
+                        <td><span class="status-pill">允许上架</span></td>
                         <td><button class="link-btn danger" type="button">取消关联</button></td>
                       </tr>
                       <tr>
-                        <td><strong>优选语文-阅读写作提升课【小学段】</strong><div class="hint">课程下架后前台不展示，需重新选择可售课程</div></td>
+                        <td><strong>优选英语-英语伴学正式课【初中段】</strong><div class="hint">来源：课程管理；添加后教师详情页可展示该课程</div></td>
+                        <td><span class="status-pill gray">未关联</span></td>
+                        <td><span class="status-pill">可售</span></td>
+                        <td>¥599 起</td>
+                        <td><input class="pc-input" placeholder="关联后填写" aria-label="课程排序"></td>
+                        <td><select class="pc-select"><option>隐藏</option><option>展示</option></select></td>
+                        <td><span class="status-pill orange">待关联</span></td>
+                        <td><button class="link-btn" type="button">添加关联</button></td>
+                      </tr>
+                      <tr>
+                        <td><strong>优选语文-阅读写作提升课【小学段】</strong><div class="hint">来源：课程管理；课程下架后不进入前台售卖</div></td>
+                        <td><span class="status-pill blue">已关联</span></td>
                         <td><span class="status-pill gray">下架</span></td>
+                        <td>¥299 起</td>
                         <td><input class="pc-input" value="2" aria-label="课程排序"></td>
                         <td><select class="pc-select"><option>隐藏</option><option>展示</option></select></td>
+                        <td><span class="status-pill red">不可上架</span></td>
                         <td><button class="link-btn danger" type="button">取消关联</button></td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
-                <div class="hint">保存后返回教师列表并刷新关联课程数。未关联至少 1 门可售课程时，教师不能上架，教师详情页不展示购买课程区。</div>
-              </section>
-              <section class="form-section">
-                <h3>展示与售卖状态</h3>
-                <div class="form-grid">
-                  <div class="pc-field"><label>展示状态</label><select class="pc-select"><option>上架</option><option>下架</option></select></div>
-                  <div class="pc-field"><label>审核状态</label><select class="pc-select"><option>已通过</option><option>草稿</option><option>待审核</option><option>已驳回</option></select></div>
-                  <div class="pc-field"><label>上架校验</label><select class="pc-select"><option>已关联可售课程，允许上架</option><option>未关联可售课程，禁止上架</option></select></div>
-                </div>
-                <div class="hint">课程为空不进入前台展示链路；运营上架前必须先完成至少 1 门可售课程关联。</div>
+                <div class="hint">关联课程、已关联课程、展示控制和售卖状态统一在一个表格内维护。保存后返回教师列表并刷新关联课程数；未关联至少 1 门可售课程时，教师不能上架，教师详情页不展示购买课程区。</div>
               </section>
             </div>
           </div>
           <div class="modal-foot">
             <button class="pc-btn" type="button" data-close-side-modal>取消</button>
-            <button class="pc-btn warn" type="button">提交审核</button>
             <button class="pc-btn primary" type="button">保存关联课程</button>
           </div>
         </div>
@@ -3879,7 +3873,7 @@
     <aside class="notes" aria-label="右侧黄色说明区">
       <div class="note-page active" id="note-entry">
         <div class="note-card"><h3>版本说明</h3><p>本文件为 Axure 风格业务原型，面向评审使用。页面线框只放真实用户可见内容，说明、字段来源、状态、待确认和回流项统一放在黄色说明区。</p></div>
-        <div class="note-card"><h3>页面层级</h3><ul><li>入口：版本与页面目录</li><li>移动端 / 优坐标家长端 / 老师模块 / 全部老师列表页</li><li>移动端 / 优坐标家长端 / 老师模块 / 教师详情页</li><li>移动端 / 优坐标家长端 / 老师模块 / 确认订单页</li><li>移动端 / 优坐标家长端 / 老师模块 / 订单支付成功确认页</li><li>PC 后台 / 教师管理 / 教师列表</li><li>PC 后台 / 教师管理 / 新增/编辑教师弹窗</li></ul></div>
+        <div class="note-card"><h3>页面层级</h3><ul><li>入口：版本与页面目录</li><li>移动端 / 优坐标家长端 / 老师模块 / 全部老师列表页</li><li>移动端 / 优坐标家长端 / 老师模块 / 教师详情页</li><li>移动端 / 优坐标家长端 / 老师模块 / 确认订单页</li><li>移动端 / 优坐标家长端 / 老师模块 / 订单支付成功确认页</li><li>PC 后台 / 教师管理 / 教师列表</li><li>PC 后台 / 教师管理 / 新增/编辑教师弹窗</li><li>PC 后台 / 教师管理 / 全部评价弹窗</li><li>PC 后台 / 教师管理 / 关联课程弹窗</li></ul></div>
         <div class="note-card"><h3>输入来源</h3><ul><li>05 需求分析：老师列表截图反推 v1</li><li>11 专项 PRD：优坐标老师列表最终 PRD v1</li><li>10 高保真原型：截图反推 v1</li></ul></div>
       </div>
 
@@ -3914,7 +3908,7 @@
       <div class="note-page" id="note-admin-teachers">
         <div class="note-card"><h3>页面规则</h3><ul><li>后台入口定为教师列表，不单独新增“教师详情配置”页面。</li><li>新增、编辑、查看教师资料都从列表页打开大弹窗。</li><li>列表用于运营管理老师，支持筛选、查看、编辑、上下架、作废、调整排序。</li><li>下架教师后，前台老师列表和详情页不可见；作废为逻辑删除，作废后老师数据不再对前台展示。</li></ul></div>
         <div class="note-card"><h3>字段说明</h3><ul><li>列表展示教师头像、教师姓名、一级教师类型、二级类型、主讲科目、教学经验、授课时长、收藏人数、关联课程数、展示状态、审核状态、前台排序值、更新时间。</li><li>手机号、身份证号、企业微信绑定、学历背景、资质证明等属于教师认证资料，只在查看/编辑弹窗中维护，不在列表默认展示。</li><li>一级教师类型和二级类型从后台数据字典获取；二级类型按一级类型联动。</li><li>授课时长、收藏人数当前按后台配置假数据处理，后续接真实统计时替换数据来源。</li><li>关联课程数只显示数量，课程价格、封面、课时等基础信息来自课程管理。</li><li>全部评价、关联课程不放在教师资料弹窗内，统一从列表操作进入。</li><li>前台排序值用于控制前端多入口的老师展示顺序，覆盖首页老师推荐、全部老师列表页、首页各模块列表，例如专业教师、骨干教师等模块。</li><li>排序规则建议统一为数值越大越靠前；同一展示入口、同一模块内按前台排序值优先展示。</li></ul></div>
-        <div class="note-card"><h3>按钮说明</h3><ul><li>新增教师：打开新增教师资料弹窗，默认进入“基本认证资料”Tab，可保存草稿或提交审核。</li><li>查看：打开只读弹窗，用于核对认证资料与页面展示资料配置。</li><li>编辑：打开双 Tab 教师资料弹窗，分别维护认证资料与页面展示资料。</li><li>全部评价：打开独立评价弹窗；评价内容按表格维护，列为姓名、评价星、排序、评价内容、创建时间、操作，新增评论直接在表格底部新增一行。</li><li>全部评价操作列只保留启用、停用、删除；后台可混合真实评价和补充评价，并控制是否展示。</li><li>关联课程：打开独立关联课程弹窗，从课程管理获取可售课程；教师端和后台都可帮助老师关联课程。</li><li>关联课程只建立老师与课程的对外售卖关系，不允许在该弹窗修改课程价格、封面、课时包等课程基础信息。</li><li>上架/下架：改变前台展示状态。</li><li>作废：逻辑删除，作废后老师不再对前台展示，后台可按作废状态留痕。</li><li>调整排序：维护前台排序值，影响首页、教师列表页和首页各老师模块的展示顺序。</li></ul></div>
+        <div class="note-card"><h3>按钮说明</h3><ul><li>新增教师：打开新增教师资料弹窗，默认进入“基本认证资料”Tab，可保存草稿或提交审核。</li><li>查看：打开只读弹窗，用于核对认证资料与页面展示资料配置。</li><li>编辑：打开双 Tab 教师资料弹窗，分别维护认证资料与页面展示资料。</li><li>全部评价：打开独立评价弹窗；评价内容按表格维护，列为头像、姓名、评价星、排序、评价内容、创建时间、操作，新增评论直接在表格底部新增一行。</li><li>全部评价头像：真实评价优先使用用户头像；后台补充的假数据可选择随机头像或默认头像。</li><li>全部评价操作列只保留启用、停用、删除；后台可混合真实评价和补充评价，并控制是否展示。</li><li>关联课程：打开独立关联课程弹窗，从课程管理获取课程；关联状态、课程状态、排序、前台展示、上架校验和操作统一在一个表格内维护。</li><li>关联课程只建立老师与课程的对外售卖关系，不允许在该弹窗修改课程价格、封面、课时包等课程基础信息。</li><li>上架/下架：改变前台展示状态。</li><li>作废：逻辑删除，作废后老师不再对前台展示，后台可按作废状态留痕。</li><li>调整排序：维护前台排序值，影响首页、教师列表页和首页各老师模块的展示顺序。</li></ul></div>
         <div class="note-card"><h3>权限与状态</h3><ul><li>老师账号可编辑自己的入驻资料和自行关联课程。</li><li>运营账号可审核、修改、上下架、调整排序，也可帮助教师关联课程。</li><li>课程价格和课程基础信息只允许课程管理维护。</li><li>审核状态包含草稿、待审核、已通过、已驳回；展示状态包含上架、下架。</li></ul></div>
       </div>
 
@@ -4362,12 +4356,18 @@
     }
 
     function showPage(name) {
-      pages.forEach(page => page.classList.toggle('active', page.id === 'page-' + name));
-      notes.forEach(note => note.classList.toggle('active', note.id === 'note-' + name));
+      const basePageName = ['admin-teacher-modal', 'admin-review-modal', 'admin-course-modal'].includes(name) ? 'admin-teachers' : name;
+      const noteName = ['admin-review-modal', 'admin-course-modal'].includes(name) ? 'admin-teachers' : name;
+      pages.forEach(page => page.classList.toggle('active', page.id === 'page-' + basePageName));
+      notes.forEach(note => note.classList.toggle('active', note.id === 'note-' + noteName));
       pageButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.page === name));
       location.hash = name;
       if (name === 'admin-teacher-modal') {
         openTeacherModal('edit');
+      } else if (name === 'admin-review-modal') {
+        openSideModal(reviewDataModal);
+      } else if (name === 'admin-course-modal') {
+        openSideModal(coursePublishModal);
       } else {
         closeBusinessModals();
         closeFollowGuide();
@@ -4432,7 +4432,10 @@
       });
     });
     document.querySelectorAll('[data-close-side-modal]').forEach(el => {
-      el.addEventListener('click', closeBusinessModals);
+      el.addEventListener('click', () => {
+        closeBusinessModals();
+        if (['#admin-review-modal', '#admin-course-modal'].includes(location.hash)) showPage('admin-teachers');
+      });
     });
     document.querySelectorAll('[data-tab-pane]').forEach(tab => {
       tab.addEventListener('click', () => {
@@ -4675,14 +4678,18 @@
       });
     });
 
+    function isKnownPrototypeNode(name) {
+      return Boolean(name && document.querySelector(`[data-page="${name}"]`));
+    }
+
     if (location.hash) {
       const initial = location.hash.replace('#', '');
-      if (document.getElementById('page-' + initial)) showPage(initial);
+      if (isKnownPrototypeNode(initial)) showPage(initial);
     }
 
     window.addEventListener('hashchange', () => {
       const next = location.hash.replace('#', '');
-      if (next && document.getElementById('page-' + next)) showPage(next);
+      if (isKnownPrototypeNode(next)) showPage(next);
     });
 
     syncDetailAnchorByScroll();
@@ -4690,7 +4697,7 @@
     selectCourseForOrder('math-trial', true);
     if (location.hash) {
       const initial = location.hash.replace('#', '');
-      if (document.getElementById('page-' + initial)) {
+      if (isKnownPrototypeNode(initial)) {
         showPage(initial);
       } else {
         showPage('entry');
