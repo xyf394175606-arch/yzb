@@ -123,6 +123,48 @@
       font-weight: 900;
     }
 
+    .nav-tree {
+      margin: 4px 0 8px;
+      position: relative;
+    }
+
+    .nav-tree .nav-btn.parent {
+      font-weight: 800;
+    }
+
+    .nav-tree.has-active-child .nav-btn.parent {
+      background: rgba(232, 244, 255, .62);
+      border-color: rgba(203, 226, 248, .74);
+      color: #145ea5;
+    }
+
+    .nav-children {
+      margin: 2px 0 8px 14px;
+      padding-left: 12px;
+      border-left: 1px dashed #cbd8e6;
+    }
+
+    .nav-btn.child {
+      min-height: 34px;
+      padding-left: 22px;
+      color: #526072;
+      font-size: 13px;
+    }
+
+    .nav-btn.child::before {
+      left: 8px;
+      top: 14px;
+      width: 6px;
+      height: 1px;
+      border-radius: 0;
+      background: #9aa8b8;
+    }
+
+    .nav-btn.child.active {
+      color: #145ea5;
+      font-weight: 800;
+    }
+
     .stage {
       padding: 22px;
       overflow: auto;
@@ -2365,6 +2407,12 @@
       color: #c26100;
     }
 
+    .pc-btn.danger {
+      border-color: #ffccc7;
+      background: #fff1f0;
+      color: #cf1322;
+    }
+
     .pc-filter {
       padding: 14px 18px;
       display: grid;
@@ -2617,6 +2665,114 @@
       background: #fff;
       box-shadow: 0 24px 70px rgba(15, 23, 42, .28);
       overflow: hidden;
+    }
+
+    .modal-panel.type-modal-panel {
+      width: min(760px, 100%);
+      height: auto;
+      min-height: 560px;
+      grid-template-rows: 70px 1fr 64px;
+      border-radius: 0;
+    }
+
+    .type-modal-panel .modal-head {
+      padding: 0 30px;
+      border: 1px solid #8c8c8c;
+      border-bottom-color: #8c8c8c;
+    }
+
+    .type-modal-panel .modal-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #262626;
+    }
+
+    .modal-close-x {
+      width: 42px;
+      height: 42px;
+      border: 0;
+      background: transparent;
+      color: #262626;
+      font-size: 42px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .type-modal-form {
+      max-width: 620px;
+      margin: 34px auto 18px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .type-form-row {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .type-form-row label {
+      text-align: right;
+      color: #595959;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .required-mark {
+      color: #f5222d;
+      margin-right: 2px;
+    }
+
+    .type-form-row .pc-input,
+    .type-form-row .pc-select {
+      height: 44px;
+      font-size: 16px;
+    }
+
+    .radio-row {
+      display: flex;
+      align-items: center;
+      gap: 88px;
+      min-height: 44px;
+      color: #262626;
+      font-size: 16px;
+    }
+
+    .radio-row label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-align: left;
+      color: #262626;
+      font-weight: 400;
+    }
+
+    .radio-dot {
+      width: 18px;
+      height: 18px;
+      border: 2px solid #8c8c8c;
+      border-radius: 50%;
+      background: #fff;
+    }
+
+    .switch-control {
+      width: 52px;
+      height: 30px;
+      padding: 3px;
+      border-radius: 999px;
+      background: #48b5a7;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .switch-control span {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 1px 3px rgba(0,0,0,.2);
     }
 
     .modal-head,
@@ -3030,11 +3186,20 @@
       </div>
       <div class="nav-section">
         <p class="nav-title">PC 后台 / 教师管理</p>
-        <button class="nav-btn" data-page="admin-teachers">教师列表</button>
-        <button class="nav-btn" data-page="admin-teacher-types">教师类型维护页</button>
-        <button class="nav-btn" data-page="admin-teacher-modal">新增/编辑教师弹窗</button>
-        <button class="nav-btn" data-page="admin-review-modal">全部评价弹窗</button>
-        <button class="nav-btn" data-page="admin-course-modal">关联课程弹窗</button>
+        <div class="nav-tree">
+          <button class="nav-btn parent" data-page="admin-teachers">教师列表</button>
+          <div class="nav-children">
+            <button class="nav-btn child" data-page="admin-teacher-modal">新增/编辑教师弹窗</button>
+            <button class="nav-btn child" data-page="admin-review-modal">全部评价弹窗</button>
+            <button class="nav-btn child" data-page="admin-course-modal">关联课程弹窗</button>
+          </div>
+        </div>
+        <div class="nav-tree">
+          <button class="nav-btn parent" data-page="admin-teacher-types">教师类型维护页</button>
+          <div class="nav-children">
+            <button class="nav-btn child" data-page="admin-teacher-type-modal">添加/修改教师类型弹窗</button>
+          </div>
+        </div>
       </div>
     </aside>
 
@@ -3594,7 +3759,7 @@
           <div class="pc-head">
             <h2>教师类型列表</h2>
             <div class="pc-actions">
-              <button class="pc-btn primary" type="button">添加教师类型</button>
+              <button class="pc-btn primary" type="button" data-open-teacher-type-modal="create">添加教师类型</button>
             </div>
           </div>
           <div class="pc-filter type-admin-filter">
@@ -3611,41 +3776,95 @@
             <tbody>
               <tr>
                 <td>1</td><td>空</td><td><strong>骨干教员</strong></td><td><span class="status-pill">已启用</span></td><td>100</td><td>18</td>
-                <td><div class="row-actions"><button class="link-btn" type="button">修改</button><button class="link-btn" type="button">禁用</button><button class="link-btn disabled" type="button" disabled>不可删除</button></div></td>
+                <td><div class="row-actions"><button class="link-btn" type="button" data-open-teacher-type-modal="edit-primary">修改</button><button class="link-btn" type="button">禁用</button><button class="link-btn disabled" type="button" disabled>不可删除</button></div></td>
               </tr>
               <tr>
                 <td>2</td><td>骨干教员</td><td><strong>硕博</strong></td><td><span class="status-pill">已启用</span></td><td>100</td><td>8</td>
-                <td><div class="row-actions"><button class="link-btn" type="button">修改</button><button class="link-btn" type="button">禁用</button><button class="link-btn disabled" type="button" disabled>不可删除</button></div></td>
+                <td><div class="row-actions"><button class="link-btn" type="button" data-open-teacher-type-modal="edit-secondary">修改</button><button class="link-btn" type="button">禁用</button><button class="link-btn disabled" type="button" disabled>不可删除</button></div></td>
               </tr>
               <tr>
                 <td>3</td><td>骨干教员</td><td><strong>名校骨干</strong></td><td><span class="status-pill">已启用</span></td><td>90</td><td>6</td>
-                <td><div class="row-actions"><button class="link-btn" type="button">修改</button><button class="link-btn" type="button">禁用</button><button class="link-btn disabled" type="button" disabled>不可删除</button></div></td>
+                <td><div class="row-actions"><button class="link-btn" type="button" data-open-teacher-type-modal="edit-secondary">修改</button><button class="link-btn" type="button">禁用</button><button class="link-btn disabled" type="button" disabled>不可删除</button></div></td>
               </tr>
               <tr>
                 <td>4</td><td>骨干教员</td><td><strong>竞赛教研</strong></td><td><span class="status-pill gray">已禁用</span></td><td>80</td><td>2</td>
-                <td><div class="row-actions"><button class="link-btn" type="button">修改</button><button class="link-btn" type="button">启用</button><button class="link-btn disabled" type="button" disabled>不可删除</button></div></td>
+                <td><div class="row-actions"><button class="link-btn" type="button" data-open-teacher-type-modal="edit-secondary">修改</button><button class="link-btn" type="button">启用</button><button class="link-btn disabled" type="button" disabled>不可删除</button></div></td>
               </tr>
               <tr>
                 <td>5</td><td>空</td><td><strong>专业教员</strong></td><td><span class="status-pill">已启用</span></td><td>90</td><td>24</td>
-                <td><div class="row-actions"><button class="link-btn" type="button">修改</button><button class="link-btn" type="button">禁用</button><button class="link-btn disabled" type="button" disabled>不可删除</button></div></td>
+                <td><div class="row-actions"><button class="link-btn" type="button" data-open-teacher-type-modal="edit-primary">修改</button><button class="link-btn" type="button">禁用</button><button class="link-btn disabled" type="button" disabled>不可删除</button></div></td>
               </tr>
               <tr>
                 <td>6</td><td>专业教员</td><td><strong>一线专业</strong></td><td><span class="status-pill">已启用</span></td><td>100</td><td>12</td>
-                <td><div class="row-actions"><button class="link-btn" type="button">修改</button><button class="link-btn" type="button">禁用</button><button class="link-btn disabled" type="button" disabled>不可删除</button></div></td>
+                <td><div class="row-actions"><button class="link-btn" type="button" data-open-teacher-type-modal="edit-secondary">修改</button><button class="link-btn" type="button">禁用</button><button class="link-btn disabled" type="button" disabled>不可删除</button></div></td>
               </tr>
               <tr>
                 <td>7</td><td>专业教员</td><td><strong>基础巩固</strong></td><td><span class="status-pill">已启用</span></td><td>80</td><td>5</td>
-                <td><div class="row-actions"><button class="link-btn" type="button">修改</button><button class="link-btn" type="button">禁用</button><button class="link-btn disabled" type="button" disabled>不可删除</button></div></td>
+                <td><div class="row-actions"><button class="link-btn" type="button" data-open-teacher-type-modal="edit-secondary">修改</button><button class="link-btn" type="button">禁用</button><button class="link-btn disabled" type="button" disabled>不可删除</button></div></td>
               </tr>
               <tr>
                 <td>8</td><td>空</td><td><strong>体验教员</strong></td><td><span class="status-pill gray">已禁用</span></td><td>50</td><td>0</td>
-                <td><div class="row-actions"><button class="link-btn" type="button">修改</button><button class="link-btn" type="button">启用</button><button class="link-btn danger" type="button">删除</button></div></td>
+                <td><div class="row-actions"><button class="link-btn" type="button" data-open-teacher-type-modal="edit-primary">修改</button><button class="link-btn" type="button">启用</button><button class="link-btn danger" type="button">删除</button></div></td>
               </tr>
             </tbody>
           </table>
           <div class="pagination"><span>共 8 条教师类型，当前第 1 / 1 页</span><span>父类型为空表示一级类型；父类型有值表示二级类型</span></div>
         </div>
       </section>
+
+      <section class="page" id="page-admin-teacher-type-modal">
+        <h1 class="canvas-title">添加/修改教师类型弹窗</h1>
+        <div class="pc-board">
+          <div class="pc-head">
+            <h2>教师类型列表</h2>
+            <div class="pc-actions">
+              <button class="pc-btn primary" type="button" data-open-teacher-type-modal="create">添加教师类型</button>
+            </div>
+          </div>
+          <div class="pagination"><span>此节点用于评审教师类型新增/修改弹窗：从教师类型列表点击“添加教师类型 / 修改”打开。</span><span>弹窗已默认打开</span></div>
+        </div>
+      </section>
+
+      <div class="teacher-modal" id="teacherTypeModal" aria-modal="true" role="dialog" aria-label="添加修改教师类型弹窗">
+        <div class="modal-panel type-modal-panel">
+          <div class="modal-head">
+            <div class="modal-title" id="teacherTypeModalTitle">教师类型</div>
+            <button class="modal-close-x" type="button" data-close-teacher-type-modal aria-label="关闭">×</button>
+          </div>
+          <div class="modal-body single">
+            <div class="type-modal-form">
+              <div class="type-form-row">
+                <label>父类型：</label>
+                <select class="pc-select" id="typeParentSelect"><option>选择类型</option><option>空</option><option selected>骨干教员</option><option>专业教员</option></select>
+              </div>
+              <div class="type-form-row">
+                <label><span class="required-mark">*</span>教师类型名称：</label>
+                <input class="pc-input" id="typeNameInput" value="硕博" placeholder="请输入教师类型">
+              </div>
+              <div class="type-form-row">
+                <label><span class="required-mark">*</span>是否前台展示：</label>
+                <div class="radio-row" role="radiogroup" aria-label="是否前台展示">
+                  <label><span class="radio-dot"></span>是</label>
+                  <label><span class="radio-dot"></span>否</label>
+                </div>
+              </div>
+              <div class="type-form-row">
+                <label><span class="required-mark">*</span>排序：</label>
+                <input class="pc-input" value="100" placeholder="请输入排序">
+              </div>
+              <div class="type-form-row">
+                <label><span class="required-mark">*</span>状态：</label>
+                <div class="switch-control" aria-label="已启用"><span></span></div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-foot">
+            <button class="pc-btn danger" type="button">删除</button>
+            <button class="pc-btn" type="button" data-close-teacher-type-modal>取消</button>
+            <button class="pc-btn primary" type="button">保存</button>
+          </div>
+        </div>
+      </div>
 
       <section class="page" id="page-admin-teacher-modal">
         <h1 class="canvas-title">新增/编辑教师弹窗</h1>
@@ -3982,7 +4201,7 @@
     <aside class="notes" aria-label="右侧黄色说明区">
       <div class="note-page active" id="note-entry">
         <div class="note-card"><h3>版本说明</h3><p>本文件为 Axure 风格业务原型，面向评审使用。页面线框只放真实用户可见内容，说明、字段来源、状态、待确认和回流项统一放在黄色说明区。</p></div>
-        <div class="note-card"><h3>页面层级</h3><ul><li>入口：版本与页面目录</li><li>移动端 / 优坐标家长端 / 老师模块 / 全部老师列表页</li><li>移动端 / 优坐标家长端 / 老师模块 / 教师详情页</li><li>移动端 / 优坐标家长端 / 老师模块 / 确认订单页</li><li>移动端 / 优坐标家长端 / 老师模块 / 订单支付成功确认页</li><li>PC 后台 / 教师管理 / 教师列表</li><li>PC 后台 / 教师管理 / 教师类型维护页</li><li>PC 后台 / 教师管理 / 新增/编辑教师弹窗</li><li>PC 后台 / 教师管理 / 全部评价弹窗</li><li>PC 后台 / 教师管理 / 关联课程弹窗</li></ul></div>
+        <div class="note-card"><h3>页面层级</h3><ul><li>入口：版本与页面目录</li><li>移动端 / 优坐标家长端 / 老师模块 / 全部老师列表页</li><li>移动端 / 优坐标家长端 / 老师模块 / 教师详情页</li><li>移动端 / 优坐标家长端 / 老师模块 / 确认订单页</li><li>移动端 / 优坐标家长端 / 老师模块 / 订单支付成功确认页</li><li>PC 后台 / 教师管理 / 教师列表 / 新增/编辑教师弹窗</li><li>PC 后台 / 教师管理 / 教师列表 / 全部评价弹窗</li><li>PC 后台 / 教师管理 / 教师列表 / 关联课程弹窗</li><li>PC 后台 / 教师管理 / 教师类型维护页 / 添加/修改教师类型弹窗</li></ul></div>
         <div class="note-card"><h3>输入来源</h3><ul><li>05 需求分析：老师列表截图反推 v1</li><li>11 专项 PRD：优坐标老师列表最终 PRD v1</li><li>10 高保真原型：截图反推 v1</li></ul></div>
       </div>
 
@@ -4022,10 +4241,11 @@
       </div>
 
       <div class="note-page" id="note-admin-teacher-types">
-        <div class="note-card"><h3>页面规则</h3><ul><li>教师类型从普通数据字典拆出，改为 PC 后台教师管理下的独立维护页。</li><li>页面参考类型配置列表模式，用一张表维护一级与二级类型。</li><li>父类型为“空”表示一级类型；父类型填写某个一级类型时，表示该行是该一级下面的二级类型。</li><li>新增教师类型时通过“父类型”决定层级：父类型为空则新增一级；父类型选择骨干教员、专业教员等一级类型时，则新增对应一级下的二级类型。</li><li>一级类型、二级类型均支持新增、修改、启用、禁用、删除和排序。</li><li>骨干教员、专业教员只作为初始化样例，不再写死在前台或教师资料弹窗中。</li><li>排序规则沿用后台口径：数值越大越靠前。</li></ul></div>
-        <div class="note-card"><h3>删除与上下架规则</h3><ul><li>未被老师使用的类型允许删除。</li><li>已被老师使用的一级或二级类型不可删除，需先迁移关联老师后再删除。</li><li>已被使用的类型允许下架；下架后新增/编辑教师时不可再选择。</li><li>历史老师已配置的下架类型继续保留展示，并在后台配置处提示“类型已下架”。</li><li>前台筛选只展示上架类型；后台筛选默认可查全部类型，并可按状态筛选。</li></ul></div>
+        <div class="note-card"><h3>页面规则</h3><ul><li>教师类型从普通数据字典拆出，改为 PC 后台教师管理下的独立维护页。</li><li>页面参考类型配置列表模式，用一张表维护一级与二级类型。</li><li>父类型为“空”表示一级类型；父类型填写某个一级类型时，表示该行是该一级下面的二级类型。</li><li>新增教师类型时通过“父类型”决定层级：父类型为空则新增一级；父类型选择骨干教员、专业教员等一级类型时，则新增对应一级下的二级类型。</li><li>教师类型名称不允许同名；同一父类型下的一级/二级类型均需唯一。</li><li>二级类型创建后不允许调整到另一个父类型下；如需变更归属，需新增新类型并迁移老师。</li><li>已被老师使用的类型允许修改名称、状态和排序，但修改后需保留历史展示口径。</li><li>排序规则为同一父类型内排序，数值越大越靠前。</li></ul></div>
+        <div class="note-card"><h3>删除与启禁规则</h3><ul><li>已被老师使用的一级或二级类型不可删除。</li><li>未被老师使用的类型允许删除。</li><li>删除一级类型时，如果一级本身及其下二级类型均无老师关联，允许连同下级二级类型一起删除。</li><li>禁用一级类型时，附带其下所有二级类型自动禁用。</li><li>禁用后新增/编辑教师时不可再选择；历史老师已配置的禁用类型继续保留展示，并在后台配置处提示“类型已禁用”。</li><li>前台筛选只展示已启用类型；后台筛选默认可查全部类型，并可按状态筛选。</li></ul></div>
         <div class="note-card"><h3>影响页面</h3><ul><li>全部老师列表页：教员类型筛选读取教师类型维护页中的上架一级/二级类型。</li><li>教师列表页：一级教师类型、二级类型筛选读取教师类型维护页，可包含下架历史类型。</li><li>新增/编辑教师弹窗：教师类型与二级类型读取教师类型维护页，一级变化后刷新二级选项。</li><li>教师详情页与老师卡片：继续展示老师已配置的一级类型和二级类型标识；二级类型为空时不占位。</li></ul></div>
-        <div class="note-card"><h3>按钮说明</h3><ul><li>添加教师类型：打开新增弹窗，字段包含父类型、教师类型名称、状态、排序；父类型为空时新增一级，父类型选择一级时新增二级。</li><li>搜索：按父类型和状态过滤教师类型列表。</li><li>修改：编辑当前行的父类型、教师类型名称、状态和排序；已被使用的类型修改时需保留历史展示口径。</li><li>启用/禁用：改变类型可选范围；禁用后不影响历史老师展示。</li><li>删除：仅未被老师使用时允许；被使用时按钮置灰并提示需先迁移老师。</li></ul></div>
+        <div class="note-card"><h3>弹窗字段</h3><ul><li>父类型：选择类型、空、骨干教员、专业教员；父类型为空时新增一级，选择一级时新增二级。</li><li>教师类型名称：必填，同一父类型下不允许同名。</li><li>是否前台展示：控制该类型是否进入前台筛选和展示口径。</li><li>排序：必填，同一父类型内排序，数值越大越靠前。</li><li>状态：启用/禁用开关；禁用一级时自动禁用下级二级类型。</li></ul></div>
+        <div class="note-card"><h3>按钮说明</h3><ul><li>添加教师类型：打开新增弹窗，按表单填写后保存。</li><li>搜索：按父类型和状态过滤教师类型列表。</li><li>修改：打开修改弹窗；允许修改教师类型名称、前台展示、状态、排序，二级类型不允许改到另一个父类型下。</li><li>启用/禁用：改变类型可选范围；禁用一级时自动禁用下级二级类型。</li><li>删除：仅未被老师使用时允许；被使用时按钮置灰。删除无老师关联的一级类型时，可连同其下无老师关联的二级类型一起删除。</li><li>保存：校验必填项、名称不重复、排序为数字后保存并刷新列表。</li></ul></div>
       </div>
 
       <div class="note-page" id="note-admin-teacher-modal">
@@ -4043,9 +4263,13 @@
     const notes = document.querySelectorAll('.note-page');
     const teacherModal = document.getElementById('teacherConfigModal');
     const teacherModalTitle = document.getElementById('teacherModalTitle');
+    const teacherTypeModal = document.getElementById('teacherTypeModal');
+    const teacherTypeModalTitle = document.getElementById('teacherTypeModalTitle');
+    const typeParentSelect = document.getElementById('typeParentSelect');
+    const typeNameInput = document.getElementById('typeNameInput');
     const reviewDataModal = document.getElementById('reviewDataModal');
     const coursePublishModal = document.getElementById('coursePublishModal');
-    const allBusinessModals = [teacherModal, reviewDataModal, coursePublishModal].filter(Boolean);
+    const allBusinessModals = [teacherModal, teacherTypeModal, reviewDataModal, coursePublishModal].filter(Boolean);
     const followGuideModal = document.getElementById('followGuideModal');
     const teacherPrimaryType = document.getElementById('teacherPrimaryType');
     const teacherSecondType = document.getElementById('teacherSecondType');
@@ -4472,14 +4696,23 @@
     }
 
     function showPage(name) {
-      const basePageName = ['admin-teacher-modal', 'admin-review-modal', 'admin-course-modal'].includes(name) ? 'admin-teachers' : name;
-      const noteName = ['admin-review-modal', 'admin-course-modal'].includes(name) ? 'admin-teachers' : name;
+      const basePageName = ['admin-teacher-modal', 'admin-review-modal', 'admin-course-modal'].includes(name)
+        ? 'admin-teachers'
+        : (name === 'admin-teacher-type-modal' ? 'admin-teacher-types' : name);
+      const noteName = ['admin-review-modal', 'admin-course-modal'].includes(name)
+        ? 'admin-teachers'
+        : (name === 'admin-teacher-type-modal' ? 'admin-teacher-types' : name);
       pages.forEach(page => page.classList.toggle('active', page.id === 'page-' + basePageName));
       notes.forEach(note => note.classList.toggle('active', note.id === 'note-' + noteName));
       pageButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.page === name));
+      document.querySelectorAll('.nav-tree').forEach(tree => {
+        tree.classList.toggle('has-active-child', Boolean(tree.querySelector('.nav-btn.child.active')));
+      });
       location.hash = name;
       if (name === 'admin-teacher-modal') {
         openTeacherModal('edit');
+      } else if (name === 'admin-teacher-type-modal') {
+        openTeacherTypeModal('edit-secondary');
       } else if (name === 'admin-review-modal') {
         openSideModal(reviewDataModal);
       } else if (name === 'admin-course-modal') {
@@ -4512,6 +4745,20 @@
       }
     }
 
+    function openTeacherTypeModal(mode) {
+      if (!teacherTypeModal) return;
+      const isCreate = mode === 'create';
+      const isPrimary = mode === 'edit-primary';
+      teacherTypeModalTitle.textContent = '教师类型';
+      if (typeParentSelect) typeParentSelect.value = isCreate ? '选择类型' : (isPrimary ? '空' : '骨干教员');
+      if (typeNameInput) typeNameInput.value = isCreate ? '' : (isPrimary ? '骨干教员' : '硕博');
+      closeBusinessModals();
+      teacherTypeModal.classList.add('open');
+      if (location.hash !== '#admin-teacher-type-modal' && !document.getElementById('page-admin-teacher-types').classList.contains('active')) {
+        showPage('admin-teacher-types');
+      }
+    }
+
     function openSideModal(modal) {
       if (!modal) return;
       if (!document.getElementById('page-admin-teachers').classList.contains('active')) showPage('admin-teachers');
@@ -4527,6 +4774,12 @@
       el.addEventListener('click', event => {
         event.stopPropagation();
         openTeacherModal(el.dataset.openTeacherModal);
+      });
+    });
+    document.querySelectorAll('[data-open-teacher-type-modal]').forEach(el => {
+      el.addEventListener('click', event => {
+        event.stopPropagation();
+        openTeacherTypeModal(el.dataset.openTeacherTypeModal);
       });
     });
     document.querySelectorAll('[data-open-review-modal]').forEach(el => {
@@ -4545,6 +4798,12 @@
       el.addEventListener('click', () => {
         teacherModal.classList.remove('open');
         if (location.hash === '#admin-teacher-modal') showPage('admin-teachers');
+      });
+    });
+    document.querySelectorAll('[data-close-teacher-type-modal]').forEach(el => {
+      el.addEventListener('click', () => {
+        teacherTypeModal.classList.remove('open');
+        if (location.hash === '#admin-teacher-type-modal') showPage('admin-teacher-types');
       });
     });
     document.querySelectorAll('[data-close-side-modal]').forEach(el => {
