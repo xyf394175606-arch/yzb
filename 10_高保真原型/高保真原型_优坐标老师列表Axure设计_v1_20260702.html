@@ -160,6 +160,13 @@
       background: #9aa8b8;
     }
 
+    .nav-btn.subchild {
+      margin-left: 16px;
+      width: calc(100% - 16px);
+      color: #687789;
+      font-size: 12px;
+    }
+
     .nav-btn.child.active {
       color: #145ea5;
       font-weight: 800;
@@ -3057,6 +3064,11 @@
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
+    .form-grid.four {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      margin-bottom: 14px;
+    }
+
     .form-grid.one {
       grid-template-columns: 1fr;
     }
@@ -3440,6 +3452,7 @@
             <button class="nav-btn child" data-page="admin-teacher-modal">新增/编辑教师弹窗</button>
             <button class="nav-btn child" data-page="admin-review-modal">全部评价弹窗</button>
             <button class="nav-btn child" data-page="admin-course-modal">关联课程弹窗</button>
+            <button class="nav-btn child subchild" data-page="admin-course-add-modal">新增关联课程弹窗</button>
           </div>
         </div>
         <div class="nav-tree">
@@ -3462,7 +3475,7 @@
         <h1 class="canvas-title">版本与页面目录</h1>
         <div class="entry-card">
           <h2>原型范围</h2>
-          <p>本 Axure 风格原型基于已确认的需求分析、专项 PRD 和上一版高保真 HTML，覆盖优坐标家长端“全部老师”列表页、教师详情页、确认订单页、订单支付成功确认页，以及 PC 后台教师管理的列表、教师类型维护页、教师标签维护页、教师资料弹窗、全部评价弹窗和关联课程弹窗。</p>
+          <p>本 Axure 风格原型基于已确认的需求分析、专项 PRD 和上一版高保真 HTML，覆盖优坐标家长端“全部老师”列表页、教师详情页、确认订单页、订单支付成功确认页，以及 PC 后台教师管理的列表、教师类型维护页、教师标签维护页、教师资料弹窗、全部评价弹窗、关联课程弹窗和新增关联课程弹窗。</p>
           <div class="entry-grid">
             <div class="entry-item"><strong>页面 1：全部老师列表页</strong><span>默认展示推荐老师列表，支持学科/年级后台字典多选，点击确认后刷新。</span></div>
             <div class="entry-item"><strong>页面 2：教师详情页</strong><span>由卡片和“更多”进入，展示教师资料、评价、简介、课程和购买操作。</span></div>
@@ -4533,7 +4546,7 @@
               <section class="form-section">
                 <div class="linked-course-toolbar">
                   <div class="linked-course-count">已关联 6 门课程</div>
-                  <button class="pc-btn primary" type="button">新增关联课程</button>
+                  <button class="pc-btn primary" type="button" data-open-course-add-modal>新增关联课程</button>
                 </div>
                 <div class="config-table-wrap">
                   <table class="config-table compact linked-course-table" aria-label="已关联课程列表">
@@ -4607,12 +4620,94 @@
           </div>
         </div>
       </div>
+
+      <div class="teacher-modal" id="courseAddModal" aria-modal="true" role="dialog" aria-label="新增关联课程弹窗">
+        <div class="modal-panel">
+          <div class="modal-head">
+            <div class="modal-title">新增关联课程 - 张琴琴</div>
+            <button class="pc-btn" type="button" data-close-course-add-modal>关闭</button>
+          </div>
+          <div class="modal-body single">
+            <div class="modal-form">
+              <section class="form-section">
+                <div class="section-toolbar">
+                  <div><h3>平台课程库</h3><div class="hint">从平台课程管理中选择课程并关联到当前老师；课程基础信息只读。</div></div>
+                </div>
+                <div class="form-grid four">
+                  <div class="pc-field"><label>课程名称/ID</label><input class="pc-input" placeholder="请输入课程名称或 ID"></div>
+                  <div class="pc-field"><label>分类/学科</label><select class="pc-select"><option>全部</option><option>文化 / 数学</option><option>文化 / 语文</option><option>文化 / 英语</option><option>文化 / 物理</option></select></div>
+                  <div class="pc-field"><label>年级</label><select class="pc-select"><option>全部年级</option><option>初一</option><option>初二</option><option>初三</option><option>高一</option></select></div>
+                  <div class="pc-field"><label>课程类型</label><select class="pc-select"><option>全部类型</option><option>试听课</option><option>正式课</option></select></div>
+                </div>
+                <div class="config-table-wrap">
+                  <table class="config-table compact linked-course-table" aria-label="可关联课程列表">
+                    <thead>
+                      <tr>
+                        <th style="width: 270px;">课程信息</th>
+                        <th style="width: 132px;">分类/学科</th>
+                        <th style="width: 156px; text-align: center;">年级</th>
+                        <th style="width: 86px; text-align: center;">课程类型</th>
+                        <th style="width: 184px; text-align: center;">单价</th>
+                        <th style="width: 160px; text-align: center;">价格</th>
+                        <th style="width: 76px; text-align: center;">操作</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><div class="linked-course-info"><img class="linked-course-cover" src="../work/优坐标教师详情截图资产_v1_20260703/课程封面_数学学伴体验课_v1_20260703.png" alt="优AI数学拓展-体验课"><div><div class="linked-course-name">优AI数学拓展-体验课【1V1专业...</div><div class="linked-course-id">ID: 28538</div></div></div></td>
+                        <td>文化 / 数学</td>
+                        <td><div class="grade-tags"><span class="grade-tag">初一</span><span class="grade-tag">初二</span><span class="grade-tag">初三</span><span class="grade-tag">+3</span></div></td>
+                        <td style="text-align: center;"><span class="course-kind-tag">试听课</span></td>
+                        <td><div class="price-stack"><span class="price-pill">原价：¥39.90</span><span class="price-pill member">会员价：¥0.99</span><span class="price-pill service">平台服务费：¥0.00</span></div></td>
+                        <td><div class="price-stack"><span class="price-pill">原价：¥39.90</span><span class="price-pill member">会员价：¥0.99</span></div></td>
+                        <td style="text-align: center;"><button class="link-btn disabled" type="button" disabled>已关联</button></td>
+                      </tr>
+                      <tr>
+                        <td><div class="linked-course-info"><img class="linked-course-cover" src="../work/优坐标教师详情截图资产_v1_20260703/课程封面_英语学正式课_v1_20260703.png" alt="优AI阅读理解-体验课"><div><div class="linked-course-name">优AI阅读理解-体验课【1V1专题...</div><div class="linked-course-id">ID: 28541</div></div></div></td>
+                        <td>文化 / 英语</td>
+                        <td><div class="grade-tags"><span class="grade-tag">初一</span><span class="grade-tag">初二</span><span class="grade-tag">初三</span><span class="grade-tag">+2</span></div></td>
+                        <td style="text-align: center;"><span class="course-kind-tag">试听课</span></td>
+                        <td><div class="price-stack"><span class="price-pill">原价：¥49.90</span><span class="price-pill member">会员价：¥9.90</span><span class="price-pill service">平台服务费：¥0.00</span></div></td>
+                        <td><div class="price-stack"><span class="price-pill">原价：¥49.90</span><span class="price-pill member">会员价：¥9.90</span></div></td>
+                        <td style="text-align: center;"><button class="link-btn" type="button">关联</button></td>
+                      </tr>
+                      <tr>
+                        <td><div class="linked-course-info"><img class="linked-course-cover" src="../work/优坐标教师详情截图资产_v1_20260703/课程封面_拼读优选体验课_v1_20260703.png" alt="优AI文综科学-体验课"><div><div class="linked-course-name">优AI文综科学-体验课【1V1专业...</div><div class="linked-course-id">ID: 28539</div></div></div></td>
+                        <td>文化 / 语文</td>
+                        <td><div class="grade-tags"><span class="grade-tag">高一</span><span class="grade-tag">初一</span><span class="grade-tag">初二</span><span class="grade-tag">+3</span></div></td>
+                        <td style="text-align: center;"><span class="course-kind-tag">试听课</span></td>
+                        <td><div class="price-stack"><span class="price-pill">原价：¥39.90</span><span class="price-pill member">会员价：¥39.90</span><span class="price-pill service">平台服务费：¥0.00</span></div></td>
+                        <td><div class="price-stack"><span class="price-pill">原价：¥39.90</span><span class="price-pill member">会员价：¥39.90</span></div></td>
+                        <td style="text-align: center;"><button class="link-btn disabled" type="button" disabled>已关联</button></td>
+                      </tr>
+                      <tr>
+                        <td><div class="linked-course-info"><img class="linked-course-cover" src="../work/优坐标教师详情截图资产_v1_20260703/课程封面_数学学伴体验课_v1_20260703.png" alt="优AI几何专题-正式课"><div><div class="linked-course-name">优AI几何专题-正式课【初中进阶...</div><div class="linked-course-id">ID: 28542</div></div></div></td>
+                        <td>文化 / 数学</td>
+                        <td><div class="grade-tags"><span class="grade-tag">初二</span><span class="grade-tag">初三</span><span class="grade-tag">高一</span><span class="grade-tag">+1</span></div></td>
+                        <td style="text-align: center;"><span class="course-kind-tag">正式课</span></td>
+                        <td><div class="price-stack"><span class="price-pill">原价：¥399.00</span><span class="price-pill member">会员价：¥299.00</span><span class="price-pill service">平台服务费：¥0.00</span></div></td>
+                        <td><div class="price-stack"><span class="price-pill">原价：¥399.00</span><span class="price-pill member">会员价：¥299.00</span></div></td>
+                        <td style="text-align: center;"><button class="link-btn" type="button">关联</button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="hint">已关联课程不可重复关联；点击“关联”后先在弹窗内形成待确认选择，点击“确认关联”后刷新已关联课程列表和数量。</div>
+              </section>
+            </div>
+          </div>
+          <div class="modal-foot">
+            <button class="pc-btn" type="button" data-close-course-add-modal>取消</button>
+            <button class="pc-btn primary" type="button" data-confirm-course-add>确认关联</button>
+          </div>
+        </div>
+      </div>
     </main>
 
     <aside class="notes" aria-label="右侧黄色说明区">
       <div class="note-page active" id="note-entry">
         <div class="note-card"><h3>版本说明</h3><p>本文件为 Axure 风格业务原型，面向评审使用。页面线框只放真实用户可见内容，说明、字段来源、状态、待确认和回流项统一放在黄色说明区。</p></div>
-        <div class="note-card"><h3>页面层级</h3><ul><li>入口：版本与页面目录</li><li>移动端 / 优坐标家长端 / 老师模块 / 全部老师列表页</li><li>移动端 / 优坐标家长端 / 老师模块 / 教师详情页</li><li>移动端 / 优坐标家长端 / 老师模块 / 确认订单页</li><li>移动端 / 优坐标家长端 / 老师模块 / 订单支付成功确认页</li><li>PC 后台 / 教师管理 / 教师列表 / 新增/编辑教师弹窗</li><li>PC 后台 / 教师管理 / 教师列表 / 全部评价弹窗</li><li>PC 后台 / 教师管理 / 教师列表 / 关联课程弹窗</li><li>PC 后台 / 教师管理 / 教师类型维护页 / 添加/修改教师类型弹窗</li></ul></div>
+        <div class="note-card"><h3>页面层级</h3><ul><li>入口：版本与页面目录</li><li>移动端 / 优坐标家长端 / 老师模块 / 全部老师列表页</li><li>移动端 / 优坐标家长端 / 老师模块 / 教师详情页</li><li>移动端 / 优坐标家长端 / 老师模块 / 确认订单页</li><li>移动端 / 优坐标家长端 / 老师模块 / 订单支付成功确认页</li><li>PC 后台 / 教师管理 / 教师列表 / 新增/编辑教师弹窗</li><li>PC 后台 / 教师管理 / 教师列表 / 全部评价弹窗</li><li>PC 后台 / 教师管理 / 教师列表 / 关联课程弹窗 / 新增关联课程弹窗</li><li>PC 后台 / 教师管理 / 教师类型维护页 / 添加/修改教师类型弹窗</li></ul></div>
         <div class="note-card"><h3>输入来源</h3><ul><li>05 需求分析：老师列表截图反推 v1</li><li>11 专项 PRD：优坐标老师列表最终 PRD v1</li><li>10 高保真原型：截图反推 v1</li></ul></div>
       </div>
 
@@ -4646,8 +4741,8 @@
 
       <div class="note-page" id="note-admin-teachers">
         <div class="note-card"><h3>页面规则</h3><ul><li>后台入口定为教师列表，不单独新增“教师详情配置”页面。</li><li>新增、编辑、查看教师资料都从列表页打开大弹窗。</li><li>列表用于运营管理老师，支持筛选、查看、编辑、上下架、作废、调整排序。</li><li>下架教师后，前台老师列表和详情页不可见；作废为逻辑删除，作废后老师数据不再对前台展示。</li></ul></div>
-        <div class="note-card"><h3>字段说明</h3><ul><li>列表展示教师头像、教师姓名、一级教师类型、二级类型、主讲科目、教学经验、授课时长、收藏人数、关联课程数、展示状态、审核状态、前台排序值、更新时间。</li><li>手机号、身份证号、企业微信绑定、学历背景、资质证明等属于教师认证资料，只在查看/编辑弹窗中维护，不在列表默认展示。</li><li>一级教师类型和二级类型来自教师类型维护页；二级类型按一级类型联动，后台筛选可查看上架和下架类型。</li><li>授课时长、收藏人数当前按后台配置假数据处理，后续接真实统计时替换数据来源。</li><li>关联课程数只显示数量；关联课程弹窗按已关联课程表展示字段：课程信息、分类/学科、年级、课程类型、单价、价格、操作。</li><li>关联课程中的课程基础信息均来自课程管理；课程价格、封面、课时、SKU 等基础信息不在教师关联弹窗维护。</li><li>全部评价、关联课程不放在教师资料弹窗内，统一从列表操作进入。</li><li>前台排序值用于控制前端多入口的老师展示顺序，覆盖首页老师推荐、全部老师列表页、首页各模块列表，例如专业教师、骨干教师等模块。</li><li>排序规则建议统一为数值越大越靠前；同一展示入口、同一模块内按前台排序值优先展示。</li></ul></div>
-        <div class="note-card"><h3>按钮说明</h3><ul><li>新增教师：打开新增教师资料弹窗，默认进入“基本认证资料”Tab，填写后点击保存直接保存资料。</li><li>查看：打开只读弹窗，用于核对认证资料与页面展示资料配置。</li><li>编辑：打开双 Tab 教师资料弹窗，分别维护认证资料与页面展示资料。</li><li>全部评价：打开独立评价弹窗；评价内容按表格维护，列为头像、姓名、评价星、排序、评价内容、创建时间、操作。</li><li>新增评价：在评价表格底部追加一条空白评价行，运营填写头像、姓名、星级、排序和评价内容后，点击保存全部评价统一保存。</li><li>全部评价头像：真实评价优先使用用户头像；后台补充的假数据可选择随机头像或默认头像。</li><li>全部评价操作列只保留启用、停用、删除；后台可混合真实评价和补充评价，并控制是否展示。</li><li>关联课程：打开独立关联课程弹窗，查看当前老师已关联课程，并可新增关联课程或删除已关联课程。</li><li>新增关联课程：从平台课程管理中选择已创建课程并关联到当前老师；本轮原型只保留入口，不展开二级选择弹窗。</li><li>删除：取消当前老师与课程的关联，不删除课程管理中的课程；删除后刷新已关联课程数量。</li><li>课程统一为平台创建；关联课程弹窗不允许修改课程价格、封面、课时包等课程基础信息。</li><li>上架/下架：改变前台展示状态。</li><li>作废：逻辑删除，作废后老师不再对前台展示，后台可按作废状态留痕。</li><li>调整排序：维护前台排序值，影响首页、教师列表页和首页各老师模块的展示顺序。</li></ul></div>
+        <div class="note-card"><h3>字段说明</h3><ul><li>列表展示教师头像、教师姓名、一级教师类型、二级类型、主讲科目、教学经验、授课时长、收藏人数、关联课程数、展示状态、审核状态、前台排序值、更新时间。</li><li>手机号、身份证号、企业微信绑定、学历背景、资质证明等属于教师认证资料，只在查看/编辑弹窗中维护，不在列表默认展示。</li><li>一级教师类型和二级类型来自教师类型维护页；二级类型按一级类型联动，后台筛选可查看上架和下架类型。</li><li>授课时长、收藏人数当前按后台配置假数据处理，后续接真实统计时替换数据来源。</li><li>关联课程弹窗按已关联课程表展示字段：课程信息、分类/学科、年级、课程类型、单价、价格、操作。</li><li>新增关联课程弹窗复用同一字段结构，并增加筛选字段：课程名称/ID、分类/学科、年级、课程类型。</li><li>关联课程中的课程基础信息均来自课程管理；课程价格、封面、课时、SKU 等基础信息不在教师关联弹窗维护。</li><li>全部评价、关联课程不放在教师资料弹窗内，统一从列表操作进入。</li><li>前台排序值用于控制前端多入口的老师展示顺序，覆盖首页老师推荐、全部老师列表页、首页各模块列表，例如专业教师、骨干教师等模块。</li><li>排序规则建议统一为数值越大越靠前；同一展示入口、同一模块内按前台排序值优先展示。</li></ul></div>
+        <div class="note-card"><h3>按钮说明</h3><ul><li>新增教师：打开新增教师资料弹窗，默认进入“基本认证资料”Tab，填写后点击保存直接保存资料。</li><li>查看：打开只读弹窗，用于核对认证资料与页面展示资料配置。</li><li>编辑：打开双 Tab 教师资料弹窗，分别维护认证资料与页面展示资料。</li><li>全部评价：打开独立评价弹窗；评价内容按表格维护，列为头像、姓名、评价星、排序、评价内容、创建时间、操作。</li><li>新增评价：在评价表格底部追加一条空白评价行，运营填写头像、姓名、星级、排序和评价内容后，点击保存全部评价统一保存。</li><li>全部评价头像：真实评价优先使用用户头像；后台补充的假数据可选择随机头像或默认头像。</li><li>全部评价操作列只保留启用、停用、删除；后台可混合真实评价和补充评价，并控制是否展示。</li><li>关联课程：打开独立关联课程弹窗，查看当前老师已关联课程，并可新增关联课程或删除已关联课程。</li><li>新增关联课程：打开二级弹窗，从平台课程管理中选择已创建课程并关联到当前老师。</li><li>新增弹窗中的关联：选择一门可关联课程；已关联课程显示“已关联”且不可重复关联。</li><li>确认关联：关闭新增关联课程弹窗，回到关联课程弹窗，并刷新已关联课程列表和课程数量。</li><li>删除：取消当前老师与课程的关联，不删除课程管理中的课程；删除后刷新已关联课程数量。</li><li>课程统一为平台创建；关联课程弹窗不允许修改课程价格、封面、课时包等课程基础信息。</li><li>上架/下架：改变前台展示状态。</li><li>作废：逻辑删除，作废后老师不再对前台展示，后台可按作废状态留痕。</li><li>调整排序：维护前台排序值，影响首页、教师列表页和首页各老师模块的展示顺序。</li></ul></div>
         <div class="note-card"><h3>权限与状态</h3><ul><li>老师账号可编辑自己的入驻资料和自行关联课程。</li><li>运营账号可审核、修改、上下架、调整排序，也可帮助教师关联课程。</li><li>课程价格和课程基础信息只允许在平台课程配置中维护。</li><li>审核状态包含草稿、待审核、已通过、已驳回；展示状态包含上架、下架。</li></ul></div>
       </div>
 
@@ -4695,7 +4790,8 @@
     const tagSortInput = document.getElementById('tagSortInput');
     const reviewDataModal = document.getElementById('reviewDataModal');
     const coursePublishModal = document.getElementById('coursePublishModal');
-    const allBusinessModals = [teacherModal, teacherTypeModal, teacherTagModal, reviewDataModal, coursePublishModal].filter(Boolean);
+    const courseAddModal = document.getElementById('courseAddModal');
+    const allBusinessModals = [teacherModal, teacherTypeModal, teacherTagModal, reviewDataModal, coursePublishModal, courseAddModal].filter(Boolean);
     const followGuideModal = document.getElementById('followGuideModal');
     const courseSelectModal = document.getElementById('courseSelectModal');
     const teacherPrimaryType = document.getElementById('teacherPrimaryType');
@@ -5135,10 +5231,10 @@
     }
 
     function showPage(name) {
-      const basePageName = ['admin-teacher-modal', 'admin-review-modal', 'admin-course-modal'].includes(name)
+      const basePageName = ['admin-teacher-modal', 'admin-review-modal', 'admin-course-modal', 'admin-course-add-modal'].includes(name)
         ? 'admin-teachers'
         : (name === 'admin-teacher-type-modal' ? 'admin-teacher-types' : (name === 'admin-teacher-tag-modal' ? 'admin-teacher-tags' : name));
-      const noteName = ['admin-review-modal', 'admin-course-modal'].includes(name)
+      const noteName = ['admin-review-modal', 'admin-course-modal', 'admin-course-add-modal'].includes(name)
         ? 'admin-teachers'
         : (name === 'admin-teacher-type-modal' ? 'admin-teacher-types' : (name === 'admin-teacher-tag-modal' ? 'admin-teacher-tags' : name));
       pages.forEach(page => page.classList.toggle('active', page.id === 'page-' + basePageName));
@@ -5158,6 +5254,8 @@
         openSideModal(reviewDataModal);
       } else if (name === 'admin-course-modal') {
         openSideModal(coursePublishModal);
+      } else if (name === 'admin-course-add-modal') {
+        openCourseAddModal();
       } else {
         closeBusinessModals();
         closeFollowGuide();
@@ -5224,6 +5322,19 @@
       modal.classList.add('open');
     }
 
+    function openCourseAddModal() {
+      if (!courseAddModal) return;
+      if (!document.getElementById('page-admin-teachers').classList.contains('active')) showPage('admin-teachers');
+      closeBusinessModals();
+      coursePublishModal.classList.add('open');
+      courseAddModal.classList.add('open');
+      location.hash = 'admin-course-add-modal';
+      pageButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.page === 'admin-course-add-modal'));
+      document.querySelectorAll('.nav-tree').forEach(tree => {
+        tree.classList.toggle('has-active-child', Boolean(tree.querySelector('.nav-btn.child.active')));
+      });
+    }
+
     pageButtons.forEach(btn => btn.addEventListener('click', () => showPage(btn.dataset.page)));
     refreshTeacherSecondType();
     if (teacherPrimaryType) teacherPrimaryType.addEventListener('change', refreshTeacherSecondType);
@@ -5258,6 +5369,12 @@
         openSideModal(coursePublishModal);
       });
     });
+    document.querySelectorAll('[data-open-course-add-modal]').forEach(el => {
+      el.addEventListener('click', event => {
+        event.stopPropagation();
+        openCourseAddModal();
+      });
+    });
     document.querySelectorAll('[data-close-teacher-modal]').forEach(el => {
       el.addEventListener('click', () => {
         teacherModal.classList.remove('open');
@@ -5279,7 +5396,23 @@
     document.querySelectorAll('[data-close-side-modal]').forEach(el => {
       el.addEventListener('click', () => {
         closeBusinessModals();
-        if (['#admin-review-modal', '#admin-course-modal'].includes(location.hash)) showPage('admin-teachers');
+        if (['#admin-review-modal', '#admin-course-modal', '#admin-course-add-modal'].includes(location.hash)) showPage('admin-teachers');
+      });
+    });
+    document.querySelectorAll('[data-close-course-add-modal]').forEach(el => {
+      el.addEventListener('click', () => {
+        if (courseAddModal) courseAddModal.classList.remove('open');
+        if (coursePublishModal) coursePublishModal.classList.add('open');
+        location.hash = 'admin-course-modal';
+        pageButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.page === 'admin-course-modal'));
+      });
+    });
+    document.querySelectorAll('[data-confirm-course-add]').forEach(el => {
+      el.addEventListener('click', () => {
+        if (courseAddModal) courseAddModal.classList.remove('open');
+        if (coursePublishModal) coursePublishModal.classList.add('open');
+        location.hash = 'admin-course-modal';
+        pageButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.page === 'admin-course-modal'));
       });
     });
     document.querySelectorAll('[data-tab-pane]').forEach(tab => {
