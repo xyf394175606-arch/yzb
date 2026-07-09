@@ -3440,7 +3440,13 @@
       <div class="nav-section">
         <p class="nav-title">移动端 / 优坐标家长端 / 老师模块</p>
         <button class="nav-btn" data-page="list">全部老师列表页</button>
-        <button class="nav-btn" data-page="detail">教师详情页</button>
+        <div class="nav-tree">
+          <button class="nav-btn parent" data-page="detail">教师详情页</button>
+          <div class="nav-children">
+            <button class="nav-btn child" data-page="detail-course-select-modal">选择购买课程弹窗</button>
+            <button class="nav-btn child" data-page="detail-follow-modal">关注服务号弹窗</button>
+          </div>
+        </div>
         <button class="nav-btn" data-page="buy-confirm">确认订单页</button>
         <button class="nav-btn" data-page="order-wait">订单支付成功确认页</button>
       </div>
@@ -4707,7 +4713,7 @@
     <aside class="notes" aria-label="右侧黄色说明区">
       <div class="note-page active" id="note-entry">
         <div class="note-card"><h3>版本说明</h3><p>本文件为 Axure 风格业务原型，面向评审使用。页面线框只放真实用户可见内容，说明、字段来源、状态、待确认和回流项统一放在黄色说明区。</p></div>
-        <div class="note-card"><h3>页面层级</h3><ul><li>入口：版本与页面目录</li><li>移动端 / 优坐标家长端 / 老师模块 / 全部老师列表页</li><li>移动端 / 优坐标家长端 / 老师模块 / 教师详情页</li><li>移动端 / 优坐标家长端 / 老师模块 / 确认订单页</li><li>移动端 / 优坐标家长端 / 老师模块 / 订单支付成功确认页</li><li>PC 后台 / 教师管理 / 教师列表 / 新增/编辑教师弹窗</li><li>PC 后台 / 教师管理 / 教师列表 / 全部评价弹窗</li><li>PC 后台 / 教师管理 / 教师列表 / 关联课程弹窗 / 新增关联课程弹窗</li><li>PC 后台 / 教师管理 / 教师类型维护页 / 添加/修改教师类型弹窗</li></ul></div>
+        <div class="note-card"><h3>页面层级</h3><ul><li>入口：版本与页面目录</li><li>移动端 / 优坐标家长端 / 老师模块 / 全部老师列表页</li><li>移动端 / 优坐标家长端 / 老师模块 / 教师详情页 / 选择购买课程弹窗</li><li>移动端 / 优坐标家长端 / 老师模块 / 教师详情页 / 关注服务号弹窗</li><li>移动端 / 优坐标家长端 / 老师模块 / 确认订单页</li><li>移动端 / 优坐标家长端 / 老师模块 / 订单支付成功确认页</li><li>PC 后台 / 教师管理 / 教师列表 / 新增/编辑教师弹窗</li><li>PC 后台 / 教师管理 / 教师列表 / 全部评价弹窗</li><li>PC 后台 / 教师管理 / 教师列表 / 关联课程弹窗 / 新增关联课程弹窗</li><li>PC 后台 / 教师管理 / 教师类型维护页 / 添加/修改教师类型弹窗</li></ul></div>
         <div class="note-card"><h3>输入来源</h3><ul><li>05 需求分析：老师列表截图反推 v1</li><li>11 专项 PRD：优坐标老师列表最终 PRD v1</li><li>10 高保真原型：截图反推 v1</li></ul></div>
       </div>
 
@@ -4719,7 +4725,7 @@
       </div>
 
       <div class="note-page" id="note-detail">
-        <div class="note-card"><h3>页面规则</h3><ul><li>本页由老师卡片或“更多”进入，当前默认展示教师介绍页签。</li><li>页签包含教师介绍、教师评价、购买课程；点击后按页面锚点滚动到对应模块。</li><li>教师介绍锚点对应教师简介模块，教师评价锚点对应教师评价模块，购买课程锚点对应购买课程模块。</li><li>底部固定操作栏包含客服、分享、收藏、立即购买。</li><li>购买课程区域展示当前老师已关联且可售的课程；课程来自后台教师列表操作中的“关联课程”。</li><li>底部立即购买先打开选择购买课程上滑弹窗，用户必须选择某一门关联课程后才进入确认订单页。</li></ul></div>
+        <div class="note-card"><h3>页面规则</h3><ul><li>本页由老师卡片或“更多”进入，当前默认展示教师介绍页签。</li><li>页签包含教师介绍、教师评价、购买课程；点击后按页面锚点滚动到对应模块。</li><li>教师介绍锚点对应教师简介模块，教师评价锚点对应教师评价模块，购买课程锚点对应购买课程模块。</li><li>底部固定操作栏包含客服、分享、收藏、立即购买。</li><li>购买课程区域展示当前老师已关联且可售的课程；课程来自后台教师列表操作中的“关联课程”。</li><li>底部立即购买先打开选择购买课程上滑弹窗，用户必须选择某一门关联课程后才进入确认订单页。</li><li>选择购买课程弹窗、关注服务号弹窗属于教师详情页内部上滑弹窗，左侧导航以教师详情页子节点展示，便于评审直接查看。</li></ul></div>
         <div class="note-card"><h3>字段说明</h3><ul><li>教师头部展示头像、姓名、一级教员类型、二级类型标识、教学经验、授课时长、收藏人数和标签。</li><li>二级类型标识有填写则展示；未填写则不展示、不占位。</li><li>教师评价展示评价人数、用户昵称脱敏、星级、评分和评价内容。</li><li>教师简介展示个人简介、主讲科目、教学经验案例、授课特色。</li><li>课程卡片展示课程类型、封面、名称、评分、时长、价格、销量和立即抢购按钮。</li></ul></div>
         <div class="note-card"><h3>按钮说明</h3><ul><li>返回：回到全部老师列表页。</li><li>底部收藏：收藏/取消收藏结果待确认。</li><li>立即关注：打开关注引导弹层，明确引导用户关注“优坐标服务号”。</li><li>去关注服务号：跳转服务号关注引导页；当前原型保留为明确业务结果，不展开实际跳转页。</li><li>教师介绍/教师评价/购买课程：作为页面锚点使用，点击滚动到对应模块，并更新当前激活态。</li><li>立即抢购：用户已在具体课程卡操作，直接带入当前点击课程进入确认订单页。</li><li>立即购买：打开选择购买课程上滑弹窗；弹窗中点击“选择”后，带入所选课程进入确认订单页；取消则关闭弹窗并停留详情页。</li></ul></div>
         <div class="note-card"><h3>状态与回流</h3><ul><li>评价为空：教师评价模块标题展示“教师评价(0)”，列表区域展示“暂无评价”。</li><li>课程为空：后台不允许教师上架，前台教师详情页不展示课程空态。</li><li>无已关联且可售课程：底部立即购买置灰或点击提示不可购买，不允许进入确认订单页。</li><li>课程售罄、无购买权限：当前业务不存在这两个前台状态，不在原型中展示。</li><li>购买失败：保留在支付链路或订单链路后续补充，不放在教师详情默认态。</li><li>购买主链路已明确为“选择购买课程 -> 确认订单页 -> 支付 -> 订单支付成功确认页”，本轮原型不展开退款、排课和支付渠道细节。</li><li>评价接口、课程接口、收藏状态和关注状态需 09 数据交互阶段补齐。</li><li>当前截图中部分字段来源未给出，已作为展示样例处理。</li></ul></div>
@@ -5209,6 +5215,12 @@
       if (courseSelectModal) courseSelectModal.classList.remove('open');
     }
 
+    function returnToDetailAfterDetailPopupClose() {
+      if (['#detail-course-select-modal', '#detail-follow-modal'].includes(location.hash)) {
+        showPage('detail');
+      }
+    }
+
     function setActiveDetailTab(anchorKey) {
       document.querySelectorAll('[data-detail-anchor]').forEach(tab => {
         tab.classList.toggle('active', tab.dataset.detailAnchor === anchorKey);
@@ -5231,12 +5243,17 @@
     }
 
     function showPage(name) {
-      const basePageName = ['admin-teacher-modal', 'admin-review-modal', 'admin-course-modal', 'admin-course-add-modal'].includes(name)
-        ? 'admin-teachers'
-        : (name === 'admin-teacher-type-modal' ? 'admin-teacher-types' : (name === 'admin-teacher-tag-modal' ? 'admin-teacher-tags' : name));
-      const noteName = ['admin-review-modal', 'admin-course-modal', 'admin-course-add-modal'].includes(name)
-        ? 'admin-teachers'
-        : (name === 'admin-teacher-type-modal' ? 'admin-teacher-types' : (name === 'admin-teacher-tag-modal' ? 'admin-teacher-tags' : name));
+      const detailPopupPages = ['detail-course-select-modal', 'detail-follow-modal'];
+      const basePageName = detailPopupPages.includes(name)
+        ? 'detail'
+        : (['admin-teacher-modal', 'admin-review-modal', 'admin-course-modal', 'admin-course-add-modal'].includes(name)
+          ? 'admin-teachers'
+          : (name === 'admin-teacher-type-modal' ? 'admin-teacher-types' : (name === 'admin-teacher-tag-modal' ? 'admin-teacher-tags' : name)));
+      const noteName = detailPopupPages.includes(name)
+        ? 'detail'
+        : (['admin-review-modal', 'admin-course-modal', 'admin-course-add-modal'].includes(name)
+          ? 'admin-teachers'
+          : (name === 'admin-teacher-type-modal' ? 'admin-teacher-types' : (name === 'admin-teacher-tag-modal' ? 'admin-teacher-tags' : name)));
       pages.forEach(page => page.classList.toggle('active', page.id === 'page-' + basePageName));
       notes.forEach(note => note.classList.toggle('active', note.id === 'note-' + noteName));
       pageButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.page === name));
@@ -5256,6 +5273,13 @@
         openSideModal(coursePublishModal);
       } else if (name === 'admin-course-add-modal') {
         openCourseAddModal();
+      } else if (name === 'detail-course-select-modal') {
+        closeBusinessModals();
+        openCourseSelect();
+      } else if (name === 'detail-follow-modal') {
+        closeBusinessModals();
+        closeCourseSelect();
+        if (followGuideModal) followGuideModal.classList.add('open');
       } else {
         closeBusinessModals();
         closeFollowGuide();
@@ -5440,23 +5464,35 @@
     document.querySelectorAll('[data-open-follow-guide]').forEach(btn => {
       btn.addEventListener('click', event => {
         event.stopPropagation();
-        if (followGuideModal) followGuideModal.classList.add('open');
+        showPage('detail-follow-modal');
       });
     });
     document.querySelectorAll('[data-close-follow-guide]').forEach(btn => {
-      btn.addEventListener('click', closeFollowGuide);
+      btn.addEventListener('click', () => {
+        closeFollowGuide();
+        returnToDetailAfterDetailPopupClose();
+      });
     });
     if (followGuideModal) {
       followGuideModal.addEventListener('click', event => {
-        if (event.target === followGuideModal) closeFollowGuide();
+        if (event.target === followGuideModal) {
+          closeFollowGuide();
+          returnToDetailAfterDetailPopupClose();
+        }
       });
     }
     document.querySelectorAll('[data-close-course-select]').forEach(btn => {
-      btn.addEventListener('click', closeCourseSelect);
+      btn.addEventListener('click', () => {
+        closeCourseSelect();
+        returnToDetailAfterDetailPopupClose();
+      });
     });
     if (courseSelectModal) {
       courseSelectModal.addEventListener('click', event => {
-        if (event.target === courseSelectModal) closeCourseSelect();
+        if (event.target === courseSelectModal) {
+          closeCourseSelect();
+          returnToDetailAfterDetailPopupClose();
+        }
       });
     }
     document.querySelectorAll('[data-select-course]').forEach(btn => {
@@ -5475,7 +5511,7 @@
     document.querySelectorAll('[data-buy-main]').forEach(btn => {
       btn.addEventListener('click', event => {
         event.stopPropagation();
-        openCourseSelect();
+        showPage('detail-course-select-modal');
       });
     });
     document.querySelectorAll('[data-membership-plan]').forEach(btn => {
