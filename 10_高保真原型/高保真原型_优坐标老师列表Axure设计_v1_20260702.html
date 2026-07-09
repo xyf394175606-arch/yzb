@@ -2771,6 +2771,10 @@
       overflow: hidden;
     }
 
+    #coursePublishModal .modal-panel {
+      width: min(1320px, 100%);
+    }
+
     .modal-panel.type-modal-panel {
       width: min(760px, 100%);
       height: auto;
@@ -3194,6 +3198,146 @@
       grid-template-columns: 1.5fr 80px 100px 90px;
       gap: 8px;
       align-items: center;
+    }
+
+    .linked-course-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .linked-course-count {
+      color: #5f6673;
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .linked-course-table th,
+    .linked-course-table td {
+      padding: 12px 10px;
+      vertical-align: middle;
+    }
+
+    .linked-course-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .linked-course-cover {
+      width: 58px;
+      height: 44px;
+      flex: 0 0 auto;
+      border-radius: 4px;
+      object-fit: cover;
+      border: 1px solid #e8edf5;
+      background: #f3f6fb;
+    }
+
+    .linked-course-name {
+      max-width: 220px;
+      color: #1f2937;
+      font-size: 14px;
+      font-weight: 800;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .linked-course-id {
+      margin-top: 5px;
+      color: #9aa3af;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .grade-tags,
+    .price-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .grade-tag {
+      min-width: 38px;
+      height: 24px;
+      padding: 0 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 5px;
+      border: 1px solid #e5e7eb;
+      background: #f6f7f9;
+      color: #6b7280;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .course-kind-tag {
+      display: inline-flex;
+      align-items: center;
+      height: 26px;
+      padding: 0 10px;
+      border-radius: 5px;
+      border: 1px solid #e7d5ff;
+      background: #f4eaff;
+      color: #8b5cf6;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .price-stack {
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .price-pill {
+      min-width: 98px;
+      height: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      border: 1px solid #e5e7eb;
+      background: #f7f7f8;
+      color: #6b7280;
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .price-pill.member {
+      border-color: #ffd9ad;
+      background: #fff7ed;
+      color: #f97316;
+    }
+
+    .price-pill.service {
+      border-color: #bbf7d0;
+      background: #f0fdf4;
+      color: #16a34a;
+    }
+
+    .linked-course-pagination {
+      margin-top: 22px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 18px;
+      color: #6b7280;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .linked-course-pagination .active {
+      color: #1677ff;
+      font-size: 18px;
+      font-weight: 900;
     }
 
     .hint {
@@ -4387,66 +4531,79 @@
           <div class="modal-body single">
             <div class="modal-form">
               <section class="form-section">
-                <h3>关联课程</h3>
-                <div class="form-grid two">
-                  <div class="pc-field"><label>课程名称</label><input class="pc-input" placeholder="搜索平台创建的课程"></div>
-                  <div class="pc-field"><label>课程状态</label><select class="pc-select"><option>仅可售课程</option><option>全部课程</option></select></div>
+                <div class="linked-course-toolbar">
+                  <div class="linked-course-count">已关联 6 门课程</div>
+                  <button class="pc-btn primary" type="button">新增关联课程</button>
                 </div>
                 <div class="config-table-wrap">
-                  <table class="config-table compact" aria-label="关联课程列表">
+                  <table class="config-table compact linked-course-table" aria-label="已关联课程列表">
                     <thead>
                       <tr>
-                        <th>课程名称</th>
-                        <th style="width: 82px;">关联状态</th>
-                        <th style="width: 88px;">课程状态</th>
-                        <th style="width: 86px;">起售价</th>
-                        <th style="width: 82px;">排序</th>
-                        <th style="width: 98px;">前台展示</th>
-                        <th style="width: 132px;">上架校验</th>
-                        <th style="width: 104px;">操作</th>
+                        <th style="width: 270px;">课程信息</th>
+                        <th style="width: 132px;">分类/学科</th>
+                        <th style="width: 156px; text-align: center;">年级</th>
+                        <th style="width: 86px; text-align: center;">课程类型</th>
+                        <th style="width: 184px; text-align: center;">单价</th>
+                        <th style="width: 160px; text-align: center;">价格</th>
+                        <th style="width: 76px; text-align: center;">操作</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td><strong>优选数学-数学伴学体验课【初中段】</strong><div class="hint">平台创建课程；课时、封面、价格、SKU 不在此修改</div></td>
-                        <td><span class="status-pill blue">已关联</span></td>
-                        <td><span class="status-pill">可售</span></td>
-                        <td>¥199 起</td>
-                        <td><input class="pc-input" value="1" aria-label="课程排序"></td>
-                        <td><select class="pc-select"><option>展示</option><option>隐藏</option></select></td>
-                        <td><span class="status-pill">允许上架</span></td>
-                        <td><button class="link-btn danger" type="button">取消关联</button></td>
+                        <td><div class="linked-course-info"><img class="linked-course-cover" src="../work/优坐标教师详情截图资产_v1_20260703/课程封面_数学学伴体验课_v1_20260703.png" alt="优AI数学拓展-体验课"><div><div class="linked-course-name">优AI数学拓展-体验课【1V1专业...</div><div class="linked-course-id">ID: 28538</div></div></div></td>
+                        <td>文化 / 数学</td>
+                        <td><div class="grade-tags"><span class="grade-tag">初一</span><span class="grade-tag">初二</span><span class="grade-tag">初三</span><span class="grade-tag">+3</span></div></td>
+                        <td style="text-align: center;"><span class="course-kind-tag">试听课</span></td>
+                        <td><div class="price-stack"><span class="price-pill">原价：¥39.90</span><span class="price-pill member">会员价：¥0.99</span><span class="price-pill service">平台服务费：¥0.00</span></div></td>
+                        <td><div class="price-stack"><span class="price-pill">原价：¥39.90</span><span class="price-pill member">会员价：¥0.99</span></div></td>
+                        <td style="text-align: center;"><button class="link-btn danger" type="button">删除</button></td>
                       </tr>
                       <tr>
-                        <td><strong>优选英语-英语伴学正式课【初中段】</strong><div class="hint">平台创建课程；添加后教师详情页可展示该课程</div></td>
-                        <td><span class="status-pill gray">未关联</span></td>
-                        <td><span class="status-pill">可售</span></td>
-                        <td>¥599 起</td>
-                        <td><input class="pc-input" placeholder="关联后填写" aria-label="课程排序"></td>
-                        <td><select class="pc-select"><option>隐藏</option><option>展示</option></select></td>
-                        <td><span class="status-pill orange">待关联</span></td>
-                        <td><button class="link-btn" type="button">添加关联</button></td>
+                        <td><div class="linked-course-info"><img class="linked-course-cover" src="../work/优坐标教师详情截图资产_v1_20260703/课程封面_拼读优选体验课_v1_20260703.png" alt="优AI文综科学-体验课"><div><div class="linked-course-name">优AI文综科学-体验课【1V1专业...</div><div class="linked-course-id">ID: 28539</div></div></div></td>
+                        <td>文化 / 语文</td>
+                        <td><div class="grade-tags"><span class="grade-tag">高一</span><span class="grade-tag">初一</span><span class="grade-tag">初二</span><span class="grade-tag">+3</span></div></td>
+                        <td style="text-align: center;"><span class="course-kind-tag">试听课</span></td>
+                        <td><div class="price-stack"><span class="price-pill">原价：¥39.90</span><span class="price-pill member">会员价：¥39.90</span><span class="price-pill service">平台服务费：¥0.00</span></div></td>
+                        <td><div class="price-stack"><span class="price-pill">原价：¥39.90</span><span class="price-pill member">会员价：¥39.90</span></div></td>
+                        <td style="text-align: center;"><button class="link-btn danger" type="button">删除</button></td>
                       </tr>
                       <tr>
-                        <td><strong>优选语文-阅读写作提升课【小学段】</strong><div class="hint">平台创建课程；课程下架后不进入前台售卖</div></td>
-                        <td><span class="status-pill blue">已关联</span></td>
-                        <td><span class="status-pill gray">下架</span></td>
-                        <td>¥299 起</td>
-                        <td><input class="pc-input" value="2" aria-label="课程排序"></td>
-                        <td><select class="pc-select"><option>隐藏</option><option>展示</option></select></td>
-                        <td><span class="status-pill red">不可上架</span></td>
-                        <td><button class="link-btn danger" type="button">取消关联</button></td>
+                        <td><div class="linked-course-info"><img class="linked-course-cover" src="../work/优坐标教师详情截图资产_v1_20260703/课程封面_数学学伴体验课_v1_20260703.png" alt="优AI理综科学-体验课"><div><div class="linked-course-name">优AI理综科学-体验课【1V1专业...</div><div class="linked-course-id">ID: 28535</div></div></div></td>
+                        <td>文化 / 物理</td>
+                        <td><div class="grade-tags"><span class="grade-tag">初一</span><span class="grade-tag">初二</span><span class="grade-tag">初三</span><span class="grade-tag">+3</span></div></td>
+                        <td style="text-align: center;"><span class="course-kind-tag">试听课</span></td>
+                        <td><div class="price-stack"><span class="price-pill">原价：¥39.90</span><span class="price-pill member">会员价：¥39.90</span><span class="price-pill service">平台服务费：¥0.00</span></div></td>
+                        <td><div class="price-stack"><span class="price-pill">原价：¥39.90</span><span class="price-pill member">会员价：¥39.90</span></div></td>
+                        <td style="text-align: center;"><button class="link-btn danger" type="button">删除</button></td>
+                      </tr>
+                      <tr>
+                        <td><div class="linked-course-info"><img class="linked-course-cover" src="../work/优坐标教师详情截图资产_v1_20260703/课程封面_英语学正式课_v1_20260703.png" alt="优AI单词-体验课"><div><div class="linked-course-name">优AI单词-体验课【1V1真人伴学...</div><div class="linked-course-id">ID: 28533</div></div></div></td>
+                        <td>文化 / 英语单词</td>
+                        <td><div class="grade-tags"><span class="grade-tag">一年级</span><span class="grade-tag">四年级</span><span class="grade-tag">初一</span><span class="grade-tag">+9</span></div></td>
+                        <td style="text-align: center;"><span class="course-kind-tag">试听课</span></td>
+                        <td><div class="price-stack"><span class="price-pill">原价：¥0.01</span><span class="price-pill member">会员价：¥0.01</span><span class="price-pill service">平台服务费：¥0.00</span></div></td>
+                        <td><div class="price-stack"><span class="price-pill">原价：¥0.01</span><span class="price-pill member">会员价：¥0.01</span></div></td>
+                        <td style="text-align: center;"><button class="link-btn danger" type="button">删除</button></td>
+                      </tr>
+                      <tr>
+                        <td><div class="linked-course-info"><img class="linked-course-cover" src="../work/优坐标教师详情截图资产_v1_20260703/课程封面_拼读优选体验课_v1_20260703.png" alt="优AI英语拓展-体验课"><div><div class="linked-course-name">优AI英语拓展-体验课【1V1专业...</div><div class="linked-course-id">ID: 28532</div></div></div></td>
+                        <td>文化 / 英语</td>
+                        <td><div class="grade-tags"><span class="grade-tag">初一</span><span class="grade-tag">初二</span><span class="grade-tag">初三</span><span class="grade-tag">+3</span></div></td>
+                        <td style="text-align: center;"><span class="course-kind-tag">试听课</span></td>
+                        <td><div class="price-stack"><span class="price-pill">原价：¥39.90</span><span class="price-pill member">会员价：¥39.90</span><span class="price-pill service">平台服务费：¥0.00</span></div></td>
+                        <td><div class="price-stack"><span class="price-pill">原价：¥39.90</span><span class="price-pill member">会员价：¥39.90</span></div></td>
+                        <td style="text-align: center;"><button class="link-btn danger" type="button">删除</button></td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
-                <div class="hint">关联课程、已关联课程、展示控制和售卖状态统一在一个表格内维护。保存后返回教师列表并刷新关联课程数；未关联至少 1 门可售课程时，教师不能上架，教师详情页不展示购买课程区。</div>
+                <div class="linked-course-pagination"><span>‹</span><span class="active">1</span><span>2</span><span>›</span><span>共 6 条</span></div>
+                <div class="hint">当前弹窗只维护老师与平台课程的关联关系。新增关联课程从课程管理中选择平台已创建课程；删除仅取消当前老师与课程的关联，不删除课程本身。</div>
               </section>
             </div>
           </div>
           <div class="modal-foot">
-            <button class="pc-btn" type="button" data-close-side-modal>取消</button>
-            <button class="pc-btn primary" type="button">保存关联课程</button>
+            <button class="pc-btn" type="button" data-close-side-modal>关闭</button>
           </div>
         </div>
       </div>
@@ -4489,8 +4646,8 @@
 
       <div class="note-page" id="note-admin-teachers">
         <div class="note-card"><h3>页面规则</h3><ul><li>后台入口定为教师列表，不单独新增“教师详情配置”页面。</li><li>新增、编辑、查看教师资料都从列表页打开大弹窗。</li><li>列表用于运营管理老师，支持筛选、查看、编辑、上下架、作废、调整排序。</li><li>下架教师后，前台老师列表和详情页不可见；作废为逻辑删除，作废后老师数据不再对前台展示。</li></ul></div>
-        <div class="note-card"><h3>字段说明</h3><ul><li>列表展示教师头像、教师姓名、一级教师类型、二级类型、主讲科目、教学经验、授课时长、收藏人数、关联课程数、展示状态、审核状态、前台排序值、更新时间。</li><li>手机号、身份证号、企业微信绑定、学历背景、资质证明等属于教师认证资料，只在查看/编辑弹窗中维护，不在列表默认展示。</li><li>一级教师类型和二级类型来自教师类型维护页；二级类型按一级类型联动，后台筛选可查看上架和下架类型。</li><li>授课时长、收藏人数当前按后台配置假数据处理，后续接真实统计时替换数据来源。</li><li>关联课程数只显示数量；课程统一为平台创建，课程价格、封面、课时、SKU 等基础信息不在教师关联弹窗维护。</li><li>全部评价、关联课程不放在教师资料弹窗内，统一从列表操作进入。</li><li>前台排序值用于控制前端多入口的老师展示顺序，覆盖首页老师推荐、全部老师列表页、首页各模块列表，例如专业教师、骨干教师等模块。</li><li>排序规则建议统一为数值越大越靠前；同一展示入口、同一模块内按前台排序值优先展示。</li></ul></div>
-        <div class="note-card"><h3>按钮说明</h3><ul><li>新增教师：打开新增教师资料弹窗，默认进入“基本认证资料”Tab，填写后点击保存直接保存资料。</li><li>查看：打开只读弹窗，用于核对认证资料与页面展示资料配置。</li><li>编辑：打开双 Tab 教师资料弹窗，分别维护认证资料与页面展示资料。</li><li>全部评价：打开独立评价弹窗；评价内容按表格维护，列为头像、姓名、评价星、排序、评价内容、创建时间、操作。</li><li>新增评价：在评价表格底部追加一条空白评价行，运营填写头像、姓名、星级、排序和评价内容后，点击保存全部评价统一保存。</li><li>全部评价头像：真实评价优先使用用户头像；后台补充的假数据可选择随机头像或默认头像。</li><li>全部评价操作列只保留启用、停用、删除；后台可混合真实评价和补充评价，并控制是否展示。</li><li>关联课程：打开独立关联课程弹窗，从平台创建的课程中选择并建立老师与课程的对外售卖关系；关联状态、课程状态、排序、前台展示、上架校验和操作统一在一个表格内维护。</li><li>关联课程弹窗不维护课程来源，也不允许修改课程价格、封面、课时包等课程基础信息。</li><li>上架/下架：改变前台展示状态。</li><li>作废：逻辑删除，作废后老师不再对前台展示，后台可按作废状态留痕。</li><li>调整排序：维护前台排序值，影响首页、教师列表页和首页各老师模块的展示顺序。</li></ul></div>
+        <div class="note-card"><h3>字段说明</h3><ul><li>列表展示教师头像、教师姓名、一级教师类型、二级类型、主讲科目、教学经验、授课时长、收藏人数、关联课程数、展示状态、审核状态、前台排序值、更新时间。</li><li>手机号、身份证号、企业微信绑定、学历背景、资质证明等属于教师认证资料，只在查看/编辑弹窗中维护，不在列表默认展示。</li><li>一级教师类型和二级类型来自教师类型维护页；二级类型按一级类型联动，后台筛选可查看上架和下架类型。</li><li>授课时长、收藏人数当前按后台配置假数据处理，后续接真实统计时替换数据来源。</li><li>关联课程数只显示数量；关联课程弹窗按已关联课程表展示字段：课程信息、分类/学科、年级、课程类型、单价、价格、操作。</li><li>关联课程中的课程基础信息均来自课程管理；课程价格、封面、课时、SKU 等基础信息不在教师关联弹窗维护。</li><li>全部评价、关联课程不放在教师资料弹窗内，统一从列表操作进入。</li><li>前台排序值用于控制前端多入口的老师展示顺序，覆盖首页老师推荐、全部老师列表页、首页各模块列表，例如专业教师、骨干教师等模块。</li><li>排序规则建议统一为数值越大越靠前；同一展示入口、同一模块内按前台排序值优先展示。</li></ul></div>
+        <div class="note-card"><h3>按钮说明</h3><ul><li>新增教师：打开新增教师资料弹窗，默认进入“基本认证资料”Tab，填写后点击保存直接保存资料。</li><li>查看：打开只读弹窗，用于核对认证资料与页面展示资料配置。</li><li>编辑：打开双 Tab 教师资料弹窗，分别维护认证资料与页面展示资料。</li><li>全部评价：打开独立评价弹窗；评价内容按表格维护，列为头像、姓名、评价星、排序、评价内容、创建时间、操作。</li><li>新增评价：在评价表格底部追加一条空白评价行，运营填写头像、姓名、星级、排序和评价内容后，点击保存全部评价统一保存。</li><li>全部评价头像：真实评价优先使用用户头像；后台补充的假数据可选择随机头像或默认头像。</li><li>全部评价操作列只保留启用、停用、删除；后台可混合真实评价和补充评价，并控制是否展示。</li><li>关联课程：打开独立关联课程弹窗，查看当前老师已关联课程，并可新增关联课程或删除已关联课程。</li><li>新增关联课程：从平台课程管理中选择已创建课程并关联到当前老师；本轮原型只保留入口，不展开二级选择弹窗。</li><li>删除：取消当前老师与课程的关联，不删除课程管理中的课程；删除后刷新已关联课程数量。</li><li>课程统一为平台创建；关联课程弹窗不允许修改课程价格、封面、课时包等课程基础信息。</li><li>上架/下架：改变前台展示状态。</li><li>作废：逻辑删除，作废后老师不再对前台展示，后台可按作废状态留痕。</li><li>调整排序：维护前台排序值，影响首页、教师列表页和首页各老师模块的展示顺序。</li></ul></div>
         <div class="note-card"><h3>权限与状态</h3><ul><li>老师账号可编辑自己的入驻资料和自行关联课程。</li><li>运营账号可审核、修改、上下架、调整排序，也可帮助教师关联课程。</li><li>课程价格和课程基础信息只允许在平台课程配置中维护。</li><li>审核状态包含草稿、待审核、已通过、已驳回；展示状态包含上架、下架。</li></ul></div>
       </div>
 
