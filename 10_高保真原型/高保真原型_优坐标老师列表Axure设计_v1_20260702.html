@@ -498,7 +498,7 @@
       border-radius: 14px;
       background: #fff;
       box-shadow: 0 18px 40px rgba(44, 76, 104, .16);
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 8px;
     }
 
@@ -754,7 +754,7 @@
       border-radius: 7px;
       background: #f8fbff;
       color: #737d8d;
-      font-size: 16px;
+      font-size: 15px;
       line-height: 1.62;
       font-weight: 600;
       box-shadow: none;
@@ -1081,7 +1081,7 @@
     .detail-tabs {
       height: 48px;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       background: #fff;
       border-bottom: 1px solid #e8eff7;
       position: sticky;
@@ -1093,7 +1093,7 @@
       border: 0;
       background: #fff;
       color: #6c7480;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 800;
       position: relative;
     }
@@ -1103,8 +1103,8 @@
     .detail-tab.active::after {
       content: "";
       position: absolute;
-      left: 26px;
-      right: 26px;
+      left: 18px;
+      right: 18px;
       bottom: 0;
       height: 3px;
       border-radius: 3px;
@@ -3725,7 +3725,7 @@
                   </div>
                 </div>
 
-                <div class="profile-summary">
+                <div class="profile-summary" id="detail-overview-anchor">
                   <div class="profile-photo-wrap"><img class="profile-photo" src="../work/优坐标教师详情截图资产_v1_20260703/教师头像_张琴琴_v1_20260703.png" alt="张琴琴头像"><span class="profile-role">骨干教员</span></div>
                   <div class="profile-info">
                     <div class="profile-name-row"><div class="profile-name">张琴琴</div><span class="scholar-badge">硕博</span></div>
@@ -3738,7 +3738,7 @@
                 <div class="guarantee-card"><strong>优选保障</strong><span>更多内容关注公众号</span><button class="follow-btn" type="button" data-open-follow-guide>立即关注</button></div>
               </header>
 
-              <nav class="detail-tabs" aria-label="教师详情标签页"><button class="detail-tab active" type="button" data-detail-anchor="intro">教师介绍</button><button class="detail-tab" type="button" data-detail-anchor="reviews">教师评价</button><button class="detail-tab" type="button" data-detail-anchor="courses">购买课程</button></nav>
+              <nav class="detail-tabs" aria-label="教师详情标签页"><button class="detail-tab active" type="button" data-detail-anchor="overview">教师介绍</button><button class="detail-tab" type="button" data-detail-anchor="intro">教师简介</button><button class="detail-tab" type="button" data-detail-anchor="reviews">教师评价</button><button class="detail-tab" type="button" data-detail-anchor="courses">购买课程</button></nav>
 
               <main class="detail-content">
                 <section class="detail-card" id="detail-reviews-anchor">
@@ -4828,9 +4828,9 @@
       </div>
 
       <div class="note-page" id="note-detail">
-        <div class="note-card"><h3>页面规则</h3><ul><li>本页由老师卡片或“更多”进入，当前默认展示教师介绍页签。</li><li>页签包含教师介绍、教师评价、购买课程；点击后按页面锚点滚动到对应模块。</li><li>教师介绍锚点对应教师简介模块，教师评价锚点对应教师评价模块，购买课程锚点对应购买课程模块。</li><li>底部固定操作栏包含客服、分享、收藏、立即购买。</li><li>购买课程区域展示当前老师已关联且可售的课程；课程来自后台教师列表操作中的“关联课程”。</li><li>底部立即购买先打开选择购买课程上滑弹窗，用户必须选择某一门关联课程后才进入确认订单页。</li><li>选择购买课程弹窗、关注服务号弹窗属于教师详情页内部上滑弹窗，左侧导航以教师详情页子节点展示，便于评审直接查看。</li></ul></div>
+        <div class="note-card"><h3>页面规则</h3><ul><li>本页由老师卡片或“更多”进入，当前默认展示教师介绍页签。</li><li>页签包含教师介绍、教师简介、教师评价、购买课程；点击后按页面锚点滚动到对应模块。</li><li>教师介绍锚点对应老师头部概览；教师简介锚点对应教师简介模块；教师评价锚点对应教师评价模块；购买课程锚点对应购买课程模块。</li><li>底部固定操作栏包含客服、分享、收藏、立即购买。</li><li>购买课程区域展示当前老师已关联且可售的课程；课程来自后台教师列表操作中的“关联课程”。</li><li>底部立即购买先打开选择购买课程上滑弹窗，用户必须选择某一门关联课程后才进入确认订单页。</li><li>选择购买课程弹窗、关注服务号弹窗属于教师详情页内部上滑弹窗，左侧导航以教师详情页子节点展示，便于评审直接查看。</li></ul></div>
         <div class="note-card"><h3>字段说明</h3><ul><li>教师头部展示头像、姓名、一级教员类型、二级类型标识、教学经验、授课时长、收藏人数和标签。</li><li>二级类型标识有填写则展示；未填写则不展示、不占位。</li><li>教师评价展示评价人数、用户昵称脱敏、星级、评分和评价内容。</li><li>教师简介展示个人简介、主讲科目、教学经验案例、授课特色。</li><li>课程卡片展示课程类型、封面、名称、科目、年级、课时数、课时、评分、价格、销量和立即抢购按钮。</li><li>科目展示具体课程科目；如课程覆盖多个科目，则展示多个科目标签。</li><li>年级按课程覆盖范围展示：覆盖初中一、二、三年级时展示“初中”；仅覆盖初中一年级、二年级时展示“初中一年级、二年级”。</li><li>课时数表示本次课程包含多少课时；课时表示单节课时长，例如 40分钟/节。</li><li>选择购买课程弹窗中的课程卡片展示课程类型、封面、课程名称、科目、年级、课时数、课时、可售状态、销量、价格和选择按钮；不展示“已关联”等后台关系字段。</li></ul></div>
-        <div class="note-card"><h3>按钮说明</h3><ul><li>返回：回到全部老师列表页。</li><li>底部收藏：收藏/取消收藏结果待确认。</li><li>立即关注：打开关注引导弹层，明确引导用户关注“优坐标服务号”。</li><li>去关注服务号：跳转服务号关注引导页；当前原型保留为明确业务结果，不展开实际跳转页。</li><li>教师介绍/教师评价/购买课程：作为页面锚点使用，点击滚动到对应模块，并更新当前激活态。</li><li>立即抢购：用户已在具体课程卡操作，直接带入当前点击课程进入确认订单页。</li><li>立即购买：打开选择购买课程上滑弹窗；弹窗中点击“选择”后，带入所选课程进入确认订单页；取消则关闭弹窗并停留详情页。</li></ul></div>
+        <div class="note-card"><h3>按钮说明</h3><ul><li>返回：回到全部老师列表页。</li><li>底部收藏：收藏/取消收藏结果待确认。</li><li>立即关注：打开关注引导弹层，明确引导用户关注“优坐标服务号”。</li><li>去关注服务号：跳转服务号关注引导页；当前原型保留为明确业务结果，不展开实际跳转页。</li><li>教师介绍/教师简介/教师评价/购买课程：作为页面锚点使用，点击滚动到对应模块，并更新当前激活态。</li><li>立即抢购：用户已在具体课程卡操作，直接带入当前点击课程进入确认订单页。</li><li>立即购买：打开选择购买课程上滑弹窗；弹窗中点击“选择”后，带入所选课程进入确认订单页；取消则关闭弹窗并停留详情页。</li></ul></div>
         <div class="note-card"><h3>状态与回流</h3><ul><li>评价为空：教师评价模块标题展示“教师评价(0)”，列表区域展示“暂无评价”。</li><li>课程为空：后台不允许教师上架，前台教师详情页不展示课程空态。</li><li>无已关联且可售课程：底部立即购买置灰或点击提示不可购买，不允许进入确认订单页。</li><li>课程售罄、无购买权限：当前业务不存在这两个前台状态，不在原型中展示。</li><li>购买失败：保留在支付链路或订单链路后续补充，不放在教师详情默认态。</li><li>购买主链路已明确为“选择购买课程 -> 确认订单页 -> 支付 -> 订单支付成功确认页”，本轮原型不展开退款、排课和支付渠道细节。</li><li>评价接口、课程接口、收藏状态和关注状态需 09 数据交互阶段补齐。</li><li>当前截图中部分字段来源未给出，已作为展示样例处理。</li></ul></div>
       </div>
 
@@ -4958,6 +4958,7 @@
     const teacherPrimaryType = document.getElementById('teacherPrimaryType');
     const teacherSecondType = document.getElementById('teacherSecondType');
     const detailAnchorMap = {
+      overview: document.getElementById('detail-overview-anchor'),
       intro: document.getElementById('detail-intro-anchor'),
       reviews: document.getElementById('detail-reviews-anchor'),
       courses: document.getElementById('detail-courses-anchor')
