@@ -498,7 +498,7 @@
       border-radius: 14px;
       background: #fff;
       box-shadow: 0 18px 40px rgba(44, 76, 104, .16);
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 8px;
     }
 
@@ -754,7 +754,7 @@
       border-radius: 7px;
       background: #f8fbff;
       color: #737d8d;
-      font-size: 16px;
+      font-size: 15px;
       line-height: 1.62;
       font-weight: 600;
       box-shadow: none;
@@ -1081,7 +1081,7 @@
     .detail-tabs {
       height: 48px;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       background: #fff;
       border-bottom: 1px solid #e8eff7;
       position: sticky;
@@ -1093,7 +1093,7 @@
       border: 0;
       background: #fff;
       color: #6c7480;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 800;
       position: relative;
     }
@@ -1103,8 +1103,8 @@
     .detail-tab.active::after {
       content: "";
       position: absolute;
-      left: 26px;
-      right: 26px;
+      left: 18px;
+      right: 18px;
       bottom: 0;
       height: 3px;
       border-radius: 3px;
@@ -3527,7 +3527,7 @@
             <div class="entry-item"><strong>页面 2：教师详情页</strong><span>由卡片和“更多”进入，展示教师资料、评价、简介、课程和购买操作。</span></div>
             <div class="entry-item"><strong>页面 3：确认订单页</strong><span>承接课程 SKU 与会员卡加购，联动计算课程会员价、会员卡金额和实付总价。</span></div>
             <div class="entry-item"><strong>页面 4：订单支付成功确认页</strong><span>支付成功后直达，展示订单编号、课程、老师、学员、会员方案、金额和后续约课说明。</span></div>
-            <div class="entry-item"><strong>页面 5：后台教师列表</strong><span>运营在 PC 后台筛选、查看、编辑、上下架、作废，并按首页、全部教师列表页、首页活动入口分别维护前端展示排序配置。</span></div>
+            <div class="entry-item"><strong>页面 5：后台教师列表</strong><span>运营在 PC 后台筛选、查看、编辑、上下架、作废，并维护老师在各活动页面中的展示和排序配置。</span></div>
             <div class="entry-item"><strong>页面 6：教师类型维护页</strong><span>独立维护一级/二级教师类型，支持上下架、排序和被使用禁删规则。</span></div>
             <div class="entry-item"><strong>页面 7：教师标签维护页</strong><span>独立维护教师展示标签，状态仅包含已启用、禁用，支持新增、编辑、启禁、删除权限和教师输入自动入库规则。</span></div>
             <div class="entry-item"><strong>页面 8：新增/编辑教师弹窗</strong><span>从教师列表打开大弹窗，按当前已确认分组配置前台教师详情展示内容。</span></div>
@@ -3725,7 +3725,7 @@
                   </div>
                 </div>
 
-                <div class="profile-summary">
+                <div class="profile-summary" id="detail-overview-anchor">
                   <div class="profile-photo-wrap"><img class="profile-photo" src="../work/优坐标教师详情截图资产_v1_20260703/教师头像_张琴琴_v1_20260703.png" alt="张琴琴头像"><span class="profile-role">骨干教员</span></div>
                   <div class="profile-info">
                     <div class="profile-name-row"><div class="profile-name">张琴琴</div><span class="scholar-badge">硕博</span></div>
@@ -3738,7 +3738,7 @@
                 <div class="guarantee-card"><strong>优选保障</strong><span>更多内容关注公众号</span><button class="follow-btn" type="button" data-open-follow-guide>立即关注</button></div>
               </header>
 
-              <nav class="detail-tabs" aria-label="教师详情标签页"><button class="detail-tab active" type="button" data-detail-anchor="intro">教师介绍</button><button class="detail-tab" type="button" data-detail-anchor="reviews">教师评价</button><button class="detail-tab" type="button" data-detail-anchor="courses">购买课程</button></nav>
+              <nav class="detail-tabs" aria-label="教师详情标签页"><button class="detail-tab active" type="button" data-detail-anchor="overview">教师介绍</button><button class="detail-tab" type="button" data-detail-anchor="intro">教师简介</button><button class="detail-tab" type="button" data-detail-anchor="reviews">教师评价</button><button class="detail-tab" type="button" data-detail-anchor="courses">购买课程</button></nav>
 
               <main class="detail-content">
                 <section class="detail-card" id="detail-reviews-anchor">
@@ -4072,7 +4072,7 @@
             <div class="pc-field"><label>审核状态</label><select class="pc-select"><option>全部</option><option>草稿</option><option>待审核</option><option>已通过</option><option>已驳回</option></select></div>
             <div class="pc-actions"><button class="pc-btn primary" type="button">查询</button><button class="pc-btn" type="button">重置</button></div>
           </div>
-          <div class="pc-rule-tip"><strong>前端展示排序：</strong>老师展示顺序按场景分别配置，包含首页是否展示及首页排序、全部教师列表页排序、首页活动入口下各老师模块排序。排序值统一为数值越大越靠前；下架或作废老师不参与前端展示。</div>
+          <div class="pc-rule-tip"><strong>活动页面展示排序：</strong>老师仅按各活动页面分别配置是否展示和排序值，例如高级教师、骨干教师、英语伴读。排序值统一为数值越大越靠前；下架或作废老师不参与活动页面展示。</div>
           <table class="teacher-table" aria-label="教师列表">
             <thead>
               <tr>
@@ -4082,22 +4082,22 @@
             <tbody>
               <tr>
                 <td><div class="teacher-cell"><span class="pc-avatar"><img src="../work/优坐标教师详情截图资产_v1_20260703/教师头像_张琴琴_v1_20260703.png" alt="张琴琴头像"></span><div><strong>张琴琴</strong><span class="pc-name-tag">硕博</span><div class="hint">女 / 高中数学</div></div></div></td>
-                <td>骨干教员</td><td>高中数学、初中数学</td><td>6年</td><td>602</td><td>87</td><td>3</td><td><span class="status-pill">上架</span></td><td><span class="status-pill blue">已通过</span></td><td>首页展示 / 全部列表980 / 活动入口3个</td><td>2026-07-05</td>
+                <td>骨干教员</td><td>高中数学、初中数学</td><td>6年</td><td>602</td><td>87</td><td>3</td><td><span class="status-pill">上架</span></td><td><span class="status-pill blue">已通过</span></td><td>活动页面3个</td><td>2026-07-05</td>
                 <td><div class="row-actions"><button class="link-btn" type="button" data-open-teacher-modal="view">查看</button><button class="link-btn" type="button" data-open-teacher-modal="edit">编辑</button><button class="link-btn" type="button">下架</button><button class="link-btn danger" type="button">作废</button><button class="link-btn" type="button" data-open-review-modal>全部评价</button><button class="link-btn" type="button" data-open-course-modal>关联课程</button><button class="link-btn" type="button" data-open-sort-modal>排序</button></div></td>
               </tr>
               <tr>
                 <td><div class="teacher-cell"><span class="pc-avatar"><img src="../work/优坐标老师列表截图资产_v1_20260702/老师头像_袁教员_v1_20260702.jpg" alt="袁教员头像"></span><div><strong>袁教员</strong><span class="pc-name-tag">硕博</span><div class="hint">男 / 数学竞赛</div></div></div></td>
-                <td>骨干教员</td><td>高中数学、竞赛</td><td>8年</td><td>1012</td><td>100</td><td>2</td><td><span class="status-pill">上架</span></td><td><span class="status-pill blue">已通过</span></td><td>首页展示 / 全部列表960 / 活动入口2个</td><td>2026-07-04</td>
+                <td>骨干教员</td><td>高中数学、竞赛</td><td>8年</td><td>1012</td><td>100</td><td>2</td><td><span class="status-pill">上架</span></td><td><span class="status-pill blue">已通过</span></td><td>活动页面2个</td><td>2026-07-04</td>
                 <td><div class="row-actions"><button class="link-btn" type="button" data-open-teacher-modal="view">查看</button><button class="link-btn" type="button" data-open-teacher-modal="edit">编辑</button><button class="link-btn" type="button">下架</button><button class="link-btn danger" type="button">作废</button><button class="link-btn" type="button" data-open-review-modal>全部评价</button><button class="link-btn" type="button" data-open-course-modal>关联课程</button><button class="link-btn" type="button" data-open-sort-modal>排序</button></div></td>
               </tr>
               <tr>
                 <td><div class="teacher-cell"><span class="pc-avatar"><img src="../work/优坐标老师列表截图资产_v1_20260702/老师头像_李教员_v1_20260702.jpg" alt="李教员头像"></span><div><strong>李教员</strong><div class="hint">女 / 初中英语</div></div></div></td>
-                <td>专业教员</td><td>初中英语、高中英语</td><td>6年</td><td>602</td><td>87</td><td>1</td><td><span class="status-pill gray">下架</span></td><td><span class="status-pill orange">待审核</span></td><td>下架不展示 / 保留配置</td><td>2026-07-03</td>
+                <td>专业教员</td><td>初中英语、高中英语</td><td>6年</td><td>602</td><td>87</td><td>1</td><td><span class="status-pill gray">下架</span></td><td><span class="status-pill orange">待审核</span></td><td>下架不展示 / 活动页面配置保留</td><td>2026-07-03</td>
                 <td><div class="row-actions"><button class="link-btn" type="button" data-open-teacher-modal="view">查看</button><button class="link-btn" type="button" data-open-teacher-modal="edit">编辑</button><button class="link-btn" type="button">上架</button><button class="link-btn danger" type="button">作废</button><button class="link-btn" type="button" data-open-review-modal>全部评价</button><button class="link-btn" type="button" data-open-course-modal>关联课程</button><button class="link-btn" type="button" data-open-sort-modal>排序</button></div></td>
               </tr>
               <tr>
                 <td><div class="teacher-cell"><span class="pc-avatar">王</span><div><strong>王教员</strong><div class="hint">男 / 初中物理</div></div></div></td>
-                <td>骨干教员</td><td>初中物理、高中物理</td><td>10年</td><td>880</td><td>76</td><td>0</td><td><span class="status-pill gray">下架</span></td><td><span class="status-pill red">已驳回</span></td><td>下架不展示 / 未配置活动入口</td><td>2026-07-02</td>
+                <td>骨干教员</td><td>初中物理、高中物理</td><td>10年</td><td>880</td><td>76</td><td>0</td><td><span class="status-pill gray">下架</span></td><td><span class="status-pill red">已驳回</span></td><td>下架不展示 / 未配置活动页面</td><td>2026-07-02</td>
                 <td><div class="row-actions"><button class="link-btn" type="button" data-open-teacher-modal="view">查看</button><button class="link-btn" type="button" data-open-teacher-modal="edit">编辑</button><button class="link-btn" type="button">上架</button><button class="link-btn danger" type="button">作废</button><button class="link-btn" type="button" data-open-review-modal>全部评价</button><button class="link-btn" type="button" data-open-course-modal>关联课程</button><button class="link-btn" type="button" data-open-sort-modal>排序</button></div></td>
               </tr>
             </tbody>
@@ -4600,27 +4600,12 @@
                 </div>
               </section>
               <section class="form-section">
-                <h3>1. 首页展示</h3>
-                <div class="form-grid">
-                  <div class="pc-field"><label>是否在首页展示</label><select class="pc-select"><option>展示</option><option>不展示</option></select></div>
-                  <div class="pc-field"><label>首页排序值</label><input class="pc-input" value="980" aria-label="首页排序值"></div>
-                </div>
-                <div class="hint">用于控制首页老师展示区是否出现该老师，以及该老师在首页老师列表中的排序。数值越大越靠前。</div>
-              </section>
-              <section class="form-section">
-                <h3>2. 全部教师列表页</h3>
-                <div class="form-grid">
-                  <div class="pc-field"><label>全部教师列表排序值</label><input class="pc-input" value="980" aria-label="全部教师列表排序值"></div>
-                </div>
-                <div class="hint">全部教师列表页默认按此排序值展示；下架或作废老师不参与前端展示。</div>
-              </section>
-              <section class="form-section">
-                <h3>3. 首页活动入口</h3>
+                <h3>活动页面展示排序</h3>
                 <div class="config-table-wrap">
-                  <table class="config-table compact" aria-label="首页活动入口排序配置">
+                  <table class="config-table compact" aria-label="活动页面展示排序配置">
                     <thead>
                       <tr>
-                        <th style="width: 150px;">入口名称</th>
+                        <th style="width: 150px;">活动页面</th>
                         <th style="width: 110px;">是否展示</th>
                         <th style="width: 120px;">排序值</th>
                         <th>展示条件说明</th>
@@ -4631,24 +4616,24 @@
                         <td>高级教师</td>
                         <td><select class="pc-select" aria-label="高级教师是否展示"><option>展示</option><option>不展示</option></select></td>
                         <td><input class="pc-input" value="990" aria-label="高级教师排序值"></td>
-                        <td>用于首页活动入口“高级教师”老师列表排序。</td>
+                        <td>用于活动页面“高级教师”老师列表排序。</td>
                       </tr>
                       <tr>
                         <td>骨干教师</td>
                         <td><select class="pc-select" aria-label="骨干教师是否展示"><option>展示</option><option>不展示</option></select></td>
                         <td><input class="pc-input" value="980" aria-label="骨干教师排序值"></td>
-                        <td>仅配置为骨干教员且展示状态上架时进入该入口。</td>
+                        <td>仅配置为骨干教员且展示状态上架时进入该活动页面。</td>
                       </tr>
                       <tr>
                         <td>英语伴读</td>
                         <td><select class="pc-select" aria-label="英语伴读是否展示"><option>展示</option><option>不展示</option></select></td>
                         <td><input class="pc-input" value="920" aria-label="英语伴读排序值"></td>
-                        <td>用于首页活动入口“英语伴读”老师列表排序，入口来源后续接首页活动入口配置。</td>
+                        <td>用于活动页面“英语伴读”老师列表排序，页面来源后续接活动页面配置。</td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
-                <div class="hint">每个首页活动入口可单独控制是否展示和排序；未配置某个入口时，该老师不在该入口展示。</div>
+                <div class="hint">每个活动页面可单独控制是否展示和排序；未配置某个活动页面时，该老师不在该页面展示。</div>
               </section>
             </div>
           </div>
@@ -4843,9 +4828,9 @@
       </div>
 
       <div class="note-page" id="note-detail">
-        <div class="note-card"><h3>页面规则</h3><ul><li>本页由老师卡片或“更多”进入，当前默认展示教师介绍页签。</li><li>页签包含教师介绍、教师评价、购买课程；点击后按页面锚点滚动到对应模块。</li><li>教师介绍锚点对应教师简介模块，教师评价锚点对应教师评价模块，购买课程锚点对应购买课程模块。</li><li>底部固定操作栏包含客服、分享、收藏、立即购买。</li><li>购买课程区域展示当前老师已关联且可售的课程；课程来自后台教师列表操作中的“关联课程”。</li><li>底部立即购买先打开选择购买课程上滑弹窗，用户必须选择某一门关联课程后才进入确认订单页。</li><li>选择购买课程弹窗、关注服务号弹窗属于教师详情页内部上滑弹窗，左侧导航以教师详情页子节点展示，便于评审直接查看。</li></ul></div>
+        <div class="note-card"><h3>页面规则</h3><ul><li>本页由老师卡片或“更多”进入，当前默认展示教师介绍页签。</li><li>页签包含教师介绍、教师简介、教师评价、购买课程；点击后按页面锚点滚动到对应模块。</li><li>教师介绍锚点对应老师头部概览；教师简介锚点对应教师简介模块；教师评价锚点对应教师评价模块；购买课程锚点对应购买课程模块。</li><li>底部固定操作栏包含客服、分享、收藏、立即购买。</li><li>购买课程区域展示当前老师已关联且可售的课程；课程来自后台教师列表操作中的“关联课程”。</li><li>底部立即购买先打开选择购买课程上滑弹窗，用户必须选择某一门关联课程后才进入确认订单页。</li><li>选择购买课程弹窗、关注服务号弹窗属于教师详情页内部上滑弹窗，左侧导航以教师详情页子节点展示，便于评审直接查看。</li></ul></div>
         <div class="note-card"><h3>字段说明</h3><ul><li>教师头部展示头像、姓名、一级教员类型、二级类型标识、教学经验、授课时长、收藏人数和标签。</li><li>二级类型标识有填写则展示；未填写则不展示、不占位。</li><li>教师评价展示评价人数、用户昵称脱敏、星级、评分和评价内容。</li><li>教师简介展示个人简介、主讲科目、教学经验案例、授课特色。</li><li>课程卡片展示课程类型、封面、名称、科目、年级、课时数、课时、评分、价格、销量和立即抢购按钮。</li><li>科目展示具体课程科目；如课程覆盖多个科目，则展示多个科目标签。</li><li>年级按课程覆盖范围展示：覆盖初中一、二、三年级时展示“初中”；仅覆盖初中一年级、二年级时展示“初中一年级、二年级”。</li><li>课时数表示本次课程包含多少课时；课时表示单节课时长，例如 40分钟/节。</li><li>选择购买课程弹窗中的课程卡片展示课程类型、封面、课程名称、科目、年级、课时数、课时、可售状态、销量、价格和选择按钮；不展示“已关联”等后台关系字段。</li></ul></div>
-        <div class="note-card"><h3>按钮说明</h3><ul><li>返回：回到全部老师列表页。</li><li>底部收藏：收藏/取消收藏结果待确认。</li><li>立即关注：打开关注引导弹层，明确引导用户关注“优坐标服务号”。</li><li>去关注服务号：跳转服务号关注引导页；当前原型保留为明确业务结果，不展开实际跳转页。</li><li>教师介绍/教师评价/购买课程：作为页面锚点使用，点击滚动到对应模块，并更新当前激活态。</li><li>立即抢购：用户已在具体课程卡操作，直接带入当前点击课程进入确认订单页。</li><li>立即购买：打开选择购买课程上滑弹窗；弹窗中点击“选择”后，带入所选课程进入确认订单页；取消则关闭弹窗并停留详情页。</li></ul></div>
+        <div class="note-card"><h3>按钮说明</h3><ul><li>返回：回到全部老师列表页。</li><li>底部收藏：收藏/取消收藏结果待确认。</li><li>立即关注：打开关注引导弹层，明确引导用户关注“优坐标服务号”。</li><li>去关注服务号：跳转服务号关注引导页；当前原型保留为明确业务结果，不展开实际跳转页。</li><li>教师介绍/教师简介/教师评价/购买课程：作为页面锚点使用，点击滚动到对应模块，并更新当前激活态。</li><li>立即抢购：用户已在具体课程卡操作，直接带入当前点击课程进入确认订单页。</li><li>立即购买：打开选择购买课程上滑弹窗；弹窗中点击“选择”后，带入所选课程进入确认订单页；取消则关闭弹窗并停留详情页。</li></ul></div>
         <div class="note-card"><h3>状态与回流</h3><ul><li>评价为空：教师评价模块标题展示“教师评价(0)”，列表区域展示“暂无评价”。</li><li>课程为空：后台不允许教师上架，前台教师详情页不展示课程空态。</li><li>无已关联且可售课程：底部立即购买置灰或点击提示不可购买，不允许进入确认订单页。</li><li>课程售罄、无购买权限：当前业务不存在这两个前台状态，不在原型中展示。</li><li>购买失败：保留在支付链路或订单链路后续补充，不放在教师详情默认态。</li><li>购买主链路已明确为“选择购买课程 -> 确认订单页 -> 支付 -> 订单支付成功确认页”，本轮原型不展开退款、排课和支付渠道细节。</li><li>评价接口、课程接口、收藏状态和关注状态需 09 数据交互阶段补齐。</li><li>当前截图中部分字段来源未给出，已作为展示样例处理。</li></ul></div>
       </div>
 
@@ -4877,8 +4862,8 @@
 
       <div class="note-page" id="note-admin-teachers">
         <div class="note-card"><h3>页面规则</h3><ul><li>后台入口定为教师列表，不单独新增“教师详情配置”页面。</li><li>新增、编辑、查看教师资料都从列表页打开大弹窗。</li><li>列表用于运营管理老师，支持筛选、查看、编辑、上下架、作废、维护前端展示排序配置。</li><li>下架教师后，前台老师列表和详情页不可见；作废为逻辑删除，作废后老师数据不再对前台展示。</li></ul></div>
-        <div class="note-card"><h3>字段说明</h3><ul><li>列表展示教师头像、教师姓名、一级教师类型、二级类型、主讲科目、教学经验、授课时长、收藏人数、关联课程数、展示状态、审核状态、前端展示配置、更新时间。</li><li>前端展示配置为摘要字段，展示首页是否展示、全部教师列表页排序值、已配置的首页活动入口数量。</li><li>手机号、身份证号、企业微信绑定、学历背景、资质证明等属于教师认证资料，只在查看/编辑弹窗中维护，不在列表默认展示。</li><li>一级教师类型和二级类型来自教师类型维护页；二级类型按一级类型联动，后台筛选可查看上架和下架类型。</li><li>授课时长、收藏人数当前按后台配置假数据处理，后续接真实统计时替换数据来源。</li><li>关联课程弹窗按已关联课程表展示字段：课程信息、分类/学科、年级、课程类型、单价、价格、操作。</li><li>新增关联课程弹窗复用同一字段结构，并增加筛选字段：课程名称/ID、分类/学科、年级、课程类型。</li><li>关联课程中的课程基础信息均来自课程管理；课程价格、封面、课时、SKU 等基础信息不在教师关联弹窗维护。</li><li>全部评价、关联课程、前端展示排序不放在教师资料弹窗内，统一从列表操作进入。</li><li>前端排序按展示场景分别维护：首页展示、全部教师列表页、首页活动入口。</li><li>排序规则统一为数值越大越靠前；同一展示入口内按该入口自己的排序值展示。</li></ul></div>
-        <div class="note-card"><h3>按钮说明</h3><ul><li>新增教师：打开新增教师资料弹窗，默认进入“基本认证资料”Tab，填写后点击保存直接保存资料。</li><li>查看：打开只读弹窗，用于核对认证资料与页面展示资料配置。</li><li>编辑：打开双 Tab 教师资料弹窗，分别维护认证资料与页面展示资料。</li><li>全部评价：打开独立评价弹窗；评价内容按表格维护，列为头像、姓名、评价星、排序、评价内容、创建时间、操作。</li><li>新增评价：在评价表格底部追加一条空白评价行，运营填写头像、姓名、星级、排序和评价内容后，点击保存全部评价统一保存。</li><li>全部评价头像：真实评价优先使用用户头像；后台补充的假数据可选择随机头像或默认头像。</li><li>全部评价操作列只保留启用、停用、删除；后台可混合真实评价和补充评价，并控制是否展示。</li><li>关联课程：打开独立关联课程弹窗，查看当前老师已关联课程，并可新增关联课程或删除已关联课程。</li><li>新增关联课程：打开二级弹窗，从平台课程管理中选择已创建课程并关联到当前老师。</li><li>新增弹窗中的关联：选择一门可关联课程；已关联课程显示“已关联”且不可重复关联。</li><li>确认关联：关闭新增关联课程弹窗，回到关联课程弹窗，并刷新已关联课程列表和课程数量。</li><li>删除：取消当前老师与课程的关联，不删除课程管理中的课程；删除后刷新已关联课程数量。</li><li>课程统一为平台创建；关联课程弹窗不允许修改课程价格、封面、课时包等课程基础信息。</li><li>排序：打开前端展示排序弹窗，分别维护首页展示、全部教师列表页排序和首页活动入口排序。</li><li>前端展示排序保存：关闭弹窗，刷新教师列表中的前端展示配置摘要。</li><li>上架/下架：改变前台展示状态。</li><li>作废：逻辑删除，作废后老师不再对前台展示，后台可按作废状态留痕。</li></ul></div>
+        <div class="note-card"><h3>字段说明</h3><ul><li>列表展示教师头像、教师姓名、一级教师类型、二级类型、主讲科目、教学经验、授课时长、收藏人数、关联课程数、展示状态、审核状态、前端展示配置、更新时间。</li><li>前端展示配置为摘要字段，仅展示已配置的活动页面数量。</li><li>手机号、身份证号、企业微信绑定、学历背景、资质证明等属于教师认证资料，只在查看/编辑弹窗中维护，不在列表默认展示。</li><li>一级教师类型和二级类型来自教师类型维护页；二级类型按一级类型联动，后台筛选可查看上架和下架类型。</li><li>授课时长、收藏人数当前按后台配置假数据处理，后续接真实统计时替换数据来源。</li><li>关联课程弹窗按已关联课程表展示字段：课程信息、分类/学科、年级、课程类型、单价、价格、操作。</li><li>新增关联课程弹窗复用同一字段结构，并增加筛选字段：课程名称/ID、分类/学科、年级、课程类型。</li><li>关联课程中的课程基础信息均来自课程管理；课程价格、封面、课时、SKU 等基础信息不在教师关联弹窗维护。</li><li>全部评价、关联课程、前端展示排序不放在教师资料弹窗内，统一从列表操作进入。</li><li>前端展示排序仅按活动页面分别维护，不配置首页或全部教师列表页排序。</li><li>排序规则统一为数值越大越靠前；同一活动页面内按该页面自己的排序值展示。</li></ul></div>
+        <div class="note-card"><h3>按钮说明</h3><ul><li>新增教师：打开新增教师资料弹窗，默认进入“基本认证资料”Tab，填写后点击保存直接保存资料。</li><li>查看：打开只读弹窗，用于核对认证资料与页面展示资料配置。</li><li>编辑：打开双 Tab 教师资料弹窗，分别维护认证资料与页面展示资料。</li><li>全部评价：打开独立评价弹窗；评价内容按表格维护，列为头像、姓名、评价星、排序、评价内容、创建时间、操作。</li><li>新增评价：在评价表格底部追加一条空白评价行，运营填写头像、姓名、星级、排序和评价内容后，点击保存全部评价统一保存。</li><li>全部评价头像：真实评价优先使用用户头像；后台补充的假数据可选择随机头像或默认头像。</li><li>全部评价操作列只保留启用、停用、删除；后台可混合真实评价和补充评价，并控制是否展示。</li><li>关联课程：打开独立关联课程弹窗，查看当前老师已关联课程，并可新增关联课程或删除已关联课程。</li><li>新增关联课程：打开二级弹窗，从平台课程管理中选择已创建课程并关联到当前老师。</li><li>新增弹窗中的关联：选择一门可关联课程；已关联课程显示“已关联”且不可重复关联。</li><li>确认关联：关闭新增关联课程弹窗，回到关联课程弹窗，并刷新已关联课程列表和课程数量。</li><li>删除：取消当前老师与课程的关联，不删除课程管理中的课程；删除后刷新已关联课程数量。</li><li>课程统一为平台创建；关联课程弹窗不允许修改课程价格、封面、课时包等课程基础信息。</li><li>排序：打开前端展示排序弹窗，仅维护各活动页面中的展示和排序。</li><li>前端展示排序保存：关闭弹窗，刷新教师列表中的前端展示配置摘要。</li><li>上架/下架：改变前台展示状态。</li><li>作废：逻辑删除，作废后老师不再对前台展示，后台可按作废状态留痕。</li></ul></div>
         <div class="note-card"><h3>权限与状态</h3><ul><li>老师账号可编辑自己的入驻资料和自行关联课程。</li><li>运营账号可审核、修改、上下架、维护前端展示排序配置，也可帮助教师关联课程。</li><li>课程价格和课程基础信息只允许在平台课程配置中维护。</li><li>审核状态包含草稿、待审核、已通过、已驳回；展示状态包含上架、下架。</li></ul></div>
       </div>
 
@@ -4889,11 +4874,11 @@
       </div>
 
       <div class="note-page" id="note-admin-sort-modal">
-        <div class="note-card"><h3>页面规则</h3><ul><li>前端展示排序弹窗归属教师列表，用于配置当前老师在不同前端入口的展示与排序。</li><li>排序配置不放入新增/编辑教师资料弹窗，统一从教师列表行内“排序”进入。</li><li>保存后刷新教师列表中的“前端展示配置”摘要。</li></ul></div>
-        <div class="note-card"><h3>字段说明</h3><ul><li>教师摘要：展示头像、姓名、一级/二级类型和当前展示状态，用于确认正在配置的老师。</li><li>首页展示：包含是否在首页展示、首页排序值。</li><li>全部教师列表页：包含全部教师列表排序值。</li><li>首页活动入口：包含入口名称、是否展示、排序值、展示条件说明，示例入口为高级教师、骨干教师、英语伴读。</li></ul></div>
+        <div class="note-card"><h3>页面规则</h3><ul><li>前端展示排序弹窗归属教师列表，仅用于配置当前老师在各活动页面中的展示与排序。</li><li>不在本弹窗配置首页展示、首页排序或全部教师列表页排序。</li><li>排序配置不放入新增/编辑教师资料弹窗，统一从教师列表行内“排序”进入。</li><li>保存后刷新教师列表中的“前端展示配置”摘要。</li></ul></div>
+        <div class="note-card"><h3>字段说明</h3><ul><li>教师摘要：展示头像、姓名、一级/二级类型和当前展示状态，用于确认正在配置的老师。</li><li>活动页面表格包含页面名称、是否展示、排序值、展示条件说明，示例页面为高级教师、骨干教师、英语伴读。</li></ul></div>
         <div class="note-card"><h3>按钮说明</h3><ul><li>取消/关闭：关闭弹窗，不保存本次修改，回到教师列表说明。</li><li>保存：保存当前老师的前端展示排序配置，关闭弹窗，并刷新教师列表中的前端展示配置摘要。</li></ul></div>
-        <div class="note-card"><h3>排序规则</h3><ul><li>排序值统一为数值越大越靠前。</li><li>首页、全部教师列表页、首页活动入口分别维护排序，不共用一个全局排序值。</li><li>首页活动入口按入口逐行配置是否展示和排序值；未配置某个入口时，该老师不在该入口展示。</li></ul></div>
-        <div class="note-card"><h3>状态规则</h3><ul><li>下架或作废老师不参与前端展示排序。</li><li>重新上架后可继续使用已保存的展示排序配置。</li><li>活动入口来源后续可接首页活动入口配置，本弹窗只维护老师在入口中的展示与排序。</li></ul></div>
+        <div class="note-card"><h3>排序规则</h3><ul><li>排序值统一为数值越大越靠前。</li><li>活动页面按页面逐行配置是否展示和排序值；未配置某个活动页面时，该老师不在该页面展示。</li></ul></div>
+        <div class="note-card"><h3>状态规则</h3><ul><li>下架或作废老师不参与活动页面展示排序。</li><li>重新上架后可继续使用已保存的活动页面配置。</li><li>活动页面来源后续可接活动页面配置，本弹窗只维护老师在页面中的展示与排序。</li></ul></div>
       </div>
 
       <div class="note-page" id="note-admin-course-modal">
@@ -4973,6 +4958,7 @@
     const teacherPrimaryType = document.getElementById('teacherPrimaryType');
     const teacherSecondType = document.getElementById('teacherSecondType');
     const detailAnchorMap = {
+      overview: document.getElementById('detail-overview-anchor'),
       intro: document.getElementById('detail-intro-anchor'),
       reviews: document.getElementById('detail-reviews-anchor'),
       courses: document.getElementById('detail-courses-anchor')
