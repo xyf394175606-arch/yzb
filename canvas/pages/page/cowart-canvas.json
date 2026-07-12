@@ -1,0 +1,108 @@
+{
+  "schema": {
+    "schemaVersion": 2,
+    "sequences": {
+      "com.tldraw.store": 5,
+      "com.tldraw.asset": 1,
+      "com.tldraw.camera": 1,
+      "com.tldraw.document": 2,
+      "com.tldraw.instance": 26,
+      "com.tldraw.instance_page_state": 5,
+      "com.tldraw.page": 1,
+      "com.tldraw.instance_presence": 6,
+      "com.tldraw.pointer": 1,
+      "com.tldraw.shape": 4,
+      "com.tldraw.user": 1,
+      "com.tldraw.asset.image": 6,
+      "com.tldraw.asset.video": 5,
+      "com.tldraw.asset.bookmark": 2,
+      "com.tldraw.shape.arrow": 8,
+      "com.tldraw.shape.bookmark": 2,
+      "com.tldraw.shape.draw": 4,
+      "com.tldraw.shape.embed": 4,
+      "com.tldraw.shape.frame": 1,
+      "com.tldraw.shape.geo": 11,
+      "com.tldraw.shape.group": 0,
+      "com.tldraw.shape.highlight": 3,
+      "com.tldraw.shape.image": 5,
+      "com.tldraw.shape.line": 5,
+      "com.tldraw.shape.note": 12,
+      "com.tldraw.shape.text": 4,
+      "com.tldraw.shape.video": 4,
+      "com.tldraw.binding.arrow": 1
+    }
+  },
+  "store": {
+    "asset:youzuobiao-teacher-list-prototype-20260703": {
+      "id": "asset:youzuobiao-teacher-list-prototype-20260703",
+      "typeName": "asset",
+      "type": "image",
+      "props": {
+        "name": "优坐标老师列表页面_完整长图_v2_20260703.jpg",
+        "src": "/page-assets/page/%E4%BC%98%E5%9D%90%E6%A0%87%E8%80%81%E5%B8%88%E5%88%97%E8%A1%A8%E9%A1%B5%E9%9D%A2_%E5%AE%8C%E6%95%B4%E9%95%BF%E5%9B%BE_v2_20260703.jpg",
+        "w": 1280,
+        "h": 3688,
+        "fileSize": 526758,
+        "mimeType": "image/jpeg",
+        "isAnimated": false
+      },
+      "meta": {
+        "source": "优坐标-老师列表 thread prototype screenshot",
+        "replacedWithFullCapture": true
+      }
+    },
+    "shape:youzuobiao-teacher-list-prototype-20260703": {
+      "x": -156.25492868550896,
+      "y": -309.6723018694038,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {
+        "cowartInsertedPrototypePage": true,
+        "sourceThreadTitle": "优坐标-老师列表",
+        "sourceHtml": "/Users/xuyunfeng/Documents/k12/10_高保真原型/高保真原型_优坐标老师列表Axure设计_v1_20260702.html#list",
+        "fullCapture": true,
+        "captureVersion": "v2",
+        "replacedAt": "2026-07-03"
+      },
+      "id": "shape:youzuobiao-teacher-list-prototype-20260703",
+      "type": "image",
+      "props": {
+        "w": 980,
+        "h": 2824,
+        "assetId": "asset:youzuobiao-teacher-list-prototype-20260703",
+        "playing": true,
+        "url": "http://127.0.0.1:43218/10_%E9%AB%98%E4%BF%9D%E7%9C%9F%E5%8E%9F%E5%9E%8B/%E9%AB%98%E4%BF%9D%E7%9C%9F%E5%8E%9F%E5%9E%8B_%E4%BC%98%E5%9D%90%E6%A0%87%E8%80%81%E5%B8%88%E5%88%97%E8%A1%A8Axure%E8%AE%BE%E8%AE%A1_v1_20260702.html#list",
+        "crop": null,
+        "flipX": false,
+        "flipY": false,
+        "altText": "优坐标老师列表原型页面完整长图"
+      },
+      "parentId": "page:page",
+      "index": "a2",
+      "typeName": "shape"
+    },
+    "user:n6qTeQ6-2fGL6enwid4-y": {
+      "name": "",
+      "color": "#F2555A",
+      "imageUrl": "",
+      "meta": {},
+      "id": "user:n6qTeQ6-2fGL6enwid4-y",
+      "typeName": "user"
+    },
+    "page:page": {
+      "meta": {},
+      "id": "page:page",
+      "name": "Page 1",
+      "index": "a1",
+      "typeName": "page"
+    },
+    "document:document": {
+      "gridSize": 10,
+      "name": "",
+      "meta": {},
+      "id": "document:document",
+      "typeName": "document"
+    }
+  }
+}

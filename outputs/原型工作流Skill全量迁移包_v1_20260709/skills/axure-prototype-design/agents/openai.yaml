@@ -1,0 +1,4 @@
+interface:
+  display_name: "Axure 原型设计"
+  short_description: "把已有需求分析或原型设计输入转成 Axure 风格原型"
+  default_prompt: "Use $axure-prototype-design when structured requirement analysis or 原型设计输入 already exists. Convert it into Axure-style wireframes or clickable HTML with page hierarchy, right-side yellow notes, states, business popups, transitions, and PC/mobile differences. If the input is still rough, route to $requirements-to-axure-html-prototype."

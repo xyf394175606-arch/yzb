@@ -1,0 +1,4 @@
+interface:
+  display_name: "需求分析"
+  short_description: "只做需求梳理，产出可交给原型流程的结构化输入"
+  default_prompt: "Use $requirement-analysis when I only need requirement analysis: organize business rules, traceable fields, button results, page content, PC/mobile differences, page hierarchy, transitions, pending questions, and prototype-design input without generating the prototype."
