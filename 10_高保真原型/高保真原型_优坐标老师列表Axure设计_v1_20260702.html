@@ -4447,7 +4447,6 @@
             </div>
           </div>
           <div class="modal-foot">
-            <button class="pc-btn danger" type="button">删除</button>
             <button class="pc-btn" type="button" data-close-teacher-type-modal>取消</button>
             <button class="pc-btn primary" type="button" data-save-teacher-type>保存</button>
           </div>
@@ -4557,7 +4556,6 @@
             </div>
           </div>
           <div class="modal-foot">
-            <button class="pc-btn danger" type="button">删除</button>
             <button class="pc-btn" type="button" data-close-teacher-tag-modal>取消</button>
             <button class="pc-btn primary" type="button">保存</button>
           </div>
@@ -5133,7 +5131,7 @@
       <div class="note-page" id="note-admin-teacher-type-modal">
         <div class="note-card"><h3>页面规则</h3><ul><li>添加/修改教师类型弹窗归属教师类型维护页，用于维护一条一级或二级教师类型。</li><li>通过父类型决定层级：父类型为空表示一级类型；父类型选择某个一级类型时表示二级类型。</li><li>左侧导航直达本弹窗时，默认打开一级类型的首页入口配置示例，便于核对配置字段；从二级类型行点击修改时仍隐藏该配置区域。</li><li>首页 Icon 入口配置仅在一级类型显示，二级类型隐藏该配置区域。</li></ul></div>
         <div class="note-card"><h3>字段说明</h3><ul><li>父类型：选择空或某个一级类型，决定当前记录层级。</li><li>教师类型名称：必填，同一父类型下不允许同名。</li><li>是否前台展示：控制该类型是否进入前台筛选和展示口径。</li><li>首页 Icon 入口配置：仅一级类型显示；二级类型隐藏本分组，并明确提示“二级类型不配置首页入口”。</li><li>是否首页展示：仅一级类型可勾选；勾选后首页展示主标题、副标题、Icon 图片、首页 Icon 排序均必填。未勾选时保留已有配置，但不在首页展示。</li><li>首页 Icon 排序只控制首页入口顺序，数值越大越靠前，不影响类型内部排序或活动页老师排序。</li><li>排序：必填，同一父类型内数值越大越靠前。</li><li>状态：启用/禁用；禁用一级时其下二级类型自动禁用，并自动隐藏首页入口。</li></ul></div>
-        <div class="note-card"><h3>按钮说明</h3><ul><li>删除：仅未被老师使用时允许；删除无老师关联的一级类型时，可连同其下无老师关联的二级类型一起删除。</li><li>取消：关闭弹窗，不保存。</li><li>保存：校验必填、名称不重复、排序为数字后保存并刷新教师类型列表；勾选首页展示但缺少主标题、副标题、Icon 或排序时，在首页配置分组内提示缺失字段。</li></ul></div>
+        <div class="note-card"><h3>按钮说明</h3><ul><li>取消：关闭弹窗，不保存。</li><li>保存：校验必填、名称不重复、排序为数字后保存并刷新教师类型列表；勾选首页展示但缺少主标题、副标题、Icon 或排序时，在首页配置分组内提示缺失字段。</li><li>删除：不在本配置弹窗底部提供；需回到教师类型列表行内操作，且仅未被老师使用时允许删除。</li></ul></div>
       </div>
 
       <div class="note-page" id="note-admin-teacher-tags">
@@ -5147,7 +5145,7 @@
       <div class="note-page" id="note-admin-teacher-tag-modal">
         <div class="note-card"><h3>页面规则</h3><ul><li>新增/编辑教师标签弹窗归属教师标签维护页，用于维护单个教师展示标签。</li><li>教师标签不做一二级结构，标签名称全局不允许重复。</li><li>标签状态仅包含已启用、禁用，无审核状态。</li></ul></div>
         <div class="note-card"><h3>字段说明</h3><ul><li>标签名称：必填，保存时校验全局不重名并忽略前后空格。</li><li>标签状态：已启用或禁用。</li><li>来源：登录人姓名 + 登录人账号，系统自动记录，只读展示。</li><li>使用老师数：只读展示，用于判断影响范围。</li><li>排序：必填，数值越大越靠前。</li><li>是否前台展示：控制该标签是否进入前台老师列表和详情页展示。</li></ul></div>
-        <div class="note-card"><h3>按钮说明</h3><ul><li>删除：仅管理员可操作，执行逻辑删除，删除后默认隐藏。</li><li>取消：关闭弹窗，不保存。</li><li>保存：校验标签名称、状态和排序后保存，并刷新教师标签列表。</li></ul></div>
+        <div class="note-card"><h3>按钮说明</h3><ul><li>取消：关闭弹窗，不保存。</li><li>保存：校验标签名称、状态和排序后保存，并刷新教师标签列表。</li><li>删除：不在本配置弹窗底部提供；仅管理员可从教师标签列表行内执行逻辑删除。</li></ul></div>
       </div>
 
       <div class="note-page" id="note-admin-teacher-modal">
