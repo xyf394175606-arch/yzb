@@ -3007,6 +3007,20 @@
       border-radius: 0;
     }
 
+    .modal-panel.relation-modal-panel {
+      width: min(920px, 100%);
+      height: min(620px, calc(100vh - 150px));
+      grid-template-rows: 70px 1fr 64px;
+      border-radius: 0;
+    }
+
+    #teacherTypeReplaceModal { z-index: 24; }
+    .relation-summary { padding: 18px 24px 8px; color: #526173; font-size: 14px; }
+    .relation-summary strong { color: #1f2937; }
+    .relation-table-wrap { padding: 0 24px 20px; overflow: auto; }
+    .relation-empty { padding: 36px 0; color: #94a3b8; text-align: center; }
+    .relation-result { min-height: 20px; padding: 0 24px 14px; color: #16834d; font-size: 13px; }
+
     .type-modal-panel .modal-head {
       padding: 0 30px;
       border: 1px solid #8c8c8c;
@@ -3689,12 +3703,15 @@
           <button class="nav-btn parent" data-page="admin-teacher-types">教师类型维护页</button>
           <div class="nav-children">
             <button class="nav-btn child" data-page="admin-teacher-type-modal">添加/修改教师类型弹窗</button>
+            <button class="nav-btn child" data-page="admin-teacher-type-relations-modal">查看关联教师弹窗</button>
+            <button class="nav-btn child subchild" data-page="admin-teacher-type-replace-modal">更换教师类型弹窗</button>
           </div>
         </div>
         <div class="nav-tree">
           <button class="nav-btn parent" data-page="admin-teacher-tags">教师标签维护页</button>
           <div class="nav-children">
             <button class="nav-btn child" data-page="admin-teacher-tag-modal">新增/编辑教师标签弹窗</button>
+            <button class="nav-btn child" data-page="admin-teacher-tag-relations-modal">查看关联教师弹窗</button>
           </div>
         </div>
       </div>
@@ -4335,7 +4352,7 @@
             <div class="pc-field"><label>首页展示状态</label><select class="pc-select" id="typeHomeDisplayFilter"><option value="all">全部</option><option value="shown">已展示</option><option value="hidden">未展示</option><option value="disabled">已禁用，不展示</option><option value="not-configured">不配置</option></select></div>
             <div class="pc-actions"><button class="pc-btn primary" type="button" id="searchTypeHomeDisplay">搜索</button><button class="pc-btn" type="button" id="resetTypeHomeDisplay">重置</button></div>
           </div>
-          <table class="teacher-table type-flat-table" aria-label="教师类型列表">
+          <table class="teacher-table type-flat-table" id="teacherTypeTable" aria-label="教师类型列表">
             <thead>
               <tr>
                 <th>序号</th><th>父类型</th><th>教师类型</th><th>状态</th><th>首页入口预览</th><th>首页展示状态</th><th>首页 Icon 排序</th><th>排序</th><th>关联老师数</th><th>操作</th>
@@ -4344,11 +4361,11 @@
             <tbody>
               <tr data-home-display-state="shown">
                 <td>1</td><td>空</td><td><strong>骨干教员</strong></td><td><span class="status-pill">已启用</span></td><td><div class="type-home-preview"><span class="type-home-preview-icon">🎓</span><span class="type-home-preview-copy"><span class="type-home-preview-title">高级教师</span><span class="type-home-preview-subtitle">专业认证</span></span></div></td><td><span class="status-pill blue">已展示</span></td><td>100</td><td>100</td><td>18</td>
-                <td><div class="row-actions"><button class="link-btn" type="button" data-open-teacher-type-modal="edit-primary">修改</button><button class="link-btn" type="button" data-open-teacher-type-modal="configure-home">配置首页入口</button><button class="link-btn" type="button">禁用</button><button class="link-btn disabled" type="button" disabled>不可删除</button></div></td>
+                <td><div class="row-actions"><button class="link-btn" type="button" data-open-teacher-type-modal="edit-primary">修改</button><button class="link-btn" type="button" data-open-teacher-type-modal="configure-home">配置首页入口</button><button class="link-btn" type="button" data-open-teacher-relations="type">查看关联教师</button><button class="link-btn" type="button">禁用</button><button class="link-btn disabled" type="button" disabled>不可删除</button></div></td>
               </tr>
               <tr data-home-display-state="not-configured">
                 <td>2</td><td>骨干教员</td><td><strong>硕博</strong></td><td><span class="status-pill">已启用</span></td><td class="muted">不配置</td><td class="muted">不配置</td><td class="muted">-</td><td>100</td><td>8</td>
-                <td><div class="row-actions"><button class="link-btn" type="button" data-open-teacher-type-modal="edit-secondary">修改</button><button class="link-btn" type="button">禁用</button><button class="link-btn disabled" type="button" disabled>不可删除</button></div></td>
+                <td><div class="row-actions"><button class="link-btn" type="button" data-open-teacher-type-modal="edit-secondary">修改</button><button class="link-btn" type="button" data-open-teacher-relations="type">查看关联教师</button><button class="link-btn" type="button">禁用</button><button class="link-btn disabled" type="button" disabled>不可删除</button></div></td>
               </tr>
               <tr data-home-display-state="not-configured">
                 <td>3</td><td>骨干教员</td><td><strong>名校骨干</strong></td><td><span class="status-pill">已启用</span></td><td class="muted">不配置</td><td class="muted">不配置</td><td class="muted">-</td><td>90</td><td>6</td>
@@ -4376,7 +4393,7 @@
               </tr>
               <tr data-home-display-state="disabled">
                 <td>9</td><td>空</td><td><strong>体验教员</strong></td><td><span class="status-pill gray">已禁用</span></td><td class="muted">-</td><td><span class="type-home-state-disabled">已禁用，不展示</span></td><td class="muted">-</td><td>50</td><td>0</td>
-                <td><div class="row-actions"><button class="link-btn" type="button" data-open-teacher-type-modal="edit-primary">修改</button><button class="link-btn" type="button" data-open-teacher-type-modal="configure-home">配置首页入口</button><button class="link-btn" type="button">启用</button><button class="link-btn danger" type="button">删除</button></div></td>
+                <td><div class="row-actions"><button class="link-btn" type="button" data-open-teacher-type-modal="edit-primary">修改</button><button class="link-btn" type="button" data-open-teacher-type-modal="configure-home">配置首页入口</button><button class="link-btn" type="button" data-open-teacher-relations="type">查看关联教师</button><button class="link-btn" type="button">启用</button><button class="link-btn danger" type="button">删除</button></div></td>
               </tr>
             </tbody>
           </table>
@@ -4468,7 +4485,7 @@
             <div class="pc-field"><label>创建人信息</label><input class="pc-input" placeholder="登录人姓名 / 登录账号"></div>
             <div class="pc-actions"><button class="pc-btn primary" type="button">搜索</button><button class="pc-btn" type="button">重置</button></div>
           </div>
-          <table class="teacher-table type-flat-table" aria-label="教师标签列表">
+          <table class="teacher-table type-flat-table" id="teacherTagTable" aria-label="教师标签列表">
             <thead>
               <tr>
                 <th>序号</th><th>标签名称</th><th>状态</th><th>来源</th><th>使用老师数</th><th>排序</th><th>更新时间</th><th>操作</th>
@@ -5024,6 +5041,50 @@
           </div>
         </div>
       </div>
+      <section class="page" id="page-admin-teacher-type-relations-modal">
+        <h1 class="canvas-title">查看关联教师弹窗</h1>
+        <div class="pc-board"><div class="pagination"><span>此节点归属教师类型维护页，用于查看使用当前类型的老师。</span><span>弹窗已默认打开</span></div></div>
+      </section>
+
+      <section class="page" id="page-admin-teacher-type-replace-modal">
+        <h1 class="canvas-title">更换教师类型弹窗</h1>
+        <div class="pc-board"><div class="pagination"><span>此节点归属“查看关联教师弹窗”，用于解除原类型关联并选择替换类型。</span><span>弹窗已默认打开</span></div></div>
+      </section>
+
+      <section class="page" id="page-admin-teacher-tag-relations-modal">
+        <h1 class="canvas-title">查看关联教师弹窗</h1>
+        <div class="pc-board"><div class="pagination"><span>此节点归属教师标签维护页，用于查看使用当前标签的老师。</span><span>弹窗已默认打开</span></div></div>
+      </section>
+
+      <div class="teacher-modal" id="teacherRelationModal" aria-modal="true" role="dialog" aria-label="查看关联教师弹窗">
+        <div class="modal-panel relation-modal-panel">
+          <div class="modal-head"><div class="modal-title" id="teacherRelationModalTitle">关联教师</div><button class="modal-close-x" type="button" data-close-teacher-relation-modal aria-label="关闭">×</button></div>
+          <div class="modal-body single">
+            <div class="relation-summary" id="teacherRelationSummary"></div>
+            <div class="relation-table-wrap"><table class="teacher-table" aria-label="关联教师列表"><thead><tr><th>老师账号</th><th>教师姓名</th><th>当前关联</th><th>操作</th></tr></thead><tbody id="teacherRelationRows"></tbody></table></div>
+            <div class="relation-result" id="teacherRelationResult"></div>
+          </div>
+          <div class="modal-foot"><button class="pc-btn" type="button" data-close-teacher-relation-modal>取消</button></div>
+        </div>
+      </div>
+
+      <div class="teacher-modal" id="teacherTypeReplaceModal" aria-modal="true" role="dialog" aria-label="更换教师类型弹窗">
+        <div class="modal-panel type-modal-panel">
+          <div class="modal-head"><div class="modal-title">更换教师类型</div><button class="modal-close-x" type="button" data-close-teacher-type-replace-modal aria-label="关闭">×</button></div>
+          <div class="modal-body single">
+            <div class="type-modal-form">
+              <div class="type-form-row"><label>老师账号：</label><input class="pc-input" id="replaceTeacherAccount" disabled></div>
+              <div class="type-form-row"><label>教师姓名：</label><input class="pc-input" id="replaceTeacherName" disabled></div>
+              <div class="type-form-row"><label>当前教师类型：</label><input class="pc-input" id="replaceCurrentType" disabled></div>
+              <div class="type-form-row"><label><span class="required-mark">*</span>新一级类型：</label><select class="pc-select" id="replacePrimaryType" aria-label="新一级教师类型"></select></div>
+              <div class="type-form-row"><label>新二级类型 <small>非必填</small>：</label><select class="pc-select" id="replaceSecondaryType" aria-label="新二级教师类型" disabled></select></div>
+              <div class="sync-hint">确认后立即替换该老师的原教师类型关联；新二级类型可不选。</div>
+              <div class="form-error" id="replaceTeacherTypeError"></div>
+            </div>
+          </div>
+          <div class="modal-foot"><button class="pc-btn" type="button" data-close-teacher-type-replace-modal>取消</button><button class="pc-btn primary" type="button" id="confirmTeacherTypeReplace">确认更换</button></div>
+        </div>
+      </div>
     </main>
 
     <aside class="notes" aria-label="右侧黄色说明区">
@@ -5134,6 +5195,21 @@
         <div class="note-card"><h3>按钮说明</h3><ul><li>取消：关闭弹窗，不保存。</li><li>保存：校验必填、名称不重复、排序为数字后保存并刷新教师类型列表；勾选首页展示但缺少主标题、副标题、Icon 或排序时，在首页配置分组内提示缺失字段。</li><li>删除：不在本配置弹窗底部提供；需回到教师类型列表行内操作，且仅未被老师使用时允许删除。</li></ul></div>
       </div>
 
+      <div class="note-page" id="note-admin-teacher-type-relations-modal">
+        <div class="note-card"><h3>页面规则</h3><ul><li>查看关联教师弹窗归属教师类型维护页，由列表行内“查看关联教师”打开。</li><li>展示当前教师类型关联的老师；老师账号读取登录手机号，列表人数与教师类型维护页的关联老师数一致。</li><li>点击取消关联不会直接清空一级类型，必须进入更换教师类型弹窗选择新的一级类型；新二级类型可不选。</li></ul></div>
+        <div class="note-card"><h3>字段与操作</h3><ul><li>列表字段：老师账号、教师姓名、当前关联、操作。</li><li>取消关联：打开更换教师类型弹窗；确认更换后立即替换原类型关联，原列表移除该老师并刷新关联老师数。</li><li>取消/关闭：关闭弹窗，返回教师类型维护页，不改变关联关系。</li></ul></div>
+      </div>
+
+      <div class="note-page" id="note-admin-teacher-type-replace-modal">
+        <div class="note-card"><h3>页面规则</h3><ul><li>更换教师类型弹窗归属教师类型维护页 / 查看关联教师弹窗，用于在解除原类型关联时选择替换类型。</li><li>新一级类型必填；选择一级类型后联动刷新新二级类型，二级类型非必填。</li></ul></div>
+        <div class="note-card"><h3>字段与操作</h3><ul><li>展示老师账号、教师姓名、当前教师类型；老师账号读取登录手机号。</li><li>确认更换：立即生效，关闭本弹窗并返回关联教师列表；老师从原类型关联列表移除，原类型关联老师数同步减一。</li><li>取消/关闭：不保存替换结果，保留原教师类型关联。</li></ul></div>
+      </div>
+
+      <div class="note-page" id="note-admin-teacher-tag-relations-modal">
+        <div class="note-card"><h3>页面规则</h3><ul><li>查看关联教师弹窗归属教师标签维护页，由列表行内“查看关联教师”打开。</li><li>展示当前标签关联的老师；老师账号读取登录手机号，列表人数与教师标签维护页的使用老师数一致。</li></ul></div>
+        <div class="note-card"><h3>字段与操作</h3><ul><li>列表字段：老师账号、教师姓名、当前关联、操作。</li><li>取消关联：立即移除当前老师与标签的关系，刷新弹窗列表和标签使用老师数；不删除标签本身。</li><li>取消/关闭：关闭弹窗，返回教师标签维护页。</li></ul></div>
+      </div>
+
       <div class="note-page" id="note-admin-teacher-tags">
         <div class="note-card"><h3>页面规则</h3><ul><li>教师标签从教师资料弹窗静态配置中拆出，改为 PC 后台教师管理下的独立维护页。</li><li>教师标签不做一二级结构，采用单表维护：筛选区、标签列表、新增/编辑标签弹窗。</li><li>标签名称全局不允许重复，校验时忽略前后空格。</li><li>教师端或教师资料编辑页输入不存在的标签时，保存后自动写入标签库，默认状态为“已启用”，来源记录为当前登录人姓名 + 登录人账号。</li><li>教师标签无审核流程，标签状态仅包含“已启用”和“禁用”。</li><li>排序规则为数值越大越靠前，用于教师资料弹窗可选标签排序和前台标签展示顺序。</li></ul></div>
         <div class="note-card"><h3>字段说明</h3><ul><li>筛选字段：标签名称、标签状态、创建人信息。</li><li>列表字段：标签名称、状态、来源、使用老师数、排序、更新时间、操作。</li><li>状态仅包含已启用、禁用。</li><li>来源展示创建该标签的登录人姓名 + 登录人账号，例如“张琴琴 / teacher_zhangqq”。</li><li>使用老师数用于辅助判断影响范围；删除为逻辑删除，不做物理删除。</li></ul></div>
@@ -5193,7 +5269,19 @@
     const sortConfigModal = document.getElementById('sortConfigModal');
     const coursePublishModal = document.getElementById('coursePublishModal');
     const courseAddModal = document.getElementById('courseAddModal');
-    const allBusinessModals = [teacherModal, teacherTypeModal, teacherTagModal, reviewDataModal, sortConfigModal, coursePublishModal, courseAddModal].filter(Boolean);
+    const teacherRelationModal = document.getElementById('teacherRelationModal');
+    const teacherTypeReplaceModal = document.getElementById('teacherTypeReplaceModal');
+    const teacherRelationModalTitle = document.getElementById('teacherRelationModalTitle');
+    const teacherRelationSummary = document.getElementById('teacherRelationSummary');
+    const teacherRelationRows = document.getElementById('teacherRelationRows');
+    const teacherRelationResult = document.getElementById('teacherRelationResult');
+    const replaceTeacherAccount = document.getElementById('replaceTeacherAccount');
+    const replaceTeacherName = document.getElementById('replaceTeacherName');
+    const replaceCurrentType = document.getElementById('replaceCurrentType');
+    const replacePrimaryType = document.getElementById('replacePrimaryType');
+    const replaceSecondaryType = document.getElementById('replaceSecondaryType');
+    const replaceTeacherTypeError = document.getElementById('replaceTeacherTypeError');
+    const allBusinessModals = [teacherModal, teacherTypeModal, teacherTagModal, reviewDataModal, sortConfigModal, coursePublishModal, courseAddModal, teacherRelationModal, teacherTypeReplaceModal].filter(Boolean);
     const followGuideModal = document.getElementById('followGuideModal');
     const courseSelectModal = document.getElementById('courseSelectModal');
     const teacherPrimaryType = document.getElementById('teacherPrimaryType');
@@ -5274,6 +5362,20 @@
       '骨干教员': ['硕博', '名校骨干'],
       '专业教员': ['一线专业', '基础巩固']
     };
+    const relatedTeacherMocks = {
+      type: [
+        { account: '138****2176', name: '张琴琴', relation: '骨干教员 / 硕博' },
+        { account: '139****6321', name: '袁教员', relation: '骨干教员 / 名校骨干' },
+        { account: '186****9084', name: '周老师', relation: '骨干教员' }
+      ],
+      tag: [
+        { account: '138****2176', name: '张琴琴', relation: '培育名校学子' },
+        { account: '139****6321', name: '袁教员', relation: '培育名校学子' },
+        { account: '186****9084', name: '周老师', relation: '培育名校学子' }
+      ]
+    };
+    let activeRelationContext = null;
+    let activeRelationTeacher = null;
     const teacherTypeHomeEntries = [
       { id: 'core', typeName: '骨干教员', homeDisplayEnabled: true, frontDisplayEnabled: true, status: 'enabled', homeTitle: '高级教师', homeSubtitle: '专业认证', homeIcon: '🎓', homeIconSort: 100 },
       { id: 'professional', typeName: '专业教员', homeDisplayEnabled: true, frontDisplayEnabled: true, status: 'enabled', homeTitle: '专业教师', homeSubtitle: '精研学科', homeIcon: '📚', homeIconSort: 90 },
@@ -5353,6 +5455,91 @@
       document.querySelectorAll('#page-admin-teacher-types tbody tr[data-home-display-state]').forEach(row => {
         row.hidden = filter.value !== 'all' && row.dataset.homeDisplayState !== filter.value;
       });
+    }
+
+    function ensureRelationButtons() {
+      [['#teacherTypeTable', 'type'], ['#teacherTagTable', 'tag']].forEach(([selector, kind]) => {
+        document.querySelectorAll(`${selector} tbody tr`).forEach(row => {
+          const actions = row.querySelector('.row-actions');
+          if (!actions || actions.querySelector('[data-open-teacher-relations]')) return;
+          const button = document.createElement('button');
+          button.className = 'link-btn';
+          button.type = 'button';
+          button.dataset.openTeacherRelations = kind;
+          button.textContent = '查看关联教师';
+          actions.append(button);
+        });
+      });
+    }
+
+    function getRelationName(kind, row) {
+      return row?.querySelector(kind === 'type' ? 'td:nth-child(3)' : 'td:nth-child(2)')?.innerText.trim() || (kind === 'type' ? '骨干教员' : '培育名校学子');
+    }
+
+    function getRelationCount(kind, row) {
+      const cell = row?.querySelector(kind === 'type' ? 'td:nth-child(9)' : 'td:nth-child(5)');
+      return { cell, count: Number.parseInt(cell?.textContent, 10) || 0 };
+    }
+
+    function renderRelationTeachers() {
+      if (!activeRelationContext || !teacherRelationRows) return;
+      const { kind, name } = activeRelationContext;
+      const teachers = relatedTeacherMocks[kind] || [];
+      if (teacherRelationModalTitle) teacherRelationModalTitle.textContent = `关联教师 - ${name}`;
+      if (teacherRelationSummary) teacherRelationSummary.innerHTML = `<strong>${name}</strong> 当前关联 <strong>${activeRelationContext.count}</strong> 位老师，老师账号展示登录手机号。`;
+      teacherRelationRows.innerHTML = teachers.length
+        ? teachers.map((teacher, index) => {
+          const relation = kind === 'tag' ? name : (teacher.relation.includes(name) ? teacher.relation : name);
+          return `<tr data-relation-teacher-index="${index}"><td>${teacher.account}</td><td>${teacher.name}</td><td>${relation}</td><td><button class="link-btn danger" type="button" data-cancel-teacher-relation="${index}">取消关联</button></td></tr>`;
+        }).join('')
+        : '<tr><td colspan="4"><div class="relation-empty">暂无关联教师</div></td></tr>';
+    }
+
+    function openTeacherRelations(kind, triggerRow) {
+      const { cell, count } = getRelationCount(kind, triggerRow);
+      activeRelationContext = { kind, name: getRelationName(kind, triggerRow), triggerRow, countCell: cell, count };
+      if (teacherRelationResult) teacherRelationResult.textContent = '';
+      closeBusinessModals();
+      renderRelationTeachers();
+      teacherRelationModal?.classList.add('open');
+      const pageName = kind === 'type' ? 'admin-teacher-type-relations-modal' : 'admin-teacher-tag-relations-modal';
+      activateNote(pageName);
+      location.hash = pageName;
+      pageButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.page === pageName));
+    }
+
+    function refreshRelationCount() {
+      if (!activeRelationContext?.countCell) return;
+      activeRelationContext.count = Math.max(0, activeRelationContext.count - 1);
+      activeRelationContext.countCell.textContent = activeRelationContext.count;
+      renderRelationTeachers();
+    }
+
+    function syncReplacementSecondaryTypes() {
+      if (!replacePrimaryType || !replaceSecondaryType) return;
+      const options = teacherTypeMaintainData[replacePrimaryType.value] || [];
+      replaceSecondaryType.disabled = !replacePrimaryType.value;
+      replaceSecondaryType.innerHTML = ['不选择二级类型', ...options].map(value => `<option value="${value === '不选择二级类型' ? '' : value}">${value}</option>`).join('');
+    }
+
+    function openTeacherTypeReplace(teacher) {
+      activeRelationTeacher = teacher;
+      if (replaceTeacherAccount) replaceTeacherAccount.value = teacher.account;
+      if (replaceTeacherName) replaceTeacherName.value = teacher.name;
+      if (replaceCurrentType) replaceCurrentType.value = teacher.relation;
+      if (replacePrimaryType) replacePrimaryType.innerHTML = '<option value="">请选择新一级类型</option>' + Object.keys(teacherTypeMaintainData).map(type => `<option value="${type}">${type}</option>`).join('');
+      syncReplacementSecondaryTypes();
+      if (replaceTeacherTypeError) replaceTeacherTypeError.classList.remove('show');
+      teacherTypeReplaceModal?.classList.add('open');
+      activateNote('admin-teacher-type-replace-modal');
+      location.hash = 'admin-teacher-type-replace-modal';
+      pageButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.page === 'admin-teacher-type-replace-modal'));
+    }
+
+    function closeTeacherRelations() {
+      teacherRelationModal?.classList.remove('open');
+      teacherTypeReplaceModal?.classList.remove('open');
+      activeRelationTeacher = null;
     }
 
     function formatPrice(value) {
@@ -5726,16 +5913,18 @@
     function showPage(name) {
       const detailPopupPages = ['detail-course-select-modal', 'detail-follow-modal'];
       const teacherListPopupPages = ['admin-teacher-modal', 'admin-review-modal', 'admin-sort-modal', 'admin-course-modal', 'admin-course-add-modal'];
+      const teacherTypePopupPages = ['admin-teacher-type-modal', 'admin-teacher-type-relations-modal', 'admin-teacher-type-replace-modal'];
+      const teacherTagPopupPages = ['admin-teacher-tag-modal', 'admin-teacher-tag-relations-modal'];
       const basePageName = detailPopupPages.includes(name)
         ? 'detail'
         : (teacherListPopupPages.includes(name)
           ? 'admin-teachers'
-          : (name === 'admin-teacher-type-modal' ? 'admin-teacher-types' : (name === 'admin-teacher-tag-modal' ? 'admin-teacher-tags' : name)));
+          : (teacherTypePopupPages.includes(name) ? 'admin-teacher-types' : (teacherTagPopupPages.includes(name) ? 'admin-teacher-tags' : name)));
       const noteName = detailPopupPages.includes(name)
         ? name
         : (teacherListPopupPages.includes(name)
           ? name
-          : (name === 'admin-teacher-type-modal' ? 'admin-teacher-type-modal' : (name === 'admin-teacher-tag-modal' ? 'admin-teacher-tag-modal' : name)));
+          : (teacherTypePopupPages.includes(name) || teacherTagPopupPages.includes(name) ? name : name));
       pages.forEach(page => page.classList.toggle('active', page.id === 'page-' + basePageName));
       activateNote(noteName);
       pageButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.page === name));
@@ -5753,8 +5942,15 @@
       } else if (name === 'admin-teacher-type-modal') {
         // The navigation node is an inspection entry for the primary-type home configuration.
         openTeacherTypeModal('configure-home');
+      } else if (name === 'admin-teacher-type-relations-modal') {
+        openTeacherRelations('type', document.querySelector('#teacherTypeTable tbody tr'));
+      } else if (name === 'admin-teacher-type-replace-modal') {
+        openTeacherRelations('type', document.querySelector('#teacherTypeTable tbody tr'));
+        openTeacherTypeReplace(relatedTeacherMocks.type[0]);
       } else if (name === 'admin-teacher-tag-modal') {
         openTeacherTagModal('edit');
+      } else if (name === 'admin-teacher-tag-relations-modal') {
+        openTeacherRelations('tag', document.querySelector('#teacherTagTable tbody tr'));
       } else if (name === 'admin-review-modal') {
         openSideModal(reviewDataModal);
       } else if (name === 'admin-sort-modal') {
@@ -5873,6 +6069,7 @@
     renderHomeTypeEntries();
     renderTypeActivity();
     renderActivitySortRows();
+    ensureRelationButtons();
     refreshTeacherSecondType();
     if (teacherPrimaryType) teacherPrimaryType.addEventListener('change', refreshTeacherSecondType);
     if (typeParentSelect) typeParentSelect.addEventListener('change', syncTypeHomeConfigVisibility);
@@ -5906,6 +6103,48 @@
         event.stopPropagation();
         openTeacherTypeModal(el.dataset.openTeacherTypeModal);
       });
+    });
+    document.querySelectorAll('[data-open-teacher-relations]').forEach(el => {
+      el.addEventListener('click', event => {
+        event.stopPropagation();
+        openTeacherRelations(el.dataset.openTeacherRelations, el.closest('tr'));
+      });
+    });
+    if (teacherRelationRows) {
+      teacherRelationRows.addEventListener('click', event => {
+        const button = event.target.closest('[data-cancel-teacher-relation]');
+        if (!button || !activeRelationContext) return;
+        const index = Number(button.dataset.cancelTeacherRelation);
+        const teacher = relatedTeacherMocks[activeRelationContext.kind]?.[index];
+        if (!teacher) return;
+        if (activeRelationContext.kind === 'type') {
+          openTeacherTypeReplace(teacher);
+          return;
+        }
+        relatedTeacherMocks.tag.splice(index, 1);
+        refreshRelationCount();
+        if (teacherRelationResult) teacherRelationResult.textContent = `已取消 ${teacher.name} 与“${activeRelationContext.name}”的标签关联，统计已刷新。`;
+      });
+    }
+    if (replacePrimaryType) replacePrimaryType.addEventListener('change', syncReplacementSecondaryTypes);
+    document.getElementById('confirmTeacherTypeReplace')?.addEventListener('click', () => {
+      if (!replacePrimaryType?.value) {
+        if (replaceTeacherTypeError) {
+          replaceTeacherTypeError.textContent = '请选择新的一级教师类型。';
+          replaceTeacherTypeError.classList.add('show');
+        }
+        return;
+      }
+      const teacherIndex = relatedTeacherMocks.type.findIndex(item => item.account === activeRelationTeacher?.account);
+      if (teacherIndex >= 0) relatedTeacherMocks.type.splice(teacherIndex, 1);
+      const replacement = `${replacePrimaryType.value}${replaceSecondaryType?.value ? ' / ' + replaceSecondaryType.value : ''}`;
+      refreshRelationCount();
+      teacherTypeReplaceModal?.classList.remove('open');
+      if (teacherRelationResult) teacherRelationResult.textContent = `已将 ${activeRelationTeacher?.name || '该老师'} 的教师类型更换为“${replacement}”，立即生效并已刷新统计。`;
+      activeRelationTeacher = null;
+      activateNote('admin-teacher-type-relations-modal');
+      location.hash = 'admin-teacher-type-relations-modal';
+      pageButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.page === 'admin-teacher-type-relations-modal'));
     });
     document.querySelectorAll('[data-save-teacher-type]').forEach(el => {
       el.addEventListener('click', () => {
@@ -5969,6 +6208,22 @@
       el.addEventListener('click', () => {
         teacherTagModal.classList.remove('open');
         if (location.hash === '#admin-teacher-tag-modal') showPage('admin-teacher-tags');
+      });
+    });
+    document.querySelectorAll('[data-close-teacher-relation-modal]').forEach(el => {
+      el.addEventListener('click', () => {
+        const pageName = activeRelationContext?.kind === 'type' ? 'admin-teacher-types' : 'admin-teacher-tags';
+        closeTeacherRelations();
+        showPage(pageName);
+      });
+    });
+    document.querySelectorAll('[data-close-teacher-type-replace-modal]').forEach(el => {
+      el.addEventListener('click', () => {
+        teacherTypeReplaceModal?.classList.remove('open');
+        activeRelationTeacher = null;
+        activateNote('admin-teacher-type-relations-modal');
+        location.hash = 'admin-teacher-type-relations-modal';
+        pageButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.page === 'admin-teacher-type-relations-modal'));
       });
     });
     document.querySelectorAll('[data-close-side-modal]').forEach(el => {
