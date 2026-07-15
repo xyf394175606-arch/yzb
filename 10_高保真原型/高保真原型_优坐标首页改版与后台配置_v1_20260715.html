@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>优坐标首页改版与后台配置 v1</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #738197;
+      --line: #dde7f2;
+      --panel: #ffffff;
+      --canvas: #f2f6fb;
+      --blue: #2675ed;
+      --blue-deep: #1554c3;
+      --blue-soft: #eaf3ff;
+      --cyan: #dff6ff;
+      --green: #18a978;
+      --green-soft: #e8f8f1;
+      --orange: #ff841f;
+      --orange-soft: #fff1df;
+      --red: #dc4b62;
+      --red-soft: #fff0f2;
+      --yellow: #fff8cf;
+      --yellow-line: #e3c94f;
+      --shadow: 0 14px 35px rgba(47, 75, 112, .10);
+      --radius: 10px;
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; }
+    body { margin: 0; color: var(--ink); background: var(--canvas); font-size: 14px; letter-spacing: 0; }
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    .app { min-height: 100vh; display: grid; grid-template-rows: 64px 1fr; }
+    .topbar { background: #172337; color: #fff; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; gap: 20px; }
+    .brand { display: flex; align-items: center; gap: 11px; min-width: 220px; }
+    .brand-mark { width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; background: linear-gradient(135deg, #4b9eff, #2e63db); color: #fff; font-weight: 900; }
+    .brand-title { font-weight: 900; font-size: 16px; }
+    .brand-sub { margin-left: 8px; color: #aebbd0; font-size: 12px; font-weight: 600; }
+    .surface-switch { display: flex; align-items: center; gap: 5px; padding: 4px; border-radius: 8px; background: rgba(255,255,255,.08); }
+    .surface-switch button { border: 0; border-radius: 6px; padding: 8px 13px; color: #b9c5d7; background: transparent; }
+    .surface-switch button.active { color: #fff; background: #2a73e8; font-weight: 800; }
+    .user { display: flex; align-items: center; gap: 10px; color: #cbd5e1; white-space: nowrap; }
+    .avatar { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%; background: #d9e8ff; color: #2362c8; font-weight: 900; }
+    .shell { display: grid; grid-template-columns: 238px minmax(680px, 1fr) 310px; min-height: calc(100vh - 64px); }
+    .sidebar { padding: 18px 14px; background: #f8fbff; border-right: 1px solid var(--line); }
+    .side-heading { padding: 4px 9px 16px; border-bottom: 1px solid var(--line); }
+    .side-title { font-weight: 900; }
+    .side-note { color: var(--muted); font-size: 12px; line-height: 1.5; margin-top: 5px; }
+    .nav-group { margin-top: 18px; }
+    .nav-label { padding: 0 9px 7px; color: #8c9aaf; font-size: 11px; font-weight: 900; letter-spacing: .08em; }
+    .nav-item { width: 100%; border: 0; border-radius: 8px; background: transparent; color: #4f6077; padding: 10px 11px; text-align: left; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .nav-item:hover { background: #eef5ff; color: var(--blue); }
+    .nav-item.active { background: var(--blue-soft); color: var(--blue-deep); font-weight: 900; }
+    .nav-item small { color: #9ba8ba; font-size: 11px; }
+    .nav-item.active small { color: var(--blue); }
+    .nav-child { margin: 2px 0 4px 20px; border-left: 1px dashed #cbd8e7; padding-left: 8px; }
+    .nav-child .nav-item { font-size: 12px; padding: 8px 9px; }
+    .main { padding: 22px; min-width: 0; overflow: auto; }
+    .page-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; margin-bottom: 16px; }
+    .eyebrow { color: var(--blue); font-size: 12px; font-weight: 900; letter-spacing: .08em; }
+    h1, h2, h3, p { margin: 0; }
+    h1 { margin-top: 4px; font-size: 24px; letter-spacing: -.02em; }
+    .page-sub { margin-top: 7px; color: var(--muted); line-height: 1.55; }
+    .actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+    .btn { min-height: 36px; border: 1px solid var(--line); border-radius: 7px; background: #fff; color: var(--ink); padding: 8px 12px; font-weight: 700; }
+    .btn:hover { border-color: #9cbbe8; background: #f9fcff; }
+    .btn.primary { border-color: var(--blue); background: var(--blue); color: #fff; }
+    .btn.primary:hover { background: var(--blue-deep); }
+    .btn.ghost { color: var(--blue); border-color: #b9d4fb; background: var(--blue-soft); }
+    .btn.warn { color: #9b5300; border-color: #ffd092; background: var(--orange-soft); }
+    .btn.danger { color: var(--red); border-color: #ffc2ca; background: var(--red-soft); }
+    .btn:disabled { cursor: not-allowed; opacity: .45; }
+    .status-strip { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 13px; border: 1px solid #c8ddfa; border-radius: var(--radius); background: #f4f9ff; margin-bottom: 16px; }
+    .status-left { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; }
+    .status-pill, .tag { display: inline-flex; align-items: center; gap: 5px; border-radius: 999px; padding: 4px 9px; font-size: 12px; font-weight: 800; white-space: nowrap; }
+    .status-pill.draft, .tag.blue { color: #1e5bbf; background: var(--blue-soft); }
+    .status-pill.published, .tag.green { color: #11784f; background: var(--green-soft); }
+    .status-pill.error, .tag.red { color: #b52b42; background: var(--red-soft); }
+    .status-note { color: var(--muted); font-size: 12px; }
+    .workspace { display: grid; grid-template-columns: minmax(420px, 1fr) 300px; gap: 16px; align-items: start; }
+    .panel { border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); box-shadow: var(--shadow); overflow: hidden; }
+    .panel-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 15px 17px; border-bottom: 1px solid var(--line); }
+    .panel-title { font-size: 15px; font-weight: 900; }
+    .panel-meta { color: var(--muted); font-size: 12px; }
+    .panel-body { padding: 15px 17px; }
+    .module-list { display: grid; gap: 10px; }
+    .module-row { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 13px; border: 1px solid var(--line); border-radius: 9px; background: #fff; transition: border-color .18s, background .18s; }
+    .module-row:hover, .module-row.selected { border-color: #a4c5f3; background: #fafdff; }
+    .module-icon { width: 40px; height: 40px; border-radius: 11px; display: grid; place-items: center; color: #fff; font-size: 18px; font-weight: 900; }
+    .module-icon.blue { background: linear-gradient(135deg, #3e9bff, #2268da); }
+    .module-icon.green { background: linear-gradient(135deg, #58dba5, #15a36f); }
+    .module-icon.orange { background: linear-gradient(135deg, #ffb54e, #f37d1d); }
+    .module-icon.purple { background: linear-gradient(135deg, #ac9aff, #6d61de); }
+    .module-icon.pink { background: linear-gradient(135deg, #ff9ab3, #ed5f80); }
+    .module-info { min-width: 0; }
+    .module-name { font-weight: 900; }
+    .module-summary { color: var(--muted); font-size: 12px; margin-top: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .module-state { display: flex; align-items: center; gap: 7px; margin-top: 6px; }
+    .module-actions { display: flex; align-items: center; gap: 6px; }
+    .icon-button { width: 30px; height: 30px; border: 1px solid transparent; border-radius: 6px; background: transparent; color: #7b8ca4; display: grid; place-items: center; font-weight: 900; }
+    .icon-button:hover { border-color: #c8d9ee; background: #f4f8fe; color: var(--blue); }
+    .icon-button.delete:hover { color: var(--red); background: var(--red-soft); border-color: #ffcbd2; }
+    .switch { width: 36px; height: 20px; border: 0; border-radius: 999px; background: #bdc9d7; padding: 2px; display: flex; align-items: center; transition: background .18s; }
+    .switch span { width: 16px; height: 16px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.16); transition: transform .18s; }
+    .switch.on { background: var(--green); }
+    .switch.on span { transform: translateX(16px); }
+    .preview-card { position: sticky; top: 18px; }
+    .preview-toolbar { display: flex; align-items: center; gap: 5px; padding: 11px 13px; border-bottom: 1px solid var(--line); background: #fbfdff; }
+    .preview-toolbar button { border: 1px solid var(--line); background: #fff; color: var(--muted); border-radius: 6px; padding: 6px 9px; font-size: 12px; }
+    .preview-toolbar button.active { color: var(--blue-deep); border-color: #a9c9f7; background: var(--blue-soft); font-weight: 900; }
+    .phone-wrap { padding: 18px 16px 22px; background: #eaf0f7; display: grid; place-items: center; }
+    .phone { width: 278px; height: 600px; overflow: hidden; border: 7px solid #131b2b; border-radius: 28px; background: #e9f5ff; box-shadow: 0 18px 36px rgba(21, 42, 75, .22); }
+    .phone-status { height: 25px; display: flex; justify-content: space-between; align-items: end; padding: 0 12px 2px; background: #fff; font-size: 9px; font-weight: 900; }
+    .phone-screen { height: calc(100% - 25px - 48px); overflow: auto; padding: 8px 8px 12px; background: linear-gradient(180deg, #eaf6ff 0%, #f6fbff 80%); }
+    .phone-nav { display: flex; align-items: center; justify-content: space-between; height: 27px; padding: 0 4px; }
+    .phone-location { font-weight: 900; font-size: 12px; }
+    .phone-menu { border: 1px solid rgba(25,48,75,.14); border-radius: 999px; background: rgba(255,255,255,.86); padding: 3px 8px; font-size: 10px; font-weight: 900; }
+    .home-section { margin-top: 8px; border-radius: 12px; background: #fff; box-shadow: 0 3px 11px rgba(36, 86, 143, .08); overflow: hidden; }
+    .home-banner { min-height: 108px; position: relative; padding: 15px 11px; overflow: hidden; color: #fff; background: linear-gradient(135deg, #bce1ff 0%, #eaf5ff 48%, #8bc5ff 100%); }
+    .home-banner::after { content: ""; position: absolute; right: -12px; bottom: -15px; width: 132px; height: 100px; border-radius: 55% 45% 0 0; background: linear-gradient(160deg, #f5fbff, #72aff2); opacity: .9; transform: rotate(-8deg); }
+    .home-banner .banner-copy { position: relative; z-index: 1; max-width: 165px; color: #0871e8; }
+    .home-banner strong { display: block; font-size: 20px; line-height: 1.08; letter-spacing: -.03em; }
+    .home-banner small { display: block; margin-top: 5px; color: #fff; font-size: 10px; font-weight: 800; }
+    .home-banner em { display: inline-block; margin-top: 7px; border-radius: 999px; background: var(--orange); color: #fff; padding: 4px 9px; font-style: normal; font-size: 10px; font-weight: 900; }
+    .quick-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px 3px; padding: 12px 6px 13px; }
+    .quick { border: 0; background: transparent; color: #4d5664; padding: 0; font-size: 9px; white-space: nowrap; }
+    .quick span { width: 32px; height: 32px; margin: 0 auto 4px; border-radius: 50%; display: grid; place-items: center; font-size: 15px; font-weight: 900; }
+    .quick:nth-child(5n+1) span { color: #2675ed; background: #e8f2ff; }
+    .quick:nth-child(5n+2) span { color: #16aa73; background: #e4faef; }
+    .quick:nth-child(5n+3) span { color: #9b6ee8; background: #f1eaff; }
+    .quick:nth-child(5n+4) span { color: #f06c89; background: #fff0f4; }
+    .quick:nth-child(5n+5) span { color: #ef9224; background: #fff5e8; }
+    .section-title { display: flex; align-items: center; justify-content: space-between; padding: 10px 11px 7px; font-size: 13px; font-weight: 900; }
+    .section-title a { color: #98a1ad; font-size: 10px; font-weight: 700; }
+    .trial-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; padding: 0 8px 9px; }
+    .trial { min-height: 58px; padding: 9px; border-radius: 9px; color: #fff; overflow: hidden; position: relative; }
+    .trial.large { grid-row: span 2; min-height: 123px; background: linear-gradient(135deg, #68a7ff, #2e7ce7); }
+    .trial.green { background: linear-gradient(135deg, #78dfba, #3dc59a); }
+    .trial.orange { background: linear-gradient(135deg, #ffc45a, #ff9a1d); }
+    .trial b { display: block; font-size: 12px; }
+    .trial small { display: block; margin-top: 5px; font-size: 9px; opacity: .86; line-height: 1.3; }
+    .teacher-tabs { display: flex; gap: 5px; padding: 0 8px 8px; }
+    .teacher-tab { flex: 1; border: 1px solid #e2ebf6; border-radius: 8px; padding: 7px 3px; color: #41516a; background: #f8fbff; font-size: 9px; font-weight: 900; }
+    .teacher-tab.active { color: #fff; border-color: #5e97ef; background: #6099f1; }
+    .teacher-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 0 8px 10px; }
+    .teacher-card { overflow: hidden; border-radius: 8px; background: #fff; border: 1px solid #e9eef5; }
+    .teacher-photo { height: 72px; background: linear-gradient(135deg, #dceaff, #b9cae6); display: grid; place-items: end center; overflow: hidden; }
+    .teacher-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .teacher-info { padding: 6px; }
+    .teacher-info b { display: block; font-size: 10px; }
+    .teacher-info small { display: block; color: #7d8b9e; margin-top: 3px; font-size: 8px; white-space: nowrap; }
+    .course-list { display: grid; gap: 7px; padding: 0 8px 10px; }
+    .course { display: grid; grid-template-columns: 65px minmax(0, 1fr) auto; gap: 8px; align-items: center; padding: 7px; border: 1px solid #edf1f6; border-radius: 8px; background: #fff; }
+    .cover { width: 65px; height: 52px; border-radius: 7px; display: grid; place-items: center; color: #fff; text-align: center; font-size: 10px; font-weight: 900; background: linear-gradient(135deg, #2e82f4, #77b4ff); }
+    .cover.green { background: linear-gradient(135deg, #22be89, #85e2b8); }
+    .cover.orange { background: linear-gradient(135deg, #ff9b21, #ffd064); }
+    .course b { display: block; font-size: 10px; line-height: 1.3; }
+    .course small { display: block; color: #8a96a6; margin-top: 4px; font-size: 8px; }
+    .price { color: var(--orange); font-size: 12px; font-weight: 900; white-space: nowrap; }
+    .follow { display: flex; align-items: center; justify-content: space-between; padding: 10px; }
+    .follow-copy b { display: block; font-size: 11px; }
+    .follow-copy small { display: block; margin-top: 3px; color: #99a3b0; font-size: 8px; }
+    .follow button { border: 1px solid #72a9fb; border-radius: 999px; color: #2675ed; background: #fff; padding: 5px 9px; font-size: 9px; font-weight: 900; }
+    .home-empty { padding: 18px 12px; color: #95a1b1; text-align: center; font-size: 11px; }
+    .phone-tabbar { height: 48px; border-top: 1px solid #e3e9f1; background: #fff; display: grid; grid-template-columns: repeat(5, 1fr); }
+    .phone-tabbar button { border: 0; background: transparent; color: #7c8795; font-size: 8px; font-weight: 800; padding: 5px 0; }
+    .phone-tabbar button strong { display: block; margin-bottom: 2px; font-size: 14px; }
+    .phone-tabbar button.active { color: #2675ed; }
+    .notes { padding: 22px 14px; border-left: 1px solid var(--line); background: #fffdf0; overflow: auto; }
+    .notes-title { font-size: 14px; font-weight: 900; }
+    .notes-sub { margin-top: 5px; color: #8c7c3f; font-size: 12px; line-height: 1.45; }
+    .note { margin-top: 13px; padding: 11px 12px; border: 1px solid var(--yellow-line); border-radius: 8px; background: var(--yellow); color: #594d1c; line-height: 1.55; font-size: 12px; }
+    .note b { display: block; margin-bottom: 4px; color: #42370c; }
+    .note ul { margin: 5px 0 0 17px; padding: 0; }
+    .home-view { min-height: calc(100vh - 64px); display: grid; place-items: center; padding: 24px; background: radial-gradient(circle at 50% -10%, #e2f2ff, #f4f7fb 55%); }
+    .home-view-inner { width: min(1080px, 100%); display: grid; grid-template-columns: 1fr 320px; align-items: start; gap: 30px; }
+    .home-intro { padding: 34px 8px; }
+    .home-intro .eyebrow { color: var(--orange); }
+    .home-intro h1 { max-width: 540px; font-size: 36px; line-height: 1.18; }
+    .home-intro p { max-width: 480px; margin-top: 12px; color: var(--muted); line-height: 1.7; }
+    .home-intro .home-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+    .home-intro .mini-status { margin-top: 20px; color: #7d8b9e; font-size: 12px; }
+    .modal-backdrop { position: fixed; inset: 0; z-index: 20; display: none; place-items: center; padding: 20px; background: rgba(17, 29, 49, .45); }
+    .modal-backdrop.open { display: grid; }
+    .modal { width: min(620px, 100%); max-height: min(760px, calc(100vh - 40px)); overflow: auto; border-radius: 12px; background: #fff; box-shadow: 0 24px 70px rgba(12, 25, 46, .28); }
+    .modal-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; padding: 18px 20px; border-bottom: 1px solid var(--line); }
+    .modal-head h2 { font-size: 18px; }
+    .modal-head p { margin-top: 4px; color: var(--muted); font-size: 12px; }
+    .close { width: 30px; height: 30px; border: 0; border-radius: 6px; background: #f2f6fb; color: #738197; font-size: 18px; }
+    .form { display: grid; gap: 14px; padding: 18px 20px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+    .field { display: grid; gap: 6px; }
+    .field.full { grid-column: 1 / -1; }
+    .field label { color: #46566d; font-size: 12px; font-weight: 900; }
+    .field input, .field select, .field textarea { width: 100%; min-height: 38px; border: 1px solid var(--line); border-radius: 7px; padding: 8px 10px; color: var(--ink); background: #fff; }
+    .field textarea { min-height: 78px; resize: vertical; }
+    .field-help { color: #9aa6b6; font-size: 11px; line-height: 1.45; }
+    .form-preview { min-height: 86px; border-radius: 9px; display: grid; place-items: center; color: #fff; font-size: 13px; font-weight: 900; background: linear-gradient(135deg, #4ba4ff, #215ccf); }
+    .modal-foot { display: flex; justify-content: flex-end; gap: 8px; padding: 13px 20px 18px; border-top: 1px solid var(--line); }
+    .toast { position: fixed; left: 50%; bottom: 24px; z-index: 30; transform: translate(-50%, 16px); padding: 11px 16px; border-radius: 999px; color: #fff; background: #172337; box-shadow: 0 10px 24px rgba(0,0,0,.2); opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; font-size: 13px; font-weight: 800; }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+    .toast.success { background: #14825c; }
+    .toast.error { background: #b9324b; }
+    .hidden { display: none !important; }
+    @media (max-width: 1180px) {
+      .shell { grid-template-columns: 210px minmax(630px, 1fr); }
+      .notes { display: none; }
+    }
+    @media (max-width: 860px) {
+      .app { grid-template-rows: 58px 1fr; }
+      .topbar { padding: 0 12px; }
+      .brand { min-width: 0; }
+      .brand-sub, .user { display: none; }
+      .surface-switch { margin-left: auto; }
+      .shell { display: block; min-height: calc(100vh - 58px); }
+      .sidebar { display: none; }
+      .main { padding: 15px; }
+      .workspace { display: block; }
+      .preview-card { position: static; margin-top: 16px; }
+      .phone { width: 310px; }
+    }
+    @media (max-width: 520px) {
+      .surface-switch button { padding: 7px 8px; font-size: 12px; }
+      .page-head { display: block; }
+      .page-head .actions { margin-top: 13px; justify-content: flex-start; }
+      .status-strip { display: block; }
+      .status-strip .actions { margin-top: 9px; justify-content: flex-start; }
+      .form-grid { grid-template-columns: 1fr; }
+      .field.full { grid-column: auto; }
+      .module-row { grid-template-columns: 34px minmax(0, 1fr); }
+      .module-icon { width: 34px; height: 34px; font-size: 15px; }
+      .module-actions { grid-column: 2; justify-content: flex-start; }
+      .home-view { padding: 10px; }
+      .home-view-inner { display: block; }
+      .home-intro { padding: 10px 4px 18px; }
+      .home-intro h1 { font-size: 27px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <div id="modalRoot"></div>
+  <div id="toast" class="toast"></div>
+  <script>
+    const imageRoot = "../work/优坐标教师详情截图资产_v1_20260703/";
+    const initialModules = [
+      { id: "banner", type: "banner", name: "Banner 轮播", icon: "✦", tone: "blue", enabled: true, count: 2, summary: "优AI数学素养 · 39.9试听课", updated: "刚刚", fields: { title: "优AI数学素养", subtitle: "1V1专业教练伴学直播课", cta: "查看详情", target: "试听课详情", schedule: "全天展示" } },
+      { id: "quick", type: "quick", name: "快捷入口", icon: "⌘", tone: "green", enabled: true, count: 10, summary: "专业老师、骨干教师、英语AI单词等", updated: "今天 16:20", fields: { title: "快捷入口", subtitle: "首页服务入口", cta: "查看入口", target: "入口集合" } },
+      { id: "trial", type: "trial", name: "39.9试听课", icon: "¥", tone: "orange", enabled: true, count: 3, summary: "数学、语文、英语体验课", updated: "今天 15:48", fields: { title: "39.9试听课", subtitle: "精选体验课", cta: "查看全部", target: "课程列表" } },
+      { id: "teacher", type: "teacher", name: "教师类型与教师推荐", icon: "♛", tone: "purple", enabled: true, count: 6, summary: "骨干教员、专业教员、英语伴读", updated: "今天 14:32", fields: { title: "推荐老师", subtitle: "认证教员为你服务", cta: "查看更多推荐老师", target: "全部老师" } },
+      { id: "courses", type: "courses", name: "精品课程", icon: "▣", tone: "blue", enabled: true, count: 3, summary: "优AI数学素养、语文素养、AI英语单词", updated: "今天 13:10", fields: { title: "精品课程", subtitle: "高质量课程推荐", cta: "购买", target: "课程详情" } },
+      { id: "wechat", type: "wechat", name: "公众号关注", icon: "●", tone: "green", enabled: true, count: 1, summary: "优坐标公众号关注卡片", updated: "昨天 18:05", fields: { title: "关注优坐标公众号", subtitle: "获取实时课程提醒与教育干货", cta: "去关注", target: "公众号" } },
+      { id: "bottom", type: "bottom", name: "底部导航", icon: "⌂", tone: "pink", enabled: true, count: 5, summary: "首页、全部老师、成为会员、消息、我的", updated: "昨天 17:42", fields: { title: "底部导航", subtitle: "家长端主导航", cta: "查看页面", target: "导航页面" } }
+    ];
+    const state = {
+      surface: "workbench",
+      activeModule: "banner",
+      previewMode: "draft",
+      homeMode: "published",
+      draft: structuredClone(initialModules),
+      published: structuredClone(initialModules),
+      modal: null,
+      toastTimer: null,
+      lastPublish: "2026-07-15 16:40"
+    };
+    const app = document.getElementById("app");
+    const modalRoot = document.getElementById("modalRoot");
+    const toast = document.getElementById("toast");
+
+    function currentConfig() { return state.previewMode === "draft" ? state.draft : state.published; }
+    function activeModule() { return state.draft.find(item => item.id === state.activeModule) || state.draft[0]; }
+    function escapeHtml(value) { return String(value ?? "").replace(/[&<>'"]/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;","\"":"&quot;"}[char])); }
+    function showToast(message, tone = "") {
+      toast.textContent = message;
+      toast.className = `toast show ${tone}`;
+      clearTimeout(state.toastTimer);
+      state.toastTimer = setTimeout(() => { toast.className = "toast"; }, 2500);
+    }
+    function moduleIcon(module) { return `<span class="module-icon ${module.tone}">${module.icon}</span>`; }
+    function statusTag(module) { return module.enabled ? `<span class="tag green">已启用</span>` : `<span class="tag red">已停用</span>`; }
+    function renderTopbar() {
+      return `<header class="topbar">
+        <div class="brand"><span class="brand-mark">优</span><div><span class="brand-title">优坐标运营后台</span><span class="brand-sub">首页内容中心</span></div></div>
+        <div class="surface-switch" role="tablist" aria-label="预览端切换">
+          <button class="${state.surface === "workbench" ? "active" : ""}" data-action="surface" data-value="workbench">首页装修</button>
+          <button class="${state.surface === "home" ? "active" : ""}" data-action="surface" data-value="home">家长端首页</button>
+        </div>
+        <div class="user"><span>管理员</span><span class="avatar">管</span></div>
+      </header>`;
+    }
+    function renderSidebar() {
+      const modules = state.draft;
+      const moduleNav = modules.map(item => `<div class="nav-child"><button class="nav-item ${state.activeModule === item.id ? "active" : ""}" data-action="select-module" data-id="${item.id}"><span>${escapeHtml(item.name)}</span><small>${item.count}</small></button></div>`).join("");
+      return `<aside class="sidebar"><div class="side-heading"><div class="side-title">优坐标后台</div><div class="side-note">首页模块配置与发布</div></div>
+        <div class="nav-group"><div class="nav-label">内容管理</div><button class="nav-item active"><span>首页装修工作台</span><small>主</small></button>${moduleNav}</div>
+        <div class="nav-group"><div class="nav-label">相关维护</div><button class="nav-item" data-action="related"><span>教师类型维护</span><small>↗</small></button><button class="nav-item" data-action="related"><span>课程管理</span><small>↗</small></button><button class="nav-item" data-action="related"><span>教师管理</span><small>↗</small></button></div>
+      </aside>`;
+    }
+    function renderStatusStrip() {
+      const draftCount = state.draft.filter(item => item.enabled).length;
+      return `<div class="status-strip"><div class="status-left"><span class="status-pill draft">● 草稿已保存</span><span class="status-note">${draftCount} 个启用模块 · 上次发布 ${state.lastPublish}</span></div><div class="actions"><button class="btn ghost" data-action="preview-draft">预览草稿</button><button class="btn primary" data-action="publish">发布首页</button><button class="btn warn" data-action="publish-fail">模拟发布失败</button></div></div>`;
+    }
+    function renderModuleRows() {
+      return state.draft.map(module => `<div class="module-row ${state.activeModule === module.id ? "selected" : ""}" data-action="select-module" data-id="${module.id}">
+          ${moduleIcon(module)}<div class="module-info"><div class="module-name">${escapeHtml(module.name)}</div><div class="module-summary">${escapeHtml(module.summary)}</div><div class="module-state">${statusTag(module)}<span class="status-note">${module.count} 个配置项 · ${module.updated}</span></div></div>
+          <div class="module-actions"><button class="switch ${module.enabled ? "on" : ""}" data-action="toggle" data-id="${module.id}" aria-label="${module.enabled ? "停用" : "启用"}${module.name}"><span></span></button><button class="icon-button" data-action="edit" data-id="${module.id}" aria-label="编辑${module.name}">✎</button><button class="icon-button delete" data-action="delete" data-id="${module.id}" aria-label="删除${module.name}">×</button></div>
+        </div>`).join("");
+    }
+    function renderNotes() {
+      return `<aside class="notes"><div class="notes-title">需求说明</div><div class="notes-sub">当前模块：${escapeHtml(activeModule()?.name || "首页")}</div>
+        <div class="note"><b>页面目标</b>运营人员在一个工作台内维护首页内容，发布后由家长端读取已发布版本。</div>
+        <div class="note"><b>字段来源</b>Banner、课程、教师和公众号内容来自后台配置；教师类型首页入口复用现有一级类型配置规则。</div>
+        <div class="note"><b>操作结果</b>编辑保存进入草稿；预览草稿只影响手机预览；发布成功后刷新家长端；发布失败保留草稿并提供重试。</div>
+        <div class="note"><b>弹窗规范</b>新增、编辑、配置弹窗底部只保留“取消”和“保存”；删除位于列表行内并需要二次确认。</div>
+        <div class="note"><b>状态覆盖</b><ul><li>配置不完整</li><li>空状态/读取失败</li><li>草稿与已发布差异</li><li>发布失败重试</li><li>无权限提示</li></ul></div>
+        <div class="note"><b>待确认</b>真实图片规格、轮播间隔、分群首页、发布审核和教师/课程自动排序暂不接入。</div>
+      </aside>`;
+    }
+    function renderPhone(mode = state.previewMode) {
+      const config = mode === "draft" ? state.draft : state.published;
+      const find = id => config.find(item => item.id === id);
+      const banner = find("banner"), quick = find("quick"), trial = find("trial"), teacher = find("teacher"), courses = find("courses"), wechat = find("wechat"), bottom = find("bottom");
+      const quickItems = ["专业老师", "骨干教师", "英语AI单词", "心理专区", "志愿填报", "升学规划", "补习学校", "加入会员", "艺术素养", "线下专区"];
+      const quickHtml = quick?.enabled ? `<section class="home-section"><div class="quick-grid">${quickItems.map((item, i) => `<button class="quick" data-action="home-click" data-label="${item}"><span>${["●","★","AB","♥","▤","□","▥","♛","●","⌖"][i]}</span>${item}</button>`).join("")}</div></section>` : emptyHome("快捷入口");
+      const trialHtml = trial?.enabled ? `<section class="home-section"><div class="section-title"><span>${escapeHtml(trial.fields.title)}</span><a data-action="home-click" data-label="试听课全部">查看全部 ›</a></div><div class="trial-grid"><div class="trial large"><b>优AI数学素养</b><small>1V1专业教练<br>伴学直播课</small></div><div class="trial green"><b>优AI语文素养</b><small>1V1专业教练伴学直播课</small></div><div class="trial orange"><b>优AI英语素养</b><small>1V1专业教练伴学直播课</small></div></div></section>` : emptyHome("试听课");
+      const teacherHtml = teacher?.enabled ? `<section class="home-section"><div class="section-title"><span>推荐老师</span><a data-action="home-click" data-label="更多推荐老师">查看更多 ›</a></div><div class="teacher-tabs"><button class="teacher-tab active">骨干教员</button><button class="teacher-tab">专业教员</button><button class="teacher-tab">英语伴读</button></div><div class="teacher-strip">${[
+        ["王教员", "老师头像_李教员_v1_20260702.jpg", "985｜9年教龄"], ["李教员", "老师头像_袁教员_v1_20260702.jpg", "211｜8年教龄"], ["张教员", "老师头像_张教员_v1_20260702.jpg", "985｜6年教龄"]
+      ].map(([name, image, meta]) => `<button class="teacher-card" data-action="home-click" data-label="${name}"><div class="teacher-photo"><img src="../work/优坐标老师列表截图资产_v1_20260702/${image}" alt="${name}"></div><div class="teacher-info"><b>${name}</b><small>${meta}</small></div></button>`).join("")}</div></section>` : emptyHome("教师推荐");
+      const courseRows = [["优AI数学素养-体验课", "优AI数学", "39.9", ""], ["优AI语文素养-体验课", "优AI语文", "168", "green"], ["优AI单词-体验课", "优AI英语", "239.9", "orange"]];
+      const courseHtml = courses?.enabled ? `<section class="home-section"><div class="section-title"><span>${escapeHtml(courses.fields.title)}</span><a data-action="home-click" data-label="精品课程全部">查看更多⌄</a></div><div class="course-list">${courseRows.map(([title, tag, price, tone]) => `<button class="course" data-action="home-click" data-label="${title}"><span class="cover ${tone}">${tag}</span><span><b>${title}</b><small>★ 4.8　◷ 40分钟</small></span><span class="price">¥${price}</span></button>`).join("")}</div></section>` : emptyHome("精品课程");
+      const bannerHtml = banner?.enabled ? `<section class="home-section home-banner"><div class="banner-copy"><strong>${escapeHtml(banner.fields.title)}</strong><small>${escapeHtml(banner.fields.subtitle)}</small><em>${escapeHtml(banner.fields.cta)}　›</em></div></section>` : emptyHome("Banner");
+      const wechatHtml = wechat?.enabled ? `<section class="home-section follow"><span class="follow-copy"><b>▣ ${escapeHtml(wechat.fields.title)}</b><small>${escapeHtml(wechat.fields.subtitle)}</small></span><button data-action="home-click" data-label="${wechat.fields.cta}">${escapeHtml(wechat.fields.cta)}</button></section>` : emptyHome("公众号关注");
+      const bottomHtml = bottom?.enabled ? `<nav class="phone-tabbar">${["首页","全部老师","成为会员","消息","我的"].map((item, i) => `<button class="${i === 0 ? "active" : ""}" data-action="home-click" data-label="${item}"><strong>${["⌂","♙","♛","◌","◎"][i]}</strong>${item}</button>`).join("")}</nav>` : "";
+      return `<div class="phone"><div class="phone-status"><span>23:58</span><span>▮▮▮　⌁　▰</span></div><div class="phone-screen"><div class="phone-nav"><span class="phone-location">●　西安</span><span class="phone-menu">•••　◎</span></div>${bannerHtml}${quickHtml}${trialHtml}${teacherHtml}${courseHtml}${wechatHtml}</div>${bottomHtml}</div>`;
+    }
+    function emptyHome(label) { return `<section class="home-section"><div class="home-empty">${label}暂无可展示内容</div></section>`; }
+    function renderWorkbench() {
+      const module = activeModule();
+      return `${renderTopbar()}<div class="shell">${renderSidebar()}<main class="main"><div class="page-head"><div><div class="eyebrow">HOME CONTENT STUDIO</div><h1>首页装修工作台</h1><p class="page-sub">集中维护优坐标家长端首页内容，草稿预览确认后再发布。</p></div><div class="actions"><button class="btn" data-action="view-home">查看家长端</button><button class="btn primary" data-action="preview-draft">预览草稿</button></div></div>${renderStatusStrip()}<div class="workspace"><section class="panel"><div class="panel-head"><div><div class="panel-title">首页模块</div><div class="panel-meta">${state.draft.length} 个模块 · 当前查看 ${escapeHtml(module?.name || "首页")}</div></div><button class="btn ghost" data-action="add">＋ 新增模块</button></div><div class="panel-body"><div class="module-list">${renderModuleRows()}</div></div></section><section class="panel preview-card"><div class="preview-toolbar"><strong style="font-size:12px;margin-right:auto">手机预览</strong><button class="${state.previewMode === "draft" ? "active" : ""}" data-action="preview-mode" data-value="draft">草稿</button><button class="${state.previewMode === "published" ? "active" : ""}" data-action="preview-mode" data-value="published">已发布</button></div><div class="phone-wrap">${renderPhone()}</div></section></div></main>${renderNotes()}</div>`;
+    }
+    function renderHome() {
+      return `${renderTopbar()}<main class="home-view"><div class="home-view-inner"><section class="home-intro"><div class="eyebrow">PUBLISHED HOME · 家长端</div><h1>把好老师、好课程和安心服务，放在首页第一屏。</h1><p>当前展示的是已发布版本。后台编辑的草稿不会影响家长端，点击右上角返回首页装修即可继续维护。</p><div class="home-actions"><button class="btn primary" data-action="home-refresh">刷新首页</button><button class="btn" data-action="view-workbench">返回首页装修</button></div><div class="mini-status">已发布版本：${state.lastPublish}　·　${state.published.filter(item => item.enabled).length} 个启用模块</div></section><div class="phone-wrap" style="border-radius:18px;box-shadow:var(--shadow)">${renderPhone("published")}</div></div></main>`;
+    }
+    function formFields(module) {
+      const f = module.fields;
+      const common = `<div class="field"><label>主标题</label><input name="title" value="${escapeHtml(f.title)}"></div><div class="field"><label>副标题</label><input name="subtitle" value="${escapeHtml(f.subtitle)}"></div><div class="field"><label>按钮文案</label><input name="cta" value="${escapeHtml(f.cta)}"></div><div class="field"><label>跳转目标</label><select name="target"><option>${escapeHtml(f.target)}</option><option>课程详情</option><option>教师详情</option><option>全部老师</option><option>会员中心</option></select></div>`;
+      if (module.type === "banner") return `<div class="form-preview">示例 Banner：${escapeHtml(f.title)}</div><div class="form-grid">${common}<div class="field"><label>展示时间</label><input name="schedule" value="${escapeHtml(f.schedule)}"></div><div class="field"><label>排序</label><input name="sort" value="1" inputmode="numeric"></div></div><div class="field-help">本轮使用示例素材，真实图片上传、裁切和轮播间隔待数据交互阶段确认。</div>`;
+      if (module.type === "teacher") return `<div class="form-grid">${common}<div class="field"><label>一级教师类型</label><select name="teacherType"><option>骨干教员</option><option>专业教员</option><option>英语伴读</option></select></div><div class="field"><label>首页 Icon 排序</label><input name="sort" value="1" inputmode="numeric"></div></div><div class="field-help">一级教师类型启用、允许前台展示且配置完整时，才进入首页入口。二级类型不单独配置首页入口。</div>`;
+      if (module.type === "courses" || module.type === "trial") return `<div class="form-preview" style="background:linear-gradient(135deg,#ffb23e,#f3751d)">已选择 ${module.count} 门样例课程</div><div class="form-grid">${common}<div class="field"><label>展示数量</label><input name="count" value="${module.count}" inputmode="numeric"></div><div class="field"><label>排序</label><input name="sort" value="1" inputmode="numeric"></div></div><div class="field-help">课程由已有商品样例读取；课程下架或读取失败时，前台显示对应异常态。</div>`;
+      if (module.type === "quick") return `<div class="form-preview" style="background:linear-gradient(135deg,#46d6a0,#178e68)">快捷入口预览　专业老师 · 骨干教师 · 会员</div><div class="form-grid">${common}<div class="field"><label>入口数量</label><input name="count" value="${module.count}" inputmode="numeric"></div><div class="field"><label>排序</label><input name="sort" value="1" inputmode="numeric"></div></div>`;
+      if (module.type === "wechat") return `<div class="form-preview" style="background:linear-gradient(135deg,#39c979,#11854c)">▣　公众号关注卡片预览</div><div class="form-grid">${common}<div class="field"><label>二维码状态</label><select name="qr"><option>已配置示例二维码</option><option>未配置</option></select></div><div class="field"><label>排序</label><input name="sort" value="1" inputmode="numeric"></div></div>`;
+      return `<div class="form-grid">${common}<div class="field"><label>导航数量</label><input name="count" value="${module.count}" inputmode="numeric"></div><div class="field"><label>排序</label><input name="sort" value="1" inputmode="numeric"></div></div><div class="field-help">首页为固定默认选中项，不能关闭全部底部导航入口。</div>`;
+    }
+    function renderModal() {
+      if (!state.modal) { modalRoot.innerHTML = ""; return; }
+      const module = state.draft.find(item => item.id === state.modal.id);
+      if (!module) { state.modal = null; modalRoot.innerHTML = ""; return; }
+      modalRoot.innerHTML = `<div class="modal-backdrop open" data-action="close-modal"><section class="modal" role="dialog" aria-modal="true" aria-label="编辑${escapeHtml(module.name)}" data-modal="true"><div class="modal-head"><div><h2>编辑${escapeHtml(module.name)}</h2><p>保存后进入草稿，不会立即影响家长端首页。</p></div><button class="close" data-action="close-modal" aria-label="关闭">×</button></div><form class="form" data-form="${module.id}">${formFields(module)}</form><div class="modal-foot"><button class="btn" data-action="close-modal">取消</button><button class="btn primary" data-action="save-modal" data-id="${module.id}">保存</button></div></section></div>`;
+    }
+    function render() { app.innerHTML = state.surface === "workbench" ? renderWorkbench() : renderHome(); renderModal(); }
+    function saveForm(id) {
+      const module = state.draft.find(item => item.id === id);
+      const form = document.querySelector(`[data-form="${id}"]`);
+      if (!module || !form) return;
+      const data = new FormData(form);
+      const title = String(data.get("title") || "").trim();
+      if (!title) { showToast("主标题不能为空", "error"); return; }
+      ["title", "subtitle", "cta", "target", "schedule"].forEach(key => { if (data.has(key)) module.fields[key] = String(data.get(key)); });
+      if (data.has("count")) module.count = Math.max(1, Number(data.get("count")) || 1);
+      module.summary = `${module.fields.title} · ${module.fields.subtitle || module.fields.target}`;
+      module.updated = "刚刚保存";
+      state.modal = null;
+      render();
+      showToast(`${module.name}已保存到草稿`, "success");
+    }
+    function publish(fail = false) {
+      if (fail) { showToast("发布失败：示例服务响应超时，请稍后重试", "error"); return; }
+      const invalid = state.draft.some(item => item.enabled && !item.fields.title);
+      if (invalid) { showToast("发布失败：存在配置不完整的模块", "error"); return; }
+      state.published = structuredClone(state.draft);
+      state.lastPublish = new Date().toLocaleString("zh-CN", { hour12: false }).replaceAll("/", "-");
+      state.previewMode = "published";
+      render();
+      showToast("首页已发布，家长端读取新版本", "success");
+    }
+    function handleAction(action, el) {
+      const id = el.dataset.id;
+      if (action === "surface") { state.surface = el.dataset.value; render(); return; }
+      if (action === "select-module") { state.activeModule = id; state.surface = "workbench"; render(); return; }
+      if (action === "view-home") { state.surface = "home"; state.homeMode = "published"; render(); return; }
+      if (action === "view-workbench") { state.surface = "workbench"; render(); return; }
+      if (action === "preview-draft") { state.surface = "workbench"; state.previewMode = "draft"; render(); showToast("手机预览已切换为草稿版本"); return; }
+      if (action === "preview-mode") { state.previewMode = el.dataset.value; render(); return; }
+      if (action === "toggle") { const module = state.draft.find(item => item.id === id); if (module) { module.enabled = !module.enabled; state.activeModule = id; render(); showToast(`${module.name}已${module.enabled ? "启用" : "停用"}`, module.enabled ? "success" : ""); } return; }
+      if (action === "edit") { state.modal = { id }; render(); return; }
+      if (action === "close-modal") { if (el.dataset.action === "close-modal" && el.closest("[data-modal]") && el.tagName !== "BUTTON") return; state.modal = null; render(); return; }
+      if (action === "save-modal") { saveForm(id); return; }
+      if (action === "delete") { const module = state.draft.find(item => item.id === id); if (module && confirm(`确定删除“${module.name}”吗？删除只作用于当前草稿。`)) { state.draft = state.draft.filter(item => item.id !== id); state.activeModule = state.draft[0]?.id || ""; render(); showToast(`${module.name}已从草稿中删除`); } return; }
+      if (action === "publish") { publish(false); return; }
+      if (action === "publish-fail") { publish(true); return; }
+      if (action === "add") { showToast("新增模块类型待确认，本轮使用现有 7 个首页模块"); return; }
+      if (action === "related") { showToast("将进入现有维护模块，规则与首页读取保持一致"); return; }
+      if (action === "home-refresh") { render(); showToast("已重新读取已发布首页", "success"); return; }
+      if (action === "home-click") { showToast(`已触发“${el.dataset.label || "首页入口"}”操作`); return; }
+    }
+    document.addEventListener("click", event => {
+      const target = event.target.closest("[data-action]");
+      if (!target) return;
+      if (target.dataset.action === "select-module" && target.closest(".module-row")) event.stopPropagation();
+      handleAction(target.dataset.action, target);
+    });
+    document.addEventListener("keydown", event => { if (event.key === "Escape" && state.modal) { state.modal = null; render(); } });
+    render();
+  </script>
+</body>
+</html>
