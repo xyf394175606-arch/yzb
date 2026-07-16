@@ -199,41 +199,35 @@
     .field textarea { min-height: 78px; resize: vertical; }
     .field-help { color: #9aa6b6; font-size: 11px; line-height: 1.45; }
     .form-preview { min-height: 86px; border-radius: 9px; display: grid; place-items: center; color: #fff; font-size: 13px; font-weight: 900; background: linear-gradient(135deg, #4ba4ff, #215ccf); }
-    .banner-settings { background: #fafbfc; border-bottom: 1px solid #e9edf2; padding: 20px 28px 10px; }
-    .banner-settings-title { margin: -2px -28px 18px; padding: 11px 28px; border-bottom: 1px solid #edf0f3; background: #f5f6f7; color: #525a66; font-size: 13px; font-weight: 900; }
-    .banner-setting-row { display: grid; grid-template-columns: 86px minmax(0, 1fr); align-items: center; gap: 16px; min-height: 50px; }
-    .banner-setting-label { color: #525c69; font-size: 12px; font-weight: 800; text-align: right; }
-    .banner-field-control { position: relative; }
-    .banner-field-control input, .banner-field-control select { width: 100%; min-height: 36px; border: 1px solid #d7dce2; border-radius: 2px; padding: 8px 42px 8px 10px; color: var(--ink); background: #fff; }
-    .banner-field-counter { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #8b939e; font-size: 11px; }
-    .banner-inline { display: flex; align-items: center; gap: 10px; color: #5e6772; font-size: 12px; }
-    .banner-stepper { display: inline-flex; align-items: center; border: 1px solid #d7dce2; background: #fff; }
-    .banner-stepper button { width: 34px; height: 34px; border: 0; color: #89929c; background: #f2f4f6; font-size: 18px; }
-    .banner-stepper span { min-width: 72px; padding: 8px 14px; border-left: 1px solid #d7dce2; border-right: 1px solid #d7dce2; color: #545c67; text-align: center; }
-    .banner-switch { width: 40px; height: 22px; border: 0; border-radius: 999px; padding: 2px; background: #dce1e8; }
-    .banner-switch span { display: block; width: 18px; height: 18px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.14); }
-    .banner-switch.on { background: #3f8ff0; }
-    .banner-switch.on span { transform: translateX(18px); }
-    .banner-radio { display: inline-flex; align-items: center; gap: 7px; margin-right: 22px; color: #6b737d; }
-    .banner-radio i { width: 14px; height: 14px; border: 1px solid #d1d7de; border-radius: 50%; background: #fff; }
-    .banner-radio.active { color: #e11d2e; font-weight: 800; }
-    .banner-radio.active i { border: 4px solid #e11d2e; }
-    .banner-carousel { padding: 18px 28px 8px; background: #fff; }
-    .banner-carousel-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px; color: #525c69; font-size: 12px; font-weight: 900; }
-    .banner-carousel-head small { color: #9aa2ac; font-weight: 500; }
-    .banner-carousel-list { display: grid; gap: 10px; }
-    .banner-carousel-item { display: grid; grid-template-columns: 116px minmax(0, 1fr) auto; align-items: center; gap: 14px; min-height: 78px; padding: 9px 10px; border: 1px dashed #d5dae0; background: #fff; }
-    .banner-thumb { width: 112px; height: 72px; border-radius: 2px; display: grid; place-items: center; padding: 8px; color: #fff; text-align: center; font-size: 13px; font-weight: 900; line-height: 1.2; }
-    .banner-thumb.red { background: linear-gradient(135deg, #f43f3f, #b90e26); }
-    .banner-thumb.orange { background: linear-gradient(135deg, #ff9d42, #ef4d1b); }
-    .banner-thumb.pink { background: linear-gradient(135deg, #f85b72, #b41335); }
-    .banner-item-name { color: #65707e; font-size: 12px; text-align: center; }
-    .banner-item-actions { display: flex; align-items: center; gap: 10px; }
-    .banner-item-actions button { border: 0; background: transparent; color: #69737f; font-size: 16px; cursor: pointer; }
-    .banner-item-actions button.danger { color: #f04444; }
-    .banner-upload-hint { padding: 18px 0 8px; color: #8d959e; font-size: 11px; text-align: center; }
-    .banner-add { display: block; margin: 0 auto 8px; border: 1px solid #d7dce2; border-radius: 2px; padding: 7px 14px; color: #5b6571; background: #fff; font-size: 12px; cursor: pointer; }
+    .banner-carousel { padding: 20px 28px 10px; background: #fff; }
+    .banner-carousel-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 14px; color: #333b48; font-size: 15px; font-weight: 900; }
+    .banner-carousel-head small { color: #9aa2ac; font-size: 11px; font-weight: 500; }
+    .banner-carousel-list { display: grid; gap: 12px; }
+    .banner-carousel-item { display: grid; grid-template-columns: 172px minmax(0, 1fr) 48px; align-items: start; gap: 18px; padding: 14px; border: 1px solid #e3e6ea; background: #fff; }
+    .banner-upload { width: 172px; height: 116px; border: 1px dashed #c7cdd5; display: grid; place-items: center; align-content: center; gap: 6px; color: #9098a4; background: #fafbfc; cursor: pointer; }
+    .banner-upload strong { color: #747e8b; font-size: 13px; font-weight: 700; }
+    .banner-upload span { font-size: 11px; }
+    .banner-upload.red { background: linear-gradient(135deg, #fff5f4, #fffafa); }
+    .banner-upload.orange { background: linear-gradient(135deg, #fff9ed, #fffdf8); }
+    .banner-upload.pink { background: linear-gradient(135deg, #fff4f7, #fffafe); }
+    .banner-item-fields { display: grid; gap: 12px; min-width: 0; }
+    .banner-item-field { display: grid; grid-template-columns: 72px minmax(0, 1fr); align-items: center; gap: 10px; }
+    .banner-item-field label { color: #555e6a; font-size: 12px; white-space: nowrap; }
+    .banner-item-field input { width: 100%; min-height: 34px; border: 1px solid #d7dce2; border-radius: 2px; padding: 7px 9px; color: var(--ink); background: #fff; font-size: 12px; }
+    .banner-item-field input:focus { border-color: #4b93e8; outline: 2px solid rgba(75,147,232,.12); }
+    .banner-item-actions { display: flex; justify-content: flex-end; }
+    .banner-item-actions button { border: 0; background: transparent; color: #e54848; font-size: 12px; cursor: pointer; }
+    .banner-item-actions button:disabled { visibility: hidden; }
+    .banner-size-hint { grid-column: 1 / -1; margin-top: -2px; color: #8d959e; font-size: 11px; }
+    .banner-add { display: block; margin: 16px auto 8px; border: 1px solid #2f7de1; border-radius: 2px; padding: 8px 28px; color: #2f7de1; background: #fff; font-size: 12px; cursor: pointer; }
     .banner-add:hover { border-color: #9cbbe8; color: var(--blue); background: #f8fbff; }
+    .quick-carousel-item { grid-template-columns: 84px minmax(0, 1fr) 48px; }
+    .quick-icon-upload { width: 84px; height: 84px; border: 1px dashed #b8d7c7; display: grid; place-items: center; color: #269267; background: #effaf4; font-size: 22px; }
+    .quick-item-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; }
+    .quick-item-field { display: grid; gap: 5px; min-width: 0; }
+    .quick-item-field.full { grid-column: 1 / -1; }
+    .quick-item-field label { color: #555e6a; font-size: 12px; }
+    .quick-item-field input { width: 100%; min-height: 34px; border: 1px solid #d7dce2; border-radius: 2px; padding: 7px 9px; color: var(--ink); background: #fff; font-size: 12px; }
     .modal-foot { display: flex; justify-content: flex-end; gap: 8px; padding: 13px 20px 18px; border-top: 1px solid var(--line); }
     .toast { position: fixed; left: 50%; bottom: 24px; z-index: 30; transform: translate(-50%, 16px); padding: 11px 16px; border-radius: 999px; color: #fff; background: #172337; box-shadow: 0 10px 24px rgba(0,0,0,.2); opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; font-size: 13px; font-weight: 800; }
     .toast.show { opacity: 1; transform: translate(-50%, 0); }
@@ -267,12 +261,17 @@
       .status-strip .actions { margin-top: 9px; justify-content: flex-start; }
       .form-grid { grid-template-columns: 1fr; }
       .modal.banner-modal { width: 100%; }
-      .banner-settings, .banner-carousel { padding-left: 16px; padding-right: 16px; }
-      .banner-settings-title { margin-left: -16px; margin-right: -16px; padding-left: 16px; padding-right: 16px; }
-      .banner-setting-row { grid-template-columns: 1fr; align-items: start; gap: 6px; padding: 8px 0; }
-      .banner-setting-label { text-align: left; }
-      .banner-carousel-item { grid-template-columns: 84px minmax(0, 1fr) auto; gap: 8px; }
-      .banner-thumb { width: 84px; height: 58px; font-size: 10px; }
+      .banner-carousel { padding-left: 16px; padding-right: 16px; }
+      .banner-carousel-item { grid-template-columns: 92px minmax(0, 1fr) 38px; gap: 9px; padding: 10px; }
+      .banner-upload { width: 92px; height: 72px; }
+      .banner-upload strong { font-size: 10px; }
+      .banner-upload span { font-size: 9px; }
+      .banner-item-field { grid-template-columns: 1fr; gap: 4px; }
+      .banner-item-fields { gap: 8px; }
+      .quick-carousel-item { grid-template-columns: 58px minmax(0, 1fr) 38px; }
+      .quick-icon-upload { width: 58px; height: 58px; font-size: 16px; }
+      .quick-item-fields { grid-template-columns: 1fr; gap: 8px; }
+      .quick-item-field.full { grid-column: auto; }
       .field.full { grid-column: auto; }
       .module-row { grid-template-columns: 34px minmax(0, 1fr); }
       .module-icon { width: 34px; height: 34px; font-size: 15px; }
@@ -291,7 +290,7 @@
   <script>
     const imageRoot = "../work/优坐标教师详情截图资产_v1_20260703/";
     const initialModules = [
-      { id: "banner", type: "banner", name: "Banner 轮播", icon: "✦", tone: "blue", enabled: true, count: 2, summary: "优AI数学素养 · 39.9试听课", updated: "刚刚", fields: { title: "优AI数学素养", subtitle: "1V1专业教练伴学直播课", cta: "查看详情", target: "试听课详情", schedule: "全天展示" } },
+      { id: "banner", type: "banner", name: "Banner 轮播", icon: "✦", tone: "blue", enabled: true, count: 3, summary: "优AI数学素养 · 39.9试听课", updated: "刚刚", fields: { title: "优AI数学素养", subtitle: "1V1专业教练伴学直播课", cta: "查看详情", target: "试听课详情", schedule: "全天展示" } },
       { id: "quick", type: "quick", name: "快捷入口", icon: "⌘", tone: "green", enabled: true, count: 10, summary: "专业老师、骨干教师、英语AI单词等", updated: "今天 16:20", fields: { title: "快捷入口", subtitle: "首页服务入口", cta: "查看入口", target: "入口集合" } },
       { id: "trial", type: "trial", name: "39.9试听课", icon: "¥", tone: "orange", enabled: true, count: 3, summary: "数学、语文、英语体验课", updated: "今天 15:48", fields: { title: "39.9试听课", subtitle: "精选体验课", cta: "查看全部", target: "课程列表" } },
       { id: "teacher", type: "teacher", name: "教师类型与教师推荐", icon: "♛", tone: "purple", enabled: true, count: 6, summary: "骨干教员、专业教员、英语伴读", updated: "今天 14:32", fields: { title: "推荐老师", subtitle: "认证教员为你服务", cta: "查看更多推荐老师", target: "全部老师" } },
@@ -309,11 +308,22 @@
       modal: null,
       toastTimer: null,
       lastPublish: "2026-07-15 16:40",
-      bannerSettings: { interval: 3000, roundImage: false, dotStyle: "number", dotColor: "dark" },
       bannerItems: [
-        { id: "banner-1", tone: "red", text: "今天开放限时秒杀", name: "[0315]　限时秒杀" },
-        { id: "banner-2", tone: "orange", text: "新大福利", name: "nmg" },
-        { id: "banner-3", tone: "pink", text: "好货上新", name: "限时优惠" }
+        { id: "banner-1", tone: "red", imageText: "示例图片 1", target: "试听课详情", url: "这里填写跳转地址（具体地址开发要）", duration: 3 },
+        { id: "banner-2", tone: "orange", imageText: "示例图片 2", target: "课程详情", url: "这里填写跳转地址（具体地址开发要）", duration: 3 },
+        { id: "banner-3", tone: "pink", imageText: "示例图片 3", target: "教师详情", url: "这里填写跳转地址（具体地址开发要）", duration: 3 }
+      ],
+      quickEntries: [
+        { id: "quick-1", icon: "●", name: "专业老师", target: "教师列表", url: "/teachers" },
+        { id: "quick-2", icon: "★", name: "骨干教师", target: "教师类型", url: "/teachers/core" },
+        { id: "quick-3", icon: "AB", name: "英语AI单词", target: "课程列表", url: "/courses/ai-words" },
+        { id: "quick-4", icon: "♥", name: "心理专区", target: "专区首页", url: "/special/mental-health" },
+        { id: "quick-5", icon: "▤", name: "志愿填报", target: "服务页面", url: "/services/volunteer" },
+        { id: "quick-6", icon: "□", name: "升学规划", target: "服务页面", url: "/services/planning" },
+        { id: "quick-7", icon: "▥", name: "补习学校", target: "课程列表", url: "/courses/school" },
+        { id: "quick-8", icon: "♛", name: "加入会员", target: "会员中心", url: "/member" },
+        { id: "quick-9", icon: "●", name: "艺术素养", target: "课程列表", url: "/courses/art" },
+        { id: "quick-10", icon: "⌖", name: "线下专区", target: "专区首页", url: "/special/offline" }
       ]
     };
     const app = document.getElementById("app");
@@ -361,14 +371,25 @@
     }
     function renderNotes() {
       const bannerModalOpen = state.modal?.id === "banner";
+      const quickModalOpen = state.modal?.id === "quick";
       const notesBody = bannerModalOpen ? `
         <div class="notes-sub">当前页面：Banner 配置页</div>
         <div class="note"><b>页面目标</b>维护首页 Banner 的展示内容和顺序，保存后进入草稿，发布后由家长端读取。</div>
-        <div class="note"><b>字段来源</b>主标题、副标题、按钮文案、跳转目标、展示时间和排序来自 Banner 配置；当前图片使用示例素材。</div>
-        <div class="note"><b>操作结果</b>点击保存校验字段并写入草稿；点击取消或关闭不改变草稿；发布成功后才影响家长端首页。</div>
-        <div class="note"><b>弹窗规范</b>底部只保留“取消”和“保存”；图片上传、裁切、尺寸和存储规则暂按示例素材展示。</div>
-        <div class="note"><b>状态覆盖</b><ul><li>配置不完整时阻止保存/发布</li><li>图片读取失败</li><li>草稿与已发布差异</li><li>无权限编辑或发布</li></ul></div>
-        <div class="note"><b>待确认</b>真实图片规格、轮播间隔、多 Banner 新增方式、发布审核和兜底图规则。</div>
+        <div class="note"><b>字段来源</b>每条轮播独立维护图片、跳转目标、跳转地址和轮播时长；列表顺序即前台轮播顺序。标题、副标题、落播时间、圆角图片、知识点颜色、按钮文案、展示时间和指示点样式不在此页维护。</div>
+        <div class="note"><b>配置完整性</b>启用 Banner 发布时，至少保留一条轮播；每条轮播需配置图片、跳转目标、跳转地址和正整数轮播时长。具体时长范围待确认。</div>
+        <div class="note"><b>操作结果</b>点击“保存，发布”先写入当前草稿并关闭弹窗；点击取消或关闭不改变草稿；仍需在工作台点击“发布首页”后，家长端才读取新版本。</div>
+        <div class="note"><b>新增与删除</b>“新增轮播”增加一条草稿配置；删除位于轮播项行内，只作用于草稿，且至少保留一条轮播。</div>
+        <div class="note"><b>图片与跳转规则</b>图片选择支持 jpg/png，原型限制不超过 2MB，界面提示 400*300；跳转目标和跳转地址需同时配置，真实枚举、地址格式、裁切和存储规则待确认。</div>
+        <div class="note"><b>状态覆盖</b><ul><li>发布前校验配置完整性</li><li>图片类型、大小或读取失败</li><li>草稿与已发布差异</li><li>无权限编辑或发布</li></ul></div>
+        <div class="note"><b>待确认</b>图片实际规格、跳转目标枚举、地址格式、轮播时长范围、拖拽排序和发布审核规则。</div>
+      ` : quickModalOpen ? `
+        <div class="notes-sub">当前页面：快捷入口配置页</div>
+        <div class="note"><b>页面目标</b>维护首页快捷入口的名称、跳转目标和地址，保存后进入草稿，发布后由家长端读取。</div>
+        <div class="note"><b>字段来源</b>每条快捷入口独立配置；列表顺序即前台入口展示顺序，Icon 为当前原型占位。</div>
+        <div class="note"><b>数量规则</b>快捷入口最少 4 个、最多 10 个；达到 10 个后不可新增，减少到 4 个后不可继续删除。</div>
+        <div class="note"><b>操作结果</b>保存写入当前草稿并关闭弹窗；取消或关闭不改变草稿；工作台发布后才影响家长端首页。</div>
+        <div class="note"><b>配置完整性</b>每条入口需填写名称、跳转目标和地址；配置不完整时应阻止保存或发布。</div>
+        <div class="note"><b>待确认</b>Icon 上传规格、跳转目标枚举、地址格式、入口排序方式和不同用户群的入口差异。</div>
       ` : `
         <div class="notes-sub">当前模块：${escapeHtml(activeModule()?.name || "首页")}</div>
         <div class="note"><b>页面目标</b>运营人员在一个工作台内维护首页内容，发布后由家长端读取已发布版本。</div>
@@ -376,7 +397,7 @@
         <div class="note"><b>操作结果</b>编辑保存进入草稿；预览草稿只影响手机预览；发布成功后刷新家长端；发布失败保留草稿并提供重试。</div>
         <div class="note"><b>弹窗规范</b>新增、编辑、配置弹窗底部只保留“取消”和“保存”；删除位于列表行内并需要二次确认。</div>
         <div class="note"><b>状态覆盖</b><ul><li>配置不完整</li><li>空状态/读取失败</li><li>草稿与已发布差异</li><li>发布失败重试</li><li>无权限提示</li></ul></div>
-        <div class="note"><b>待确认</b>真实图片规格、轮播间隔、分群首页、发布审核和教师/课程自动排序暂不接入。</div>
+        <div class="note"><b>待确认</b>真实图片规格、跳转地址格式、轮播时长范围、分群首页、发布审核和教师/课程自动排序暂不接入。</div>
       `;
       return `<aside class="notes"><div class="notes-title">需求说明</div><div class="notes-sub">当前模块：${escapeHtml(activeModule()?.name || "首页")}</div>
         ${notesBody}
@@ -386,8 +407,8 @@
       const config = mode === "draft" ? state.draft : state.published;
       const find = id => config.find(item => item.id === id);
       const banner = find("banner"), quick = find("quick"), trial = find("trial"), teacher = find("teacher"), courses = find("courses"), wechat = find("wechat"), bottom = find("bottom");
-      const quickItems = ["专业老师", "骨干教师", "英语AI单词", "心理专区", "志愿填报", "升学规划", "补习学校", "加入会员", "艺术素养", "线下专区"];
-      const quickHtml = quick?.enabled ? `<section class="home-section"><div class="quick-grid">${quickItems.map((item, i) => `<button class="quick" data-action="home-click" data-label="${item}"><span>${["●","★","AB","♥","▤","□","▥","♛","●","⌖"][i]}</span>${item}</button>`).join("")}</div></section>` : emptyHome("快捷入口");
+      const quickItems = state.quickEntries.slice(0, quick?.count || 10);
+      const quickHtml = quick?.enabled ? `<section class="home-section"><div class="quick-grid">${quickItems.map(item => `<button class="quick" data-action="home-click" data-label="${escapeHtml(item.name)}"><span>${escapeHtml(item.icon)}</span>${escapeHtml(item.name)}</button>`).join("")}</div></section>` : emptyHome("快捷入口");
       const trialHtml = trial?.enabled ? `<section class="home-section"><div class="section-title"><span>${escapeHtml(trial.fields.title)}</span><a data-action="home-click" data-label="试听课全部">查看全部 ›</a></div><div class="trial-grid"><div class="trial large"><b>优AI数学素养</b><small>1V1专业教练<br>伴学直播课</small></div><div class="trial green"><b>优AI语文素养</b><small>1V1专业教练伴学直播课</small></div><div class="trial orange"><b>优AI英语素养</b><small>1V1专业教练伴学直播课</small></div></div></section>` : emptyHome("试听课");
       const teacherHtml = teacher?.enabled ? `<section class="home-section"><div class="section-title"><span>推荐老师</span><a data-action="home-click" data-label="更多推荐老师">查看更多 ›</a></div><div class="teacher-tabs"><button class="teacher-tab active">骨干教员</button><button class="teacher-tab">专业教员</button><button class="teacher-tab">英语伴读</button></div><div class="teacher-strip">${[
         ["王教员", "老师头像_李教员_v1_20260702.jpg", "985｜9年教龄"], ["李教员", "老师头像_袁教员_v1_20260702.jpg", "211｜8年教龄"], ["张教员", "老师头像_张教员_v1_20260702.jpg", "985｜6年教龄"]
@@ -402,9 +423,25 @@
     function emptyHome(label) { return `<section class="home-section"><div class="home-empty">${label}暂无可展示内容</div></section>`; }
     function renderBannerItems() {
       return state.bannerItems.map((item, index) => `<div class="banner-carousel-item">
-        <div class="banner-thumb ${item.tone}">${escapeHtml(item.text)}</div>
-        <div class="banner-item-name">${escapeHtml(item.name)}</div>
-        <div class="banner-item-actions"><button type="button" data-action="banner-delete" data-id="${item.id}" class="danger" aria-label="删除第${index + 1}张轮播图">♜</button><button type="button" aria-label="拖动排序">☷</button></div>
+        <div class="banner-upload ${item.tone}" role="button" tabindex="0" data-action="banner-upload" data-id="${item.id}" aria-label="上传第${index + 1}张轮播图"><strong>点击上传图片</strong><span>${escapeHtml(item.imageText)}</span></div>
+        <div class="banner-item-fields">
+          <div class="banner-item-field"><label>跳转目标</label><input data-banner-field="target" data-banner-id="${item.id}" value="${escapeHtml(item.target)}" placeholder="请选择跳转目标"></div>
+          <div class="banner-item-field"><label>地址</label><input data-banner-field="url" data-banner-id="${item.id}" value="${escapeHtml(item.url)}" placeholder="这里填写跳转地址（具体地址开发要）"></div>
+          <div class="banner-item-field"><label>轮播时长</label><input data-banner-field="duration" data-banner-id="${item.id}" value="${escapeHtml(item.duration)}" inputmode="numeric" placeholder="广告轮播时长（秒）"></div>
+        </div>
+        <div class="banner-item-actions"><button type="button" data-action="banner-delete" data-id="${item.id}" aria-label="删除第${index + 1}张轮播图">删除</button></div>
+        <div class="banner-size-hint">注意：图片大小 400*300（需要开发确定）</div>
+      </div>`).join("");
+    }
+    function renderQuickEntries() {
+      return state.quickEntries.map((item, index) => `<div class="banner-carousel-item quick-carousel-item">
+        <div class="quick-icon-upload" aria-label="${escapeHtml(item.name)} Icon">${escapeHtml(item.icon)}</div>
+        <div class="quick-item-fields">
+          <div class="quick-item-field"><label>入口名称</label><input data-quick-field="name" data-quick-id="${item.id}" value="${escapeHtml(item.name)}" placeholder="填写入口名称"></div>
+          <div class="quick-item-field"><label>跳转目标</label><input data-quick-field="target" data-quick-id="${item.id}" value="${escapeHtml(item.target)}" placeholder="填写跳转目标"></div>
+          <div class="quick-item-field full"><label>地址</label><input data-quick-field="url" data-quick-id="${item.id}" value="${escapeHtml(item.url)}" placeholder="这里填写跳转地址（具体地址开发要）"></div>
+        </div>
+        <div class="banner-item-actions"><button type="button" data-action="quick-delete" data-id="${item.id}" aria-label="删除第${index + 1}个快捷入口" ${state.quickEntries.length <= 4 ? "disabled" : ""}>删除</button></div>
       </div>`).join("");
     }
     function renderWorkbench() {
@@ -417,21 +454,10 @@
     function formFields(module) {
       const f = module.fields;
       const common = `<div class="field"><label>主标题</label><input name="title" value="${escapeHtml(f.title)}"></div><div class="field"><label>副标题</label><input name="subtitle" value="${escapeHtml(f.subtitle)}"></div><div class="field"><label>按钮文案</label><input name="cta" value="${escapeHtml(f.cta)}"></div><div class="field"><label>跳转目标</label><select name="target"><option>${escapeHtml(f.target)}</option><option>课程详情</option><option>教师详情</option><option>全部老师</option><option>会员中心</option></select></div>`;
-      if (module.type === "banner") return `<div class="banner-settings">
-        <div class="banner-settings-title">设置</div>
-        <div class="banner-setting-row"><div class="banner-setting-label">标题：</div><div class="banner-field-control"><input name="title" maxlength="5" value="${escapeHtml(f.title)}"><span class="banner-field-counter">${String(f.title || "").length}/5</span></div></div>
-        <div class="banner-setting-row"><div class="banner-setting-label">副标题：</div><div class="banner-field-control"><input name="subtitle" maxlength="15" value="${escapeHtml(f.subtitle)}"><span class="banner-field-counter">${String(f.subtitle || "").length}/15</span></div></div>
-        <div class="banner-setting-row"><div class="banner-setting-label">轮播时间：</div><div class="banner-inline"><div class="banner-stepper"><button type="button" data-action="banner-speed" data-delta="-500" aria-label="减少轮播时间">−</button><span>${state.bannerSettings.interval}</span><button type="button" data-action="banner-speed" data-delta="500" aria-label="增加轮播时间">＋</button></div><span>毫秒</span></div></div>
-        <div class="banner-setting-row"><div class="banner-setting-label">圆角图片：</div><button type="button" class="banner-switch ${state.bannerSettings.roundImage ? "on" : ""}" data-action="banner-round" aria-label="切换圆角图片"><span></span></button></div>
-        <div class="banner-setting-row"><div class="banner-setting-label">指示点样式：</div><div class="banner-inline"><button type="button" class="banner-radio ${state.bannerSettings.dotStyle === "number" ? "active" : ""}" data-action="banner-dot-style" data-value="number"><i></i>数字</button><button type="button" class="banner-radio ${state.bannerSettings.dotStyle === "dot" ? "active" : ""}" data-action="banner-dot-style" data-value="dot"><i></i>点</button></div></div>
-        <div class="banner-setting-row"><div class="banner-setting-label">指示点颜色：</div><div class="banner-inline"><button type="button" class="banner-radio ${state.bannerSettings.dotColor === "dark" ? "active" : ""}" data-action="banner-dot-color" data-value="dark"><i></i>深色</button><button type="button" class="banner-radio ${state.bannerSettings.dotColor === "light" ? "active" : ""}" data-action="banner-dot-color" data-value="light"><i></i>亮色</button></div></div>
-        <div class="banner-setting-row"><div class="banner-setting-label">按钮文案：</div><div class="banner-field-control"><input name="cta" value="${escapeHtml(f.cta)}"></div></div>
-        <div class="banner-setting-row"><div class="banner-setting-label">跳转目标：</div><div class="banner-field-control"><select name="target"><option>${escapeHtml(f.target)}</option><option>课程详情</option><option>教师详情</option><option>全部老师</option><option>会员中心</option></select></div></div>
-        <div class="banner-setting-row"><div class="banner-setting-label">展示时间：</div><div class="banner-field-control"><input name="schedule" value="${escapeHtml(f.schedule)}"></div></div>
-      </div><div class="banner-carousel"><div class="banner-carousel-head"><span>轮播项：</span><small>可拖拽进行排序</small></div><div class="banner-carousel-list">${renderBannerItems()}</div><div class="banner-upload-hint">只能上传 jpg/png 文件，且不超过2M（建议尺寸：375px × 200px）</div><button type="button" class="banner-add" data-action="banner-add">⊕ 添加轮播图</button></div>`;
+      if (module.type === "banner") return `<div class="banner-carousel"><div class="banner-carousel-head"><span>首页轮播广告 banner</span><small>每条广告独立配置</small></div><div class="banner-carousel-list">${renderBannerItems()}</div><button type="button" class="banner-add" data-action="banner-add">＋ 新增轮播</button></div>`;
       if (module.type === "teacher") return `<div class="form-grid">${common}<div class="field"><label>一级教师类型</label><select name="teacherType"><option>骨干教员</option><option>专业教员</option><option>英语伴读</option></select></div><div class="field"><label>首页 Icon 排序</label><input name="sort" value="1" inputmode="numeric"></div></div><div class="field-help">一级教师类型启用、允许前台展示且配置完整时，才进入首页入口。二级类型不单独配置首页入口。</div>`;
       if (module.type === "courses" || module.type === "trial") return `<div class="form-preview" style="background:linear-gradient(135deg,#ffb23e,#f3751d)">已选择 ${module.count} 门样例课程</div><div class="form-grid">${common}<div class="field"><label>展示数量</label><input name="count" value="${module.count}" inputmode="numeric"></div><div class="field"><label>排序</label><input name="sort" value="1" inputmode="numeric"></div></div><div class="field-help">课程由已有商品样例读取；课程下架或读取失败时，前台显示对应异常态。</div>`;
-      if (module.type === "quick") return `<div class="form-preview" style="background:linear-gradient(135deg,#46d6a0,#178e68)">快捷入口预览　专业老师 · 骨干教师 · 会员</div><div class="form-grid">${common}<div class="field"><label>入口数量</label><input name="count" value="${module.count}" inputmode="numeric"></div><div class="field"><label>排序</label><input name="sort" value="1" inputmode="numeric"></div></div>`;
+      if (module.type === "quick") return `<div class="banner-carousel"><div class="banner-carousel-head"><span>首页快捷入口</span><small>最少 4 个，最多 10 个</small></div><div class="banner-carousel-list">${renderQuickEntries()}</div><button type="button" class="banner-add" data-action="quick-add" ${state.quickEntries.length >= 10 ? "disabled" : ""}>＋ 新增入口</button></div>`;
       if (module.type === "wechat") return `<div class="form-preview" style="background:linear-gradient(135deg,#39c979,#11854c)">▣　公众号关注卡片预览</div><div class="form-grid">${common}<div class="field"><label>二维码状态</label><select name="qr"><option>已配置示例二维码</option><option>未配置</option></select></div><div class="field"><label>排序</label><input name="sort" value="1" inputmode="numeric"></div></div>`;
       return `<div class="form-grid">${common}<div class="field"><label>导航数量</label><input name="count" value="${module.count}" inputmode="numeric"></div><div class="field"><label>排序</label><input name="sort" value="1" inputmode="numeric"></div></div><div class="field-help">首页为固定默认选中项，不能关闭全部底部导航入口。</div>`;
     }
@@ -439,7 +465,9 @@
       if (!state.modal) { modalRoot.innerHTML = ""; return; }
       const module = state.draft.find(item => item.id === state.modal.id);
       if (!module) { state.modal = null; modalRoot.innerHTML = ""; return; }
-      modalRoot.innerHTML = `<div class="modal-backdrop open" data-action="close-modal"><section class="modal ${module.type === "banner" ? "banner-modal" : ""}" role="dialog" aria-modal="true" aria-label="编辑${escapeHtml(module.name)}" data-modal="true"><div class="modal-head"><div><h2>编辑${escapeHtml(module.name)}</h2><p>保存后进入草稿，不会立即影响家长端首页。</p></div><button class="close" data-action="close-modal" aria-label="关闭">×</button></div><form class="form" data-form="${module.id}">${formFields(module)}</form><div class="modal-foot"><button class="btn" data-action="close-modal">取消</button><button class="btn primary" data-action="save-modal" data-id="${module.id}">保存</button></div></section></div>`;
+      const modalTitle = module.type === "banner" ? "首页轮播广告 banner" : `编辑${escapeHtml(module.name)}`;
+      const saveLabel = module.type === "banner" ? "保存，发布" : "保存";
+      modalRoot.innerHTML = `<div class="modal-backdrop open" data-action="close-modal"><section class="modal ${module.type === "banner" ? "banner-modal" : ""}" role="dialog" aria-modal="true" aria-label="${modalTitle}" data-modal="true"><div class="modal-head"><div><h2>${modalTitle}</h2><p>保存后进入草稿，不会立即影响家长端首页。</p></div><button class="close" data-action="close-modal" aria-label="关闭">×</button></div><form class="form" data-form="${module.id}">${formFields(module)}</form><div class="modal-foot"><button class="btn" data-action="close-modal">取消</button><button class="btn primary" data-action="save-modal" data-id="${module.id}">${saveLabel}</button></div></section></div>`;
     }
     function render() { app.innerHTML = state.surface === "workbench" ? renderWorkbench() : renderHome(); renderModal(); }
     function saveForm(id) {
@@ -448,7 +476,24 @@
       if (!module || !form) return;
       const data = new FormData(form);
       const title = String(data.get("title") || "").trim();
-      if (!title) { showToast("主标题不能为空", "error"); return; }
+      if (module.type !== "banner" && !title) { showToast("主标题不能为空", "error"); return; }
+      if (module.type === "banner") {
+        form.querySelectorAll("[data-banner-field]").forEach(input => {
+          const item = state.bannerItems.find(entry => entry.id === input.dataset.bannerId);
+          if (item) item[input.dataset.bannerField] = input.dataset.bannerField === "duration" ? Math.max(1, Number(input.value) || 1) : input.value.trim();
+        });
+        const bannerIssue = getBannerValidationMessage();
+        if (bannerIssue) { showToast(bannerIssue, "error"); return; }
+      }
+      if (module.type === "quick") {
+        form.querySelectorAll("[data-quick-field]").forEach(input => {
+          const item = state.quickEntries.find(entry => entry.id === input.dataset.quickId);
+          if (item) item[input.dataset.quickField] = input.value.trim();
+        });
+        const quickIssue = getQuickValidationMessage();
+        if (quickIssue) { showToast(quickIssue, "error"); return; }
+        module.count = state.quickEntries.length;
+      }
       ["title", "subtitle", "cta", "target", "schedule"].forEach(key => { if (data.has(key)) module.fields[key] = String(data.get(key)); });
       if (data.has("count")) module.count = Math.max(1, Number(data.get("count")) || 1);
       if (module.type === "banner") module.count = state.bannerItems.length;
@@ -458,10 +503,27 @@
       render();
       showToast(`${module.name}已保存到草稿`, "success");
     }
+    function getQuickValidationMessage() {
+      if (state.quickEntries.length < 4) return "快捷入口最少保留 4 个";
+      if (state.quickEntries.length > 10) return "快捷入口最多配置 10 个";
+      const incomplete = state.quickEntries.some(item => !item.name || !item.target || !item.url);
+      return incomplete ? "快捷入口配置不完整：请填写名称、跳转目标和地址" : "";
+    }
+    function getBannerValidationMessage() {
+      if (!state.bannerItems.length) return "Banner 至少保留一条轮播图";
+      const incomplete = state.bannerItems.find(item => !item.imageText || !item.target || !item.url || !Number.isInteger(Number(item.duration)) || Number(item.duration) < 1);
+      return incomplete ? "Banner 配置不完整：请填写图片、跳转目标、地址和正整数轮播时长" : "";
+    }
     function publish(fail = false) {
       if (fail) { showToast("发布失败：示例服务响应超时，请稍后重试", "error"); return; }
       const invalid = state.draft.some(item => item.enabled && !item.fields.title);
       if (invalid) { showToast("发布失败：存在配置不完整的模块", "error"); return; }
+      const banner = state.draft.find(item => item.type === "banner" && item.enabled);
+      const bannerIssue = banner ? getBannerValidationMessage() : "";
+      if (bannerIssue) { showToast(`发布失败：${bannerIssue.replace("Banner ", "")}`, "error"); return; }
+      const quick = state.draft.find(item => item.type === "quick" && item.enabled);
+      const quickIssue = quick ? getQuickValidationMessage() : "";
+      if (quickIssue) { showToast(`发布失败：${quickIssue}`, "error"); return; }
       state.published = structuredClone(state.draft);
       state.lastPublish = new Date().toLocaleString("zh-CN", { hour12: false }).replaceAll("/", "-");
       state.previewMode = "published";
@@ -480,12 +542,28 @@
       if (action === "edit") { state.modal = { id }; render(); return; }
       if (action === "close-modal") { if (el.dataset.action === "close-modal" && el.closest("[data-modal]") && el.tagName !== "BUTTON") return; state.modal = null; render(); return; }
       if (action === "save-modal") { saveForm(id); return; }
-      if (action === "banner-speed") { state.bannerSettings.interval = Math.max(1000, Math.min(10000, state.bannerSettings.interval + Number(el.dataset.delta || 0))); render(); return; }
-      if (action === "banner-round") { state.bannerSettings.roundImage = !state.bannerSettings.roundImage; render(); return; }
-      if (action === "banner-dot-style") { state.bannerSettings.dotStyle = el.dataset.value; render(); return; }
-      if (action === "banner-dot-color") { state.bannerSettings.dotColor = el.dataset.value; render(); return; }
       if (action === "banner-delete") { if (state.bannerItems.length <= 1) { showToast("至少保留一张轮播图", "error"); return; } state.bannerItems = state.bannerItems.filter(item => item.id !== id); render(); showToast("轮播图已从草稿中移除"); return; }
-      if (action === "banner-add") { const next = state.bannerItems.length + 1; state.bannerItems = [...state.bannerItems, { id: `banner-${Date.now()}`, tone: next % 2 ? "pink" : "red", text: `示例轮播图${next}`, name: `新轮播图 ${next}` }]; render(); showToast("已添加示例轮播图到草稿", "success"); return; }
+      if (action === "banner-upload") {
+        const item = state.bannerItems.find(entry => entry.id === id);
+        if (!item) return;
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = "image/png,image/jpeg";
+        input.onchange = () => {
+          const file = input.files?.[0];
+          if (!file) return;
+          if (!/^image\/(png|jpeg)$/.test(file.type)) { showToast("仅支持 jpg/png 图片", "error"); return; }
+          if (file.size > 2 * 1024 * 1024) { showToast("图片不能超过 2MB", "error"); return; }
+          item.imageText = file.name;
+          render();
+          showToast("图片已加入草稿，保存后生效", "success");
+        };
+        input.click();
+        return;
+      }
+      if (action === "banner-add") { const next = state.bannerItems.length + 1; state.bannerItems = [...state.bannerItems, { id: `banner-${Date.now()}`, tone: next % 2 ? "pink" : "red", imageText: `示例图片 ${next}`, target: "课程详情", url: "这里填写跳转地址（具体地址开发要）", duration: 3 }]; render(); showToast("已添加轮播配置到草稿", "success"); return; }
+      if (action === "quick-delete") { if (state.quickEntries.length <= 4) { showToast("快捷入口最少保留 4 个", "error"); return; } state.quickEntries = state.quickEntries.filter(item => item.id !== id); const quick = state.draft.find(item => item.type === "quick"); if (quick) quick.count = state.quickEntries.length; render(); showToast("快捷入口已从草稿中移除"); return; }
+      if (action === "quick-add") { if (state.quickEntries.length >= 10) { showToast("快捷入口最多配置 10 个", "error"); return; } const next = state.quickEntries.length + 1; state.quickEntries = [...state.quickEntries, { id: `quick-${Date.now()}`, icon: "＋", name: `新快捷入口 ${next}`, target: "待配置页面", url: "" }]; const quick = state.draft.find(item => item.type === "quick"); if (quick) quick.count = state.quickEntries.length; render(); showToast("已添加快捷入口到草稿", "success"); return; }
       if (action === "delete") { const module = state.draft.find(item => item.id === id); if (module && confirm(`确定删除“${module.name}”吗？删除只作用于当前草稿。`)) { state.draft = state.draft.filter(item => item.id !== id); state.activeModule = state.draft[0]?.id || ""; render(); showToast(`${module.name}已从草稿中删除`); } return; }
       if (action === "publish") { publish(false); return; }
       if (action === "related") { showToast("将进入现有维护模块，规则与首页读取保持一致"); return; }
