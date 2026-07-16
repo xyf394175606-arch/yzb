@@ -309,13 +309,26 @@
         </div>`).join("");
     }
     function renderNotes() {
-      return `<aside class="notes"><div class="notes-title">需求说明</div><div class="notes-sub">当前模块：${escapeHtml(activeModule()?.name || "首页")}</div>
+      const bannerModalOpen = state.modal?.id === "banner";
+      const notesBody = bannerModalOpen ? `
+        <div class="notes-sub">当前页面：Banner 配置页</div>
+        <div class="note"><b>页面目标</b>维护首页 Banner 的展示内容和顺序，保存后进入草稿，发布后由家长端读取。</div>
+        <div class="note"><b>字段来源</b>主标题、副标题、按钮文案、跳转目标、展示时间和排序来自 Banner 配置；当前图片使用示例素材。</div>
+        <div class="note"><b>操作结果</b>点击保存校验字段并写入草稿；点击取消或关闭不改变草稿；发布成功后才影响家长端首页。</div>
+        <div class="note"><b>弹窗规范</b>底部只保留“取消”和“保存”；图片上传、裁切、尺寸和存储规则暂按示例素材展示。</div>
+        <div class="note"><b>状态覆盖</b><ul><li>配置不完整时阻止保存/发布</li><li>图片读取失败</li><li>草稿与已发布差异</li><li>无权限编辑或发布</li></ul></div>
+        <div class="note"><b>待确认</b>真实图片规格、轮播间隔、多 Banner 新增方式、发布审核和兜底图规则。</div>
+      ` : `
+        <div class="notes-sub">当前模块：${escapeHtml(activeModule()?.name || "首页")}</div>
         <div class="note"><b>页面目标</b>运营人员在一个工作台内维护首页内容，发布后由家长端读取已发布版本。</div>
         <div class="note"><b>字段来源</b>Banner、课程、教师和公众号内容来自后台配置；教师类型首页入口复用现有一级类型配置规则。</div>
         <div class="note"><b>操作结果</b>编辑保存进入草稿；预览草稿只影响手机预览；发布成功后刷新家长端；发布失败保留草稿并提供重试。</div>
         <div class="note"><b>弹窗规范</b>新增、编辑、配置弹窗底部只保留“取消”和“保存”；删除位于列表行内并需要二次确认。</div>
         <div class="note"><b>状态覆盖</b><ul><li>配置不完整</li><li>空状态/读取失败</li><li>草稿与已发布差异</li><li>发布失败重试</li><li>无权限提示</li></ul></div>
         <div class="note"><b>待确认</b>真实图片规格、轮播间隔、分群首页、发布审核和教师/课程自动排序暂不接入。</div>
+      `;
+      return `<aside class="notes"><div class="notes-title">需求说明</div>
+        ${notesBody}
       </aside>`;
     }
     function renderPhone(mode = state.previewMode) {
@@ -388,7 +401,7 @@
     function handleAction(action, el) {
       const id = el.dataset.id;
       if (action === "surface") { state.surface = el.dataset.value; render(); return; }
-      if (action === "select-module") { state.activeModule = id; state.surface = "workbench"; render(); return; }
+      if (action === "select-module") { state.activeModule = id; state.surface = "workbench"; state.modal = id === "banner" ? { id } : null; render(); return; }
       if (action === "view-home") { state.surface = "home"; state.homeMode = "published"; render(); return; }
       if (action === "view-workbench") { state.surface = "workbench"; render(); return; }
       if (action === "preview-draft") { state.surface = "workbench"; state.previewMode = "draft"; render(); showToast("手机预览已切换为草稿版本"); return; }
