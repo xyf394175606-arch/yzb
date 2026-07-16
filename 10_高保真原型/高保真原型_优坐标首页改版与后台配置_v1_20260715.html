@@ -182,9 +182,10 @@
     .home-intro p { max-width: 480px; margin-top: 12px; color: var(--muted); line-height: 1.7; }
     .home-intro .home-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
     .home-intro .mini-status { margin-top: 20px; color: #7d8b9e; font-size: 12px; }
-    .modal-backdrop { position: fixed; inset: 0; z-index: 20; display: none; place-items: center; padding: 20px; background: rgba(17, 29, 49, .45); }
+    .modal-backdrop { position: fixed; inset: 0; z-index: 20; display: none; place-items: center; padding: 20px 330px 20px 258px; background: rgba(17, 29, 49, .45); }
     .modal-backdrop.open { display: grid; }
     .modal { position: relative; z-index: 1; width: min(620px, 100%); max-height: min(760px, calc(100vh - 40px)); overflow: auto; border-radius: 12px; background: #fff; box-shadow: 0 24px 70px rgba(12, 25, 46, .28); }
+    .modal.banner-modal { width: min(920px, 100%); max-height: min(840px, calc(100vh - 40px)); }
     .modal-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; padding: 18px 20px; border-bottom: 1px solid var(--line); }
     .modal-head h2 { font-size: 18px; }
     .modal-head p { margin-top: 4px; color: var(--muted); font-size: 12px; }
@@ -198,6 +199,41 @@
     .field textarea { min-height: 78px; resize: vertical; }
     .field-help { color: #9aa6b6; font-size: 11px; line-height: 1.45; }
     .form-preview { min-height: 86px; border-radius: 9px; display: grid; place-items: center; color: #fff; font-size: 13px; font-weight: 900; background: linear-gradient(135deg, #4ba4ff, #215ccf); }
+    .banner-settings { background: #fafbfc; border-bottom: 1px solid #e9edf2; padding: 20px 28px 10px; }
+    .banner-settings-title { margin: -2px -28px 18px; padding: 11px 28px; border-bottom: 1px solid #edf0f3; background: #f5f6f7; color: #525a66; font-size: 13px; font-weight: 900; }
+    .banner-setting-row { display: grid; grid-template-columns: 86px minmax(0, 1fr); align-items: center; gap: 16px; min-height: 50px; }
+    .banner-setting-label { color: #525c69; font-size: 12px; font-weight: 800; text-align: right; }
+    .banner-field-control { position: relative; }
+    .banner-field-control input, .banner-field-control select { width: 100%; min-height: 36px; border: 1px solid #d7dce2; border-radius: 2px; padding: 8px 42px 8px 10px; color: var(--ink); background: #fff; }
+    .banner-field-counter { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #8b939e; font-size: 11px; }
+    .banner-inline { display: flex; align-items: center; gap: 10px; color: #5e6772; font-size: 12px; }
+    .banner-stepper { display: inline-flex; align-items: center; border: 1px solid #d7dce2; background: #fff; }
+    .banner-stepper button { width: 34px; height: 34px; border: 0; color: #89929c; background: #f2f4f6; font-size: 18px; }
+    .banner-stepper span { min-width: 72px; padding: 8px 14px; border-left: 1px solid #d7dce2; border-right: 1px solid #d7dce2; color: #545c67; text-align: center; }
+    .banner-switch { width: 40px; height: 22px; border: 0; border-radius: 999px; padding: 2px; background: #dce1e8; }
+    .banner-switch span { display: block; width: 18px; height: 18px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.14); }
+    .banner-switch.on { background: #3f8ff0; }
+    .banner-switch.on span { transform: translateX(18px); }
+    .banner-radio { display: inline-flex; align-items: center; gap: 7px; margin-right: 22px; color: #6b737d; }
+    .banner-radio i { width: 14px; height: 14px; border: 1px solid #d1d7de; border-radius: 50%; background: #fff; }
+    .banner-radio.active { color: #e11d2e; font-weight: 800; }
+    .banner-radio.active i { border: 4px solid #e11d2e; }
+    .banner-carousel { padding: 18px 28px 8px; background: #fff; }
+    .banner-carousel-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px; color: #525c69; font-size: 12px; font-weight: 900; }
+    .banner-carousel-head small { color: #9aa2ac; font-weight: 500; }
+    .banner-carousel-list { display: grid; gap: 10px; }
+    .banner-carousel-item { display: grid; grid-template-columns: 116px minmax(0, 1fr) auto; align-items: center; gap: 14px; min-height: 78px; padding: 9px 10px; border: 1px dashed #d5dae0; background: #fff; }
+    .banner-thumb { width: 112px; height: 72px; border-radius: 2px; display: grid; place-items: center; padding: 8px; color: #fff; text-align: center; font-size: 13px; font-weight: 900; line-height: 1.2; }
+    .banner-thumb.red { background: linear-gradient(135deg, #f43f3f, #b90e26); }
+    .banner-thumb.orange { background: linear-gradient(135deg, #ff9d42, #ef4d1b); }
+    .banner-thumb.pink { background: linear-gradient(135deg, #f85b72, #b41335); }
+    .banner-item-name { color: #65707e; font-size: 12px; text-align: center; }
+    .banner-item-actions { display: flex; align-items: center; gap: 10px; }
+    .banner-item-actions button { border: 0; background: transparent; color: #69737f; font-size: 16px; cursor: pointer; }
+    .banner-item-actions button.danger { color: #f04444; }
+    .banner-upload-hint { padding: 18px 0 8px; color: #8d959e; font-size: 11px; text-align: center; }
+    .banner-add { display: block; margin: 0 auto 8px; border: 1px solid #d7dce2; border-radius: 2px; padding: 7px 14px; color: #5b6571; background: #fff; font-size: 12px; cursor: pointer; }
+    .banner-add:hover { border-color: #9cbbe8; color: var(--blue); background: #f8fbff; }
     .modal-foot { display: flex; justify-content: flex-end; gap: 8px; padding: 13px 20px 18px; border-top: 1px solid var(--line); }
     .toast { position: fixed; left: 50%; bottom: 24px; z-index: 30; transform: translate(-50%, 16px); padding: 11px 16px; border-radius: 999px; color: #fff; background: #172337; box-shadow: 0 10px 24px rgba(0,0,0,.2); opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; font-size: 13px; font-weight: 800; }
     .toast.show { opacity: 1; transform: translate(-50%, 0); }
@@ -207,6 +243,8 @@
     @media (max-width: 1180px) {
       .shell { grid-template-columns: 210px minmax(630px, 1fr); }
       .notes { display: none; }
+      .modal-backdrop { padding: 20px; }
+      .modal.banner-modal { width: min(840px, 100%); }
     }
     @media (max-width: 860px) {
       .app { grid-template-rows: 58px 1fr; }
@@ -228,6 +266,13 @@
       .status-strip { display: block; }
       .status-strip .actions { margin-top: 9px; justify-content: flex-start; }
       .form-grid { grid-template-columns: 1fr; }
+      .modal.banner-modal { width: 100%; }
+      .banner-settings, .banner-carousel { padding-left: 16px; padding-right: 16px; }
+      .banner-settings-title { margin-left: -16px; margin-right: -16px; padding-left: 16px; padding-right: 16px; }
+      .banner-setting-row { grid-template-columns: 1fr; align-items: start; gap: 6px; padding: 8px 0; }
+      .banner-setting-label { text-align: left; }
+      .banner-carousel-item { grid-template-columns: 84px minmax(0, 1fr) auto; gap: 8px; }
+      .banner-thumb { width: 84px; height: 58px; font-size: 10px; }
       .field.full { grid-column: auto; }
       .module-row { grid-template-columns: 34px minmax(0, 1fr); }
       .module-icon { width: 34px; height: 34px; font-size: 15px; }
@@ -263,7 +308,13 @@
       published: structuredClone(initialModules),
       modal: null,
       toastTimer: null,
-      lastPublish: "2026-07-15 16:40"
+      lastPublish: "2026-07-15 16:40",
+      bannerSettings: { interval: 3000, roundImage: false, dotStyle: "number", dotColor: "dark" },
+      bannerItems: [
+        { id: "banner-1", tone: "red", text: "今天开放限时秒杀", name: "[0315]　限时秒杀" },
+        { id: "banner-2", tone: "orange", text: "新大福利", name: "nmg" },
+        { id: "banner-3", tone: "pink", text: "好货上新", name: "限时优惠" }
+      ]
     };
     const app = document.getElementById("app");
     const modalRoot = document.getElementById("modalRoot");
@@ -349,6 +400,13 @@
       return `<div class="phone"><div class="phone-status"><span>23:58</span><span>▮▮▮　⌁　▰</span></div><div class="phone-screen"><div class="phone-nav"><span class="phone-location">●　西安</span><span class="phone-menu">•••　◎</span></div>${bannerHtml}${quickHtml}${trialHtml}${teacherHtml}${courseHtml}${wechatHtml}</div>${bottomHtml}</div>`;
     }
     function emptyHome(label) { return `<section class="home-section"><div class="home-empty">${label}暂无可展示内容</div></section>`; }
+    function renderBannerItems() {
+      return state.bannerItems.map((item, index) => `<div class="banner-carousel-item">
+        <div class="banner-thumb ${item.tone}">${escapeHtml(item.text)}</div>
+        <div class="banner-item-name">${escapeHtml(item.name)}</div>
+        <div class="banner-item-actions"><button type="button" data-action="banner-delete" data-id="${item.id}" class="danger" aria-label="删除第${index + 1}张轮播图">♜</button><button type="button" aria-label="拖动排序">☷</button></div>
+      </div>`).join("");
+    }
     function renderWorkbench() {
       const module = activeModule();
       return `${renderTopbar()}<div class="shell">${renderSidebar()}<main class="main"><div class="page-head"><div><div class="eyebrow">HOME CONTENT STUDIO</div><h1>首页装修工作台</h1><p class="page-sub">集中维护优坐标家长端首页内容，草稿预览确认后再发布。</p></div><div class="actions"><button class="btn" data-action="view-home">查看家长端</button><button class="btn primary" data-action="preview-draft">预览草稿</button></div></div>${renderStatusStrip()}<div class="workspace"><section class="panel"><div class="panel-head"><div><div class="panel-title">首页模块</div><div class="panel-meta">${state.draft.length} 个模块 · 当前查看 ${escapeHtml(module?.name || "首页")}</div></div></div><div class="panel-body"><div class="module-list">${renderModuleRows()}</div></div></section><section class="panel preview-card"><div class="preview-toolbar"><strong style="font-size:12px;margin-right:auto">手机预览</strong><button class="${state.previewMode === "draft" ? "active" : ""}" data-action="preview-mode" data-value="draft">草稿</button><button class="${state.previewMode === "published" ? "active" : ""}" data-action="preview-mode" data-value="published">已发布</button></div><div class="phone-wrap">${renderPhone()}</div></section></div></main>${renderNotes()}</div>`;
@@ -359,7 +417,18 @@
     function formFields(module) {
       const f = module.fields;
       const common = `<div class="field"><label>主标题</label><input name="title" value="${escapeHtml(f.title)}"></div><div class="field"><label>副标题</label><input name="subtitle" value="${escapeHtml(f.subtitle)}"></div><div class="field"><label>按钮文案</label><input name="cta" value="${escapeHtml(f.cta)}"></div><div class="field"><label>跳转目标</label><select name="target"><option>${escapeHtml(f.target)}</option><option>课程详情</option><option>教师详情</option><option>全部老师</option><option>会员中心</option></select></div>`;
-      if (module.type === "banner") return `<div class="form-preview">示例 Banner：${escapeHtml(f.title)}</div><div class="form-grid">${common}<div class="field"><label>展示时间</label><input name="schedule" value="${escapeHtml(f.schedule)}"></div><div class="field"><label>排序</label><input name="sort" value="1" inputmode="numeric"></div></div><div class="field-help">本轮使用示例素材，真实图片上传、裁切和轮播间隔待数据交互阶段确认。</div>`;
+      if (module.type === "banner") return `<div class="banner-settings">
+        <div class="banner-settings-title">设置</div>
+        <div class="banner-setting-row"><div class="banner-setting-label">标题：</div><div class="banner-field-control"><input name="title" maxlength="5" value="${escapeHtml(f.title)}"><span class="banner-field-counter">${String(f.title || "").length}/5</span></div></div>
+        <div class="banner-setting-row"><div class="banner-setting-label">副标题：</div><div class="banner-field-control"><input name="subtitle" maxlength="15" value="${escapeHtml(f.subtitle)}"><span class="banner-field-counter">${String(f.subtitle || "").length}/15</span></div></div>
+        <div class="banner-setting-row"><div class="banner-setting-label">轮播时间：</div><div class="banner-inline"><div class="banner-stepper"><button type="button" data-action="banner-speed" data-delta="-500" aria-label="减少轮播时间">−</button><span>${state.bannerSettings.interval}</span><button type="button" data-action="banner-speed" data-delta="500" aria-label="增加轮播时间">＋</button></div><span>毫秒</span></div></div>
+        <div class="banner-setting-row"><div class="banner-setting-label">圆角图片：</div><button type="button" class="banner-switch ${state.bannerSettings.roundImage ? "on" : ""}" data-action="banner-round" aria-label="切换圆角图片"><span></span></button></div>
+        <div class="banner-setting-row"><div class="banner-setting-label">指示点样式：</div><div class="banner-inline"><button type="button" class="banner-radio ${state.bannerSettings.dotStyle === "number" ? "active" : ""}" data-action="banner-dot-style" data-value="number"><i></i>数字</button><button type="button" class="banner-radio ${state.bannerSettings.dotStyle === "dot" ? "active" : ""}" data-action="banner-dot-style" data-value="dot"><i></i>点</button></div></div>
+        <div class="banner-setting-row"><div class="banner-setting-label">指示点颜色：</div><div class="banner-inline"><button type="button" class="banner-radio ${state.bannerSettings.dotColor === "dark" ? "active" : ""}" data-action="banner-dot-color" data-value="dark"><i></i>深色</button><button type="button" class="banner-radio ${state.bannerSettings.dotColor === "light" ? "active" : ""}" data-action="banner-dot-color" data-value="light"><i></i>亮色</button></div></div>
+        <div class="banner-setting-row"><div class="banner-setting-label">按钮文案：</div><div class="banner-field-control"><input name="cta" value="${escapeHtml(f.cta)}"></div></div>
+        <div class="banner-setting-row"><div class="banner-setting-label">跳转目标：</div><div class="banner-field-control"><select name="target"><option>${escapeHtml(f.target)}</option><option>课程详情</option><option>教师详情</option><option>全部老师</option><option>会员中心</option></select></div></div>
+        <div class="banner-setting-row"><div class="banner-setting-label">展示时间：</div><div class="banner-field-control"><input name="schedule" value="${escapeHtml(f.schedule)}"></div></div>
+      </div><div class="banner-carousel"><div class="banner-carousel-head"><span>轮播项：</span><small>可拖拽进行排序</small></div><div class="banner-carousel-list">${renderBannerItems()}</div><div class="banner-upload-hint">只能上传 jpg/png 文件，且不超过2M（建议尺寸：375px × 200px）</div><button type="button" class="banner-add" data-action="banner-add">⊕ 添加轮播图</button></div>`;
       if (module.type === "teacher") return `<div class="form-grid">${common}<div class="field"><label>一级教师类型</label><select name="teacherType"><option>骨干教员</option><option>专业教员</option><option>英语伴读</option></select></div><div class="field"><label>首页 Icon 排序</label><input name="sort" value="1" inputmode="numeric"></div></div><div class="field-help">一级教师类型启用、允许前台展示且配置完整时，才进入首页入口。二级类型不单独配置首页入口。</div>`;
       if (module.type === "courses" || module.type === "trial") return `<div class="form-preview" style="background:linear-gradient(135deg,#ffb23e,#f3751d)">已选择 ${module.count} 门样例课程</div><div class="form-grid">${common}<div class="field"><label>展示数量</label><input name="count" value="${module.count}" inputmode="numeric"></div><div class="field"><label>排序</label><input name="sort" value="1" inputmode="numeric"></div></div><div class="field-help">课程由已有商品样例读取；课程下架或读取失败时，前台显示对应异常态。</div>`;
       if (module.type === "quick") return `<div class="form-preview" style="background:linear-gradient(135deg,#46d6a0,#178e68)">快捷入口预览　专业老师 · 骨干教师 · 会员</div><div class="form-grid">${common}<div class="field"><label>入口数量</label><input name="count" value="${module.count}" inputmode="numeric"></div><div class="field"><label>排序</label><input name="sort" value="1" inputmode="numeric"></div></div>`;
@@ -370,7 +439,7 @@
       if (!state.modal) { modalRoot.innerHTML = ""; return; }
       const module = state.draft.find(item => item.id === state.modal.id);
       if (!module) { state.modal = null; modalRoot.innerHTML = ""; return; }
-      modalRoot.innerHTML = `<div class="modal-backdrop open" data-action="close-modal"><section class="modal" role="dialog" aria-modal="true" aria-label="编辑${escapeHtml(module.name)}" data-modal="true"><div class="modal-head"><div><h2>编辑${escapeHtml(module.name)}</h2><p>保存后进入草稿，不会立即影响家长端首页。</p></div><button class="close" data-action="close-modal" aria-label="关闭">×</button></div><form class="form" data-form="${module.id}">${formFields(module)}</form><div class="modal-foot"><button class="btn" data-action="close-modal">取消</button><button class="btn primary" data-action="save-modal" data-id="${module.id}">保存</button></div></section></div>`;
+      modalRoot.innerHTML = `<div class="modal-backdrop open" data-action="close-modal"><section class="modal ${module.type === "banner" ? "banner-modal" : ""}" role="dialog" aria-modal="true" aria-label="编辑${escapeHtml(module.name)}" data-modal="true"><div class="modal-head"><div><h2>编辑${escapeHtml(module.name)}</h2><p>保存后进入草稿，不会立即影响家长端首页。</p></div><button class="close" data-action="close-modal" aria-label="关闭">×</button></div><form class="form" data-form="${module.id}">${formFields(module)}</form><div class="modal-foot"><button class="btn" data-action="close-modal">取消</button><button class="btn primary" data-action="save-modal" data-id="${module.id}">保存</button></div></section></div>`;
     }
     function render() { app.innerHTML = state.surface === "workbench" ? renderWorkbench() : renderHome(); renderModal(); }
     function saveForm(id) {
@@ -382,6 +451,7 @@
       if (!title) { showToast("主标题不能为空", "error"); return; }
       ["title", "subtitle", "cta", "target", "schedule"].forEach(key => { if (data.has(key)) module.fields[key] = String(data.get(key)); });
       if (data.has("count")) module.count = Math.max(1, Number(data.get("count")) || 1);
+      if (module.type === "banner") module.count = state.bannerItems.length;
       module.summary = `${module.fields.title} · ${module.fields.subtitle || module.fields.target}`;
       module.updated = "刚刚保存";
       state.modal = null;
@@ -410,6 +480,12 @@
       if (action === "edit") { state.modal = { id }; render(); return; }
       if (action === "close-modal") { if (el.dataset.action === "close-modal" && el.closest("[data-modal]") && el.tagName !== "BUTTON") return; state.modal = null; render(); return; }
       if (action === "save-modal") { saveForm(id); return; }
+      if (action === "banner-speed") { state.bannerSettings.interval = Math.max(1000, Math.min(10000, state.bannerSettings.interval + Number(el.dataset.delta || 0))); render(); return; }
+      if (action === "banner-round") { state.bannerSettings.roundImage = !state.bannerSettings.roundImage; render(); return; }
+      if (action === "banner-dot-style") { state.bannerSettings.dotStyle = el.dataset.value; render(); return; }
+      if (action === "banner-dot-color") { state.bannerSettings.dotColor = el.dataset.value; render(); return; }
+      if (action === "banner-delete") { if (state.bannerItems.length <= 1) { showToast("至少保留一张轮播图", "error"); return; } state.bannerItems = state.bannerItems.filter(item => item.id !== id); render(); showToast("轮播图已从草稿中移除"); return; }
+      if (action === "banner-add") { const next = state.bannerItems.length + 1; state.bannerItems = [...state.bannerItems, { id: `banner-${Date.now()}`, tone: next % 2 ? "pink" : "red", text: `示例轮播图${next}`, name: `新轮播图 ${next}` }]; render(); showToast("已添加示例轮播图到草稿", "success"); return; }
       if (action === "delete") { const module = state.draft.find(item => item.id === id); if (module && confirm(`确定删除“${module.name}”吗？删除只作用于当前草稿。`)) { state.draft = state.draft.filter(item => item.id !== id); state.activeModule = state.draft[0]?.id || ""; render(); showToast(`${module.name}已从草稿中删除`); } return; }
       if (action === "publish") { publish(false); return; }
       if (action === "related") { showToast("将进入现有维护模块，规则与首页读取保持一致"); return; }
