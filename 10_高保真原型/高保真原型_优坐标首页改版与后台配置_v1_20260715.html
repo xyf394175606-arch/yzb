@@ -96,7 +96,6 @@
     .module-icon.pink { background: linear-gradient(135deg, #ff9ab3, #ed5f80); }
     .module-info { min-width: 0; }
     .module-name { font-weight: 900; }
-    .module-summary { color: var(--muted); font-size: 12px; margin-top: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .module-state { display: flex; align-items: center; gap: 7px; margin-top: 6px; }
     .module-actions { display: flex; align-items: center; gap: 6px; }
     .icon-button { width: 30px; height: 30px; border: 1px solid transparent; border-radius: 6px; background: transparent; color: #7b8ca4; display: grid; place-items: center; font-weight: 900; }
@@ -413,7 +412,7 @@
     }
     function renderModuleRows() {
       return state.draft.map(module => `<div class="module-row ${state.activeModule === module.id ? "selected" : ""}" data-action="select-module" data-id="${module.id}">
-          ${moduleIcon(module)}<div class="module-info"><div class="module-name">${escapeHtml(moduleDisplayName(module))}</div><div class="module-summary">${escapeHtml(module.summary)}</div><div class="module-state">${statusTag(module)}<span class="status-note">${module.count} 个配置项 · ${module.updated}</span></div></div>
+          ${moduleIcon(module)}<div class="module-info"><div class="module-name">${escapeHtml(moduleDisplayName(module))}</div><div class="module-state">${statusTag(module)}<span class="status-note">${module.count} 个配置项 · ${module.updated}</span></div></div>
           <div class="module-actions"><button class="switch ${module.enabled ? "on" : ""}" data-action="toggle" data-id="${module.id}" aria-label="${module.enabled ? "停用" : "启用"}${module.name}"><span></span></button><button class="icon-button" data-action="edit" data-id="${module.id}" aria-label="编辑${module.name}">✎</button><button class="icon-button delete" data-action="delete" data-id="${module.id}" aria-label="删除${module.name}">×</button></div>
         </div>`).join("");
     }
@@ -462,9 +461,9 @@
       ` : coursesModalOpen ? `
         <div class="notes-sub">当前页面：精品课程配置页</div>
         <div class="note"><b>页面目标</b>维护精品课程首页广告区的主标题和三个固定广告位，保存后进入草稿，发布后由家长端读取。</div>
-        <div class="note"><b>广告位规则</b>固定三个广告位，每个位维护课程配套图片、跳转目标和跳转地址；不支持新增或删除，前台按 1、2、3 的位置展示。</div>
+        <div class="note"><b>广告位规则</b>课程广告位不限制数量，可持续新增；每个位维护课程配套图片、跳转目标和跳转地址，删除位于行内，前台课程列表展示规则不变。</div>
         <div class="note"><b>数据来源</b>广告位跳转到已有课程详情或课程列表；真实课程选择、上下架状态和读取失败状态待数据接口确认。</div>
-        <div class="note"><b>配置完整性</b>主标题和三个广告位的图片、跳转目标、跳转地址均为必填；缺失时阻止保存或发布。</div>
+        <div class="note"><b>配置完整性</b>主标题和每个课程广告位的图片、跳转目标、跳转地址均为必填；至少保留一个广告位，缺失时阻止保存或发布。</div>
         <div class="note"><b>操作结果</b>保存写入草稿并关闭弹窗；取消不改变草稿；工作台发布后才影响家长端。</div>
       ` : wechatModalOpen ? `
         <div class="notes-sub">当前页面：公众号关注配置页</div>
@@ -556,6 +555,17 @@
         <div class="trial-ad-hint">图片用于展示${label}内容；规格、裁切和兜底图待开发确定。</div>
       </div>`).join("");
     }
+    function renderCourseEntries() {
+      return state.courseEntries.map((item, index) => `<div class="trial-ad-item">
+        <div><div class="trial-ad-label">课程广告位 ${index + 1}</div><div class="banner-upload trial-ad-upload ${item.tone}" role="button" tabindex="0" data-action="content-ad-upload" data-ad-type="course" data-id="${item.id}" aria-label="上传第${index + 1}个课程广告位图片"><strong>点击上传图片</strong><span>${escapeHtml(item.imageText)}</span></div></div>
+        <div class="trial-ad-fields">
+          <div class="trial-ad-field"><label>跳转目标</label><input data-ad-field="target" data-ad-type="course" data-ad-id="${item.id}" value="${escapeHtml(item.target)}" placeholder="填写课程详情或课程列表"></div>
+          <div class="trial-ad-field"><label>跳转地址</label><input data-ad-field="url" data-ad-type="course" data-ad-id="${item.id}" value="${escapeHtml(item.url)}" placeholder="填写前端点击后的目标地址"></div>
+        </div>
+        <div class="banner-item-actions"><button type="button" data-action="course-delete" data-id="${item.id}" aria-label="删除第${index + 1}个课程广告位">删除</button></div>
+        <div class="trial-ad-hint">图片用于展示课程广告内容；规格、裁切和兜底图待开发确定。</div>
+      </div>`).join("");
+    }
     function renderBottomEntries() {
       return `<div class="bottom-config-list">${state.bottomItems.map(item => `<div class="bottom-config-item">
         <div class="bottom-config-icon">${escapeHtml(item.icon)}</div>
@@ -579,7 +589,7 @@
       if (module.type === "banner") return `<div class="banner-carousel"><div class="banner-carousel-head"><span>首页轮播广告 banner</span><small>每条广告独立配置</small></div><div class="banner-carousel-list">${renderBannerItems()}</div><button type="button" class="banner-add" data-action="banner-add">＋ 新增轮播</button></div>`;
       if (module.type === "trial") return `<div class="trial-ad-title field"><label>主标题</label><input name="title" value="${escapeHtml(f.title)}" placeholder="例如：39.9 试听课"></div><div class="banner-carousel-head"><span>三位广告位</span><small>固定 3 个，不支持新增或删除</small></div><div class="trial-ad-list">${renderTrialEntries()}</div>`;
       if (module.type === "teacher") return `<div class="trial-ad-title field"><label>主标题</label><input name="title" value="${escapeHtml(f.title)}" placeholder="例如：推荐老师"></div><div class="banner-carousel-head"><span>三位广告位</span><small>固定 3 个，不支持新增或删除</small></div><div class="trial-ad-list">${renderFixedAdEntries("teacher", "教师广告位")}</div><div class="field-help">广告位跳转到一级教师类型；一级类型启用、允许前台展示且配置完整时，才进入首页入口，二级类型不单独配置首页入口。</div>`;
-      if (module.type === "courses") return `<div class="trial-ad-title field"><label>主标题</label><input name="title" value="${escapeHtml(f.title)}" placeholder="例如：精品课程"></div><div class="banner-carousel-head"><span>三位广告位</span><small>固定 3 个，不支持新增或删除</small></div><div class="trial-ad-list">${renderFixedAdEntries("course", "课程广告位")}</div><div class="field-help">广告位跳转到已有课程详情或课程列表；真实课程选择、上下架和读取失败状态待数据接口确认。</div>`;
+      if (module.type === "courses") return `<div class="trial-ad-title field"><label>主标题</label><input name="title" value="${escapeHtml(f.title)}" placeholder="例如：精品课程"></div><div class="banner-carousel-head"><span>广告位</span><small>可无限新增课程广告位</small></div><div class="trial-ad-list">${renderCourseEntries()}</div><button type="button" class="banner-add" data-action="course-add">＋ 新增课程广告位</button><div class="field-help">广告位跳转到已有课程详情或课程列表；不限制广告位数量，真实课程选择、上下架和读取失败状态待数据接口确认。</div>`;
       if (module.type === "quick") return `<div class="banner-carousel"><div class="banner-carousel-head"><span>首页快捷入口</span><small>最少 4 个，最多 10 个</small></div><div class="banner-carousel-list">${renderQuickEntries()}</div><button type="button" class="banner-add" data-action="quick-add" ${state.quickEntries.length >= 10 ? "disabled" : ""}>＋ 新增入口</button></div>`;
       if (module.type === "bottom") return `<div class="banner-carousel-head"><span>底部导航配置</span><small>固定 5 个入口：首页、全部课程、全部老师、消息、我的</small></div>${renderBottomEntries()}<div class="field-help">每项可编辑前台展示标题、跳转页面和是否展示；首页默认选中且至少保留一个入口展示。</div>`;
       if (module.type === "wechat") return `<div class="form-preview" style="background:linear-gradient(135deg,#39c979,#11854c)">▣　公众号关注卡片预览</div><div class="quick-item-fields"><div class="quick-item-field"><label>主标题</label><input name="title" value="${escapeHtml(f.title)}" placeholder="填写前台展示主标题"></div><div class="quick-item-field"><label>副标题</label><input name="subtitle" value="${escapeHtml(f.subtitle)}" placeholder="填写前台展示副标题"></div><div class="quick-item-field"><label>按钮文案</label><input name="cta" value="${escapeHtml(f.cta)}" placeholder="例如：去关注"></div><div class="quick-item-field"><label>跳转链接</label><input name="url" value="${escapeHtml(f.url)}" placeholder="填写点击后的目标链接"></div><label class="bottom-visible"><input type="checkbox" name="visible" ${f.visible ? "checked" : ""}> 是否展示</label></div><div class="field-help">交互参考快捷入口配置；开启展示时，主标题、副标题、按钮文案和跳转链接均为必填。</div>`;
@@ -650,9 +660,9 @@
           const item = state[`${adType}Entries`].find(entry => entry.id === input.dataset.adId);
           if (item) item[input.dataset.adField] = input.value.trim();
         });
-        const adIssue = getFixedAdValidation(adType, title, module.name);
+        const adIssue = module.type === "courses" ? getCourseValidation(title, module.name) : getFixedAdValidation(adType, title, module.name);
         if (adIssue) { showToast(adIssue, "error"); return; }
-        module.count = 3;
+        module.count = module.type === "courses" ? state.courseEntries.length : 3;
       }
       ["title", "subtitle", "cta", "target", "schedule"].forEach(key => { if (data.has(key)) module.fields[key] = String(data.get(key)); });
       if (data.has("count")) module.count = Math.max(1, Number(data.get("count")) || 1);
@@ -680,6 +690,11 @@
       const entries = state[`${type}Entries`];
       if (entries.length !== 3) return `${name}必须保留三个广告位`;
       return entries.some(item => !item.imageText || !item.target || !item.url) ? `${name}配置不完整：请补齐三个广告位的图片、跳转目标和地址` : "";
+    }
+    function getCourseValidation(title, name) {
+      if (!String(title).trim()) return `${name}主标题不能为空`;
+      if (!state.courseEntries.length) return `${name}至少保留一个广告位`;
+      return state.courseEntries.some(item => !item.imageText || !item.target || !item.url) ? `${name}配置不完整：请补齐课程广告位的图片、跳转目标和地址` : "";
     }
     function getBottomValidationMessage() {
       if (!state.bottomItems.some(item => item.visible)) return "底部导航至少保留一个展示入口";
@@ -713,7 +728,7 @@
       const teacherIssue = teacher ? getFixedAdValidation("teacher", teacher.fields.title, teacher.name) : "";
       if (teacherIssue) { showToast(`发布失败：${teacherIssue}`, "error"); return; }
       const courses = state.draft.find(item => item.type === "courses" && item.enabled);
-      const courseIssue = courses ? getFixedAdValidation("course", courses.fields.title, courses.name) : "";
+      const courseIssue = courses ? getCourseValidation(courses.fields.title, courses.name) : "";
       if (courseIssue) { showToast(`发布失败：${courseIssue}`, "error"); return; }
       const bottom = state.draft.find(item => item.type === "bottom" && item.enabled);
       const bottomIssue = bottom ? getBottomValidationMessage() : "";
@@ -793,6 +808,20 @@
           showToast("广告图片已加入草稿，保存后生效", "success");
         };
         input.click();
+        return;
+      }
+      if (action === "course-add") {
+        const next = state.courseEntries.length + 1;
+        state.courseEntries = [...state.courseEntries, { id: `course-${Date.now()}`, tone: next % 3 === 0 ? "orange" : next % 2 === 0 ? "green" : "blue", imageText: `课程广告图片 ${next}`, target: "课程详情", url: "" }];
+        render();
+        showToast("已添加课程广告位到草稿", "success");
+        return;
+      }
+      if (action === "course-delete") {
+        if (state.courseEntries.length <= 1) { showToast("至少保留一个课程广告位", "error"); return; }
+        state.courseEntries = state.courseEntries.filter(entry => entry.id !== id);
+        render();
+        showToast("课程广告位已从草稿中移除");
         return;
       }
       if (action === "banner-add") { const next = state.bannerItems.length + 1; state.bannerItems = [...state.bannerItems, { id: `banner-${Date.now()}`, tone: next % 2 ? "pink" : "red", imageText: `示例图片 ${next}`, target: "课程详情", url: "这里填写跳转地址（具体地址开发要）", duration: 3 }]; render(); showToast("已添加轮播配置到草稿", "success"); return; }
