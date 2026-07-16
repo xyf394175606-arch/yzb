@@ -44,7 +44,7 @@
     .user { display: flex; align-items: center; gap: 10px; color: #cbd5e1; white-space: nowrap; }
     .avatar { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%; background: #d9e8ff; color: #2362c8; font-weight: 900; }
     .shell { display: grid; grid-template-columns: 238px minmax(680px, 1fr) 310px; min-height: calc(100vh - 64px); }
-    .sidebar { padding: 18px 14px; background: #f8fbff; border-right: 1px solid var(--line); }
+    .sidebar { position: relative; z-index: 21; padding: 18px 14px; background: #f8fbff; border-right: 1px solid var(--line); }
     .side-heading { padding: 4px 9px 16px; border-bottom: 1px solid var(--line); }
     .side-title { font-weight: 900; }
     .side-note { color: var(--muted); font-size: 12px; line-height: 1.5; margin-top: 5px; }
@@ -168,7 +168,7 @@
     .phone-tabbar button { border: 0; background: transparent; color: #7c8795; font-size: 8px; font-weight: 800; padding: 5px 0; }
     .phone-tabbar button strong { display: block; margin-bottom: 2px; font-size: 14px; }
     .phone-tabbar button.active { color: #2675ed; }
-    .notes { padding: 22px 14px; border-left: 1px solid var(--line); background: #fffdf0; overflow: auto; }
+    .notes { position: relative; z-index: 21; padding: 22px 14px; border-left: 1px solid var(--line); background: #fffdf0; overflow: auto; }
     .notes-title { font-size: 14px; font-weight: 900; }
     .notes-sub { margin-top: 5px; color: #8c7c3f; font-size: 12px; line-height: 1.45; }
     .note { margin-top: 13px; padding: 11px 12px; border: 1px solid var(--yellow-line); border-radius: 8px; background: var(--yellow); color: #594d1c; line-height: 1.55; font-size: 12px; }
@@ -184,7 +184,7 @@
     .home-intro .mini-status { margin-top: 20px; color: #7d8b9e; font-size: 12px; }
     .modal-backdrop { position: fixed; inset: 0; z-index: 20; display: none; place-items: center; padding: 20px; background: rgba(17, 29, 49, .45); }
     .modal-backdrop.open { display: grid; }
-    .modal { width: min(620px, 100%); max-height: min(760px, calc(100vh - 40px)); overflow: auto; border-radius: 12px; background: #fff; box-shadow: 0 24px 70px rgba(12, 25, 46, .28); }
+    .modal { position: relative; z-index: 1; width: min(620px, 100%); max-height: min(760px, calc(100vh - 40px)); overflow: auto; border-radius: 12px; background: #fff; box-shadow: 0 24px 70px rgba(12, 25, 46, .28); }
     .modal-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; padding: 18px 20px; border-bottom: 1px solid var(--line); }
     .modal-head h2 { font-size: 18px; }
     .modal-head p { margin-top: 4px; color: var(--muted); font-size: 12px; }
@@ -327,7 +327,7 @@
         <div class="note"><b>状态覆盖</b><ul><li>配置不完整</li><li>空状态/读取失败</li><li>草稿与已发布差异</li><li>发布失败重试</li><li>无权限提示</li></ul></div>
         <div class="note"><b>待确认</b>真实图片规格、轮播间隔、分群首页、发布审核和教师/课程自动排序暂不接入。</div>
       `;
-      return `<aside class="notes"><div class="notes-title">需求说明</div>
+      return `<aside class="notes"><div class="notes-title">需求说明</div><div class="notes-sub">当前模块：${escapeHtml(activeModule()?.name || "首页")}</div>
         ${notesBody}
       </aside>`;
     }
