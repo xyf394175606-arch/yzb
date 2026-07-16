@@ -401,7 +401,7 @@
     function handleAction(action, el) {
       const id = el.dataset.id;
       if (action === "surface") { state.surface = el.dataset.value; render(); return; }
-      if (action === "select-module") { state.activeModule = id; state.surface = "workbench"; state.modal = id === "banner" ? { id } : null; render(); return; }
+      if (action === "select-module") { state.activeModule = id; state.surface = "workbench"; state.modal = id ? { id } : null; render(); return; }
       if (action === "view-home") { state.surface = "home"; state.homeMode = "published"; render(); return; }
       if (action === "view-workbench") { state.surface = "workbench"; render(); return; }
       if (action === "preview-draft") { state.surface = "workbench"; state.previewMode = "draft"; render(); showToast("手机预览已切换为草稿版本"); return; }
