@@ -300,7 +300,7 @@
     }
     function renderStatusStrip() {
       const draftCount = state.draft.filter(item => item.enabled).length;
-      return `<div class="status-strip"><div class="status-left"><span class="status-pill draft">● 草稿已保存</span><span class="status-note">${draftCount} 个启用模块 · 上次发布 ${state.lastPublish}</span></div><div class="actions"><button class="btn ghost" data-action="preview-draft">预览草稿</button><button class="btn primary" data-action="publish">发布首页</button><button class="btn warn" data-action="publish-fail">模拟发布失败</button></div></div>`;
+      return `<div class="status-strip"><div class="status-left"><span class="status-pill draft">● 草稿已保存</span><span class="status-note">${draftCount} 个启用模块 · 上次发布 ${state.lastPublish}</span></div><div class="actions"><button class="btn primary" data-action="publish">发布首页</button></div></div>`;
     }
     function renderModuleRows() {
       return state.draft.map(module => `<div class="module-row ${state.activeModule === module.id ? "selected" : ""}" data-action="select-module" data-id="${module.id}">
@@ -338,7 +338,7 @@
     function emptyHome(label) { return `<section class="home-section"><div class="home-empty">${label}暂无可展示内容</div></section>`; }
     function renderWorkbench() {
       const module = activeModule();
-      return `${renderTopbar()}<div class="shell">${renderSidebar()}<main class="main"><div class="page-head"><div><div class="eyebrow">HOME CONTENT STUDIO</div><h1>首页装修工作台</h1><p class="page-sub">集中维护优坐标家长端首页内容，草稿预览确认后再发布。</p></div><div class="actions"><button class="btn" data-action="view-home">查看家长端</button><button class="btn primary" data-action="preview-draft">预览草稿</button></div></div>${renderStatusStrip()}<div class="workspace"><section class="panel"><div class="panel-head"><div><div class="panel-title">首页模块</div><div class="panel-meta">${state.draft.length} 个模块 · 当前查看 ${escapeHtml(module?.name || "首页")}</div></div><button class="btn ghost" data-action="add">＋ 新增模块</button></div><div class="panel-body"><div class="module-list">${renderModuleRows()}</div></div></section><section class="panel preview-card"><div class="preview-toolbar"><strong style="font-size:12px;margin-right:auto">手机预览</strong><button class="${state.previewMode === "draft" ? "active" : ""}" data-action="preview-mode" data-value="draft">草稿</button><button class="${state.previewMode === "published" ? "active" : ""}" data-action="preview-mode" data-value="published">已发布</button></div><div class="phone-wrap">${renderPhone()}</div></section></div></main>${renderNotes()}</div>`;
+      return `${renderTopbar()}<div class="shell">${renderSidebar()}<main class="main"><div class="page-head"><div><div class="eyebrow">HOME CONTENT STUDIO</div><h1>首页装修工作台</h1><p class="page-sub">集中维护优坐标家长端首页内容，草稿预览确认后再发布。</p></div><div class="actions"><button class="btn" data-action="view-home">查看家长端</button><button class="btn primary" data-action="preview-draft">预览草稿</button></div></div>${renderStatusStrip()}<div class="workspace"><section class="panel"><div class="panel-head"><div><div class="panel-title">首页模块</div><div class="panel-meta">${state.draft.length} 个模块 · 当前查看 ${escapeHtml(module?.name || "首页")}</div></div></div><div class="panel-body"><div class="module-list">${renderModuleRows()}</div></div></section><section class="panel preview-card"><div class="preview-toolbar"><strong style="font-size:12px;margin-right:auto">手机预览</strong><button class="${state.previewMode === "draft" ? "active" : ""}" data-action="preview-mode" data-value="draft">草稿</button><button class="${state.previewMode === "published" ? "active" : ""}" data-action="preview-mode" data-value="published">已发布</button></div><div class="phone-wrap">${renderPhone()}</div></section></div></main>${renderNotes()}</div>`;
     }
     function renderHome() {
       return `${renderTopbar()}<main class="home-view"><div class="home-view-inner"><section class="home-intro"><div class="eyebrow">PUBLISHED HOME · 家长端</div><h1>把好老师、好课程和安心服务，放在首页第一屏。</h1><p>当前展示的是已发布版本。后台编辑的草稿不会影响家长端，点击右上角返回首页装修即可继续维护。</p><div class="home-actions"><button class="btn primary" data-action="home-refresh">刷新首页</button><button class="btn" data-action="view-workbench">返回首页装修</button></div><div class="mini-status">已发布版本：${state.lastPublish}　·　${state.published.filter(item => item.enabled).length} 个启用模块</div></section><div class="phone-wrap" style="border-radius:18px;box-shadow:var(--shadow)">${renderPhone("published")}</div></div></main>`;
@@ -399,8 +399,6 @@
       if (action === "save-modal") { saveForm(id); return; }
       if (action === "delete") { const module = state.draft.find(item => item.id === id); if (module && confirm(`确定删除“${module.name}”吗？删除只作用于当前草稿。`)) { state.draft = state.draft.filter(item => item.id !== id); state.activeModule = state.draft[0]?.id || ""; render(); showToast(`${module.name}已从草稿中删除`); } return; }
       if (action === "publish") { publish(false); return; }
-      if (action === "publish-fail") { publish(true); return; }
-      if (action === "add") { showToast("新增模块类型待确认，本轮使用现有 7 个首页模块"); return; }
       if (action === "related") { showToast("将进入现有维护模块，规则与首页读取保持一致"); return; }
       if (action === "home-refresh") { render(); showToast("已重新读取已发布首页", "success"); return; }
       if (action === "home-click") { showToast(`已触发“${el.dataset.label || "首页入口"}”操作`); return; }
