@@ -151,13 +151,36 @@
     .teacher-info b { display: block; font-size: 10px; }
     .teacher-info small { display: block; color: #7d8b9e; margin-top: 3px; font-size: 8px; white-space: nowrap; }
     .course-list { display: grid; gap: 7px; padding: 0 8px 10px; }
-    .course { display: grid; grid-template-columns: 65px minmax(0, 1fr) auto; gap: 8px; align-items: center; padding: 7px; border: 1px solid #edf1f6; border-radius: 8px; background: #fff; }
+    .course { display: grid; grid-template-columns: 65px minmax(0, 1fr) auto; gap: 8px; align-items: center; width: 100%; padding: 7px; border: 1px solid #edf1f6; border-radius: 8px; background: #fff; text-align: left; }
     .cover { width: 65px; height: 52px; border-radius: 7px; display: grid; place-items: center; color: #fff; text-align: center; font-size: 10px; font-weight: 900; background: linear-gradient(135deg, #2e82f4, #77b4ff); }
     .cover.green { background: linear-gradient(135deg, #22be89, #85e2b8); }
     .cover.orange { background: linear-gradient(135deg, #ff9b21, #ffd064); }
     .course b { display: block; font-size: 10px; line-height: 1.3; }
     .course small { display: block; color: #8a96a6; margin-top: 4px; font-size: 8px; }
     .price { color: var(--orange); font-size: 12px; font-weight: 900; white-space: nowrap; }
+    .course-meta { display: flex; gap: 5px; margin-top: 4px; color: #8a96a6; font-size: 8px; }
+    .course-buy { border: 0; border-radius: 999px; padding: 5px 8px; color: #fff; background: #3d8df4; font-size: 8px; font-weight: 900; white-space: nowrap; }
+    .course-more { padding: 0 0 10px; color: #98a1ad; text-align: center; font-size: 9px; }
+    .course-select { margin-top: 6px; border: 0; background: transparent; color: var(--blue); font-size: 11px; font-weight: 800; padding: 0; }
+    .course-picker-page { min-height: calc(100vh - 66px); padding: 22px 24px; background: #f4f7fb; }
+    .course-picker-inner { max-width: 1180px; margin: 0 auto; }
+    .course-picker-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+    .course-picker-head h1 { margin: 4px 0 7px; font-size: 24px; }
+    .course-picker-head p { margin: 0; color: var(--muted); font-size: 13px; }
+    .course-picker-grid { display: grid; grid-template-columns: minmax(0, 1fr) 292px; gap: 16px; align-items: start; }
+    .picker-filter { display: grid; grid-template-columns: minmax(180px, 1.5fr) repeat(3, minmax(120px, 1fr)) auto; gap: 10px; padding: 15px 17px; border-bottom: 1px solid var(--line); }
+    .picker-filter input, .picker-filter select { width: 100%; min-height: 34px; border: 1px solid #dbe4ef; border-radius: 6px; padding: 0 10px; color: var(--ink); background: #fff; }
+    .picker-list { display: grid; gap: 10px; padding: 15px 17px; }
+    .catalog-course { display: grid; grid-template-columns: 64px minmax(0, 1fr) 120px 92px 72px; gap: 12px; align-items: center; padding: 12px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+    .catalog-cover { width: 64px; height: 54px; border-radius: 7px; display: grid; place-items: center; padding: 4px; color: #fff; text-align: center; font-size: 10px; font-weight: 900; background: linear-gradient(135deg, #2e82f4, #77b4ff); }
+    .catalog-cover.green { background: linear-gradient(135deg, #22be89, #85e2b8); }
+    .catalog-cover.orange { background: linear-gradient(135deg, #ff9b21, #ffd064); }
+    .catalog-name { font-size: 13px; font-weight: 900; line-height: 1.35; }
+    .catalog-id, .catalog-meta { margin-top: 4px; color: var(--muted); font-size: 11px; }
+    .catalog-price { color: var(--orange); font-weight: 900; }
+    .catalog-status { color: var(--green); font-size: 12px; font-weight: 800; }
+    .picker-notes { padding: 20px 16px; border-left: 1px solid var(--line); background: #fffdf0; }
+    .picker-notes .note { margin-top: 10px; padding: 11px; border: 1px solid #eadb94; border-radius: 7px; background: #fff8cf; color: #635522; font-size: 12px; line-height: 1.6; }
     .follow { display: flex; align-items: center; justify-content: space-between; padding: 10px; }
     .follow-copy b { display: block; font-size: 11px; }
     .follow-copy small { display: block; margin-top: 3px; color: #99a3b0; font-size: 8px; }
@@ -269,6 +292,12 @@
       .workspace { display: block; }
       .preview-card { position: static; margin-top: 16px; }
       .phone { width: 310px; }
+      .course-picker-page { padding: 15px; }
+      .course-picker-grid { display: block; }
+      .picker-notes { display: none; }
+      .picker-filter { grid-template-columns: 1fr 1fr; }
+      .catalog-course { grid-template-columns: 54px minmax(0, 1fr) auto; }
+      .catalog-course > div:nth-of-type(2), .catalog-course > div:nth-of-type(3) { display: none; }
     }
     @media (max-width: 520px) {
       .surface-switch button { padding: 7px 8px; font-size: 12px; }
@@ -304,6 +333,9 @@
       .home-view-inner { display: block; }
       .home-intro { padding: 10px 4px 18px; }
       .home-intro h1 { font-size: 27px; }
+      .course-picker-head { display: block; }
+      .course-picker-head .btn { margin-top: 12px; }
+      .picker-filter { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -327,6 +359,7 @@
       activeModule: "banner",
       previewMode: "draft",
       homeMode: "published",
+      coursePickerAdId: null,
       draft: structuredClone(initialModules),
       published: structuredClone(initialModules),
       modal: null,
@@ -367,9 +400,15 @@
         { id: "teacher-3", tone: "green", imageText: "英语伴读广告图片", target: "教师类型", url: "/teachers/english" }
       ],
       courseEntries: [
-        { id: "course-1", tone: "blue", imageText: "优AI数学课程图片", target: "课程详情", url: "/courses/math" },
-        { id: "course-2", tone: "green", imageText: "优AI语文课程图片", target: "课程详情", url: "/courses/chinese" },
-        { id: "course-3", tone: "orange", imageText: "优AI英语课程图片", target: "课程详情", url: "/courses/english" }
+        { id: "course-1", courseId: "catalog-math", tone: "blue", imageText: "优AI数学课程图片", target: "课程详情", url: "/courses/math" },
+        { id: "course-2", courseId: "catalog-chinese", tone: "green", imageText: "优AI语文课程图片", target: "课程详情", url: "/courses/chinese" },
+        { id: "course-3", courseId: "catalog-english", tone: "orange", imageText: "优AI英语课程图片", target: "课程详情", url: "/courses/english" }
+      ],
+      courseCatalog: [
+        { id: "catalog-math", name: "优AI数学素养-体验课【1V1专业教练伴学直播课】", subject: "数学", grade: "小学", type: "试听课", price: "39.9", sales: "654", status: "可售", tone: "blue", cover: "优AI数学素养", url: "/courses/math" },
+        { id: "catalog-chinese", name: "优AI语文素养-体验课【1V1专业教练伴学直播课】", subject: "语文", grade: "小学", type: "体验课", price: "168", sales: "421", status: "可售", tone: "green", cover: "优AI语文素养", url: "/courses/chinese" },
+        { id: "catalog-english", name: "优AI单词-体验课【1V1真人伴学直播课】", subject: "英语", grade: "小学", type: "体验课", price: "239.9", sales: "389", status: "可售", tone: "orange", cover: "优AI英语单词", url: "/courses/english" },
+        { id: "catalog-physics", name: "优AI物理思维提升课【专题训练】", subject: "物理", grade: "初中", type: "正式课", price: "499", sales: "172", status: "可售", tone: "blue", cover: "优AI物理", url: "/courses/physics" }
       ]
     };
     const app = document.getElementById("app");
@@ -403,7 +442,7 @@
       const moduleNav = modules.map(item => `<div class="nav-child"><button class="nav-item ${state.activeModule === item.id ? "active" : ""}" data-action="select-module" data-id="${item.id}"><span>${escapeHtml(moduleDisplayName(item))}</span><small>${item.count}</small></button></div>`).join("");
       return `<aside class="sidebar"><div class="side-heading"><div class="side-title">优坐标后台</div><div class="side-note">首页模块配置与发布</div></div>
         <div class="nav-group"><div class="nav-label">内容管理</div><button class="nav-item active"><span>首页装修工作台</span><small>主</small></button>${moduleNav}</div>
-        <div class="nav-group"><div class="nav-label">相关维护</div><button class="nav-item" data-action="related"><span>教师类型维护</span><small>↗</small></button><button class="nav-item" data-action="related"><span>课程管理</span><small>↗</small></button><button class="nav-item" data-action="related"><span>教师管理</span><small>↗</small></button></div>
+        <div class="nav-group"><div class="nav-label">相关维护</div><button class="nav-item" data-action="related"><span>教师类型维护</span><small>↗</small></button><button class="nav-item" data-action="course-list"><span>课程管理</span><small>↗</small></button><button class="nav-item" data-action="related"><span>教师管理</span><small>↗</small></button></div>
       </aside>`;
     }
     function renderStatusStrip() {
@@ -460,8 +499,8 @@
         <div class="note"><b>操作结果</b>保存写入草稿并关闭弹窗；取消不改变草稿；工作台发布后才影响家长端。图片规格、跳转枚举和权限异常沿用统一规则。</div>
       ` : coursesModalOpen ? `
         <div class="notes-sub">当前页面：精品课程配置页</div>
-        <div class="note"><b>页面目标</b>维护精品课程首页广告区的主标题和三个固定广告位，保存后进入草稿，发布后由家长端读取。</div>
-        <div class="note"><b>广告位规则</b>课程广告位不限制数量，可持续新增；每个位维护课程配套图片、跳转目标和跳转地址，删除位于行内，前台课程列表展示规则不变。</div>
+        <div class="note"><b>页面目标</b>维护精品课程首页课程卡片列表的主标题和课程广告位，保存后进入草稿，发布后由家长端读取。</div>
+        <div class="note"><b>广告位规则</b>课程广告位不限制数量，可持续新增；每个位维护课程配套图片、跳转目标和跳转地址，删除位于行内，前台按配置顺序展示为课程卡片列表。</div>
         <div class="note"><b>数据来源</b>广告位跳转到已有课程详情或课程列表；真实课程选择、上下架状态和读取失败状态待数据接口确认。</div>
         <div class="note"><b>配置完整性</b>主标题和每个课程广告位的图片、跳转目标、跳转地址均为必填；至少保留一个广告位，缺失时阻止保存或发布。</div>
         <div class="note"><b>操作结果</b>保存写入草稿并关闭弹窗；取消不改变草稿；工作台发布后才影响家长端。</div>
@@ -500,8 +539,7 @@
       const quickHtml = quick?.enabled ? `<section class="home-section"><div class="quick-grid">${quickItems.map(item => `<button class="quick" data-action="home-click" data-label="${escapeHtml(item.name)}"><span>${escapeHtml(item.icon)}</span>${escapeHtml(item.name)}</button>`).join("")}</div></section>` : emptyHome("快捷入口");
       const trialHtml = trial?.enabled ? renderPhoneAdSection(trial.fields.title, state.trialEntries, "试听课全部", "trial") : emptyHome("试听课");
       const teacherHtml = teacher?.enabled ? renderPhoneAdSection(teacher.fields.title, state.teacherEntries, "更多推荐老师", "teacher") : emptyHome("教师推荐");
-      const courseRows = [["优AI数学素养-体验课", "优AI数学", "39.9", ""], ["优AI语文素养-体验课", "优AI语文", "168", "green"], ["优AI单词-体验课", "优AI英语", "239.9", "orange"]];
-      const courseHtml = courses?.enabled ? renderPhoneAdSection(courses.fields.title, state.courseEntries, "精品课程全部", "courses") : emptyHome("精品课程");
+      const courseHtml = courses?.enabled ? renderPhoneCourseSection(courses.fields.title, state.courseEntries) : emptyHome("精品课程");
       const bannerHtml = banner?.enabled ? `<section class="home-section home-banner"><div class="banner-copy"><strong>${escapeHtml(banner.fields.title)}</strong><small>${escapeHtml(banner.fields.subtitle)}</small><em>${escapeHtml(banner.fields.cta)}　›</em></div></section>` : emptyHome("Banner");
       const wechatHtml = wechat?.enabled ? `<section class="home-section follow"><span class="follow-copy"><b>▣ ${escapeHtml(wechat.fields.title)}</b><small>${escapeHtml(wechat.fields.subtitle)}</small></span><button data-action="home-click" data-label="${wechat.fields.cta}">${escapeHtml(wechat.fields.cta)}</button></section>` : emptyHome("公众号关注");
       const bottomHtml = bottom?.enabled ? `<nav class="phone-tabbar">${state.bottomItems.filter(item => item.visible).map((item, i) => `<button class="${item.id === "bottom-home" ? "active" : ""}" data-action="home-click" data-label="${escapeHtml(item.title)}"><strong>${escapeHtml(item.icon)}</strong>${escapeHtml(item.title)}</button>`).join("")}</nav>` : "";
@@ -510,6 +548,14 @@
     function emptyHome(label) { return `<section class="home-section"><div class="home-empty">${label}暂无可展示内容</div></section>`; }
     function renderPhoneAdSection(title, entries, moreLabel, type) {
       return `<section class="home-section"><div class="section-title"><span>${escapeHtml(title)}</span><a data-action="home-click" data-label="${escapeHtml(moreLabel)}">查看全部 ›</a></div><div class="trial-grid">${entries.map((item, index) => `<button class="trial ${item.tone} ${index === 0 ? "large" : ""}" data-action="home-click" data-label="${escapeHtml(item.target)}"><b>${escapeHtml(item.imageText.replace(/图片$/, ""))}</b><small>点击进入${escapeHtml(item.target)}</small></button>`).join("")}</div></section>`;
+    }
+    function renderPhoneCourseSection(title, entries) {
+      const courseData = [
+        { name: "优AI数学素养-体验课【1V1专业教练伴学直播课】", subject: "数学", level: "小学", price: "39.9", tone: "", cover: "优AI数学素养" },
+        { name: "优AI语文素养-体验课【1V1专业教练伴学直播课】", subject: "语文", level: "小学", price: "168", tone: "green", cover: "优AI语文素养" },
+        { name: "优AI单词-体验课【1V1真人伴学直播课】", subject: "英语", level: "小学", price: "239.9", tone: "orange", cover: "优AI英语单词" }
+      ];
+      return `<section class="home-section"><div class="section-title"><span>${escapeHtml(title)}</span><a data-action="home-click" data-label="精品课程全部">查看全部 ›</a></div><div class="course-list">${entries.map((item, index) => { const data = state.courseCatalog.find(course => course.id === item.courseId) || courseData[index % courseData.length]; return `<button class="course" data-action="home-click" data-label="${escapeHtml(item.target)}"><span class="cover ${data.tone}">${escapeHtml(data.cover)}</span><span><b>${escapeHtml(data.name)}</b><span class="course-meta"><span>★ 4.8</span><span>◷ 40分钟</span></span><small>▣ ${escapeHtml(data.subject)}　⌂ ${escapeHtml(data.grade || data.level)}　▣ 1课时</small><span class="price">优惠价¥${escapeHtml(data.price)}</span></span><span class="course-buy">购买</span></button>`; }).join("")}</div><div class="course-more" data-action="home-click" data-label="精品课程全部">查看更多⌄</div></section>`;
     }
     function renderBannerItems() {
       return state.bannerItems.map((item, index) => `<div class="banner-carousel-item">
@@ -559,8 +605,8 @@
       return state.courseEntries.map((item, index) => `<div class="trial-ad-item">
         <div><div class="trial-ad-label">课程广告位 ${index + 1}</div><div class="banner-upload trial-ad-upload ${item.tone}" role="button" tabindex="0" data-action="content-ad-upload" data-ad-type="course" data-id="${item.id}" aria-label="上传第${index + 1}个课程广告位图片"><strong>点击上传图片</strong><span>${escapeHtml(item.imageText)}</span></div></div>
         <div class="trial-ad-fields">
-          <div class="trial-ad-field"><label>跳转目标</label><input data-ad-field="target" data-ad-type="course" data-ad-id="${item.id}" value="${escapeHtml(item.target)}" placeholder="填写课程详情或课程列表"></div>
-          <div class="trial-ad-field"><label>跳转地址</label><input data-ad-field="url" data-ad-type="course" data-ad-id="${item.id}" value="${escapeHtml(item.url)}" placeholder="填写前端点击后的目标地址"></div>
+          <div class="trial-ad-field"><label>跳转课程</label><input readonly data-ad-field="target" data-ad-type="course" data-ad-id="${item.id}" value="${escapeHtml(item.target)}" placeholder="请从课程列表选择"><button type="button" class="course-select" data-action="course-picker" data-id="${item.id}">从课程列表选择</button></div>
+          <div class="trial-ad-field"><label>跳转地址</label><input readonly data-ad-field="url" data-ad-type="course" data-ad-id="${item.id}" value="${escapeHtml(item.url)}" placeholder="选择课程后自动带入"></div>
         </div>
         <div class="banner-item-actions"><button type="button" data-action="course-delete" data-id="${item.id}" aria-label="删除第${index + 1}个课程广告位">删除</button></div>
         <div class="trial-ad-hint">图片用于展示课程广告内容；规格、裁切和兜底图待开发确定。</div>
@@ -583,6 +629,11 @@
     function renderHome() {
       return `${renderTopbar()}<main class="home-view"><div class="home-view-inner"><section class="home-intro"><div class="eyebrow">PUBLISHED HOME · 家长端</div><h1>把好老师、好课程和安心服务，放在首页第一屏。</h1><p>当前展示的是已发布版本。后台编辑的草稿不会影响家长端，点击右上角返回首页装修即可继续维护。</p><div class="home-actions"><button class="btn primary" data-action="home-refresh">刷新首页</button><button class="btn" data-action="view-workbench">返回首页装修</button></div><div class="mini-status">已发布版本：${state.lastPublish}　·　${state.published.filter(item => item.enabled).length} 个启用模块</div></section><div class="phone-wrap" style="border-radius:18px;box-shadow:var(--shadow)">${renderPhone("published")}</div></div></main>`;
     }
+    function renderCoursePicker() {
+      const ad = state.courseEntries.find(item => item.id === state.coursePickerAdId);
+      const catalog = state.courseCatalog;
+      return `${renderTopbar()}<div class="shell">${renderSidebar()}<main class="course-picker-page"><div class="course-picker-inner"><div class="course-picker-head"><div><div class="eyebrow">COURSE LIBRARY</div><h1>选择课程</h1><p>从平台课程库选择课程，作为精品课程广告位的跳转目标。课程基础信息只读。</p></div><button class="btn" data-action="course-picker-back">返回精品课程配置</button></div><div class="course-picker-grid"><section class="panel"><div class="panel-head"><div><div class="panel-title">平台课程库</div><div class="panel-meta">当前配置：课程广告位 ${state.courseEntries.findIndex(item => item.id === state.coursePickerAdId) + 1 || 1}</div></div></div><div class="picker-filter"><input placeholder="请输入课程名称或 ID"><select><option>全部学科</option><option>数学</option><option>语文</option><option>英语</option><option>物理</option></select><select><option>全部年级</option><option>小学</option><option>初中</option></select><select><option>全部类型</option><option>试听课</option><option>体验课</option><option>正式课</option></select><button class="btn" data-action="picker-filter">查询</button></div><div class="picker-list">${catalog.map(course => `<div class="catalog-course"><span class="catalog-cover ${course.tone}">${escapeHtml(course.cover)}</span><div><div class="catalog-name">${escapeHtml(course.name)}</div><div class="catalog-id">ID: ${escapeHtml(course.id)}</div></div><div><div class="catalog-meta">${escapeHtml(course.subject)} · ${escapeHtml(course.grade)}</div><div class="catalog-meta">${escapeHtml(course.type)} · 已售 ${escapeHtml(course.sales)}</div></div><div><div class="catalog-status">${escapeHtml(course.status)}</div><div class="catalog-price">¥${escapeHtml(course.price)}</div></div><button class="btn primary" data-action="course-select" data-course-id="${course.id}">选择</button></div>`).join("")}</div></section><aside class="picker-notes"><div class="notes-title">需求说明</div><div class="notes-sub">当前页面：课程选择页</div><div class="note"><b>页面目标</b>从平台课程库选择一门课程，关联到当前精品课程广告位。</div><div class="note"><b>数据规则</b>课程名称、封面、学科、年级、课程类型、价格和销量均读取课程管理，当前页面只读。</div><div class="note"><b>选择结果</b>点击“选择”后带回课程名称、课程详情地址和课程封面标识，返回精品课程配置弹窗。</div><div class="note"><b>状态规则</b>仅展示可售课程；无可售课程时展示空状态，不能选择。</div><div class="note"><b>权限与待确认</b>课程库真实筛选字段、可售状态、价格口径和权限校验待接口确认。</div></aside></div></div></main></div>`;
+    }
     function formFields(module) {
       const f = module.fields;
       const common = `<div class="field"><label>主标题</label><input name="title" value="${escapeHtml(f.title)}"></div><div class="field"><label>副标题</label><input name="subtitle" value="${escapeHtml(f.subtitle)}"></div><div class="field"><label>按钮文案</label><input name="cta" value="${escapeHtml(f.cta)}"></div><div class="field"><label>跳转目标</label><select name="target"><option>${escapeHtml(f.target)}</option><option>课程详情</option><option>教师详情</option><option>全部老师</option><option>会员中心</option></select></div>`;
@@ -603,7 +654,7 @@
       const saveLabel = module.type === "banner" ? "保存，发布" : "保存";
       modalRoot.innerHTML = `<div class="modal-backdrop open" data-action="close-modal"><section class="modal ${module.type === "banner" || module.type === "trial" ? "banner-modal" : ""}" role="dialog" aria-modal="true" aria-label="${modalTitle}" data-modal="true"><div class="modal-head"><div><h2>${modalTitle}</h2><p>保存后进入草稿，不会立即影响家长端首页。</p></div><button class="close" data-action="close-modal" aria-label="关闭">×</button></div><form class="form" data-form="${module.id}">${formFields(module)}</form><div class="modal-foot"><button class="btn" data-action="close-modal">取消</button><button class="btn primary" data-action="save-modal" data-id="${module.id}">${saveLabel}</button></div></section></div>`;
     }
-    function render() { app.innerHTML = state.surface === "workbench" ? renderWorkbench() : renderHome(); renderModal(); }
+    function render() { app.innerHTML = state.surface === "workbench" ? renderWorkbench() : state.surface === "course-picker" ? renderCoursePicker() : renderHome(); renderModal(); }
     function saveForm(id) {
       const module = state.draft.find(item => item.id === id);
       const form = document.querySelector(`[data-form="${id}"]`);
@@ -752,6 +803,24 @@
       if (action === "preview-mode") { state.previewMode = el.dataset.value; render(); return; }
       if (action === "toggle") { const module = state.draft.find(item => item.id === id); if (module) { module.enabled = !module.enabled; state.activeModule = id; render(); showToast(`${module.name}已${module.enabled ? "启用" : "停用"}`, module.enabled ? "success" : ""); } return; }
       if (action === "edit") { state.modal = { id }; render(); return; }
+      if (action === "course-list") { state.surface = "course-picker"; state.modal = null; render(); return; }
+      if (action === "course-picker") { state.coursePickerAdId = id; state.surface = "course-picker"; state.modal = null; render(); return; }
+      if (action === "course-picker-back") { state.surface = "workbench"; state.activeModule = "courses"; state.modal = { id: "courses" }; render(); return; }
+      if (action === "course-select") {
+        const entry = state.courseEntries.find(item => item.id === state.coursePickerAdId);
+        const course = state.courseCatalog.find(item => item.id === el.dataset.courseId);
+        if (!entry || !course) return;
+        entry.courseId = course.id;
+        entry.imageText = `${course.cover}图片`;
+        entry.target = "课程详情";
+        entry.url = course.url;
+        state.surface = "workbench";
+        state.activeModule = "courses";
+        state.modal = { id: "courses" };
+        render();
+        showToast(`已选择“${course.name}”`, "success");
+        return;
+      }
       if (action === "close-modal") { if (el.dataset.action === "close-modal" && el.closest("[data-modal]") && el.tagName !== "BUTTON") return; state.modal = null; render(); return; }
       if (action === "save-modal") { saveForm(id); return; }
       if (action === "banner-delete") { if (state.bannerItems.length <= 1) { showToast("至少保留一张轮播图", "error"); return; } state.bannerItems = state.bannerItems.filter(item => item.id !== id); render(); showToast("轮播图已从草稿中移除"); return; }
