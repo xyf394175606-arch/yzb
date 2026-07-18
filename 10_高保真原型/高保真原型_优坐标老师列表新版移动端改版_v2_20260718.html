@@ -3814,6 +3814,20 @@
     .v2-sheet-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .v2-sheet-actions button, .v2-sheet-actions a { height: 42px; display: grid; place-items: center; border: 1px solid #dce2ea; border-radius: 8px; background: #fff; color: #56616d; font-size: 14px; font-weight: 800; text-decoration: none; }
     .v2-sheet-actions .primary { border-color: #0a62ee; background: #0a62ee; color: #fff; }
+    .v2-reference-phone { background: #f6f7f9; }
+    .v2-reference-scroll { height: 100%; overflow-y: auto; overscroll-behavior: contain; }
+    .v2-reference-canvas { position: relative; width: 100%; line-height: 0; }
+    .v2-reference-canvas > img { display: block; width: 100%; height: auto; }
+    .v2-reference-hit { position: absolute; z-index: 2; border: 0; background: transparent; cursor: pointer; }
+    .v2-reference-hit:focus-visible { outline: 2px solid #0a62ee; outline-offset: 2px; }
+    .v2-reference-back { top: 2.1%; left: 3.5%; width: 12%; height: 2.5%; }
+    .v2-reference-tab-intro { top: 20%; left: 3%; width: 31%; height: 2.5%; }
+    .v2-reference-tab-reviews { top: 20%; left: 34%; width: 32%; height: 2.5%; }
+    .v2-reference-tab-courses { top: 20%; right: 3%; width: 31%; height: 2.5%; }
+    .v2-reference-course-trial { top: 82.2%; right: 3%; width: 28%; height: 2.7%; }
+    .v2-reference-course-formal { top: 91%; right: 3%; width: 28%; height: 2.7%; }
+    .v2-reference-call { bottom: 0.5%; left: 40%; width: 25%; height: 3%; }
+    .v2-reference-chat { bottom: 0.5%; right: 2%; width: 29%; height: 3%; }
   </style>
 </head>
 <body>
@@ -7056,6 +7070,43 @@
     }
 
     renderV2TeacherPages();
+
+    function applyV2DetailReferenceClone() {
+      const detailPage = document.getElementById('page-detail');
+      if (!detailPage) return;
+      detailPage.innerHTML = `<h1 class="canvas-title">教师详情页 V2 - 参考图 1:1 复刻</h1><div class="phone-wrap"><div class="phone v2-reference-phone"><div class="v2-reference-scroll" id="v2ReferenceScroll"><div class="v2-reference-canvas" id="v2ReferenceCanvas"><img src="../work/优坐标教师详情截图资产_v1_20260703/新版教师详情参考_v1_20260718.png" alt="新版教师详情页参考图 1:1 复刻"><button class="v2-reference-hit v2-reference-back" type="button" aria-label="返回教师列表" data-v2-reference-back></button><button class="v2-reference-hit v2-reference-tab-intro" type="button" aria-label="老师介绍" data-v2-reference-scroll="0.20"></button><button class="v2-reference-hit v2-reference-tab-reviews" type="button" aria-label="家长评价" data-v2-reference-scroll="0.62"></button><button class="v2-reference-hit v2-reference-tab-courses" type="button" aria-label="购买课程" data-v2-reference-scroll="0.78"></button><button class="v2-reference-hit v2-reference-course-trial" type="button" aria-label="预约体验" data-v2-reference-buy="english-trial"></button><button class="v2-reference-hit v2-reference-course-formal" type="button" aria-label="购买正式课程" data-v2-reference-buy="english-formal"></button><button class="v2-reference-hit v2-reference-call" type="button" aria-label="打电话" data-v2-reference-call></button><button class="v2-reference-hit v2-reference-chat" type="button" aria-label="在线询" data-v2-reference-chat></button></div></div><div class="v2-overlay" id="v2ReferenceCallOverlay"><div class="v2-sheet"><h3>联系顾问杨军</h3><p>确认后将调用系统电话能力，拨打顾问联系电话。</p><div class="v2-sheet-actions"><button type="button" data-v2-reference-close>取消</button><a href="tel:400-000-0000" class="primary">确认拨打</a></div></div></div><div class="v2-overlay" id="v2ReferenceChatOverlay"><div class="v2-sheet"><h3>在线咨询</h3><p>顾问杨军将为您解答课程、体验预约与适配建议。本原型展示咨询入口，不展开真实会话服务。</p><div class="v2-sheet-actions"><button type="button" data-v2-reference-close>取消</button><button type="button" class="primary" data-v2-reference-close>进入咨询</button></div></div></div></div></div>`;
+      const scroll = detailPage.querySelector('#v2ReferenceScroll');
+      const canvas = detailPage.querySelector('#v2ReferenceCanvas');
+      const callOverlay = detailPage.querySelector('#v2ReferenceCallOverlay');
+      const chatOverlay = detailPage.querySelector('#v2ReferenceChatOverlay');
+      const closeOverlay = () => {
+        callOverlay?.classList.remove('open');
+        chatOverlay?.classList.remove('open');
+        if (['#detail-call-modal', '#detail-consult-modal'].includes(location.hash)) showPage('detail');
+      };
+      window.openV2CallModal = () => {
+        chatOverlay?.classList.remove('open');
+        callOverlay?.classList.add('open');
+      };
+      window.openV2ChatModal = () => {
+        callOverlay?.classList.remove('open');
+        chatOverlay?.classList.add('open');
+      };
+      detailPage.querySelector('[data-v2-reference-back]')?.addEventListener('click', () => showPage('list'));
+      detailPage.querySelectorAll('[data-v2-reference-scroll]').forEach(button => button.addEventListener('click', () => {
+        if (!scroll || !canvas) return;
+        scroll.scrollTo({ top: canvas.offsetHeight * Number(button.dataset.v2ReferenceScroll), behavior: 'smooth' });
+      }));
+      detailPage.querySelectorAll('[data-v2-reference-buy]').forEach(button => button.addEventListener('click', () => openBuyConfirm(button.dataset.v2ReferenceBuy)));
+      detailPage.querySelector('[data-v2-reference-call]')?.addEventListener('click', () => showPage('detail-call-modal'));
+      detailPage.querySelector('[data-v2-reference-chat]')?.addEventListener('click', () => showPage('detail-consult-modal'));
+      detailPage.querySelectorAll('[data-v2-reference-close]').forEach(button => button.addEventListener('click', closeOverlay));
+      [callOverlay, chatOverlay].forEach(overlay => overlay?.addEventListener('click', event => { if (event.target === overlay) closeOverlay(); }));
+      if (location.hash === '#detail-call-modal') window.openV2CallModal();
+      if (location.hash === '#detail-consult-modal') window.openV2ChatModal();
+    }
+
+    applyV2DetailReferenceClone();
   </script>
 </body>
 </html>
