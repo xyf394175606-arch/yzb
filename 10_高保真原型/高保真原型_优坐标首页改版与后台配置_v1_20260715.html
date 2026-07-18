@@ -169,8 +169,9 @@
     .teacher-type-option input { position: absolute; opacity: 0; pointer-events: none; }
     .teacher-type-option span { display: block; border: 1px solid #cdd8e8; border-radius: 5px; padding: 7px 10px; color: #526276; background: #fff; font-size: 12px; font-weight: 800; }
     .teacher-type-option input:checked + span { border-color: #4e91eb; color: #1764c3; background: #eef6ff; }
-    .teacher-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 0 8px 10px; }
-    .teacher-card { overflow: hidden; border-radius: 8px; background: #fff; border: 1px solid #e9eef5; }
+    .teacher-strip { display: flex; gap: 6px; overflow-x: auto; overscroll-behavior-x: contain; padding: 0 8px 10px; scrollbar-width: none; }
+    .teacher-strip::-webkit-scrollbar { display: none; }
+    .teacher-card { flex: 0 0 calc((100% - 12px) / 3); overflow: hidden; border-radius: 8px; background: #fff; border: 1px solid #e9eef5; }
     .teacher-photo { height: 72px; background: linear-gradient(135deg, #dceaff, #b9cae6); display: grid; place-items: end center; overflow: hidden; }
     .teacher-photo strong { color: #fff; font-size: 34px; line-height: 1; text-shadow: 0 2px 6px rgba(36, 65, 107, .28); }
     .teacher-photo img { width: 100%; height: 100%; object-fit: cover; }
@@ -178,7 +179,13 @@
     .teacher-info b { display: block; font-size: 10px; }
     .teacher-info small { display: block; color: #7d8b9e; margin-top: 3px; font-size: 8px; white-space: nowrap; }
     .course-list { display: grid; gap: 7px; padding: 0 8px 10px; }
+    .course-strip { display: flex; gap: 6px; overflow-x: auto; overscroll-behavior-x: contain; padding: 0 8px 10px; scrollbar-width: none; }
+    .course-strip::-webkit-scrollbar { display: none; }
     .course { display: grid; grid-template-columns: 65px minmax(0, 1fr) auto; gap: 8px; align-items: center; width: 100%; padding: 7px; border: 1px solid #edf1f6; border-radius: 8px; background: #fff; text-align: left; }
+    .course-strip .course { flex: 0 0 calc((100% - 12px) / 3); display: block; min-width: 0; padding: 6px; }
+    .course-strip .cover { width: 100%; height: 54px; }
+    .course-strip .course b { margin-top: 6px; font-size: 9px; }
+    .course-strip .course small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .cover { width: 65px; height: 52px; border-radius: 7px; display: grid; place-items: center; color: #fff; text-align: center; font-size: 10px; font-weight: 900; background: linear-gradient(135deg, #2e82f4, #77b4ff); }
     .cover.green { background: linear-gradient(135deg, #22be89, #85e2b8); }
     .cover.orange { background: linear-gradient(135deg, #ff9b21, #ffd064); }
@@ -384,17 +391,23 @@
       { id: "quick", type: "quick", name: "快捷入口", icon: "⌘", tone: "green", enabled: true, count: 10, summary: "10 个入口", updated: "今天 16:20", fields: { title: "快捷入口", subtitle: "首页服务入口", cta: "查看入口", target: "入口集合" } },
       { id: "trial", type: "trial", name: "试听课", icon: "¥", tone: "orange", enabled: true, count: 3, summary: "3 个课程", updated: "今天 15:48", fields: { title: "试听课", subtitle: "精选体验课", cta: "查看全部", target: "课程列表" } },
       { id: "service", type: "service", name: "平台服务保障", icon: "♧", tone: "green", enabled: true, count: 1, summary: "1 张保障图片", updated: "今天 15:20", fields: { title: "平台服务保障" } },
-      { id: "teacher", type: "teacher", name: "教师类型与教师推荐", icon: "♛", tone: "purple", enabled: true, count: 3, summary: "3 个教师类型", updated: "今天 14:32", fields: { title: "推荐老师", subtitle: "认证教员为你服务", cta: "查看更多推荐老师", target: "全部老师" } },
-      { id: "courses", type: "courses", name: "精品课程", icon: "▣", tone: "blue", enabled: true, count: 3, summary: "3 门课程", updated: "今天 13:10", fields: { title: "精品课程", subtitle: "高质量课程推荐", cta: "购买", target: "课程详情" } },
+      { id: "teacher", type: "teacher", name: "教师类型与教师推荐", icon: "♛", tone: "purple", enabled: true, count: 3, summary: "3 个教师类型 · 每类 3 位", updated: "今天 14:32", fields: { title: "推荐老师", displayCount: 3, subtitle: "认证教员为你服务", cta: "查看更多推荐老师", target: "全部老师" } },
+      { id: "courses", type: "courses", name: "精品课程", icon: "▣", tone: "blue", enabled: true, count: 3, summary: "3 个课程分类 · 每类 3 门", updated: "今天 13:10", fields: { title: "精品课程", displayCount: 3, subtitle: "高质量课程推荐", cta: "购买", target: "课程详情" } },
       { id: "wechat", type: "wechat", name: "公众号关注", icon: "●", tone: "green", enabled: true, count: 1, summary: "公众号卡片", updated: "昨天 18:05", fields: { title: "关注优坐标公众号", subtitle: "获取实时课程提醒与教育干货", cta: "去关注", target: "公众号", url: "/wechat", visible: true } },
       { id: "bottom", type: "bottom", name: "底部导航", icon: "⌂", tone: "pink", enabled: true, count: 5, summary: "5 个固定入口", updated: "昨天 17:42", fields: { title: "底部导航", subtitle: "家长端主导航", cta: "查看页面", target: "导航页面" } }
     ];
     const initialTeacherTypes = [
-      { id: "core", name: "骨干教员", selected: true, teachers: [{ name: "王教员", subject: "数学", experience: "9年教龄" }, { name: "赵教员", subject: "数学", experience: "7年教龄" }, { name: "周教员", subject: "语文", experience: "8年教龄" }] },
-      { id: "professional", name: "专业教员", selected: true, teachers: [{ name: "李教员", subject: "语文", experience: "4年教龄" }, { name: "孙教员", subject: "英语", experience: "6年教龄" }, { name: "陈教员", subject: "数学", experience: "5年教龄" }] },
-      { id: "english", name: "英语伴读", selected: true, teachers: [{ name: "张教员", subject: "英语", experience: "2年教龄" }, { name: "刘教员", subject: "英语", experience: "3年教龄" }, { name: "吴教员", subject: "英语", experience: "4年教龄" }] },
-      { id: "reading", name: "语文伴读", selected: false, teachers: [{ name: "何教员", subject: "语文", experience: "6年教龄" }, { name: "许教员", subject: "语文", experience: "5年教龄" }, { name: "郑教员", subject: "语文", experience: "3年教龄" }] },
-      { id: "science", name: "理科思维", selected: false, teachers: [{ name: "杨教员", subject: "物理", experience: "8年教龄" }, { name: "冯教员", subject: "数学", experience: "6年教龄" }, { name: "唐教员", subject: "化学", experience: "4年教龄" }] }
+      { id: "core", name: "骨干教员", selected: true, teachers: [{ name: "王教员", subject: "数学", experience: "9年教龄" }, { name: "赵教员", subject: "数学", experience: "7年教龄" }, { name: "周教员", subject: "语文", experience: "8年教龄" }, { name: "钱教员", subject: "英语", experience: "8年教龄" }, { name: "宋教员", subject: "数学", experience: "6年教龄" }] },
+      { id: "professional", name: "专业教员", selected: true, teachers: [{ name: "李教员", subject: "语文", experience: "4年教龄" }, { name: "孙教员", subject: "英语", experience: "6年教龄" }, { name: "陈教员", subject: "数学", experience: "5年教龄" }, { name: "郭教员", subject: "物理", experience: "6年教龄" }, { name: "林教员", subject: "语文", experience: "5年教龄" }] },
+      { id: "english", name: "英语伴读", selected: true, teachers: [{ name: "张教员", subject: "英语", experience: "2年教龄" }, { name: "刘教员", subject: "英语", experience: "3年教龄" }, { name: "吴教员", subject: "英语", experience: "4年教龄" }, { name: "朱教员", subject: "英语", experience: "5年教龄" }, { name: "马教员", subject: "英语", experience: "6年教龄" }] },
+      { id: "reading", name: "语文伴读", selected: false, teachers: [{ name: "何教员", subject: "语文", experience: "6年教龄" }, { name: "许教员", subject: "语文", experience: "5年教龄" }, { name: "郑教员", subject: "语文", experience: "3年教龄" }, { name: "高教员", subject: "语文", experience: "4年教龄" }, { name: "罗教员", subject: "语文", experience: "5年教龄" }] },
+      { id: "science", name: "理科思维", selected: false, teachers: [{ name: "杨教员", subject: "物理", experience: "8年教龄" }, { name: "冯教员", subject: "数学", experience: "6年教龄" }, { name: "唐教员", subject: "化学", experience: "4年教龄" }, { name: "邓教员", subject: "物理", experience: "5年教龄" }, { name: "彭教员", subject: "数学", experience: "7年教龄" }] }
+    ];
+    const initialCourseTypes = [
+      { id: "math", name: "数学素养", selected: true, courses: [{ name: "优AI数学素养体验课", cover: "优AI数学", grade: "小学3-6年级", price: "39.9", tone: "", url: "/courses/math-1" }, { name: "数学思维提升课", cover: "数学思维", grade: "小学4-6年级", price: "99", tone: "", url: "/courses/math-2" }, { name: "初中数学衔接课", cover: "初中数学", grade: "初一至初三", price: "168", tone: "", url: "/courses/math-3" }, { name: "奥数能力训练课", cover: "奥数训练", grade: "小学5-6年级", price: "198", tone: "", url: "/courses/math-4" }, { name: "数学易错题精讲", cover: "错题精讲", grade: "小学3-6年级", price: "59", tone: "", url: "/courses/math-5" }] },
+      { id: "chinese", name: "语文素养", selected: true, courses: [{ name: "优AI语文素养体验课", cover: "优AI语文", grade: "小学1-6年级", price: "168", tone: "green", url: "/courses/chinese-1" }, { name: "阅读理解提升课", cover: "阅读提升", grade: "小学3-6年级", price: "129", tone: "green", url: "/courses/chinese-2" }, { name: "写作表达训练课", cover: "写作表达", grade: "小学4-6年级", price: "159", tone: "green", url: "/courses/chinese-3" }, { name: "古诗文积累课", cover: "古诗文", grade: "小学3-6年级", price: "89", tone: "green", url: "/courses/chinese-4" }, { name: "名著导读课", cover: "名著导读", grade: "小学5-6年级", price: "109", tone: "green", url: "/courses/chinese-5" }] },
+      { id: "english", name: "英语单词", selected: true, courses: [{ name: "优AI英语单词体验课", cover: "优AI英语", grade: "小学1-6年级", price: "239.9", tone: "orange", url: "/courses/english-1" }, { name: "自然拼读启蒙课", cover: "自然拼读", grade: "小学1-3年级", price: "99", tone: "orange", url: "/courses/english-2" }, { name: "英语阅读进阶课", cover: "英语阅读", grade: "小学3-6年级", price: "149", tone: "orange", url: "/courses/english-3" }, { name: "口语表达训练课", cover: "英语口语", grade: "小学3-6年级", price: "119", tone: "orange", url: "/courses/english-4" }, { name: "英语语法巩固课", cover: "英语语法", grade: "小学4-6年级", price: "139", tone: "orange", url: "/courses/english-5" }] },
+      { id: "science", name: "科学思维", selected: false, courses: [{ name: "物理思维启蒙课", cover: "物理思维", grade: "初一至初三", price: "199", tone: "", url: "/courses/science-1" }, { name: "科学实验探索课", cover: "科学实验", grade: "小学4-6年级", price: "129", tone: "", url: "/courses/science-2" }, { name: "化学趣味入门课", cover: "化学入门", grade: "初一至初三", price: "159", tone: "", url: "/courses/science-3" }] }
     ];
     const state = {
       surface: "workbench",
@@ -404,6 +417,9 @@
       teacherTypes: structuredClone(initialTeacherTypes),
       teacherTypesPublished: structuredClone(initialTeacherTypes),
       teacherPreviewType: { draft: "core", published: "core" },
+      courseTypes: structuredClone(initialCourseTypes),
+      courseTypesPublished: structuredClone(initialCourseTypes),
+      coursePreviewType: { draft: "math", published: "math" },
       wechatClosed: { draft: false, published: false },
       coursePickerAdId: null,
       draft: structuredClone(initialModules),
@@ -551,17 +567,17 @@
       ` : teacherModalOpen ? `
         <div class="notes-sub">当前页面：教师类型与教师推荐配置页</div>
         <div class="note"><b>页面目标</b>维护家长端“推荐老师”区块的主标题和教师类型标签，保存后进入草稿，发布后由家长端读取。</div>
-        <div class="note"><b>字段规则</b>主标题用于前台“推荐老师”区块名称，最多 10 个字；教师类型支持多选，选中类型决定前台展示哪些标签和对应老师。</div>
-        <div class="note"><b>前台展示</b>已选类型按配置顺序显示为标签；标签超过一个屏幕宽度时可左右横滑，点击标签切换展示该类型下的老师列表。</div>
+        <div class="note"><b>字段规则</b>主标题用于前台“推荐老师”区块名称，最多 10 个字；教师类型支持多选，选中类型决定前台展示哪些标签和对应老师；每类默认展示老师数为 1 到 20 的整数。</div>
+        <div class="note"><b>前台展示</b>已选类型按配置顺序显示为标签；标签超过一个屏幕宽度时可左右横滑。每个类型按老师排序取前 N 位展示，点击标签切换对应老师列表；老师卡片超过一屏时可左右横滑。</div>
         <div class="note"><b>配置完整性</b>主标题必填，且至少选择一个教师类型；缺失时阻止保存或发布。</div>
         <div class="note"><b>操作结果</b>保存写入草稿并关闭弹窗；取消不改变草稿；发布后已发布预览才读取新的类型标签和老师列表。真实教师数据、类型可用状态和权限异常待接口确认。</div>
       ` : coursesModalOpen ? `
         <div class="notes-sub">当前页面：精品课程配置页</div>
-        <div class="note"><b>页面目标</b>维护精品课程首页课程卡片列表的主标题和课程广告位，保存后进入草稿，发布后由家长端读取。</div>
-        <div class="note"><b>广告位规则</b>课程广告位不限制数量，可持续新增；每个位维护课程配套图片、跳转目标和跳转地址，删除位于行内，前台按配置顺序展示为课程卡片列表。</div>
-        <div class="note"><b>数据来源</b>广告位跳转到已有课程详情或课程列表；真实课程选择、上下架状态和读取失败状态待数据接口确认。</div>
-        <div class="note"><b>配置完整性</b>主标题和每个课程广告位的图片、跳转目标、跳转地址均为必填；至少保留一个广告位，缺失时阻止保存或发布。</div>
-        <div class="note"><b>操作结果</b>保存写入草稿并关闭弹窗；取消不改变草稿；工作台发布后才影响家长端。</div>
+        <div class="note"><b>页面目标</b>维护精品课程区块的主标题、课程分类标签和每类默认展示课程数，保存后进入草稿，发布后由家长端读取。</div>
+        <div class="note"><b>字段规则</b>主标题最多 10 个字；课程分类支持多选；每类默认展示课程数为 1 到 20 的整数，前台按课程排序取前 N 门。</div>
+        <div class="note"><b>前台展示</b>已选分类按配置顺序显示为标签，点击标签切换该分类下的课程；标签或课程卡片超过一屏时支持左右横滑。</div>
+        <div class="note"><b>配置完整性</b>主标题必填，且至少选择一个课程分类；展示数量必须为 1 到 20 的整数，缺失或超限时阻止保存和发布。</div>
+        <div class="note"><b>操作结果</b>保存写入草稿并关闭弹窗；取消不改变草稿；发布后已发布预览才读取新的课程分类和展示数量。真实课程排序、上下架状态和权限校验待接口确认。</div>
       ` : wechatModalOpen ? `
         <div class="notes-sub">当前页面：公众号关注配置页</div>
         <div class="note"><b>页面目标</b>维护家长端公众号关注卡片的展示内容和跳转行为，保存后进入草稿，发布后由家长端读取。</div>
@@ -600,8 +616,9 @@
       const service = find("service");
       const serviceHtml = service?.enabled ? renderPhoneServiceSection(service.fields.title, state.serviceEntries[0]) : emptyHome("平台服务保障");
       const teacherTypes = mode === "draft" ? state.teacherTypes : state.teacherTypesPublished;
-      const teacherHtml = teacher?.enabled ? renderPhoneTeacherSection(teacher.fields.title, teacherTypes, mode) : emptyHome("教师推荐");
-      const courseHtml = courses?.enabled ? renderPhoneCourseSection(courses.fields.title, state.courseEntries) : emptyHome("精品课程");
+      const teacherHtml = teacher?.enabled ? renderPhoneTeacherSection(teacher.fields.title, teacherTypes, teacher.fields.displayCount, mode) : emptyHome("教师推荐");
+      const courseTypes = mode === "draft" ? state.courseTypes : state.courseTypesPublished;
+      const courseHtml = courses?.enabled ? renderPhoneCourseSection(courses.fields.title, courseTypes, courses.fields.displayCount, mode) : emptyHome("精品课程");
       const bannerHtml = banner?.enabled ? `<section class="home-section home-banner"><div class="banner-copy"><strong>${escapeHtml(banner.fields.title)}</strong><small>${escapeHtml(banner.fields.subtitle)}</small><em>${escapeHtml(banner.fields.cta)}　›</em></div></section>` : emptyHome("Banner");
       const wechatHtml = wechat?.enabled && wechat.fields.visible !== false && !state.wechatClosed[mode] ? `<div class="phone-follow"><section class="follow"><button class="follow-close" data-action="close-wechat-follow" data-mode="${mode}" aria-label="关闭公众号关注">×</button><span class="follow-copy"><b>▣ ${escapeHtml(wechat.fields.title)}</b><small>${escapeHtml(wechat.fields.subtitle)}</small></span><button data-action="home-click" data-label="${wechat.fields.cta}">${escapeHtml(wechat.fields.cta)}</button></section></div>` : "";
       const bottomHtml = bottom?.enabled ? `<nav class="phone-tabbar">${state.bottomItems.filter(item => item.visible).map((item, i) => `<button class="${item.id === "bottom-home" ? "active" : ""}" data-action="home-click" data-label="${escapeHtml(item.title)}"><strong>${escapeHtml(item.icon)}</strong>${escapeHtml(item.title)}</button>`).join("")}</nav>` : "";
@@ -619,20 +636,21 @@
     function renderPhoneServiceSection(title, entry) {
       return `<section class="home-section"><div class="section-title"><span>${escapeHtml(title)}</span></div><button class="service-banner" data-action="home-click" data-label="${escapeHtml(entry?.url || title)}"><b>${escapeHtml(entry?.imageText || "平台服务保障图片")}</b><small>点击查看服务保障</small></button></section>`;
     }
-    function renderPhoneTeacherSection(title, types, mode) {
+    function renderPhoneTeacherSection(title, types, displayCount, mode) {
       const selectedTypes = types.filter(item => item.selected);
       const activeId = selectedTypes.some(item => item.id === state.teacherPreviewType[mode]) ? state.teacherPreviewType[mode] : selectedTypes[0]?.id;
       const activeType = selectedTypes.find(item => item.id === activeId);
       if (!activeType) return emptyHome(title);
-      return `<section class="home-section"><div class="section-title"><span>${escapeHtml(title)}</span><a data-action="home-click" data-label="更多推荐老师">查看更多 ›</a></div><div class="home-tabs">${selectedTypes.map(item => `<button class="home-tab ${item.id === activeType.id ? "active" : ""}" data-action="teacher-preview-tab" data-mode="${mode}" data-id="${item.id}">${escapeHtml(item.name)}</button>`).join("")}</div><div class="teacher-strip">${activeType.teachers.map(item => `<button class="teacher-card" data-action="home-click" data-label="${escapeHtml(item.name)}"><span class="teacher-photo"><strong>${escapeHtml(item.name.charAt(0))}</strong></span><span class="teacher-info"><b>${escapeHtml(item.name)}</b><small>${escapeHtml(item.subject)}　${escapeHtml(item.experience)}</small></span></button>`).join("")}</div></section>`;
+      const visibleTeachers = activeType.teachers.slice(0, Math.max(1, Number(displayCount) || 3));
+      return `<section class="home-section"><div class="section-title"><span>${escapeHtml(title)}</span><a data-action="home-click" data-label="更多推荐老师">查看更多 ›</a></div><div class="home-tabs">${selectedTypes.map(item => `<button class="home-tab ${item.id === activeType.id ? "active" : ""}" data-action="teacher-preview-tab" data-mode="${mode}" data-id="${item.id}">${escapeHtml(item.name)}</button>`).join("")}</div><div class="teacher-strip">${visibleTeachers.map(item => `<button class="teacher-card" data-action="home-click" data-label="${escapeHtml(item.name)}"><span class="teacher-photo"><strong>${escapeHtml(item.name.charAt(0))}</strong></span><span class="teacher-info"><b>${escapeHtml(item.name)}</b><small>${escapeHtml(item.subject)}　${escapeHtml(item.experience)}</small></span></button>`).join("")}</div></section>`;
     }
-    function renderPhoneCourseSection(title, entries) {
-      const courseData = [
-        { name: "优AI数学素养-体验课【1V1专业教练伴学直播课】", subject: "数学", level: "小学", price: "39.9", tone: "", cover: "优AI数学素养" },
-        { name: "优AI语文素养-体验课【1V1专业教练伴学直播课】", subject: "语文", level: "小学", price: "168", tone: "green", cover: "优AI语文素养" },
-        { name: "优AI单词-体验课【1V1真人伴学直播课】", subject: "英语", level: "小学", price: "239.9", tone: "orange", cover: "优AI英语单词" }
-      ];
-      return `<section class="home-section"><div class="section-title"><span>${escapeHtml(title)}</span><a data-action="home-click" data-label="精品课程全部">查看更多 ›</a></div><div class="home-tabs"><button class="home-tab active">数学素养</button><button class="home-tab">语文素养</button><button class="home-tab">英语伴读</button></div><div class="course-list">${entries.map((item, index) => { const data = state.courseCatalog.find(course => course.id === item.courseId) || courseData[index % courseData.length]; return `<button class="course" data-action="home-click" data-label="${escapeHtml(item.target)}"><span class="cover ${data.tone}">${escapeHtml(data.cover)}</span><span><b>${escapeHtml(data.name)}</b><span class="course-meta"><span>${index === 0 ? "初一至初三" : "小学1年级-6年级"}</span><span>1对4直播</span></span><small>逻辑性极强，高度抽象性，严谨规范性</small><span class="price">¥${escapeHtml(data.price)}</span></span><span class="course-buy">查看详情</span></button>`; }).join("")}</div><div class="course-more" data-action="home-click" data-label="精品课程全部">查看更多⌄</div></section>`;
+    function renderPhoneCourseSection(title, types, displayCount, mode) {
+      const selectedTypes = types.filter(item => item.selected);
+      const activeId = selectedTypes.some(item => item.id === state.coursePreviewType[mode]) ? state.coursePreviewType[mode] : selectedTypes[0]?.id;
+      const activeType = selectedTypes.find(item => item.id === activeId);
+      if (!activeType) return emptyHome(title);
+      const visibleCourses = activeType.courses.slice(0, Math.max(1, Number(displayCount) || 3));
+      return `<section class="home-section"><div class="section-title"><span>${escapeHtml(title)}</span><a data-action="home-click" data-label="精品课程全部">查看更多 ›</a></div><div class="home-tabs">${selectedTypes.map(item => `<button class="home-tab ${item.id === activeType.id ? "active" : ""}" data-action="course-preview-tab" data-mode="${mode}" data-id="${item.id}">${escapeHtml(item.name)}</button>`).join("")}</div><div class="course-strip">${visibleCourses.map(item => `<button class="course" data-action="home-click" data-label="${escapeHtml(item.url)}"><span class="cover ${item.tone}">${escapeHtml(item.cover)}</span><b>${escapeHtml(item.name)}</b><small>${escapeHtml(item.grade)}</small><span class="price">¥${escapeHtml(item.price)}</span></button>`).join("")}</div></section>`;
     }
     function renderBannerItems() {
       return state.bannerItems.map((item, index) => `<div class="banner-carousel-item">
@@ -725,8 +743,8 @@
       if (module.type === "banner") return `<div class="banner-carousel"><div class="banner-carousel-head"><span>首页轮播广告 banner</span><small>每条广告独立配置</small></div><div class="banner-carousel-list">${renderBannerItems()}</div><button type="button" class="banner-add" data-action="banner-add">＋ 新增轮播</button></div>`;
       if (module.type === "trial") return `<div class="trial-ad-title field"><label>主标题</label><input name="title" value="${escapeHtml(f.title)}" placeholder="例如：试听课"></div><div class="banner-carousel-head"><span>三位广告位</span><small>固定 3 个，不支持新增或删除</small></div><div class="trial-ad-list">${renderTrialEntries()}</div>`;
       if (module.type === "service") return `<div class="trial-ad-title field"><label>模块主标题</label><input name="title" maxlength="20" value="${escapeHtml(f.title)}" placeholder="20 字以内，例如：平台服务保障"></div><div class="banner-carousel-head"><span>服务保障素材</span><small>固定 1 张图片和 1 个跳转链接</small></div><div class="trial-ad-list">${renderServiceEntries()}</div>`;
-      if (module.type === "teacher") return `<div class="field"><label>主标题</label><input name="title" maxlength="10" value="${escapeHtml(f.title)}" placeholder="请输入标题名称，10 字以内"></div><div class="teacher-type-field"><label>教师类型</label><div class="teacher-type-list">${state.teacherTypes.map(item => `<label class="teacher-type-option"><input type="checkbox" data-teacher-type value="${item.id}" ${item.selected ? "checked" : ""}><span>${escapeHtml(item.name)}</span></label>`).join("")}</div></div><div class="field-help">可多选教师类型；保存后前台展示已选标签，点击标签切换展示该类型下的老师。标签超过一屏时支持左右横滑。</div>`;
-      if (module.type === "courses") return `<div class="trial-ad-title field"><label>主标题</label><input name="title" value="${escapeHtml(f.title)}" placeholder="例如：精品课程"></div><div class="banner-carousel-head"><span>广告位</span><small>可无限新增课程广告位</small></div><div class="trial-ad-list">${renderCourseEntries()}</div><button type="button" class="banner-add" data-action="course-add">＋ 新增课程广告位</button><div class="field-help">广告位跳转到已有课程详情或课程列表；不限制广告位数量，真实课程选择、上下架和读取失败状态待数据接口确认。</div>`;
+      if (module.type === "teacher") return `<div class="field"><label>主标题</label><input name="title" maxlength="10" value="${escapeHtml(f.title)}" placeholder="请输入标题名称，10 字以内"></div><div class="field"><label>每类默认展示老师数</label><input name="displayCount" type="number" min="1" max="20" value="${escapeHtml(f.displayCount || 3)}" inputmode="numeric" placeholder="例如：3"></div><div class="teacher-type-field"><label>教师类型</label><div class="teacher-type-list">${state.teacherTypes.map(item => `<label class="teacher-type-option"><input type="checkbox" data-teacher-type value="${item.id}" ${item.selected ? "checked" : ""}><span>${escapeHtml(item.name)}</span></label>`).join("")}</div></div><div class="field-help">输入 3 时，每个已选类型按排序展示前 3 位老师；老师列表超过一屏时可左右横滑。可多选教师类型，点击前台标签切换对应老师。</div>`;
+      if (module.type === "courses") return `<div class="field"><label>主标题</label><input name="title" maxlength="10" value="${escapeHtml(f.title)}" placeholder="请输入标题名称，10 字以内"></div><div class="field"><label>每类默认展示课程数</label><input name="displayCount" type="number" min="1" max="20" value="${escapeHtml(f.displayCount || 3)}" inputmode="numeric" placeholder="例如：3"></div><div class="teacher-type-field"><label>课程分类</label><div class="teacher-type-list">${state.courseTypes.map(item => `<label class="teacher-type-option"><input type="checkbox" data-course-type value="${item.id}" ${item.selected ? "checked" : ""}><span>${escapeHtml(item.name)}</span></label>`).join("")}</div></div><div class="field-help">输入 3 时，每个已选分类按排序展示前 3 门课程；课程超过一屏时可左右横滑。可多选分类，点击前台标签切换对应课程。</div>`;
       if (module.type === "quick") return `<div class="banner-carousel"><div class="banner-carousel-head"><span>首页快捷入口</span><small>最少 4 个，最多 10 个</small></div><div class="banner-carousel-list">${renderQuickEntries()}</div><button type="button" class="banner-add" data-action="quick-add" ${state.quickEntries.length >= 10 ? "disabled" : ""}>＋ 新增入口</button></div>`;
       if (module.type === "bottom") return `<div class="banner-carousel-head"><span>底部导航配置</span><small>固定 5 个入口：首页、全部课程、全部老师、消息、我的</small></div>${renderBottomEntries()}<div class="field-help">每项可编辑前台展示标题、跳转页面和是否展示；首页默认选中且至少保留一个入口展示。</div>`;
       if (module.type === "wechat") return `<div class="form-preview" style="background:linear-gradient(135deg,#39c979,#11854c)">▣　公众号关注卡片预览</div><div class="quick-item-fields"><div class="quick-item-field"><label>主标题</label><input name="title" value="${escapeHtml(f.title)}" placeholder="填写前台展示主标题"></div><div class="quick-item-field"><label>副标题</label><input name="subtitle" value="${escapeHtml(f.subtitle)}" placeholder="填写前台展示副标题"></div><div class="quick-item-field"><label>按钮文案</label><input name="cta" value="${escapeHtml(f.cta)}" placeholder="例如：去关注"></div><div class="quick-item-field"><label>跳转链接</label><input name="url" value="${escapeHtml(f.url)}" placeholder="填写点击后的目标链接"></div><label class="bottom-visible"><input type="checkbox" name="visible" ${f.visible ? "checked" : ""}> 是否展示</label></div><div class="field-help">交互参考快捷入口配置；开启展示时，主标题、副标题、按钮文案和跳转链接均为必填。</div>`;
@@ -802,27 +820,30 @@
       }
       if (module.type === "teacher") {
         const selectedIds = new Set([...form.querySelectorAll("[data-teacher-type]:checked")].map(input => input.value));
-        const teacherIssue = getTeacherValidation(title, selectedIds);
+        const displayCount = Number(data.get("displayCount"));
+        const teacherIssue = getTeacherValidation(title, selectedIds, displayCount);
         if (teacherIssue) { showToast(teacherIssue, "error"); return; }
         state.teacherTypes = state.teacherTypes.map(item => ({ ...item, selected: selectedIds.has(item.id) }));
         const firstSelected = state.teacherTypes.find(item => item.selected);
         if (!state.teacherTypes.some(item => item.selected && item.id === state.teacherPreviewType.draft)) state.teacherPreviewType.draft = firstSelected.id;
         module.count = selectedIds.size;
+        module.fields.displayCount = displayCount;
       }
       if (module.type === "courses") {
-        const adType = "course";
-        form.querySelectorAll("[data-ad-field]").forEach(input => {
-          const item = state[`${adType}Entries`].find(entry => entry.id === input.dataset.adId);
-          if (item) item[input.dataset.adField] = input.value.trim();
-        });
-        const adIssue = getCourseValidation(title, module.name);
-        if (adIssue) { showToast(adIssue, "error"); return; }
-        module.count = state.courseEntries.length;
+        const selectedIds = new Set([...form.querySelectorAll("[data-course-type]:checked")].map(input => input.value));
+        const displayCount = Number(data.get("displayCount"));
+        const courseIssue = getCourseTypeValidation(title, selectedIds, displayCount);
+        if (courseIssue) { showToast(courseIssue, "error"); return; }
+        state.courseTypes = state.courseTypes.map(item => ({ ...item, selected: selectedIds.has(item.id) }));
+        const firstSelected = state.courseTypes.find(item => item.selected);
+        if (!state.courseTypes.some(item => item.selected && item.id === state.coursePreviewType.draft)) state.coursePreviewType.draft = firstSelected.id;
+        module.count = selectedIds.size;
+        module.fields.displayCount = displayCount;
       }
       ["title", "subtitle", "cta", "target", "schedule"].forEach(key => { if (data.has(key)) module.fields[key] = String(data.get(key)); });
       if (data.has("count")) module.count = Math.max(1, Number(data.get("count")) || 1);
       if (module.type === "banner") module.count = state.bannerItems.length;
-      module.summary = module.type === "service" ? "1 张保障图片" : module.type === "teacher" ? `${module.count} 个教师类型` : `${module.fields.title} · ${module.fields.subtitle || module.fields.target}`;
+      module.summary = module.type === "service" ? "1 张保障图片" : module.type === "teacher" ? `${module.count} 个教师类型 · 每类 ${module.fields.displayCount} 位` : module.type === "courses" ? `${module.count} 个课程分类 · 每类 ${module.fields.displayCount} 门` : `${module.fields.title} · ${module.fields.subtitle || module.fields.target}`;
       module.updated = "刚刚保存";
       state.modal = null;
       render();
@@ -846,10 +867,11 @@
       const item = state.serviceEntries[0];
       return !item?.imageText || !item.url ? "平台服务保障配置不完整：请补齐图片和跳转链接" : "";
     }
-    function getTeacherValidation(title = "", selectedIds = new Set()) {
+    function getTeacherValidation(title = "", selectedIds = new Set(), displayCount = 0) {
       if (!String(title).trim()) return "推荐老师主标题不能为空";
       if (String(title).trim().length > 10) return "推荐老师主标题不能超过 10 个字";
-      return selectedIds.size ? "" : "请至少选择一个教师类型";
+      if (!selectedIds.size) return "请至少选择一个教师类型";
+      return Number.isInteger(displayCount) && displayCount >= 1 && displayCount <= 20 ? "" : "每类默认展示老师数请填写 1 到 20 的整数";
     }
     function getFixedAdValidation(type, title, name) {
       if (!String(title).trim()) return `${name}主标题不能为空`;
@@ -861,6 +883,12 @@
       if (!String(title).trim()) return `${name}主标题不能为空`;
       if (!state.courseEntries.length) return `${name}至少保留一个广告位`;
       return state.courseEntries.some(item => !item.imageText || !item.target || !item.url) ? `${name}配置不完整：请补齐课程广告位的图片、跳转目标和地址` : "";
+    }
+    function getCourseTypeValidation(title = "", selectedIds = new Set(), displayCount = 0) {
+      if (!String(title).trim()) return "精品课程主标题不能为空";
+      if (String(title).trim().length > 10) return "精品课程主标题不能超过 10 个字";
+      if (!selectedIds.size) return "请至少选择一个课程分类";
+      return Number.isInteger(displayCount) && displayCount >= 1 && displayCount <= 20 ? "" : "每类默认展示课程数请填写 1 到 20 的整数";
     }
     function getBottomValidationMessage() {
       if (!state.bottomItems.some(item => item.visible)) return "底部导航至少保留一个展示入口";
@@ -894,10 +922,10 @@
       const serviceIssue = service ? getServiceValidation(service.fields.title) : "";
       if (serviceIssue) { showToast(`发布失败：${serviceIssue}`, "error"); return; }
       const teacher = state.draft.find(item => item.type === "teacher" && item.enabled);
-      const teacherIssue = teacher ? getTeacherValidation(teacher.fields.title, new Set(state.teacherTypes.filter(item => item.selected).map(item => item.id))) : "";
+      const teacherIssue = teacher ? getTeacherValidation(teacher.fields.title, new Set(state.teacherTypes.filter(item => item.selected).map(item => item.id)), Number(teacher.fields.displayCount)) : "";
       if (teacherIssue) { showToast(`发布失败：${teacherIssue}`, "error"); return; }
       const courses = state.draft.find(item => item.type === "courses" && item.enabled);
-      const courseIssue = courses ? getCourseValidation(courses.fields.title, courses.name) : "";
+      const courseIssue = courses ? getCourseTypeValidation(courses.fields.title, new Set(state.courseTypes.filter(item => item.selected).map(item => item.id)), Number(courses.fields.displayCount)) : "";
       if (courseIssue) { showToast(`发布失败：${courseIssue}`, "error"); return; }
       const bottom = state.draft.find(item => item.type === "bottom" && item.enabled);
       const bottomIssue = bottom ? getBottomValidationMessage() : "";
@@ -909,6 +937,9 @@
       state.teacherTypesPublished = structuredClone(state.teacherTypes);
       const firstPublishedTeacherType = state.teacherTypesPublished.find(item => item.selected);
       if (firstPublishedTeacherType) state.teacherPreviewType.published = firstPublishedTeacherType.id;
+      state.courseTypesPublished = structuredClone(state.courseTypes);
+      const firstPublishedCourseType = state.courseTypesPublished.find(item => item.selected);
+      if (firstPublishedCourseType) state.coursePreviewType.published = firstPublishedCourseType.id;
       state.lastPublish = new Date().toLocaleString("zh-CN", { hour12: false }).replaceAll("/", "-");
       state.previewMode = "published";
       render();
@@ -923,6 +954,7 @@
       if (action === "preview-draft") { state.surface = "workbench"; state.previewMode = "draft"; render(); showToast("手机预览已切换为草稿版本"); return; }
       if (action === "preview-mode") { state.previewMode = el.dataset.value; render(); return; }
       if (action === "teacher-preview-tab") { state.teacherPreviewType[el.dataset.mode] = el.dataset.id; render(); return; }
+      if (action === "course-preview-tab") { state.coursePreviewType[el.dataset.mode] = el.dataset.id; render(); return; }
       if (action === "close-wechat-follow") { state.wechatClosed[el.dataset.mode] = true; render(); showToast("已关闭公众号关注卡片"); return; }
       if (action === "toggle") { const module = state.draft.find(item => item.id === id); if (module) { module.enabled = !module.enabled; state.activeModule = id; render(); showToast(`${module.name}已${module.enabled ? "启用" : "停用"}`, module.enabled ? "success" : ""); } return; }
       if (action === "edit") { state.modal = { id }; render(); return; }
