@@ -79,7 +79,7 @@
     .status-pill.published, .tag.green { color: #11784f; background: var(--green-soft); }
     .status-pill.error, .tag.red { color: #b52b42; background: var(--red-soft); }
     .status-note { color: var(--muted); font-size: 12px; }
-    .workspace { display: grid; grid-template-columns: minmax(0, 1fr) 520px; gap: 12px; align-items: start; }
+    .workspace { display: grid; grid-template-columns: 600px 920px; gap: 12px; align-items: start; }
     .panel { border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); box-shadow: var(--shadow); overflow: hidden; }
     .panel-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 15px 17px; border-bottom: 1px solid var(--line); }
     .panel-title { font-size: 15px; font-weight: 900; }
@@ -109,10 +109,10 @@
     .preview-toolbar { display: flex; align-items: center; gap: 5px; padding: 11px 13px; border-bottom: 1px solid var(--line); background: #fbfdff; }
     .preview-toolbar button { border: 1px solid var(--line); background: #fff; color: var(--muted); border-radius: 6px; padding: 6px 9px; font-size: 12px; }
     .preview-toolbar button.active { color: var(--blue-deep); border-color: #a9c9f7; background: var(--blue-soft); font-weight: 900; }
-    .phone-wrap { padding: 12px 10px 14px; background: #eaf0f7; display: grid; place-items: center; }
-    .phone { width: 440px; height: 760px; overflow: hidden; border: 7px solid #131b2b; border-radius: 28px; background: #e9f5ff; box-shadow: 0 18px 36px rgba(21, 42, 75, .22); }
+    .phone-wrap { min-height: 1550px; padding: 12px 10px 14px; background: #eaf0f7; display: grid; place-items: start center; }
+    .phone { position: relative; width: 440px; height: 760px; overflow: hidden; border: 7px solid #131b2b; border-radius: 28px; background: #e9f5ff; box-shadow: 0 18px 36px rgba(21, 42, 75, .22); transform: scale(2); transform-origin: top center; }
     .phone-status { height: 25px; display: flex; justify-content: space-between; align-items: end; padding: 0 12px 2px; background: #fff; font-size: 9px; font-weight: 900; }
-    .phone-screen { height: calc(100% - 25px - 48px); overflow: auto; padding: 8px 8px 12px; background: linear-gradient(180deg, #eaf6ff 0%, #f6fbff 80%); }
+    .phone-screen { height: calc(100% - 25px - 48px); overflow: auto; padding: 8px 8px 72px; background: linear-gradient(180deg, #eaf6ff 0%, #f6fbff 80%); }
     .phone-nav { display: flex; align-items: center; justify-content: space-between; height: 27px; padding: 0 4px; }
     .phone-location { font-weight: 900; font-size: 12px; }
     .phone-menu { border: 1px solid rgba(25,48,75,.14); border-radius: 999px; background: rgba(255,255,255,.86); padding: 3px 8px; font-size: 10px; font-weight: 900; }
@@ -152,15 +152,23 @@
     .trial-course-item b { display: block; overflow: hidden; font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
     .trial-course-item small { display: block; margin-top: 4px; color: #8290a0; font-size: 8px; }
     .trial-course-item em { color: #e76851; font-size: 11px; font-style: normal; font-weight: 900; white-space: nowrap; }
-    .service-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; padding: 0 8px 11px; }
-    .service-item { border: 0; background: transparent; color: #596676; font-size: 8px; line-height: 1.25; }
-    .service-item span { display: grid; place-items: center; height: 23px; color: #2071c6; font-size: 15px; }
-    .home-tabs { display: flex; gap: 13px; padding: 0 11px 8px; overflow: hidden; white-space: nowrap; }
-    .home-tab { border: 0; border-bottom: 2px solid transparent; padding: 0 0 5px; color: #657085; background: transparent; font-size: 9px; }
+    .service-banner { display: block; width: calc(100% - 16px); min-height: 76px; margin: 0 8px 11px; padding: 12px; border: 0; border-radius: 9px; color: #1763aa; background: linear-gradient(135deg, #eaf5ff, #d8edff); text-align: left; }
+    .service-banner b { display: block; font-size: 13px; }
+    .service-banner small { display: block; margin-top: 5px; color: #6384a5; font-size: 9px; }
+    .home-tabs { display: flex; gap: 13px; padding: 0 11px 8px; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; white-space: nowrap; }
+    .home-tabs::-webkit-scrollbar { display: none; }
+    .home-tab { flex: 0 0 auto; border: 0; border-bottom: 2px solid transparent; padding: 0 0 5px; color: #657085; background: transparent; font-size: 9px; }
     .home-tab.active { border-bottom-color: var(--blue); color: var(--blue-deep); font-weight: 900; }
     .teacher-tabs { display: flex; gap: 5px; padding: 0 8px 8px; }
     .teacher-tab { flex: 1; border: 1px solid #e2ebf6; border-radius: 8px; padding: 7px 3px; color: #41516a; background: #f8fbff; font-size: 9px; font-weight: 900; }
     .teacher-tab.active { color: #fff; border-color: #5e97ef; background: #6099f1; }
+    .teacher-type-field { display: grid; gap: 8px; }
+    .teacher-type-field > label { color: #46566d; font-size: 12px; font-weight: 900; }
+    .teacher-type-list { display: flex; flex-wrap: wrap; gap: 8px; padding: 10px; border: 1px solid var(--line); border-radius: 7px; background: #fbfdff; }
+    .teacher-type-option { position: relative; cursor: pointer; }
+    .teacher-type-option input { position: absolute; opacity: 0; pointer-events: none; }
+    .teacher-type-option span { display: block; border: 1px solid #cdd8e8; border-radius: 5px; padding: 7px 10px; color: #526276; background: #fff; font-size: 12px; font-weight: 800; }
+    .teacher-type-option input:checked + span { border-color: #4e91eb; color: #1764c3; background: #eef6ff; }
     .teacher-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 0 8px 10px; }
     .teacher-card { overflow: hidden; border-radius: 8px; background: #fff; border: 1px solid #e9eef5; }
     .teacher-photo { height: 72px; background: linear-gradient(135deg, #dceaff, #b9cae6); display: grid; place-items: end center; overflow: hidden; }
@@ -200,10 +208,13 @@
     .catalog-status { color: var(--green); font-size: 12px; font-weight: 800; }
     .picker-notes { padding: 20px 16px; border-left: 1px solid var(--line); background: #fffdf0; }
     .picker-notes .note { margin-top: 10px; padding: 11px; border: 1px solid #eadb94; border-radius: 7px; background: #fff8cf; color: #635522; font-size: 12px; line-height: 1.6; }
-    .follow { display: flex; align-items: center; justify-content: space-between; padding: 10px; }
+    .phone-follow { position: absolute; z-index: 4; right: 8px; bottom: 48px; left: 8px; }
+    .follow { position: relative; display: flex; align-items: center; justify-content: space-between; min-height: 48px; margin: 0; padding: 8px 10px 8px 28px; border: 1px solid #4d96f5; border-radius: 8px; background: #edf6ff; box-shadow: 0 4px 12px rgba(38, 117, 237, .16); }
     .follow-copy b { display: block; font-size: 11px; }
     .follow-copy small { display: block; margin-top: 3px; color: #99a3b0; font-size: 8px; }
     .follow button { border: 1px solid #72a9fb; border-radius: 999px; color: #2675ed; background: #fff; padding: 5px 9px; font-size: 9px; font-weight: 900; }
+    .follow .follow-close { position: absolute; top: 6px; left: 6px; width: 16px; height: 16px; padding: 0; border: 0; border-radius: 50%; color: #6a7f99; background: transparent; font-size: 15px; line-height: 16px; }
+    .follow .follow-close:hover { color: #2675ed; background: #dcecff; }
     .home-empty { padding: 18px 12px; color: #95a1b1; text-align: center; font-size: 11px; }
     .phone-tabbar { height: 48px; border-top: 1px solid #e3e9f1; background: #fff; display: grid; grid-template-columns: repeat(5, 1fr); }
     .phone-tabbar button { border: 0; background: transparent; color: #7c8795; font-size: 8px; font-weight: 800; padding: 5px 0; }
@@ -225,8 +236,8 @@
     .home-intro .mini-status { margin-top: 20px; color: #7d8b9e; font-size: 12px; }
     .modal-backdrop { position: fixed; inset: 0; z-index: 20; display: none; place-items: center; padding: 20px 330px 20px 258px; background: rgba(17, 29, 49, .45); }
     .modal-backdrop.open { display: grid; }
-    .modal { position: relative; z-index: 1; width: min(620px, 100%); max-height: min(760px, calc(100vh - 40px)); overflow: auto; border-radius: 12px; background: #fff; box-shadow: 0 24px 70px rgba(12, 25, 46, .28); }
-    .modal.banner-modal { width: min(920px, 100%); max-height: min(840px, calc(100vh - 40px)); }
+    .modal { position: relative; z-index: 1; width: 850px; height: 1000px; max-width: 100%; max-height: calc(100vh - 40px); display: grid; grid-template-rows: auto minmax(0, 1fr) auto; overflow: hidden; border-radius: 12px; background: #fff; box-shadow: 0 24px 70px rgba(12, 25, 46, .28); }
+    .modal > .form { min-height: 0; overflow: auto; }
     .modal-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; padding: 18px 20px; border-bottom: 1px solid var(--line); }
     .modal-head h2 { font-size: 18px; }
     .modal-head p { margin-top: 4px; color: var(--muted); font-size: 12px; }
@@ -296,10 +307,11 @@
     @media (max-width: 1180px) {
       .shell { grid-template-columns: 210px minmax(630px, 1fr); }
       .notes { display: none; }
-      .workspace { grid-template-columns: minmax(0, 1fr) 440px; }
+      .workspace { grid-template-columns: minmax(0, 1fr) 820px; }
+      .phone-wrap { min-height: 1430px; }
       .phone { width: 400px; height: 700px; }
       .modal-backdrop { padding: 20px; }
-      .modal.banner-modal { width: min(840px, 100%); }
+      .modal { width: min(850px, 100%); }
     }
     @media (max-width: 860px) {
       .app { grid-template-rows: 58px 1fr; }
@@ -312,7 +324,8 @@
       .main { padding: 15px; }
       .workspace { display: block; }
       .preview-card { position: static; margin-top: 16px; }
-      .phone { width: 310px; }
+      .phone-wrap { min-height: 0; }
+      .phone { width: 310px; transform: none; }
       .course-picker-page { padding: 15px; }
       .course-picker-grid { display: block; }
       .picker-notes { display: none; }
@@ -327,7 +340,7 @@
       .status-strip { display: block; }
       .status-strip .actions { margin-top: 9px; justify-content: flex-start; }
       .form-grid { grid-template-columns: 1fr; }
-      .modal.banner-modal { width: 100%; }
+      .modal { width: 100%; }
       .banner-carousel { padding-left: 16px; padding-right: 16px; }
       .banner-carousel-item { grid-template-columns: 92px minmax(0, 1fr) 38px; gap: 9px; padding: 10px; }
       .banner-upload { width: 92px; height: 72px; }
@@ -370,17 +383,28 @@
       { id: "banner", type: "banner", name: "Banner 轮播", icon: "✦", tone: "blue", enabled: true, count: 3, summary: "优AI数学", updated: "刚刚", fields: { title: "优AI数学素养", subtitle: "1V1专业教练伴学直播课", cta: "查看详情", target: "试听课详情", schedule: "全天展示" } },
       { id: "quick", type: "quick", name: "快捷入口", icon: "⌘", tone: "green", enabled: true, count: 10, summary: "10 个入口", updated: "今天 16:20", fields: { title: "快捷入口", subtitle: "首页服务入口", cta: "查看入口", target: "入口集合" } },
       { id: "trial", type: "trial", name: "试听课", icon: "¥", tone: "orange", enabled: true, count: 3, summary: "3 个课程", updated: "今天 15:48", fields: { title: "试听课", subtitle: "精选体验课", cta: "查看全部", target: "课程列表" } },
-      { id: "service", type: "service", name: "平台服务保障", icon: "♧", tone: "green", enabled: true, count: 5, summary: "5 项保障", updated: "今天 15:20", fields: { title: "平台服务保障" } },
-      { id: "teacher", type: "teacher", name: "教师类型与教师推荐", icon: "♛", tone: "purple", enabled: true, count: 6, summary: "3 类推荐老师", updated: "今天 14:32", fields: { title: "推荐老师", subtitle: "认证教员为你服务", cta: "查看更多推荐老师", target: "全部老师" } },
+      { id: "service", type: "service", name: "平台服务保障", icon: "♧", tone: "green", enabled: true, count: 1, summary: "1 张保障图片", updated: "今天 15:20", fields: { title: "平台服务保障" } },
+      { id: "teacher", type: "teacher", name: "教师类型与教师推荐", icon: "♛", tone: "purple", enabled: true, count: 3, summary: "3 个教师类型", updated: "今天 14:32", fields: { title: "推荐老师", subtitle: "认证教员为你服务", cta: "查看更多推荐老师", target: "全部老师" } },
       { id: "courses", type: "courses", name: "精品课程", icon: "▣", tone: "blue", enabled: true, count: 3, summary: "3 门课程", updated: "今天 13:10", fields: { title: "精品课程", subtitle: "高质量课程推荐", cta: "购买", target: "课程详情" } },
       { id: "wechat", type: "wechat", name: "公众号关注", icon: "●", tone: "green", enabled: true, count: 1, summary: "公众号卡片", updated: "昨天 18:05", fields: { title: "关注优坐标公众号", subtitle: "获取实时课程提醒与教育干货", cta: "去关注", target: "公众号", url: "/wechat", visible: true } },
       { id: "bottom", type: "bottom", name: "底部导航", icon: "⌂", tone: "pink", enabled: true, count: 5, summary: "5 个固定入口", updated: "昨天 17:42", fields: { title: "底部导航", subtitle: "家长端主导航", cta: "查看页面", target: "导航页面" } }
+    ];
+    const initialTeacherTypes = [
+      { id: "core", name: "骨干教员", selected: true, teachers: [{ name: "王教员", subject: "数学", experience: "9年教龄" }, { name: "赵教员", subject: "数学", experience: "7年教龄" }, { name: "周教员", subject: "语文", experience: "8年教龄" }] },
+      { id: "professional", name: "专业教员", selected: true, teachers: [{ name: "李教员", subject: "语文", experience: "4年教龄" }, { name: "孙教员", subject: "英语", experience: "6年教龄" }, { name: "陈教员", subject: "数学", experience: "5年教龄" }] },
+      { id: "english", name: "英语伴读", selected: true, teachers: [{ name: "张教员", subject: "英语", experience: "2年教龄" }, { name: "刘教员", subject: "英语", experience: "3年教龄" }, { name: "吴教员", subject: "英语", experience: "4年教龄" }] },
+      { id: "reading", name: "语文伴读", selected: false, teachers: [{ name: "何教员", subject: "语文", experience: "6年教龄" }, { name: "许教员", subject: "语文", experience: "5年教龄" }, { name: "郑教员", subject: "语文", experience: "3年教龄" }] },
+      { id: "science", name: "理科思维", selected: false, teachers: [{ name: "杨教员", subject: "物理", experience: "8年教龄" }, { name: "冯教员", subject: "数学", experience: "6年教龄" }, { name: "唐教员", subject: "化学", experience: "4年教龄" }] }
     ];
     const state = {
       surface: "workbench",
       activeModule: "banner",
       previewMode: "draft",
       homeMode: "published",
+      teacherTypes: structuredClone(initialTeacherTypes),
+      teacherTypesPublished: structuredClone(initialTeacherTypes),
+      teacherPreviewType: { draft: "core", published: "core" },
+      wechatClosed: { draft: false, published: false },
       coursePickerAdId: null,
       draft: structuredClone(initialModules),
       published: structuredClone(initialModules),
@@ -417,11 +441,7 @@
         { id: "trial-3", tone: "orange", imageText: "英语试听课图片", target: "课程详情", url: "/courses/english-trial" }
       ],
       serviceEntries: [
-        { id: "service-1", title: "教员实名认证", imageText: "♧", url: "/service/teacher-auth" },
-        { id: "service-2", title: "支持试听", imageText: "♧", url: "/service/trial" },
-        { id: "service-3", title: "伴学服务保障", imageText: "♧", url: "/service/companionship" },
-        { id: "service-4", title: "不满意可退换", imageText: "▭", url: "/service/refund" },
-        { id: "service-5", title: "售后全程跟进", imageText: "↻", url: "/service/after-sale" }
+        { id: "service-1", imageText: "平台服务保障图片", url: "/service/guarantee" }
       ],
       teacherEntries: [
         { id: "teacher-1", tone: "purple", imageText: "骨干教员广告图片", target: "教师类型", url: "/teachers/core" },
@@ -522,19 +542,19 @@
         <div class="note"><b>待确认</b>图片规格与兜底图、跳转地址格式、广告位未来是否允许动态化、真实课程数据来源。</div>
       ` : serviceModalOpen ? `
         <div class="notes-sub">当前页面：平台服务保障配置页</div>
-        <div class="note"><b>页面目标</b>维护家长端平台服务保障的 5 个固定入口，保存后进入草稿，发布后由家长端读取。</div>
-        <div class="note"><b>字段规则</b>每条保障项维护主标题、1 张图片和跳转链接；主标题最多 20 个字，图片用于前台入口展示，跳转链接控制用户点击后的目标页面。</div>
-        <div class="note"><b>数量规则</b>本轮固定 5 条保障项，不支持新增、删除或排序；后台列表顺序即前台展示顺序。</div>
-        <div class="note"><b>配置完整性</b>启用模块发布时，5 条保障项的主标题、图片和跳转链接均为必填；任一项缺失时阻止保存或发布。</div>
+        <div class="note"><b>页面目标</b>维护家长端平台服务保障的一张完整素材，保存后进入草稿，发布后由家长端读取。</div>
+        <div class="note"><b>字段规则</b>维护模块主标题（20 字以内）、1 张图片和 1 个跳转链接；图片用于前台完整保障卡展示，跳转链接控制用户点击后的目标页面。</div>
+        <div class="note"><b>数量规则</b>本轮固定 1 张保障图片和 1 个跳转链接，不支持新增、删除或排序。</div>
+        <div class="note"><b>配置完整性</b>启用模块发布时，主标题、图片和跳转链接均为必填；任一项缺失时阻止保存或发布。</div>
         <div class="note"><b>操作结果</b>保存写入当前草稿并关闭弹窗；取消不改变草稿；工作台发布后才影响家长端。图片读取失败、无权限和发布失败沿用统一提示。</div>
         <div class="note"><b>待确认</b>图片尺寸、格式、大小、裁切、兜底图、跳转地址格式和真实服务页面枚举待确认。</div>
       ` : teacherModalOpen ? `
         <div class="notes-sub">当前页面：教师类型与教师推荐配置页</div>
-        <div class="note"><b>页面目标</b>维护教师类型与教师推荐首页广告区的主标题和三个固定广告位，保存后进入草稿，发布后由家长端读取。</div>
-        <div class="note"><b>广告位规则</b>固定三个广告位，每个位维护图片、跳转目标和跳转地址；不支持新增或删除，前台按 1、2、3 的位置展示。</div>
-        <div class="note"><b>教师类型规则</b>广告位跳转到一级教师类型；一级类型需启用、允许前台展示且配置完整，才进入首页入口，二级类型不单独配置首页入口。</div>
-        <div class="note"><b>配置完整性</b>主标题和三个广告位的图片、跳转目标、跳转地址均为必填；缺失时阻止保存或发布。</div>
-        <div class="note"><b>操作结果</b>保存写入草稿并关闭弹窗；取消不改变草稿；工作台发布后才影响家长端。图片规格、跳转枚举和权限异常沿用统一规则。</div>
+        <div class="note"><b>页面目标</b>维护家长端“推荐老师”区块的主标题和教师类型标签，保存后进入草稿，发布后由家长端读取。</div>
+        <div class="note"><b>字段规则</b>主标题用于前台“推荐老师”区块名称，最多 10 个字；教师类型支持多选，选中类型决定前台展示哪些标签和对应老师。</div>
+        <div class="note"><b>前台展示</b>已选类型按配置顺序显示为标签；标签超过一个屏幕宽度时可左右横滑，点击标签切换展示该类型下的老师列表。</div>
+        <div class="note"><b>配置完整性</b>主标题必填，且至少选择一个教师类型；缺失时阻止保存或发布。</div>
+        <div class="note"><b>操作结果</b>保存写入草稿并关闭弹窗；取消不改变草稿；发布后已发布预览才读取新的类型标签和老师列表。真实教师数据、类型可用状态和权限异常待接口确认。</div>
       ` : coursesModalOpen ? `
         <div class="notes-sub">当前页面：精品课程配置页</div>
         <div class="note"><b>页面目标</b>维护精品课程首页课程卡片列表的主标题和课程广告位，保存后进入草稿，发布后由家长端读取。</div>
@@ -545,7 +565,8 @@
       ` : wechatModalOpen ? `
         <div class="notes-sub">当前页面：公众号关注配置页</div>
         <div class="note"><b>页面目标</b>维护家长端公众号关注卡片的展示内容和跳转行为，保存后进入草稿，发布后由家长端读取。</div>
-        <div class="note"><b>字段规则</b>主标题、副标题和按钮文案用于前台卡片展示；跳转链接控制用户点击按钮后的目标页面；是否展示控制卡片是否出现在首页。</div>
+        <div class="note"><b>字段规则</b>主标题、副标题和按钮文案用于前台悬浮卡展示；跳转链接控制用户点击按钮后的目标页面；是否展示控制卡片是否出现在首页。</div>
+        <div class="note"><b>前台展示</b>卡片固定在底部导航上方，不随首页内容滚动；左上角关闭按钮允许用户在当前会话隐藏卡片，不回写后台“是否展示”配置。</div>
         <div class="note"><b>配置完整性</b>开启展示时，主标题、副标题、按钮文案和跳转链接均为必填；关闭展示时允许暂不填写跳转链接。</div>
         <div class="note"><b>操作结果</b>保存写入草稿并关闭弹窗；取消不改变草稿；发布后前台按已发布版本展示或隐藏公众号关注卡片。</div>
         <div class="note"><b>待确认</b>真实公众号页面地址、站外链接限制、二维码/公众号素材来源和不同用户群展示规则。</div>
@@ -577,13 +598,14 @@
       const quickHtml = quick?.enabled ? `<section class="home-section"><div class="quick-grid">${quickItems.map(item => `<button class="quick" data-action="home-click" data-label="${escapeHtml(item.name)}"><span>${escapeHtml(item.icon)}</span>${escapeHtml(item.name)}</button>`).join("")}</div></section>` : emptyHome("快捷入口");
       const trialHtml = trial?.enabled ? renderPhoneTrialSection(trial.fields.title, state.trialEntries) : emptyHome("试听课");
       const service = find("service");
-      const serviceHtml = service?.enabled ? renderPhoneServiceSection(service.fields.title, state.serviceEntries) : emptyHome("平台服务保障");
-      const teacherHtml = teacher?.enabled ? renderPhoneTeacherSection(teacher.fields.title, state.teacherEntries) : emptyHome("教师推荐");
+      const serviceHtml = service?.enabled ? renderPhoneServiceSection(service.fields.title, state.serviceEntries[0]) : emptyHome("平台服务保障");
+      const teacherTypes = mode === "draft" ? state.teacherTypes : state.teacherTypesPublished;
+      const teacherHtml = teacher?.enabled ? renderPhoneTeacherSection(teacher.fields.title, teacherTypes, mode) : emptyHome("教师推荐");
       const courseHtml = courses?.enabled ? renderPhoneCourseSection(courses.fields.title, state.courseEntries) : emptyHome("精品课程");
       const bannerHtml = banner?.enabled ? `<section class="home-section home-banner"><div class="banner-copy"><strong>${escapeHtml(banner.fields.title)}</strong><small>${escapeHtml(banner.fields.subtitle)}</small><em>${escapeHtml(banner.fields.cta)}　›</em></div></section>` : emptyHome("Banner");
-      const wechatHtml = wechat?.enabled ? `<section class="home-section follow"><span class="follow-copy"><b>▣ ${escapeHtml(wechat.fields.title)}</b><small>${escapeHtml(wechat.fields.subtitle)}</small></span><button data-action="home-click" data-label="${wechat.fields.cta}">${escapeHtml(wechat.fields.cta)}</button></section>` : emptyHome("公众号关注");
+      const wechatHtml = wechat?.enabled && wechat.fields.visible !== false && !state.wechatClosed[mode] ? `<div class="phone-follow"><section class="follow"><button class="follow-close" data-action="close-wechat-follow" data-mode="${mode}" aria-label="关闭公众号关注">×</button><span class="follow-copy"><b>▣ ${escapeHtml(wechat.fields.title)}</b><small>${escapeHtml(wechat.fields.subtitle)}</small></span><button data-action="home-click" data-label="${wechat.fields.cta}">${escapeHtml(wechat.fields.cta)}</button></section></div>` : "";
       const bottomHtml = bottom?.enabled ? `<nav class="phone-tabbar">${state.bottomItems.filter(item => item.visible).map((item, i) => `<button class="${item.id === "bottom-home" ? "active" : ""}" data-action="home-click" data-label="${escapeHtml(item.title)}"><strong>${escapeHtml(item.icon)}</strong>${escapeHtml(item.title)}</button>`).join("")}</nav>` : "";
-      return `<div class="phone"><div class="phone-status"><span>23:58</span><span>▮▮▮　⌁　▰</span></div><div class="phone-screen"><div class="phone-nav"><span class="phone-location">⌾ 西安市⌄　　⌾ 六年级⌄</span><span class="phone-menu">•••　◎</span></div>${bannerHtml}${quickHtml}${trialHtml}${serviceHtml}${teacherHtml}${courseHtml}${wechatHtml}</div>${bottomHtml}</div>`;
+      return `<div class="phone"><div class="phone-status"><span>23:58</span><span>▮▮▮　⌁　▰</span></div><div class="phone-screen"><div class="phone-nav"><span class="phone-location">⌾ 西安市⌄　　⌾ 六年级⌄</span><span class="phone-menu">•••　◎</span></div>${bannerHtml}${quickHtml}${trialHtml}${serviceHtml}${teacherHtml}${courseHtml}</div>${wechatHtml}${bottomHtml}</div>`;
     }
     function emptyHome(label) { return `<section class="home-section"><div class="home-empty">${label}暂无可展示内容</div></section>`; }
     function renderPhoneAdSection(title, entries, moreLabel, type) {
@@ -594,11 +616,15 @@
       const cards = entries.slice(1, 3);
       return `<section class="home-section"><div class="section-title"><span>${escapeHtml(title)}</span><a data-action="home-click" data-label="试听课全部">查看更多 ›</a></div><div class="trial-home-grid"><button class="trial-booking" data-action="home-click" data-label="${escapeHtml(booking?.target || "预约课程")}"><b>预约课程</b><small>根据年级与需求匹配</small><span>♙</span></button><div class="trial-course-list">${cards.map(item => `<button class="trial-course-item" data-action="home-click" data-label="${escapeHtml(item.target)}"><div><b>${escapeHtml(item.imageText.replace(/图片$/, ""))}</b><small>适合小学3-6年级</small></div><em>¥39.9</em></button>`).join("")}</div></div></section>`;
     }
-    function renderPhoneServiceSection(title, entries) {
-      return `<section class="home-section"><div class="section-title"><span>${escapeHtml(title)}</span></div><div class="service-grid">${entries.map(item => `<button class="service-item" data-action="home-click" data-label="${escapeHtml(item.title)}"><span>${escapeHtml(item.imageText)}</span>${escapeHtml(item.title)}</button>`).join("")}</div></section>`;
+    function renderPhoneServiceSection(title, entry) {
+      return `<section class="home-section"><div class="section-title"><span>${escapeHtml(title)}</span></div><button class="service-banner" data-action="home-click" data-label="${escapeHtml(entry?.url || title)}"><b>${escapeHtml(entry?.imageText || "平台服务保障图片")}</b><small>点击查看服务保障</small></button></section>`;
     }
-    function renderPhoneTeacherSection(title, entries) {
-      return `<section class="home-section"><div class="section-title"><span>${escapeHtml(title)}</span><a data-action="home-click" data-label="更多推荐老师">查看更多 ›</a></div><div class="home-tabs"><button class="home-tab active">骨干教员</button><button class="home-tab">专业教员</button><button class="home-tab">英语伴读</button></div><div class="teacher-strip">${entries.map((item, index) => `<button class="teacher-card" data-action="home-click" data-label="${escapeHtml(item.target)}"><span class="teacher-photo"><strong>${index === 0 ? "王" : index === 1 ? "李" : "张"}</strong></span><span class="teacher-info"><b>${index === 0 ? "王教员" : index === 1 ? "李教员" : "张教员"}</b><small>${index === 0 ? "数学　9年教龄" : index === 1 ? "语文　4年教龄" : "语文　2年教龄"}</small></span></button>`).join("")}</div></section>`;
+    function renderPhoneTeacherSection(title, types, mode) {
+      const selectedTypes = types.filter(item => item.selected);
+      const activeId = selectedTypes.some(item => item.id === state.teacherPreviewType[mode]) ? state.teacherPreviewType[mode] : selectedTypes[0]?.id;
+      const activeType = selectedTypes.find(item => item.id === activeId);
+      if (!activeType) return emptyHome(title);
+      return `<section class="home-section"><div class="section-title"><span>${escapeHtml(title)}</span><a data-action="home-click" data-label="更多推荐老师">查看更多 ›</a></div><div class="home-tabs">${selectedTypes.map(item => `<button class="home-tab ${item.id === activeType.id ? "active" : ""}" data-action="teacher-preview-tab" data-mode="${mode}" data-id="${item.id}">${escapeHtml(item.name)}</button>`).join("")}</div><div class="teacher-strip">${activeType.teachers.map(item => `<button class="teacher-card" data-action="home-click" data-label="${escapeHtml(item.name)}"><span class="teacher-photo"><strong>${escapeHtml(item.name.charAt(0))}</strong></span><span class="teacher-info"><b>${escapeHtml(item.name)}</b><small>${escapeHtml(item.subject)}　${escapeHtml(item.experience)}</small></span></button>`).join("")}</div></section>`;
     }
     function renderPhoneCourseSection(title, entries) {
       const courseData = [
@@ -642,11 +668,12 @@
       </div>`).join("");
     }
     function renderServiceEntries() {
-      return state.serviceEntries.map((item, index) => `<div class="trial-ad-item service-config-item">
-        <div><div class="trial-ad-label">保障项 ${index + 1}</div><div class="banner-upload trial-ad-upload green" role="button" tabindex="0" data-action="content-ad-upload" data-ad-type="service" data-id="${item.id}" aria-label="上传第${index + 1}个保障项图片"><strong>点击上传图片</strong><span>${escapeHtml(item.imageText)}</span></div></div>
-        <div class="trial-ad-fields"><div class="trial-ad-field"><label>主标题</label><input maxlength="20" data-service-field="title" data-service-id="${item.id}" value="${escapeHtml(item.title)}" placeholder="20 字以内"></div><div class="trial-ad-field"><label>跳转链接</label><input data-service-field="url" data-service-id="${item.id}" value="${escapeHtml(item.url)}" placeholder="录入跳转地址"></div></div>
-        <div class="trial-ad-hint">每条保障项配置 1 张图片；主标题最多 20 个字。</div>
-      </div>`).join("");
+      const item = state.serviceEntries[0];
+      return `<div class="trial-ad-item service-config-item">
+        <div><div class="trial-ad-label">保障图片</div><div class="banner-upload trial-ad-upload green" role="button" tabindex="0" data-action="content-ad-upload" data-ad-type="service" data-id="${item.id}" aria-label="上传平台服务保障图片"><strong>点击上传图片</strong><span>${escapeHtml(item.imageText)}</span></div></div>
+        <div class="trial-ad-fields"><div class="trial-ad-field"><label>跳转链接</label><input data-service-field="url" data-service-id="${item.id}" value="${escapeHtml(item.url)}" placeholder="录入跳转地址"></div></div>
+        <div class="trial-ad-hint">平台服务保障仅配置 1 张图片和 1 个跳转链接。</div>
+      </div>`;
     }
     function renderFixedAdEntries(type, label) {
       const entries = state[`${type}Entries`];
@@ -697,8 +724,8 @@
       const common = `<div class="field"><label>主标题</label><input name="title" value="${escapeHtml(f.title)}"></div><div class="field"><label>副标题</label><input name="subtitle" value="${escapeHtml(f.subtitle)}"></div><div class="field"><label>按钮文案</label><input name="cta" value="${escapeHtml(f.cta)}"></div><div class="field"><label>跳转目标</label><select name="target"><option>${escapeHtml(f.target)}</option><option>课程详情</option><option>教师详情</option><option>全部老师</option><option>会员中心</option></select></div>`;
       if (module.type === "banner") return `<div class="banner-carousel"><div class="banner-carousel-head"><span>首页轮播广告 banner</span><small>每条广告独立配置</small></div><div class="banner-carousel-list">${renderBannerItems()}</div><button type="button" class="banner-add" data-action="banner-add">＋ 新增轮播</button></div>`;
       if (module.type === "trial") return `<div class="trial-ad-title field"><label>主标题</label><input name="title" value="${escapeHtml(f.title)}" placeholder="例如：试听课"></div><div class="banner-carousel-head"><span>三位广告位</span><small>固定 3 个，不支持新增或删除</small></div><div class="trial-ad-list">${renderTrialEntries()}</div>`;
-      if (module.type === "service") return `<div class="trial-ad-title field"><label>模块主标题</label><input name="title" maxlength="20" value="${escapeHtml(f.title)}" placeholder="20 字以内，例如：平台服务保障"></div><div class="banner-carousel-head"><span>五项服务保障</span><small>固定 5 项，不支持新增、删除或排序</small></div><div class="trial-ad-list">${renderServiceEntries()}</div>`;
-      if (module.type === "teacher") return `<div class="trial-ad-title field"><label>主标题</label><input name="title" value="${escapeHtml(f.title)}" placeholder="例如：推荐老师"></div><div class="banner-carousel-head"><span>三位广告位</span><small>固定 3 个，不支持新增或删除</small></div><div class="trial-ad-list">${renderFixedAdEntries("teacher", "教师广告位")}</div><div class="field-help">广告位跳转到一级教师类型；一级类型启用、允许前台展示且配置完整时，才进入首页入口，二级类型不单独配置首页入口。</div>`;
+      if (module.type === "service") return `<div class="trial-ad-title field"><label>模块主标题</label><input name="title" maxlength="20" value="${escapeHtml(f.title)}" placeholder="20 字以内，例如：平台服务保障"></div><div class="banner-carousel-head"><span>服务保障素材</span><small>固定 1 张图片和 1 个跳转链接</small></div><div class="trial-ad-list">${renderServiceEntries()}</div>`;
+      if (module.type === "teacher") return `<div class="field"><label>主标题</label><input name="title" maxlength="10" value="${escapeHtml(f.title)}" placeholder="请输入标题名称，10 字以内"></div><div class="teacher-type-field"><label>教师类型</label><div class="teacher-type-list">${state.teacherTypes.map(item => `<label class="teacher-type-option"><input type="checkbox" data-teacher-type value="${item.id}" ${item.selected ? "checked" : ""}><span>${escapeHtml(item.name)}</span></label>`).join("")}</div></div><div class="field-help">可多选教师类型；保存后前台展示已选标签，点击标签切换展示该类型下的老师。标签超过一屏时支持左右横滑。</div>`;
       if (module.type === "courses") return `<div class="trial-ad-title field"><label>主标题</label><input name="title" value="${escapeHtml(f.title)}" placeholder="例如：精品课程"></div><div class="banner-carousel-head"><span>广告位</span><small>可无限新增课程广告位</small></div><div class="trial-ad-list">${renderCourseEntries()}</div><button type="button" class="banner-add" data-action="course-add">＋ 新增课程广告位</button><div class="field-help">广告位跳转到已有课程详情或课程列表；不限制广告位数量，真实课程选择、上下架和读取失败状态待数据接口确认。</div>`;
       if (module.type === "quick") return `<div class="banner-carousel"><div class="banner-carousel-head"><span>首页快捷入口</span><small>最少 4 个，最多 10 个</small></div><div class="banner-carousel-list">${renderQuickEntries()}</div><button type="button" class="banner-add" data-action="quick-add" ${state.quickEntries.length >= 10 ? "disabled" : ""}>＋ 新增入口</button></div>`;
       if (module.type === "bottom") return `<div class="banner-carousel-head"><span>底部导航配置</span><small>固定 5 个入口：首页、全部课程、全部老师、消息、我的</small></div>${renderBottomEntries()}<div class="field-help">每项可编辑前台展示标题、跳转页面和是否展示；首页默认选中且至少保留一个入口展示。</div>`;
@@ -754,7 +781,7 @@
         });
         const serviceIssue = getServiceValidation(title);
         if (serviceIssue) { showToast(serviceIssue, "error"); return; }
-        module.count = state.serviceEntries.length;
+        module.count = 1;
       }
       if (module.type === "bottom") {
         form.querySelectorAll("[data-bottom-field]").forEach(input => {
@@ -773,20 +800,29 @@
         if (wechatIssue) { showToast(wechatIssue, "error"); return; }
         module.enabled = module.fields.visible;
       }
-      if (module.type === "teacher" || module.type === "courses") {
-        const adType = module.type === "teacher" ? "teacher" : "course";
+      if (module.type === "teacher") {
+        const selectedIds = new Set([...form.querySelectorAll("[data-teacher-type]:checked")].map(input => input.value));
+        const teacherIssue = getTeacherValidation(title, selectedIds);
+        if (teacherIssue) { showToast(teacherIssue, "error"); return; }
+        state.teacherTypes = state.teacherTypes.map(item => ({ ...item, selected: selectedIds.has(item.id) }));
+        const firstSelected = state.teacherTypes.find(item => item.selected);
+        if (!state.teacherTypes.some(item => item.selected && item.id === state.teacherPreviewType.draft)) state.teacherPreviewType.draft = firstSelected.id;
+        module.count = selectedIds.size;
+      }
+      if (module.type === "courses") {
+        const adType = "course";
         form.querySelectorAll("[data-ad-field]").forEach(input => {
           const item = state[`${adType}Entries`].find(entry => entry.id === input.dataset.adId);
           if (item) item[input.dataset.adField] = input.value.trim();
         });
-        const adIssue = module.type === "courses" ? getCourseValidation(title, module.name) : getFixedAdValidation(adType, title, module.name);
+        const adIssue = getCourseValidation(title, module.name);
         if (adIssue) { showToast(adIssue, "error"); return; }
-        module.count = module.type === "courses" ? state.courseEntries.length : 3;
+        module.count = state.courseEntries.length;
       }
       ["title", "subtitle", "cta", "target", "schedule"].forEach(key => { if (data.has(key)) module.fields[key] = String(data.get(key)); });
       if (data.has("count")) module.count = Math.max(1, Number(data.get("count")) || 1);
       if (module.type === "banner") module.count = state.bannerItems.length;
-      module.summary = `${module.fields.title} · ${module.fields.subtitle || module.fields.target}`;
+      module.summary = module.type === "service" ? "1 张保障图片" : module.type === "teacher" ? `${module.count} 个教师类型` : `${module.fields.title} · ${module.fields.subtitle || module.fields.target}`;
       module.updated = "刚刚保存";
       state.modal = null;
       render();
@@ -807,7 +843,13 @@
     function getServiceValidation(title = "") {
       if (!String(title).trim()) return "平台服务保障主标题不能为空";
       if (String(title).trim().length > 20) return "平台服务保障主标题不能超过 20 个字";
-      return state.serviceEntries.some(item => !item.title || item.title.length > 20 || !item.imageText || !item.url) ? "平台服务保障配置不完整：请补齐 5 条保障项的主标题、图片和跳转链接" : "";
+      const item = state.serviceEntries[0];
+      return !item?.imageText || !item.url ? "平台服务保障配置不完整：请补齐图片和跳转链接" : "";
+    }
+    function getTeacherValidation(title = "", selectedIds = new Set()) {
+      if (!String(title).trim()) return "推荐老师主标题不能为空";
+      if (String(title).trim().length > 10) return "推荐老师主标题不能超过 10 个字";
+      return selectedIds.size ? "" : "请至少选择一个教师类型";
     }
     function getFixedAdValidation(type, title, name) {
       if (!String(title).trim()) return `${name}主标题不能为空`;
@@ -852,7 +894,7 @@
       const serviceIssue = service ? getServiceValidation(service.fields.title) : "";
       if (serviceIssue) { showToast(`发布失败：${serviceIssue}`, "error"); return; }
       const teacher = state.draft.find(item => item.type === "teacher" && item.enabled);
-      const teacherIssue = teacher ? getFixedAdValidation("teacher", teacher.fields.title, teacher.name) : "";
+      const teacherIssue = teacher ? getTeacherValidation(teacher.fields.title, new Set(state.teacherTypes.filter(item => item.selected).map(item => item.id))) : "";
       if (teacherIssue) { showToast(`发布失败：${teacherIssue}`, "error"); return; }
       const courses = state.draft.find(item => item.type === "courses" && item.enabled);
       const courseIssue = courses ? getCourseValidation(courses.fields.title, courses.name) : "";
@@ -864,6 +906,9 @@
       const wechatIssue = wechat ? getWechatValidation(wechat.fields) : "";
       if (wechatIssue) { showToast(`发布失败：${wechatIssue}`, "error"); return; }
       state.published = structuredClone(state.draft);
+      state.teacherTypesPublished = structuredClone(state.teacherTypes);
+      const firstPublishedTeacherType = state.teacherTypesPublished.find(item => item.selected);
+      if (firstPublishedTeacherType) state.teacherPreviewType.published = firstPublishedTeacherType.id;
       state.lastPublish = new Date().toLocaleString("zh-CN", { hour12: false }).replaceAll("/", "-");
       state.previewMode = "published";
       render();
@@ -877,6 +922,8 @@
       if (action === "view-workbench") { state.surface = "workbench"; render(); return; }
       if (action === "preview-draft") { state.surface = "workbench"; state.previewMode = "draft"; render(); showToast("手机预览已切换为草稿版本"); return; }
       if (action === "preview-mode") { state.previewMode = el.dataset.value; render(); return; }
+      if (action === "teacher-preview-tab") { state.teacherPreviewType[el.dataset.mode] = el.dataset.id; render(); return; }
+      if (action === "close-wechat-follow") { state.wechatClosed[el.dataset.mode] = true; render(); showToast("已关闭公众号关注卡片"); return; }
       if (action === "toggle") { const module = state.draft.find(item => item.id === id); if (module) { module.enabled = !module.enabled; state.activeModule = id; render(); showToast(`${module.name}已${module.enabled ? "启用" : "停用"}`, module.enabled ? "success" : ""); } return; }
       if (action === "edit") { state.modal = { id }; render(); return; }
       if (action === "course-list") { state.surface = "course-picker"; state.modal = null; render(); return; }
