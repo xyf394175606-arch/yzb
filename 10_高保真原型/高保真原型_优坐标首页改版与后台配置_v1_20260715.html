@@ -79,7 +79,7 @@
     .status-pill.published, .tag.green { color: #11784f; background: var(--green-soft); }
     .status-pill.error, .tag.red { color: #b52b42; background: var(--red-soft); }
     .status-note { color: var(--muted); font-size: 12px; }
-    .workspace { display: grid; grid-template-columns: minmax(420px, 1fr) 300px; gap: 16px; align-items: start; }
+    .workspace { display: grid; grid-template-columns: minmax(0, 1fr) 520px; gap: 12px; align-items: start; }
     .panel { border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); box-shadow: var(--shadow); overflow: hidden; }
     .panel-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 15px 17px; border-bottom: 1px solid var(--line); }
     .panel-title { font-size: 15px; font-weight: 900; }
@@ -109,8 +109,8 @@
     .preview-toolbar { display: flex; align-items: center; gap: 5px; padding: 11px 13px; border-bottom: 1px solid var(--line); background: #fbfdff; }
     .preview-toolbar button { border: 1px solid var(--line); background: #fff; color: var(--muted); border-radius: 6px; padding: 6px 9px; font-size: 12px; }
     .preview-toolbar button.active { color: var(--blue-deep); border-color: #a9c9f7; background: var(--blue-soft); font-weight: 900; }
-    .phone-wrap { padding: 18px 16px 22px; background: #eaf0f7; display: grid; place-items: center; }
-    .phone { width: 278px; height: 600px; overflow: hidden; border: 7px solid #131b2b; border-radius: 28px; background: #e9f5ff; box-shadow: 0 18px 36px rgba(21, 42, 75, .22); }
+    .phone-wrap { padding: 12px 10px 14px; background: #eaf0f7; display: grid; place-items: center; }
+    .phone { width: 440px; height: 760px; overflow: hidden; border: 7px solid #131b2b; border-radius: 28px; background: #e9f5ff; box-shadow: 0 18px 36px rgba(21, 42, 75, .22); }
     .phone-status { height: 25px; display: flex; justify-content: space-between; align-items: end; padding: 0 12px 2px; background: #fff; font-size: 9px; font-weight: 900; }
     .phone-screen { height: calc(100% - 25px - 48px); overflow: auto; padding: 8px 8px 12px; background: linear-gradient(180deg, #eaf6ff 0%, #f6fbff 80%); }
     .phone-nav { display: flex; align-items: center; justify-content: space-between; height: 27px; padding: 0 4px; }
@@ -296,6 +296,8 @@
     @media (max-width: 1180px) {
       .shell { grid-template-columns: 210px minmax(630px, 1fr); }
       .notes { display: none; }
+      .workspace { grid-template-columns: minmax(0, 1fr) 440px; }
+      .phone { width: 400px; height: 700px; }
       .modal-backdrop { padding: 20px; }
       .modal.banner-modal { width: min(840px, 100%); }
     }
@@ -365,13 +367,14 @@
   <script>
     const imageRoot = "../work/优坐标教师详情截图资产_v1_20260703/";
     const initialModules = [
-      { id: "banner", type: "banner", name: "Banner 轮播", icon: "✦", tone: "blue", enabled: true, count: 3, summary: "优AI数学素养 · 试听课", updated: "刚刚", fields: { title: "优AI数学素养", subtitle: "1V1专业教练伴学直播课", cta: "查看详情", target: "试听课详情", schedule: "全天展示" } },
-      { id: "quick", type: "quick", name: "快捷入口", icon: "⌘", tone: "green", enabled: true, count: 10, summary: "专业老师、骨干教师、英语AI单词等", updated: "今天 16:20", fields: { title: "快捷入口", subtitle: "首页服务入口", cta: "查看入口", target: "入口集合" } },
-      { id: "trial", type: "trial", name: "试听课", icon: "¥", tone: "orange", enabled: true, count: 3, summary: "数学、语文、英语体验课", updated: "今天 15:48", fields: { title: "试听课", subtitle: "精选体验课", cta: "查看全部", target: "课程列表" } },
-      { id: "teacher", type: "teacher", name: "教师类型与教师推荐", icon: "♛", tone: "purple", enabled: true, count: 6, summary: "骨干教员、专业教员、英语伴读", updated: "今天 14:32", fields: { title: "推荐老师", subtitle: "认证教员为你服务", cta: "查看更多推荐老师", target: "全部老师" } },
-      { id: "courses", type: "courses", name: "精品课程", icon: "▣", tone: "blue", enabled: true, count: 3, summary: "优AI数学素养、语文素养、AI英语单词", updated: "今天 13:10", fields: { title: "精品课程", subtitle: "高质量课程推荐", cta: "购买", target: "课程详情" } },
-      { id: "wechat", type: "wechat", name: "公众号关注", icon: "●", tone: "green", enabled: true, count: 1, summary: "优坐标公众号关注卡片", updated: "昨天 18:05", fields: { title: "关注优坐标公众号", subtitle: "获取实时课程提醒与教育干货", cta: "去关注", target: "公众号", url: "/wechat", visible: true } },
-      { id: "bottom", type: "bottom", name: "底部导航", icon: "⌂", tone: "pink", enabled: true, count: 5, summary: "首页、全部老师、成为会员、消息、我的", updated: "昨天 17:42", fields: { title: "底部导航", subtitle: "家长端主导航", cta: "查看页面", target: "导航页面" } }
+      { id: "banner", type: "banner", name: "Banner 轮播", icon: "✦", tone: "blue", enabled: true, count: 3, summary: "优AI数学", updated: "刚刚", fields: { title: "优AI数学素养", subtitle: "1V1专业教练伴学直播课", cta: "查看详情", target: "试听课详情", schedule: "全天展示" } },
+      { id: "quick", type: "quick", name: "快捷入口", icon: "⌘", tone: "green", enabled: true, count: 10, summary: "10 个入口", updated: "今天 16:20", fields: { title: "快捷入口", subtitle: "首页服务入口", cta: "查看入口", target: "入口集合" } },
+      { id: "trial", type: "trial", name: "试听课", icon: "¥", tone: "orange", enabled: true, count: 3, summary: "3 个课程", updated: "今天 15:48", fields: { title: "试听课", subtitle: "精选体验课", cta: "查看全部", target: "课程列表" } },
+      { id: "service", type: "service", name: "平台服务保障", icon: "♧", tone: "green", enabled: true, count: 5, summary: "5 项保障", updated: "今天 15:20", fields: { title: "平台服务保障" } },
+      { id: "teacher", type: "teacher", name: "教师类型与教师推荐", icon: "♛", tone: "purple", enabled: true, count: 6, summary: "3 类推荐老师", updated: "今天 14:32", fields: { title: "推荐老师", subtitle: "认证教员为你服务", cta: "查看更多推荐老师", target: "全部老师" } },
+      { id: "courses", type: "courses", name: "精品课程", icon: "▣", tone: "blue", enabled: true, count: 3, summary: "3 门课程", updated: "今天 13:10", fields: { title: "精品课程", subtitle: "高质量课程推荐", cta: "购买", target: "课程详情" } },
+      { id: "wechat", type: "wechat", name: "公众号关注", icon: "●", tone: "green", enabled: true, count: 1, summary: "公众号卡片", updated: "昨天 18:05", fields: { title: "关注优坐标公众号", subtitle: "获取实时课程提醒与教育干货", cta: "去关注", target: "公众号", url: "/wechat", visible: true } },
+      { id: "bottom", type: "bottom", name: "底部导航", icon: "⌂", tone: "pink", enabled: true, count: 5, summary: "5 个固定入口", updated: "昨天 17:42", fields: { title: "底部导航", subtitle: "家长端主导航", cta: "查看页面", target: "导航页面" } }
     ];
     const state = {
       surface: "workbench",
@@ -412,6 +415,13 @@
         { id: "trial-1", tone: "orange", imageText: "数学试听课图片", target: "课程详情", url: "/courses/math-trial" },
         { id: "trial-2", tone: "green", imageText: "语文试听课图片", target: "课程详情", url: "/courses/chinese-trial" },
         { id: "trial-3", tone: "orange", imageText: "英语试听课图片", target: "课程详情", url: "/courses/english-trial" }
+      ],
+      serviceEntries: [
+        { id: "service-1", title: "教员实名认证", imageText: "♧", url: "/service/teacher-auth" },
+        { id: "service-2", title: "支持试听", imageText: "♧", url: "/service/trial" },
+        { id: "service-3", title: "伴学服务保障", imageText: "♧", url: "/service/companionship" },
+        { id: "service-4", title: "不满意可退换", imageText: "▭", url: "/service/refund" },
+        { id: "service-5", title: "售后全程跟进", imageText: "↻", url: "/service/after-sale" }
       ],
       teacherEntries: [
         { id: "teacher-1", tone: "purple", imageText: "骨干教员广告图片", target: "教师类型", url: "/teachers/core" },
@@ -478,6 +488,7 @@
       const bannerModalOpen = state.modal?.id === "banner";
       const quickModalOpen = state.modal?.id === "quick";
       const trialModalOpen = state.modal?.id === "trial";
+      const serviceModalOpen = state.modal?.id === "service";
       const teacherModalOpen = state.modal?.id === "teacher";
       const coursesModalOpen = state.modal?.id === "courses";
       const bottomModalOpen = state.modal?.id === "bottom";
@@ -509,6 +520,14 @@
         <div class="note"><b>图片与跳转规则</b>点击图片区域选择 jpg/png，原型限制不超过 2MB；图片尺寸、裁切、存储和跳转目标枚举待开发确认。跳转目标与地址需同时配置。</div>
         <div class="note"><b>操作结果</b>点击保存写入草稿并关闭弹窗；取消或关闭不改变草稿；工作台发布后才影响家长端。无权限、图片读取失败和发布失败沿用工作台异常提示。</div>
         <div class="note"><b>待确认</b>图片规格与兜底图、跳转地址格式、广告位未来是否允许动态化、真实课程数据来源。</div>
+      ` : serviceModalOpen ? `
+        <div class="notes-sub">当前页面：平台服务保障配置页</div>
+        <div class="note"><b>页面目标</b>维护家长端平台服务保障的 5 个固定入口，保存后进入草稿，发布后由家长端读取。</div>
+        <div class="note"><b>字段规则</b>每条保障项维护主标题、1 张图片和跳转链接；主标题最多 20 个字，图片用于前台入口展示，跳转链接控制用户点击后的目标页面。</div>
+        <div class="note"><b>数量规则</b>本轮固定 5 条保障项，不支持新增、删除或排序；后台列表顺序即前台展示顺序。</div>
+        <div class="note"><b>配置完整性</b>启用模块发布时，5 条保障项的主标题、图片和跳转链接均为必填；任一项缺失时阻止保存或发布。</div>
+        <div class="note"><b>操作结果</b>保存写入当前草稿并关闭弹窗；取消不改变草稿；工作台发布后才影响家长端。图片读取失败、无权限和发布失败沿用统一提示。</div>
+        <div class="note"><b>待确认</b>图片尺寸、格式、大小、裁切、兜底图、跳转地址格式和真实服务页面枚举待确认。</div>
       ` : teacherModalOpen ? `
         <div class="notes-sub">当前页面：教师类型与教师推荐配置页</div>
         <div class="note"><b>页面目标</b>维护教师类型与教师推荐首页广告区的主标题和三个固定广告位，保存后进入草稿，发布后由家长端读取。</div>
@@ -557,7 +576,8 @@
       const quickItems = state.quickEntries.slice(0, quick?.count || 10);
       const quickHtml = quick?.enabled ? `<section class="home-section"><div class="quick-grid">${quickItems.map(item => `<button class="quick" data-action="home-click" data-label="${escapeHtml(item.name)}"><span>${escapeHtml(item.icon)}</span>${escapeHtml(item.name)}</button>`).join("")}</div></section>` : emptyHome("快捷入口");
       const trialHtml = trial?.enabled ? renderPhoneTrialSection(trial.fields.title, state.trialEntries) : emptyHome("试听课");
-      const serviceHtml = `<section class="home-section"><div class="section-title"><span>平台服务保障</span></div><div class="service-grid"><button class="service-item" data-action="home-click" data-label="教员实名认证"><span>♧</span>教员实名认证</button><button class="service-item" data-action="home-click" data-label="支持试听"><span>♧</span>支持试听</button><button class="service-item" data-action="home-click" data-label="伴学服务保障"><span>♧</span>伴学服务保障</button><button class="service-item" data-action="home-click" data-label="不满意可退换"><span>▭</span>不满意可退换</button><button class="service-item" data-action="home-click" data-label="售后全程跟进"><span>↻</span>售后全程跟进</button></div></section>`;
+      const service = find("service");
+      const serviceHtml = service?.enabled ? renderPhoneServiceSection(service.fields.title, state.serviceEntries) : emptyHome("平台服务保障");
       const teacherHtml = teacher?.enabled ? renderPhoneTeacherSection(teacher.fields.title, state.teacherEntries) : emptyHome("教师推荐");
       const courseHtml = courses?.enabled ? renderPhoneCourseSection(courses.fields.title, state.courseEntries) : emptyHome("精品课程");
       const bannerHtml = banner?.enabled ? `<section class="home-section home-banner"><div class="banner-copy"><strong>${escapeHtml(banner.fields.title)}</strong><small>${escapeHtml(banner.fields.subtitle)}</small><em>${escapeHtml(banner.fields.cta)}　›</em></div></section>` : emptyHome("Banner");
@@ -573,6 +593,9 @@
       const booking = entries[0];
       const cards = entries.slice(1, 3);
       return `<section class="home-section"><div class="section-title"><span>${escapeHtml(title)}</span><a data-action="home-click" data-label="试听课全部">查看更多 ›</a></div><div class="trial-home-grid"><button class="trial-booking" data-action="home-click" data-label="${escapeHtml(booking?.target || "预约课程")}"><b>预约课程</b><small>根据年级与需求匹配</small><span>♙</span></button><div class="trial-course-list">${cards.map(item => `<button class="trial-course-item" data-action="home-click" data-label="${escapeHtml(item.target)}"><div><b>${escapeHtml(item.imageText.replace(/图片$/, ""))}</b><small>适合小学3-6年级</small></div><em>¥39.9</em></button>`).join("")}</div></div></section>`;
+    }
+    function renderPhoneServiceSection(title, entries) {
+      return `<section class="home-section"><div class="section-title"><span>${escapeHtml(title)}</span></div><div class="service-grid">${entries.map(item => `<button class="service-item" data-action="home-click" data-label="${escapeHtml(item.title)}"><span>${escapeHtml(item.imageText)}</span>${escapeHtml(item.title)}</button>`).join("")}</div></section>`;
     }
     function renderPhoneTeacherSection(title, entries) {
       return `<section class="home-section"><div class="section-title"><span>${escapeHtml(title)}</span><a data-action="home-click" data-label="更多推荐老师">查看更多 ›</a></div><div class="home-tabs"><button class="home-tab active">骨干教员</button><button class="home-tab">专业教员</button><button class="home-tab">英语伴读</button></div><div class="teacher-strip">${entries.map((item, index) => `<button class="teacher-card" data-action="home-click" data-label="${escapeHtml(item.target)}"><span class="teacher-photo"><strong>${index === 0 ? "王" : index === 1 ? "李" : "张"}</strong></span><span class="teacher-info"><b>${index === 0 ? "王教员" : index === 1 ? "李教员" : "张教员"}</b><small>${index === 0 ? "数学　9年教龄" : index === 1 ? "语文　4年教龄" : "语文　2年教龄"}</small></span></button>`).join("")}</div></section>`;
@@ -618,6 +641,13 @@
         <div class="trial-ad-hint">图片用于展示广告内容；规格、裁切和兜底图待开发确定。</div>
       </div>`).join("");
     }
+    function renderServiceEntries() {
+      return state.serviceEntries.map((item, index) => `<div class="trial-ad-item service-config-item">
+        <div><div class="trial-ad-label">保障项 ${index + 1}</div><div class="banner-upload trial-ad-upload green" role="button" tabindex="0" data-action="content-ad-upload" data-ad-type="service" data-id="${item.id}" aria-label="上传第${index + 1}个保障项图片"><strong>点击上传图片</strong><span>${escapeHtml(item.imageText)}</span></div></div>
+        <div class="trial-ad-fields"><div class="trial-ad-field"><label>主标题</label><input maxlength="20" data-service-field="title" data-service-id="${item.id}" value="${escapeHtml(item.title)}" placeholder="20 字以内"></div><div class="trial-ad-field"><label>跳转链接</label><input data-service-field="url" data-service-id="${item.id}" value="${escapeHtml(item.url)}" placeholder="录入跳转地址"></div></div>
+        <div class="trial-ad-hint">每条保障项配置 1 张图片；主标题最多 20 个字。</div>
+      </div>`).join("");
+    }
     function renderFixedAdEntries(type, label) {
       const entries = state[`${type}Entries`];
       return entries.map((item, index) => `<div class="trial-ad-item">
@@ -652,7 +682,7 @@
     }
     function renderWorkbench() {
       const module = activeModule();
-      return `${renderTopbar()}<div class="shell">${renderSidebar()}<main class="main"><div class="page-head"><div><div class="eyebrow">HOME CONTENT STUDIO</div><h1>首页装修工作台</h1><p class="page-sub">集中维护优坐标家长端首页内容，草稿预览确认后再发布。</p></div><div class="actions"><button class="btn" data-action="view-home">查看家长端</button><button class="btn primary" data-action="preview-draft">预览草稿</button></div></div>${renderStatusStrip()}<div class="workspace"><section class="panel"><div class="panel-head"><div><div class="panel-title">首页模块</div><div class="panel-meta">${state.draft.length} 个模块 · 当前查看 ${escapeHtml(moduleDisplayName(module) || "首页")}</div></div></div><div class="panel-body"><div class="module-list">${renderModuleRows()}</div></div></section><section class="panel preview-card"><div class="preview-toolbar"><strong style="font-size:12px;margin-right:auto">手机预览</strong><button class="${state.previewMode === "draft" ? "active" : ""}" data-action="preview-mode" data-value="draft">草稿</button><button class="${state.previewMode === "published" ? "active" : ""}" data-action="preview-mode" data-value="published">已发布</button></div><div class="phone-wrap">${renderPhone()}</div></section></div></main>${renderNotes()}</div>`;
+      return `${renderTopbar()}<div class="shell">${renderSidebar()}<main class="main"><div class="page-head"><div><div class="eyebrow">HOME CONTENT STUDIO</div><h1>首页装修工作台</h1></div><div class="actions"><button class="btn" data-action="view-home">查看家长端</button><button class="btn primary" data-action="preview-draft">预览草稿</button></div></div>${renderStatusStrip()}<div class="workspace"><section class="panel"><div class="panel-head"><div><div class="panel-title">首页模块</div><div class="panel-meta">${state.draft.length} 个模块 · ${escapeHtml(moduleDisplayName(module) || "首页")}</div></div></div><div class="panel-body"><div class="module-list">${renderModuleRows()}</div></div></section><section class="panel preview-card"><div class="preview-toolbar"><strong style="font-size:12px;margin-right:auto">手机预览</strong><button class="${state.previewMode === "draft" ? "active" : ""}" data-action="preview-mode" data-value="draft">草稿</button><button class="${state.previewMode === "published" ? "active" : ""}" data-action="preview-mode" data-value="published">已发布</button></div><div class="phone-wrap">${renderPhone()}</div></section></div></main>${renderNotes()}</div>`;
     }
     function renderHome() {
       return `${renderTopbar()}<main class="home-view"><div class="home-view-inner"><section class="home-intro"><div class="eyebrow">PUBLISHED HOME · 家长端</div><h1>把好老师、好课程和安心服务，放在首页第一屏。</h1><p>当前展示的是已发布版本。后台编辑的草稿不会影响家长端，点击右上角返回首页装修即可继续维护。</p><div class="home-actions"><button class="btn primary" data-action="home-refresh">刷新首页</button><button class="btn" data-action="view-workbench">返回首页装修</button></div><div class="mini-status">已发布版本：${state.lastPublish}　·　${state.published.filter(item => item.enabled).length} 个启用模块</div></section><div class="phone-wrap" style="border-radius:18px;box-shadow:var(--shadow)">${renderPhone("published")}</div></div></main>`;
@@ -667,6 +697,7 @@
       const common = `<div class="field"><label>主标题</label><input name="title" value="${escapeHtml(f.title)}"></div><div class="field"><label>副标题</label><input name="subtitle" value="${escapeHtml(f.subtitle)}"></div><div class="field"><label>按钮文案</label><input name="cta" value="${escapeHtml(f.cta)}"></div><div class="field"><label>跳转目标</label><select name="target"><option>${escapeHtml(f.target)}</option><option>课程详情</option><option>教师详情</option><option>全部老师</option><option>会员中心</option></select></div>`;
       if (module.type === "banner") return `<div class="banner-carousel"><div class="banner-carousel-head"><span>首页轮播广告 banner</span><small>每条广告独立配置</small></div><div class="banner-carousel-list">${renderBannerItems()}</div><button type="button" class="banner-add" data-action="banner-add">＋ 新增轮播</button></div>`;
       if (module.type === "trial") return `<div class="trial-ad-title field"><label>主标题</label><input name="title" value="${escapeHtml(f.title)}" placeholder="例如：试听课"></div><div class="banner-carousel-head"><span>三位广告位</span><small>固定 3 个，不支持新增或删除</small></div><div class="trial-ad-list">${renderTrialEntries()}</div>`;
+      if (module.type === "service") return `<div class="trial-ad-title field"><label>模块主标题</label><input name="title" maxlength="20" value="${escapeHtml(f.title)}" placeholder="20 字以内，例如：平台服务保障"></div><div class="banner-carousel-head"><span>五项服务保障</span><small>固定 5 项，不支持新增、删除或排序</small></div><div class="trial-ad-list">${renderServiceEntries()}</div>`;
       if (module.type === "teacher") return `<div class="trial-ad-title field"><label>主标题</label><input name="title" value="${escapeHtml(f.title)}" placeholder="例如：推荐老师"></div><div class="banner-carousel-head"><span>三位广告位</span><small>固定 3 个，不支持新增或删除</small></div><div class="trial-ad-list">${renderFixedAdEntries("teacher", "教师广告位")}</div><div class="field-help">广告位跳转到一级教师类型；一级类型启用、允许前台展示且配置完整时，才进入首页入口，二级类型不单独配置首页入口。</div>`;
       if (module.type === "courses") return `<div class="trial-ad-title field"><label>主标题</label><input name="title" value="${escapeHtml(f.title)}" placeholder="例如：精品课程"></div><div class="banner-carousel-head"><span>广告位</span><small>可无限新增课程广告位</small></div><div class="trial-ad-list">${renderCourseEntries()}</div><button type="button" class="banner-add" data-action="course-add">＋ 新增课程广告位</button><div class="field-help">广告位跳转到已有课程详情或课程列表；不限制广告位数量，真实课程选择、上下架和读取失败状态待数据接口确认。</div>`;
       if (module.type === "quick") return `<div class="banner-carousel"><div class="banner-carousel-head"><span>首页快捷入口</span><small>最少 4 个，最多 10 个</small></div><div class="banner-carousel-list">${renderQuickEntries()}</div><button type="button" class="banner-add" data-action="quick-add" ${state.quickEntries.length >= 10 ? "disabled" : ""}>＋ 新增入口</button></div>`;
@@ -678,7 +709,7 @@
       if (!state.modal) { modalRoot.innerHTML = ""; return; }
       const module = state.draft.find(item => item.id === state.modal.id);
       if (!module) { state.modal = null; modalRoot.innerHTML = ""; return; }
-      const modalTitle = module.type === "banner" ? "首页轮播广告 banner" : module.type === "trial" ? "试听课" : module.type === "teacher" ? "编辑教师类型与教师推荐" : module.type === "courses" ? "编辑精品课程" : `编辑${escapeHtml(module.name)}`;
+      const modalTitle = module.type === "banner" ? "首页轮播广告 banner" : module.type === "trial" ? "试听课" : module.type === "service" ? "平台服务保障" : module.type === "teacher" ? "编辑教师类型与教师推荐" : module.type === "courses" ? "编辑精品课程" : `编辑${escapeHtml(module.name)}`;
       const saveLabel = module.type === "banner" ? "保存，发布" : "保存";
       modalRoot.innerHTML = `<div class="modal-backdrop open" data-action="close-modal"><section class="modal ${module.type === "banner" || module.type === "trial" ? "banner-modal" : ""}" role="dialog" aria-modal="true" aria-label="${modalTitle}" data-modal="true"><div class="modal-head"><div><h2>${modalTitle}</h2><p>保存后进入草稿，不会立即影响家长端首页。</p></div><button class="close" data-action="close-modal" aria-label="关闭">×</button></div><form class="form" data-form="${module.id}">${formFields(module)}</form><div class="modal-foot"><button class="btn" data-action="close-modal">取消</button><button class="btn primary" data-action="save-modal" data-id="${module.id}">${saveLabel}</button></div></section></div>`;
     }
@@ -715,6 +746,15 @@
         const trialIssue = getTrialValidationMessage(title);
         if (trialIssue) { showToast(trialIssue, "error"); return; }
         module.count = 3;
+      }
+      if (module.type === "service") {
+        form.querySelectorAll("[data-service-field]").forEach(input => {
+          const item = state.serviceEntries.find(entry => entry.id === input.dataset.serviceId);
+          if (item) item[input.dataset.serviceField] = input.value.trim();
+        });
+        const serviceIssue = getServiceValidation(title);
+        if (serviceIssue) { showToast(serviceIssue, "error"); return; }
+        module.count = state.serviceEntries.length;
       }
       if (module.type === "bottom") {
         form.querySelectorAll("[data-bottom-field]").forEach(input => {
@@ -764,6 +804,11 @@
       const incomplete = state.trialEntries.some(item => !item.imageText || !item.target || !item.url);
       return incomplete ? "试听课配置不完整：请补齐三个广告位的图片、跳转目标和地址" : "";
     }
+    function getServiceValidation(title = "") {
+      if (!String(title).trim()) return "平台服务保障主标题不能为空";
+      if (String(title).trim().length > 20) return "平台服务保障主标题不能超过 20 个字";
+      return state.serviceEntries.some(item => !item.title || item.title.length > 20 || !item.imageText || !item.url) ? "平台服务保障配置不完整：请补齐 5 条保障项的主标题、图片和跳转链接" : "";
+    }
     function getFixedAdValidation(type, title, name) {
       if (!String(title).trim()) return `${name}主标题不能为空`;
       const entries = state[`${type}Entries`];
@@ -803,6 +848,9 @@
       const trial = state.draft.find(item => item.type === "trial" && item.enabled);
       const trialIssue = trial ? getTrialValidationMessage(trial.fields.title) : "";
       if (trialIssue) { showToast(`发布失败：${trialIssue}`, "error"); return; }
+      const service = state.draft.find(item => item.type === "service" && item.enabled);
+      const serviceIssue = service ? getServiceValidation(service.fields.title) : "";
+      if (serviceIssue) { showToast(`发布失败：${serviceIssue}`, "error"); return; }
       const teacher = state.draft.find(item => item.type === "teacher" && item.enabled);
       const teacherIssue = teacher ? getFixedAdValidation("teacher", teacher.fields.title, teacher.name) : "";
       if (teacherIssue) { showToast(`发布失败：${teacherIssue}`, "error"); return; }
