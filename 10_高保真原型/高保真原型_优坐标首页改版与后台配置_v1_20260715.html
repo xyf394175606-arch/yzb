@@ -164,6 +164,11 @@
     .teacher-tab.active { color: #fff; border-color: #5e97ef; background: #6099f1; }
     .teacher-type-field { display: grid; gap: 8px; }
     .teacher-type-field > label { color: #46566d; font-size: 12px; font-weight: 900; }
+    .teacher-type-head { display: flex; align-items: center; gap: 9px; }
+    .teacher-type-count { color: #6d7b8f; font-size: 12px; }
+    .teacher-type-tools { display: flex; gap: 5px; margin-left: auto; }
+    .teacher-type-tools button { border: 0; border-radius: 4px; padding: 4px 7px; color: #2c76d8; background: #edf5ff; font-size: 11px; font-weight: 800; }
+    .teacher-type-tools button:hover { background: #dfeeff; }
     .teacher-type-list { display: flex; flex-wrap: wrap; gap: 8px; padding: 10px; border: 1px solid var(--line); border-radius: 7px; background: #fbfdff; }
     .teacher-type-option { position: relative; cursor: pointer; }
     .teacher-type-option input { position: absolute; opacity: 0; pointer-events: none; }
@@ -391,7 +396,7 @@
       { id: "quick", type: "quick", name: "快捷入口", icon: "⌘", tone: "green", enabled: true, count: 10, summary: "10 个入口", updated: "今天 16:20", fields: { title: "快捷入口", subtitle: "首页服务入口", cta: "查看入口", target: "入口集合" } },
       { id: "trial", type: "trial", name: "试听课", icon: "¥", tone: "orange", enabled: true, count: 3, summary: "3 个课程", updated: "今天 15:48", fields: { title: "试听课", subtitle: "精选体验课", cta: "查看全部", target: "课程列表" } },
       { id: "service", type: "service", name: "平台服务保障", icon: "♧", tone: "green", enabled: true, count: 1, summary: "1 张保障图片", updated: "今天 15:20", fields: { title: "平台服务保障" } },
-      { id: "teacher", type: "teacher", name: "教师类型与教师推荐", icon: "♛", tone: "purple", enabled: true, count: 3, summary: "3 个教师类型 · 每类 3 位", updated: "今天 14:32", fields: { title: "推荐老师", displayCount: 3, subtitle: "认证教员为你服务", cta: "查看更多推荐老师", target: "全部老师" } },
+      { id: "teacher", type: "teacher", name: "教师类型与推荐", icon: "♛", tone: "purple", enabled: true, count: 3, summary: "3 个教师类型 · 每类 3 位", updated: "今天 14:32", fields: { title: "推荐老师", displayCount: 3, subtitle: "认证教员为你服务", cta: "查看更多推荐老师", target: "全部老师" } },
       { id: "courses", type: "courses", name: "精品课程", icon: "▣", tone: "blue", enabled: true, count: 3, summary: "3 个课程分类 · 每类 3 门", updated: "今天 13:10", fields: { title: "精品课程", displayCount: 3, subtitle: "高质量课程推荐", cta: "购买", target: "课程详情" } },
       { id: "wechat", type: "wechat", name: "公众号关注", icon: "●", tone: "green", enabled: true, count: 1, summary: "公众号卡片", updated: "昨天 18:05", fields: { title: "关注优坐标公众号", subtitle: "获取实时课程提醒与教育干货", cta: "去关注", target: "公众号", url: "/wechat", visible: true } },
       { id: "bottom", type: "bottom", name: "底部导航", icon: "⌂", tone: "pink", enabled: true, count: 5, summary: "5 个固定入口", updated: "昨天 17:42", fields: { title: "底部导航", subtitle: "家长端主导航", cta: "查看页面", target: "导航页面" } }
@@ -565,9 +570,9 @@
         <div class="note"><b>操作结果</b>保存写入当前草稿并关闭弹窗；取消不改变草稿；工作台发布后才影响家长端。图片读取失败、无权限和发布失败沿用统一提示。</div>
         <div class="note"><b>待确认</b>图片尺寸、格式、大小、裁切、兜底图、跳转地址格式和真实服务页面枚举待确认。</div>
       ` : teacherModalOpen ? `
-        <div class="notes-sub">当前页面：教师类型与教师推荐配置页</div>
+        <div class="notes-sub">当前页面：教师类型与推荐配置页</div>
         <div class="note"><b>页面目标</b>维护家长端“推荐老师”区块的主标题和教师类型标签，保存后进入草稿，发布后由家长端读取。</div>
-        <div class="note"><b>字段规则</b>主标题用于前台“推荐老师”区块名称，最多 10 个字；教师类型支持多选，选中类型决定前台展示哪些标签和对应老师；每类默认展示老师数为 1 到 20 的整数。</div>
+        <div class="note"><b>字段规则</b>主标题用于前台“推荐老师”区块名称，最多 10 个字；教师类型区域展示全部可维护类型，勾选即首页展示，未勾选则不展示；每类默认展示老师数为 1 到 20 的整数。</div>
         <div class="note"><b>前台展示</b>已选类型按配置顺序显示为标签；标签超过一个屏幕宽度时可左右横滑。每个类型按老师排序取前 N 位展示，点击标签切换对应老师列表；老师卡片超过一屏时可左右横滑。</div>
         <div class="note"><b>配置完整性</b>主标题必填，且至少选择一个教师类型；缺失时阻止保存或发布。</div>
         <div class="note"><b>操作结果</b>保存写入草稿并关闭弹窗；取消不改变草稿；发布后已发布预览才读取新的类型标签和老师列表。真实教师数据、类型可用状态和权限异常待接口确认。</div>
@@ -743,7 +748,7 @@
       if (module.type === "banner") return `<div class="banner-carousel"><div class="banner-carousel-head"><span>首页轮播广告 banner</span><small>每条广告独立配置</small></div><div class="banner-carousel-list">${renderBannerItems()}</div><button type="button" class="banner-add" data-action="banner-add">＋ 新增轮播</button></div>`;
       if (module.type === "trial") return `<div class="trial-ad-title field"><label>主标题</label><input name="title" value="${escapeHtml(f.title)}" placeholder="例如：试听课"></div><div class="banner-carousel-head"><span>三位广告位</span><small>固定 3 个，不支持新增或删除</small></div><div class="trial-ad-list">${renderTrialEntries()}</div>`;
       if (module.type === "service") return `<div class="trial-ad-title field"><label>模块主标题</label><input name="title" maxlength="20" value="${escapeHtml(f.title)}" placeholder="20 字以内，例如：平台服务保障"></div><div class="banner-carousel-head"><span>服务保障素材</span><small>固定 1 张图片和 1 个跳转链接</small></div><div class="trial-ad-list">${renderServiceEntries()}</div>`;
-      if (module.type === "teacher") return `<div class="field"><label>主标题</label><input name="title" maxlength="10" value="${escapeHtml(f.title)}" placeholder="请输入标题名称，10 字以内"></div><div class="field"><label>每类默认展示老师数</label><input name="displayCount" type="number" min="1" max="20" value="${escapeHtml(f.displayCount || 3)}" inputmode="numeric" placeholder="例如：3"></div><div class="teacher-type-field"><label>教师类型</label><div class="teacher-type-list">${state.teacherTypes.map(item => `<label class="teacher-type-option"><input type="checkbox" data-teacher-type value="${item.id}" ${item.selected ? "checked" : ""}><span>${escapeHtml(item.name)}</span></label>`).join("")}</div></div><div class="field-help">输入 3 时，每个已选类型按排序展示前 3 位老师；老师列表超过一屏时可左右横滑。可多选教师类型，点击前台标签切换对应老师。</div>`;
+      if (module.type === "teacher") { const selectedCount = state.teacherTypes.filter(item => item.selected).length; return `<div class="field"><label>主标题</label><input name="title" maxlength="10" value="${escapeHtml(f.title)}" placeholder="请输入标题名称，10 字以内"></div><div class="field"><label>每类默认展示老师数</label><input name="displayCount" type="number" min="1" max="20" value="${escapeHtml(f.displayCount || 3)}" inputmode="numeric" placeholder="例如：3"></div><div class="teacher-type-field"><div class="teacher-type-head"><label>教师类型</label><span class="teacher-type-count" data-teacher-selected-count>已选 ${selectedCount} 个</span><div class="teacher-type-tools"><button type="button" data-action="teacher-select-all">全选</button><button type="button" data-action="teacher-clear-all">清空</button></div></div><div class="teacher-type-list">${state.teacherTypes.map(item => `<label class="teacher-type-option"><input type="checkbox" data-teacher-type value="${item.id}" ${item.selected ? "checked" : ""}><span>${escapeHtml(item.name)}</span></label>`).join("")}</div></div><div class="field-help">展示全部教师类型；勾选即在首页显示，未勾选不显示。输入 3 时，每个已选类型按排序展示前 3 位老师；老师列表超过一屏时可左右横滑。</div>`; }
       if (module.type === "courses") return `<div class="field"><label>主标题</label><input name="title" maxlength="10" value="${escapeHtml(f.title)}" placeholder="请输入标题名称，10 字以内"></div><div class="field"><label>每类默认展示课程数</label><input name="displayCount" type="number" min="1" max="20" value="${escapeHtml(f.displayCount || 3)}" inputmode="numeric" placeholder="例如：3"></div><div class="teacher-type-field"><label>课程分类</label><div class="teacher-type-list">${state.courseTypes.map(item => `<label class="teacher-type-option"><input type="checkbox" data-course-type value="${item.id}" ${item.selected ? "checked" : ""}><span>${escapeHtml(item.name)}</span></label>`).join("")}</div></div><div class="field-help">输入 3 时，每个已选分类按排序展示前 3 门课程；课程超过一屏时可左右横滑。可多选分类，点击前台标签切换对应课程。</div>`;
       if (module.type === "quick") return `<div class="banner-carousel"><div class="banner-carousel-head"><span>首页快捷入口</span><small>最少 4 个，最多 10 个</small></div><div class="banner-carousel-list">${renderQuickEntries()}</div><button type="button" class="banner-add" data-action="quick-add" ${state.quickEntries.length >= 10 ? "disabled" : ""}>＋ 新增入口</button></div>`;
       if (module.type === "bottom") return `<div class="banner-carousel-head"><span>底部导航配置</span><small>固定 5 个入口：首页、全部课程、全部老师、消息、我的</small></div>${renderBottomEntries()}<div class="field-help">每项可编辑前台展示标题、跳转页面和是否展示；首页默认选中且至少保留一个入口展示。</div>`;
@@ -754,7 +759,7 @@
       if (!state.modal) { modalRoot.innerHTML = ""; return; }
       const module = state.draft.find(item => item.id === state.modal.id);
       if (!module) { state.modal = null; modalRoot.innerHTML = ""; return; }
-      const modalTitle = module.type === "banner" ? "首页轮播广告 banner" : module.type === "trial" ? "试听课" : module.type === "service" ? "平台服务保障" : module.type === "teacher" ? "编辑教师类型与教师推荐" : module.type === "courses" ? "编辑精品课程" : `编辑${escapeHtml(module.name)}`;
+      const modalTitle = module.type === "banner" ? "首页轮播广告 banner" : module.type === "trial" ? "试听课" : module.type === "service" ? "平台服务保障" : module.type === "teacher" ? "编辑教师类型与推荐" : module.type === "courses" ? "编辑精品课程" : `编辑${escapeHtml(module.name)}`;
       const saveLabel = module.type === "banner" ? "保存，发布" : "保存";
       modalRoot.innerHTML = `<div class="modal-backdrop open" data-action="close-modal"><section class="modal ${module.type === "banner" || module.type === "trial" ? "banner-modal" : ""}" role="dialog" aria-modal="true" aria-label="${modalTitle}" data-modal="true"><div class="modal-head"><div><h2>${modalTitle}</h2><p>保存后进入草稿，不会立即影响家长端首页。</p></div><button class="close" data-action="close-modal" aria-label="关闭">×</button></div><form class="form" data-form="${module.id}">${formFields(module)}</form><div class="modal-foot"><button class="btn" data-action="close-modal">取消</button><button class="btn primary" data-action="save-modal" data-id="${module.id}">${saveLabel}</button></div></section></div>`;
     }
@@ -945,6 +950,11 @@
       render();
       showToast("首页已发布，家长端读取新版本", "success");
     }
+    function syncTeacherTypeSelection(form) {
+      const count = form.querySelectorAll("[data-teacher-type]:checked").length;
+      const counter = form.querySelector("[data-teacher-selected-count]");
+      if (counter) counter.textContent = `已选 ${count} 个`;
+    }
     function handleAction(action, el) {
       const id = el.dataset.id;
       if (action === "surface") { state.surface = el.dataset.value; render(); return; }
@@ -953,6 +963,7 @@
       if (action === "view-workbench") { state.surface = "workbench"; render(); return; }
       if (action === "preview-draft") { state.surface = "workbench"; state.previewMode = "draft"; render(); showToast("手机预览已切换为草稿版本"); return; }
       if (action === "preview-mode") { state.previewMode = el.dataset.value; render(); return; }
+      if (action === "teacher-select-all" || action === "teacher-clear-all") { const form = el.closest("form"); if (!form) return; form.querySelectorAll("[data-teacher-type]").forEach(input => { input.checked = action === "teacher-select-all"; }); syncTeacherTypeSelection(form); return; }
       if (action === "teacher-preview-tab") { state.teacherPreviewType[el.dataset.mode] = el.dataset.id; render(); return; }
       if (action === "course-preview-tab") { state.coursePreviewType[el.dataset.mode] = el.dataset.id; render(); return; }
       if (action === "close-wechat-follow") { state.wechatClosed[el.dataset.mode] = true; render(); showToast("已关闭公众号关注卡片"); return; }
@@ -976,7 +987,7 @@
         showToast(`已选择“${course.name}”`, "success");
         return;
       }
-      if (action === "close-modal") { if (el.dataset.action === "close-modal" && el.closest("[data-modal]") && el.tagName !== "BUTTON") return; state.modal = null; render(); return; }
+      if (action === "close-modal") { state.modal = null; render(); return; }
       if (action === "save-modal") { saveForm(id); return; }
       if (action === "banner-delete") { if (state.bannerItems.length <= 1) { showToast("至少保留一张轮播图", "error"); return; } state.bannerItems = state.bannerItems.filter(item => item.id !== id); render(); showToast("轮播图已从草稿中移除"); return; }
       if (action === "banner-upload") {
@@ -1078,9 +1089,11 @@
     document.addEventListener("click", event => {
       const target = event.target.closest("[data-action]");
       if (!target) return;
+      if (target.classList.contains("modal-backdrop") && event.target !== target) return;
       if (target.dataset.action === "select-module" && target.closest(".module-row")) event.stopPropagation();
       handleAction(target.dataset.action, target);
     });
+    document.addEventListener("change", event => { if (event.target.matches("[data-teacher-type]")) syncTeacherTypeSelection(event.target.closest("form")); });
     document.addEventListener("keydown", event => { if (event.key === "Escape" && state.modal) { state.modal = null; render(); } });
     render();
   </script>
