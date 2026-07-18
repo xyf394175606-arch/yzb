@@ -1420,22 +1420,25 @@
 
     .experience-item {
       display: grid;
-      grid-template-columns: 22px 1fr;
+      grid-template-columns: 28px 1fr;
       gap: 9px;
       margin-bottom: 12px;
     }
 
-    .experience-num {
-      width: 22px;
-      height: 22px;
+    .experience-icon {
+      width: 28px;
+      height: 28px;
       display: grid;
       place-items: center;
-      border-radius: 50%;
-      background: #4c94ff;
-      color: #fff;
+      border-radius: 6px;
+      background: #eaf4ff;
+      color: #2778d7;
       font-size: 12px;
       font-weight: 950;
     }
+
+    .experience-icon.mint { background: #e7f8f1; color: #178564; }
+    .experience-icon.violet { background: #f1edff; color: #7658c8; }
 
     .experience-title {
       margin-bottom: 4px;
@@ -3412,6 +3415,42 @@
       min-height: 74px;
     }
 
+    .case-icon-upload {
+      min-height: 74px;
+      padding: 8px;
+      display: grid;
+      grid-template-columns: 30px minmax(0, 1fr);
+      gap: 8px;
+      align-items: center;
+      border: 1px dashed #a9cbed;
+      border-radius: 6px;
+      background: #f8fbff;
+      color: #5f6e7d;
+      cursor: pointer;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .case-icon-upload input { display: none; }
+    .case-icon-preview {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 6px;
+      background: #eaf4ff;
+      color: #2778d7;
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .case-icon-preview img {
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      object-fit: cover;
+    }
+
     .config-table.compact th,
     .config-table.compact td {
       padding: 8px 10px;
@@ -3982,7 +4021,7 @@
                   <h3>教师简介</h3>
                   <div class="info-section"><div class="section-title"><span class="section-icon">♙</span>个人简介</div><p class="bio-text">本人从事教学教学 9 年，是校区认证优秀师资。长期钻研题型考点，擅长分层教学，针对基础薄弱、拔高冲刺不同学生定制学习方案。课堂通俗易懂，注重培养逻辑推理与解题思路，多年教学沉淀完整的错题归纳、提分技巧体系。用心对待每一位学生，用多年教学经验帮大家扫清数学学习障碍，高效提升分数。</p></div>
                   <div class="info-section"><div class="section-title"><span class="section-icon">♙</span>主讲科目</div><div class="subject-tags"><span>高中数学</span><span>初中数学</span><span>初中物理</span><span>高中物理</span><span>（一、二、三年级）数学</span></div></div>
-                  <div class="info-section"><div class="section-title"><span class="section-icon">▣</span>教学经验</div><div class="experience-item"><div class="experience-num">1</div><div><div class="experience-title">基础薄弱生补差案例</div><div class="experience-desc">多名及格线以下学生，梳理知识断层，专项补基础，总结题型模板，训练逻辑推导，半学期稳定提升至优秀区间。</div></div></div><div class="experience-item"><div class="experience-num">2</div><div><div class="experience-title">2026届高中升学考试</div><div class="experience-desc">针对只会基础、难题无思路学生，拓展竞赛、综合拓展题型，强化一题多解，冲刺高分满分，稳定年级前列。</div></div></div><div class="experience-item"><div class="experience-num">3</div><div><div class="experience-title">考前短期冲刺提分案例</div><div class="experience-desc">学生看不懂题干、不会列式，拆解文字逻辑模型，结合历年真题梳理高频考点，传授速解技巧，短期快速提升应试得分能力。</div></div></div><div class="more-row">查看更多⌄</div></div>
+                  <div class="info-section"><div class="section-title"><span class="section-icon">▣</span>教学经验</div><div class="experience-item"><div class="experience-icon" aria-label="基础薄弱生补差案例图标">升</div><div><div class="experience-title">基础薄弱生补差案例</div><div class="experience-desc">多名及格线以下学生，梳理知识断层，专项补基础，总结题型模板，训练逻辑推导，半学期稳定提升至优秀区间。</div></div></div><div class="experience-item"><div class="experience-icon mint" aria-label="高中升学考试案例图标">考</div><div><div class="experience-title">2026届高中升学考试</div><div class="experience-desc">针对只会基础、难题无思路学生，拓展竞赛、综合拓展题型，强化一题多解，冲刺高分满分，稳定年级前列。</div></div></div><div class="experience-item"><div class="experience-icon violet" aria-label="考前冲刺案例图标">冲</div><div><div class="experience-title">考前短期冲刺提分案例</div><div class="experience-desc">学生看不懂题干、不会列式，拆解文字逻辑模型，结合历年真题梳理高频考点，传授速解技巧，短期快速提升应试得分能力。</div></div></div><div class="more-row">查看更多⌄</div></div>
                   <div class="info-section"><div class="section-title"><span class="section-icon">◎</span>授课特色</div><div class="feature-pill">逻辑拆解式教学，复杂题型分层拆解，零基础也能听懂</div><div class="feature-pill">精准抓考点、易错点，结合历年考情总结独家速解技巧</div></div>
                 </section>
               </main>
@@ -4736,16 +4775,18 @@
                     <table class="config-table" aria-label="教学经验案例配置表">
                       <thead>
                         <tr>
-                          <th style="width: 22%;">标题</th>
+                          <th style="width: 18%;">标题</th>
+                          <th style="width: 108px;">案例 Icon</th>
                           <th>描述</th>
                           <th style="width: 10%;">排序</th>
                           <th style="width: 12%;">是否展示</th>
                           <th style="width: 10%;">操作</th>
                         </tr>
                       </thead>
-                      <tbody>
+                      <tbody id="teachingCaseRows">
                         <tr>
                           <td><input class="pc-input" value="基础薄弱生补差案例"></td>
+                          <td><label class="case-icon-upload"><span class="case-icon-preview">升</span><span>已上传<br>点击更换</span><input type="file" accept="image/*" aria-label="基础薄弱生补差案例 Icon"></label></td>
                           <td><textarea class="pc-textarea">多名及格线以下学生，梳理知识断层，专项补基础，总结题型模板，训练逻辑推导。</textarea></td>
                           <td><input class="pc-input" value="1"></td>
                           <td><select class="pc-select"><option>展示</option><option>隐藏</option></select></td>
@@ -4753,6 +4794,7 @@
                         </tr>
                         <tr>
                           <td><input class="pc-input" value="考前短期冲刺提分案例"></td>
+                          <td><label class="case-icon-upload"><span class="case-icon-preview">冲</span><span>已上传<br>点击更换</span><input type="file" accept="image/*" aria-label="考前短期冲刺提分案例 Icon"></label></td>
                           <td><textarea class="pc-textarea">学生看不懂题干、不会列式，拆解文字逻辑模型，结合历年真题梳理高频考点，短期快速提升应试得分能力。</textarea></td>
                           <td><input class="pc-input" value="2"></td>
                           <td><select class="pc-select"><option>展示</option><option>隐藏</option></select></td>
@@ -4761,8 +4803,8 @@
                       </tbody>
                     </table>
                   </div>
-                  <div class="hint">教学经验改为表格录入，直接填写标题和描述即可，减少提示性文案干扰。</div>
-                  <button class="pc-btn" type="button">新增案例</button>
+                  <div class="hint">每条案例独立上传一个 Icon，用于教师详情页对应案例展示；标题、描述、排序和展示状态继续按当前表格维护。</div>
+                  <button class="pc-btn" id="addTeachingCase" type="button">新增案例</button>
                 </section>
 
                 <section class="form-section" id="section-display-features">
@@ -5164,7 +5206,7 @@
       <div class="note-page" id="note-detail">
         <div class="note-card"><h3>本次变更：教师所在区域</h3><ul><li>教师详情页头部新增所在区域，展示省、市、区县，例如“北京市 · 北京市 · 海淀区”。</li><li>区域来自教师基本认证资料；不展示详细地址，区域缺失时不显示、不占位。</li><li>本次不改老师列表、首页、活动页，也不新增区域筛选或距离排序。</li></ul></div>
         <div class="note-card"><h3>页面规则</h3><ul><li>本页由老师卡片或“更多”进入，当前默认展示教师介绍页签。</li><li>页签包含教师介绍、教师简介、教师评价、购买课程；点击后按页面锚点滚动到对应模块。</li><li>教师介绍锚点对应老师头部概览；教师简介锚点对应教师简介模块；教师评价锚点对应教师评价模块；购买课程锚点对应购买课程模块。</li><li>底部固定操作栏包含客服、分享、收藏、立即购买。</li><li>购买课程区域展示当前老师已关联且可售的课程；课程来自后台教师列表操作中的“关联课程”。</li><li>底部立即购买先打开选择购买课程上滑弹窗，用户必须选择某一门关联课程后才进入确认订单页。</li><li>选择购买课程弹窗、关注服务号弹窗属于教师详情页内部上滑弹窗，左侧导航以教师详情页子节点展示，便于评审直接查看。</li></ul></div>
-        <div class="note-card"><h3>字段说明</h3><ul><li>教师头部展示头像、姓名、一级教员类型、二级类型标识、教学经验、授课时长、收藏人数和标签。</li><li>二级类型标识有填写则展示；未填写则不展示、不占位。</li><li>教师评价展示评价人数、用户昵称脱敏、星级、评分和评价内容。</li><li>教师简介展示个人简介、主讲科目、教学经验案例、授课特色。</li><li>课程卡片展示课程类型、封面、名称、科目、年级、课时数、课时、评分、价格、销量和立即抢购按钮。</li><li>科目展示具体课程科目；如课程覆盖多个科目，则展示多个科目标签。</li><li>年级按课程覆盖范围展示：覆盖初中一、二、三年级时展示“初中”；仅覆盖初中一年级、二年级时展示“初中一年级、二年级”。</li><li>课时数表示本次课程包含多少课时；课时表示单节课时长，例如 40分钟/节。</li><li>选择购买课程弹窗中的课程卡片展示课程类型、封面、课程名称、科目、年级、课时数、课时、可售状态、销量、价格和选择按钮；不展示“已关联”等后台关系字段。</li></ul></div>
+        <div class="note-card"><h3>字段说明</h3><ul><li>教师头部展示头像、姓名、一级教员类型、二级类型标识、教学经验、授课时长、收藏人数和标签。</li><li>二级类型标识有填写则展示；未填写则不展示、不占位。</li><li>教师评价展示评价人数、用户昵称脱敏、星级、评分和评价内容。</li><li>教师简介展示个人简介、主讲科目、教学经验案例、授课特色。</li><li>教学经验案例按案例 Icon、标题、描述展示；Icon 来源于编辑教师 / 页面展示资料 / 教学经验案例的对应上传项。</li><li>课程卡片展示课程类型、封面、名称、科目、年级、课时数、课时、评分、价格、销量和立即抢购按钮。</li><li>科目展示具体课程科目；如课程覆盖多个科目，则展示多个科目标签。</li><li>年级按课程覆盖范围展示：覆盖初中一、二、三年级时展示“初中”；仅覆盖初中一年级、二年级时展示“初中一年级、二年级”。</li><li>课时数表示本次课程包含多少课时；课时表示单节课时长，例如 40分钟/节。</li><li>选择购买课程弹窗中的课程卡片展示课程类型、封面、课程名称、科目、年级、课时数、课时、可售状态、销量、价格和选择按钮；不展示“已关联”等后台关系字段。</li></ul></div>
         <div class="note-card"><h3>按钮说明</h3><ul><li>返回：回到全部老师列表页。</li><li>底部收藏：收藏/取消收藏结果待确认。</li><li>立即关注：打开关注引导弹层，明确引导用户关注“优坐标服务号”。</li><li>去关注服务号：跳转服务号关注引导页；当前原型保留为明确业务结果，不展开实际跳转页。</li><li>教师介绍/教师简介/教师评价/购买课程：作为页面锚点使用，点击滚动到对应模块，并更新当前激活态。</li><li>立即抢购：用户已在具体课程卡操作，直接带入当前点击课程进入确认订单页。</li><li>立即购买：打开选择购买课程上滑弹窗；弹窗中点击“选择”后，带入所选课程进入确认订单页；取消则关闭弹窗并停留详情页。</li></ul></div>
         <div class="note-card"><h3>状态与回流</h3><ul><li>评价为空：教师评价模块标题展示“教师评价(0)”，列表区域展示“暂无评价”。</li><li>课程为空：后台不允许教师上架，前台教师详情页不展示课程空态。</li><li>无已关联且可售课程：底部立即购买置灰或点击提示不可购买，不允许进入确认订单页。</li><li>课程售罄、无购买权限：当前业务不存在这两个前台状态，不在原型中展示。</li><li>购买失败：保留在支付链路或订单链路后续补充，不放在教师详情默认态。</li><li>购买主链路已明确为“选择购买课程 -> 确认订单页 -> 支付 -> 订单支付成功确认页”，本轮原型不展开退款、排课和支付渠道细节。</li><li>评价接口、课程接口、收藏状态和关注状态需 09 数据交互阶段补齐。</li><li>当前截图中部分字段来源未给出，已作为展示样例处理。</li></ul></div>
       </div>
@@ -5281,7 +5323,7 @@
       <div class="note-page" id="note-admin-teacher-modal">
         <div class="note-card"><h3>本次变更：教师所在区域</h3><ul><li>基本认证资料 / 实名与身份新增所在区域：省、市、区县三级级联选择。</li><li>不录入详细地址；保存教师资料时可暂不填写，但教师上架或前台展示前必须补齐三级区域。</li><li>省份变化清空城市与区县，城市变化清空区县；查看态只读，编辑态可修改。</li><li>字段供开发对接：teachingRegionProvince、teachingRegionCity、teachingRegionDistrict 及对应名称展示字段。</li></ul></div>
         <div class="note-card"><h3>页面规则</h3><ul><li>新增/编辑教师使用大弹窗承载，宽度按 900-1100px 设计，避免普通小弹窗字段过多。</li><li>教师资料弹窗升级为 2 个顶层 Tab：基本认证资料、页面展示资料。</li><li>当前方案中认证资料用于老师入驻、实名、登录和资质核验；页面展示资料用于前台老师列表与详情页展示。</li><li>全部评价、关联课程已拆到教师列表操作入口，不再放在教师资料弹窗内。</li><li>左侧分组导航用于快速定位当前 Tab 内字段；切换顶层 Tab 后仅刷新中间表单区，不影响底部操作按钮。</li></ul></div>
-        <div class="note-card"><h3>字段说明</h3><ul><li>基本认证资料新增：手机号、微信 OpenID、绑定企业微信号、企业微信 OpenID、身份证号、所在区域、毕业院校、最高学历、年龄、教师形象照片、授课方式、资质证明、授课学科。</li><li>页面展示资料保留：展示基础、展示标签与指标、教师简介、教学经验案例、授课特色。</li><li>教师姓名、性别、教师头像、授课学科/主讲科目等可共用同一数据源，但不在两个 Tab 中混排展示。</li><li>一级教师类型与二级类型均从教师类型维护页读取；一级变化后联动刷新二级选项，下架类型不可新选。</li><li>二级类型非必填，未选择时前台不展示二级类型标识，也不占位。</li><li>教师标签来自教师标签维护页，已启用标签可选；教师输入不存在的标签保存后直接写入标签库，默认已启用。</li><li>教学经验案例改为表格录入，直接填写标题、描述、排序、是否展示，减少提示性内容干扰。</li><li>授课方式为多选；授课学科为字典多选；资质证明和教师形象照片统一使用上传组件表现。</li><li>展示状态、售卖状态不在教师资料弹窗维护。</li></ul></div>
+        <div class="note-card"><h3>字段说明</h3><ul><li>基本认证资料新增：手机号、微信 OpenID、绑定企业微信号、企业微信 OpenID、身份证号、所在区域、毕业院校、最高学历、年龄、教师形象照片、授课方式、资质证明、授课学科。</li><li>页面展示资料保留：展示基础、展示标签与指标、教师简介、教学经验案例、授课特色。</li><li>教师姓名、性别、教师头像、授课学科/主讲科目等可共用同一数据源，但不在两个 Tab 中混排展示。</li><li>一级教师类型与二级类型均从教师类型维护页读取；一级变化后联动刷新二级选项，下架类型不可新选。</li><li>二级类型非必填，未选择时前台不展示二级类型标识，也不占位。</li><li>教师标签来自教师标签维护页，已启用标签可选；教师输入不存在的标签保存后直接写入标签库，默认已启用。</li><li>教学经验案例按表格维护标题、案例 Icon、描述、排序、是否展示；每条案例的 Icon 独立上传，用于教师详情页对应案例展示。</li><li>授课方式为多选；授课学科为字典多选；资质证明和教师形象照片统一使用上传组件表现。</li><li>展示状态、售卖状态不在教师资料弹窗维护。</li></ul></div>
         <div class="note-card"><h3>前台展示规则</h3><ul><li>指标缺失时前台不展示对应指标。</li><li>教师标签来自教师标签维护页，并按后台排序展示；禁用标签不可新选。</li><li>一级教师类型展示在头像身份条。</li><li>二级类型标识有填写则展示在教员姓名后；未填写则不展示、不占位。</li><li>教师头像用于列表/卡片/基础展示；教师形象照片用于详情页形象展示。</li><li>授课学科为认证资料中的老师能力范围；主讲科目为页面展示资料中的前台展示口径，可由授课学科映射。</li><li>教学经验案例前台默认展示前 3 条，更多通过查看更多展开或进入更多内容。</li><li>评价模块读取“全部评价”入口配置，可展示真实评价和后台补充的假数据；无评价时展示“暂无评价”。</li><li>购买课程区读取“关联课程”入口配置；关联课程统一为平台创建，老师关联后详情页展示课程并支持用户下单购买。未关联可售课程时教师不可上架。</li></ul></div>
         <div class="note-card"><h3>按钮说明</h3><ul><li>取消：关闭弹窗，不保存。</li><li>保存：直接保存当前教师资料字段，不再区分保存草稿和提交审核。</li><li>保存后关闭弹窗或停留当前弹窗由实际后台交互确认，当前原型按“保存成功并刷新教师列表”理解。</li><li>保存教师资料不处理关联课程和评价展示。</li><li>关联课程、展示状态、上架/下架需从教师列表操作里的“关联课程”入口处理。</li></ul></div>
       </div>
@@ -6224,6 +6266,37 @@
     if (teachingRegionProvince) teachingRegionProvince.addEventListener('change', syncTeachingRegionCities);
     if (teachingRegionCity) teachingRegionCity.addEventListener('change', syncTeachingRegionDistricts);
     if (teachingRegionDistrict) teachingRegionDistrict.addEventListener('change', updateDetailTeachingRegion);
+    function bindCaseIconUpload(input) {
+      if (!input || input.dataset.bound) return;
+      input.dataset.bound = 'true';
+      input.addEventListener('change', () => {
+        const file = input.files?.[0];
+        if (!file) return;
+        const upload = input.closest('.case-icon-upload');
+        const preview = upload?.querySelector('.case-icon-preview');
+        const label = upload?.querySelector('span:last-of-type');
+        if (preview) preview.innerHTML = `<img src="${URL.createObjectURL(file)}" alt="已上传案例 Icon">`;
+        if (label) label.innerHTML = '已选择<br>点击更换';
+      });
+    }
+    document.querySelectorAll('.case-icon-upload input[type="file"]').forEach(bindCaseIconUpload);
+    document.getElementById('addTeachingCase')?.addEventListener('click', () => {
+      const rows = document.getElementById('teachingCaseRows');
+      if (!rows) return;
+      const row = document.createElement('tr');
+      row.innerHTML = `<td><input class="pc-input" placeholder="请输入案例标题"></td>
+        <td><label class="case-icon-upload"><span class="case-icon-preview">+</span><span>上传 Icon<br>点击选择</span><input type="file" accept="image/*" aria-label="新增教学经验案例 Icon"></label></td>
+        <td><textarea class="pc-textarea" placeholder="请输入案例描述"></textarea></td>
+        <td><input class="pc-input" value="${rows.children.length + 1}"></td>
+        <td><select class="pc-select"><option>展示</option><option>隐藏</option></select></td>
+        <td><button class="link-btn danger" type="button">删除</button></td>`;
+      rows.append(row);
+      bindCaseIconUpload(row.querySelector('input[type="file"]'));
+    });
+    document.getElementById('teachingCaseRows')?.addEventListener('click', event => {
+      const deleteButton = event.target.closest('.link-btn.danger');
+      if (deleteButton) deleteButton.closest('tr')?.remove();
+    });
     document.querySelectorAll('[data-publish-teacher]').forEach(button => {
       button.addEventListener('click', () => {
         if (!hasCompleteTeachingRegion()) {
