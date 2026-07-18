@@ -38,9 +38,6 @@
     .brand-mark { width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; background: linear-gradient(135deg, #4b9eff, #2e63db); color: #fff; font-weight: 900; }
     .brand-title { font-weight: 900; font-size: 16px; }
     .brand-sub { margin-left: 8px; color: #aebbd0; font-size: 12px; font-weight: 600; }
-    .surface-switch { display: flex; align-items: center; gap: 5px; padding: 4px; border-radius: 8px; background: rgba(255,255,255,.08); }
-    .surface-switch button { border: 0; border-radius: 6px; padding: 8px 13px; color: #b9c5d7; background: transparent; }
-    .surface-switch button.active { color: #fff; background: #2a73e8; font-weight: 800; }
     .user { display: flex; align-items: center; gap: 10px; color: #cbd5e1; white-space: nowrap; }
     .avatar { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%; background: #d9e8ff; color: #2362c8; font-weight: 900; }
     .shell { display: grid; grid-template-columns: 238px minmax(680px, 1fr) 310px; min-height: calc(100vh - 64px); }
@@ -58,6 +55,7 @@
     .nav-child { margin: 2px 0 4px 20px; border-left: 1px dashed #cbd8e7; padding-left: 8px; }
     .nav-child .nav-item { font-size: 12px; padding: 8px 9px; }
     .main { padding: 22px; min-width: 0; overflow: auto; }
+    .blank-main { min-width: 0; background: var(--canvas); }
     .page-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; margin-bottom: 16px; }
     .eyebrow { color: var(--blue); font-size: 12px; font-weight: 900; letter-spacing: .08em; }
     h1, h2, h3, p { margin: 0; }
@@ -228,8 +226,8 @@
     .follow .follow-close { position: absolute; top: 6px; left: 6px; width: 16px; height: 16px; padding: 0; border: 0; border-radius: 50%; color: #6a7f99; background: transparent; font-size: 15px; line-height: 16px; }
     .follow .follow-close:hover { color: #2675ed; background: #dcecff; }
     .home-empty { padding: 18px 12px; color: #95a1b1; text-align: center; font-size: 11px; }
-    .phone-tabbar { height: 48px; border-top: 1px solid #e3e9f1; background: #fff; display: grid; grid-template-columns: repeat(5, 1fr); }
-    .phone-tabbar button { border: 0; background: transparent; color: #7c8795; font-size: 8px; font-weight: 800; padding: 5px 0; }
+    .phone-tabbar { height: 48px; border-top: 1px solid #e3e9f1; background: #fff; display: flex; }
+    .phone-tabbar button { flex: 1; min-width: 0; border: 0; background: transparent; color: #7c8795; font-size: 8px; font-weight: 800; padding: 5px 0; }
     .phone-tabbar button strong { display: block; margin-bottom: 2px; font-size: 14px; }
     .phone-tabbar button.active { color: #2675ed; }
     .notes { position: relative; z-index: 21; padding: 22px 14px; border-left: 1px solid var(--line); background: #fffdf0; overflow: auto; }
@@ -330,7 +328,6 @@
       .topbar { padding: 0 12px; }
       .brand { min-width: 0; }
       .brand-sub, .user { display: none; }
-      .surface-switch { margin-left: auto; }
       .shell { display: block; min-height: calc(100vh - 58px); }
       .sidebar { display: none; }
       .main { padding: 15px; }
@@ -346,7 +343,6 @@
       .catalog-course > div:nth-of-type(2), .catalog-course > div:nth-of-type(3) { display: none; }
     }
     @media (max-width: 520px) {
-      .surface-switch button { padding: 7px 8px; font-size: 12px; }
       .page-head { display: block; }
       .page-head .actions { margin-top: 13px; justify-content: flex-start; }
       .status-strip { display: block; }
@@ -399,7 +395,7 @@
       { id: "teacher", type: "teacher", name: "教师类型与推荐", icon: "♛", tone: "purple", enabled: true, count: 3, summary: "3 个教师类型 · 每类 3 位", updated: "今天 14:32", fields: { title: "推荐老师", displayCount: 3, subtitle: "认证教员为你服务", cta: "查看更多推荐老师", target: "全部老师" } },
       { id: "courses", type: "courses", name: "精品课程", icon: "▣", tone: "blue", enabled: true, count: 3, summary: "3 个课程分类 · 每类 3 门", updated: "今天 13:10", fields: { title: "精品课程", displayCount: 3, subtitle: "高质量课程推荐", cta: "购买", target: "课程详情" } },
       { id: "wechat", type: "wechat", name: "公众号关注", icon: "●", tone: "green", enabled: true, count: 1, summary: "公众号卡片", updated: "昨天 18:05", fields: { title: "关注优坐标公众号", subtitle: "获取实时课程提醒与教育干货", cta: "去关注", target: "公众号", url: "/wechat", visible: true } },
-      { id: "bottom", type: "bottom", name: "底部导航", icon: "⌂", tone: "pink", enabled: true, count: 5, summary: "5 个固定入口", updated: "昨天 17:42", fields: { title: "底部导航", subtitle: "家长端主导航", cta: "查看页面", target: "导航页面" } }
+      { id: "bottom", type: "bottom", name: "底部导航", icon: "⌂", tone: "pink", enabled: true, count: 6, summary: "6 个固定入口", updated: "昨天 17:42", fields: { title: "底部导航", subtitle: "家长端主导航", cta: "查看页面", target: "导航页面" } }
     ];
     const initialTeacherTypes = [
       { id: "core", name: "骨干教员", selected: true, teachers: [{ name: "王教员", subject: "数学", experience: "9年教龄" }, { name: "赵教员", subject: "数学", experience: "7年教龄" }, { name: "周教员", subject: "语文", experience: "8年教龄" }, { name: "钱教员", subject: "英语", experience: "8年教龄" }, { name: "宋教员", subject: "数学", experience: "6年教龄" }] },
@@ -453,6 +449,7 @@
         { id: "bottom-home", icon: "⌂", title: "首页", target: "首页", visible: true },
         { id: "bottom-courses", icon: "▣", title: "全部课程", target: "课程列表", visible: true },
         { id: "bottom-teachers", icon: "♙", title: "全部老师", target: "全部老师", visible: true },
+        { id: "bottom-member", icon: "♛", title: "会员", target: "会员中心", visible: true },
         { id: "bottom-message", icon: "◌", title: "消息", target: "消息中心", visible: true },
         { id: "bottom-mine", icon: "◎", title: "我的", target: "个人中心", visible: true }
       ],
@@ -500,18 +497,14 @@
     function renderTopbar() {
       return `<header class="topbar">
         <div class="brand"><span class="brand-mark">优</span><div><span class="brand-title">优坐标运营后台</span><span class="brand-sub">首页内容中心</span></div></div>
-        <div class="surface-switch" role="tablist" aria-label="预览端切换">
-          <button class="${state.surface === "workbench" ? "active" : ""}" data-action="surface" data-value="workbench">首页装修</button>
-          <button class="${state.surface === "home" ? "active" : ""}" data-action="surface" data-value="home">家长端首页</button>
-        </div>
         <div class="user"><span>管理员</span><span class="avatar">管</span></div>
       </header>`;
     }
     function renderSidebar() {
       const modules = state.draft;
-      const moduleNav = modules.map(item => `<div class="nav-child"><button class="nav-item ${state.activeModule === item.id ? "active" : ""}" data-action="select-module" data-id="${item.id}"><span>${escapeHtml(moduleDisplayName(item))}</span><small>${item.count}</small></button></div>`).join("");
+      const moduleNav = modules.map(item => `<div class="nav-child"><button class="nav-item ${state.surface === "workbench" && state.activeModule === item.id ? "active" : ""}" data-action="select-module" data-id="${item.id}"><span>${escapeHtml(moduleDisplayName(item))}</span><small>${item.count}</small></button></div>`).join("");
       return `<aside class="sidebar"><div class="side-heading"><div class="side-title">优坐标后台</div><div class="side-note">首页模块配置与发布</div></div>
-        <div class="nav-group"><div class="nav-label">内容管理</div><button class="nav-item active"><span>首页装修工作台</span><small>主</small></button>${moduleNav}</div>
+        <div class="nav-group"><div class="nav-label">内容管理</div><button class="nav-item ${state.surface === "workbench" ? "active" : ""}" data-action="view-workbench"><span>首页装修工作台</span><small>主</small></button>${moduleNav}<div class="nav-child"><button class="nav-item ${state.surface === "blank-page" ? "active" : ""}" data-action="blank-page"><span>空白页样式</span><small>样式</small></button></div></div>
         <div class="nav-group"><div class="nav-label">相关维护</div><button class="nav-item" data-action="related"><span>教师类型维护</span><small>↗</small></button><button class="nav-item" data-action="course-list"><span>课程管理</span><small>↗</small></button><button class="nav-item" data-action="related"><span>教师管理</span><small>↗</small></button></div>
       </aside>`;
     }
@@ -526,6 +519,7 @@
         </div>`).join("");
     }
     function renderNotes() {
+      if (state.surface === "blank-page") return `<aside class="notes"><div class="notes-title">需求说明</div><div class="notes-sub">当前页面：空白页样式</div><div class="note"><b>页面目标</b>提供仅保留工作台导航和需求说明的空白原型框架，用于后续页面布局起稿或评审对照。</div><div class="note"><b>展示范围</b>中间工作区保持空白，不展示模块列表、手机预览、表单、状态条或业务数据。</div><div class="note"><b>导航规则</b>左侧“空白页样式”作为首页装修工作台的子入口；点击其他模块或首页装修工作台后，进入对应原型页面。</div><div class="note"><b>边界说明</b>此页不新增、不修改任何首页配置、草稿、已发布或权限业务规则。</div></aside>`;
       const bannerModalOpen = state.modal?.id === "banner";
       const quickModalOpen = state.modal?.id === "quick";
       const trialModalOpen = state.modal?.id === "trial";
@@ -594,7 +588,7 @@
       ` : bottomModalOpen ? `
         <div class="notes-sub">当前页面：底部导航配置页</div>
         <div class="note"><b>页面目标</b>维护家长端底部导航的展示标题、跳转页面和展示状态，保存后进入草稿，发布后由家长端读取。</div>
-        <div class="note"><b>固定入口</b>后台固定维护 5 个入口：首页、全部课程、全部老师、消息、我的；不支持新增、删除或调整顺序。</div>
+        <div class="note"><b>固定入口</b>后台固定维护 6 个入口：首页、全部课程、全部老师、会员、消息、我的；不支持新增、删除或调整顺序。</div>
         <div class="note"><b>字段规则</b>展示标题用于前台导航文案，跳转页面控制用户点击后的目标页面，是否展示控制该入口是否出现在前台。</div>
         <div class="note"><b>展示约束</b>首页入口必须保持展示；至少保留一个入口展示；展示中的入口必须填写标题和跳转页面。</div>
         <div class="note"><b>操作结果</b>保存写入草稿并关闭弹窗；取消不改变草稿；发布后前台刷新导航。权限、真实页面枚举和跳转地址格式待确认。</div>
@@ -734,6 +728,9 @@
       const module = activeModule();
       return `${renderTopbar()}<div class="shell">${renderSidebar()}<main class="main"><div class="page-head"><div><div class="eyebrow">HOME CONTENT STUDIO</div><h1>首页装修工作台</h1></div><div class="actions"><button class="btn" data-action="view-home">查看家长端</button><button class="btn primary" data-action="preview-draft">预览草稿</button></div></div>${renderStatusStrip()}<div class="workspace"><section class="panel"><div class="panel-head"><div><div class="panel-title">首页模块</div><div class="panel-meta">${state.draft.length} 个模块 · ${escapeHtml(moduleDisplayName(module) || "首页")}</div></div></div><div class="panel-body"><div class="module-list">${renderModuleRows()}</div></div></section><section class="panel preview-card"><div class="preview-toolbar"><strong style="font-size:12px;margin-right:auto">手机预览</strong><button class="${state.previewMode === "draft" ? "active" : ""}" data-action="preview-mode" data-value="draft">草稿</button><button class="${state.previewMode === "published" ? "active" : ""}" data-action="preview-mode" data-value="published">已发布</button></div><div class="phone-wrap">${renderPhone()}</div></section></div></main>${renderNotes()}</div>`;
     }
+    function renderBlankPage() {
+      return `${renderTopbar()}<div class="shell">${renderSidebar()}<main class="blank-main" aria-label="空白原型工作区"></main>${renderNotes()}</div>`;
+    }
     function renderHome() {
       return `${renderTopbar()}<main class="home-view"><div class="home-view-inner"><section class="home-intro"><div class="eyebrow">PUBLISHED HOME · 家长端</div><h1>把好老师、好课程和安心服务，放在首页第一屏。</h1><p>当前展示的是已发布版本。后台编辑的草稿不会影响家长端，点击右上角返回首页装修即可继续维护。</p><div class="home-actions"><button class="btn primary" data-action="home-refresh">刷新首页</button><button class="btn" data-action="view-workbench">返回首页装修</button></div><div class="mini-status">已发布版本：${state.lastPublish}　·　${state.published.filter(item => item.enabled).length} 个启用模块</div></section><div class="phone-wrap" style="border-radius:18px;box-shadow:var(--shadow)">${renderPhone("published")}</div></div></main>`;
     }
@@ -751,7 +748,7 @@
       if (module.type === "teacher") { const selectedCount = state.teacherTypes.filter(item => item.selected).length; return `<div class="field"><label>主标题</label><input name="title" maxlength="10" value="${escapeHtml(f.title)}" placeholder="请输入标题名称，10 字以内"></div><div class="field"><label>每类默认展示老师数</label><input name="displayCount" type="number" min="1" max="20" value="${escapeHtml(f.displayCount || 3)}" inputmode="numeric" placeholder="例如：3"></div><div class="teacher-type-field"><div class="teacher-type-head"><label>教师类型</label><span class="teacher-type-count" data-teacher-selected-count>已选 ${selectedCount} 个</span><div class="teacher-type-tools"><button type="button" data-action="teacher-select-all">全选</button><button type="button" data-action="teacher-clear-all">清空</button></div></div><div class="teacher-type-list">${state.teacherTypes.map(item => `<label class="teacher-type-option"><input type="checkbox" data-teacher-type value="${item.id}" ${item.selected ? "checked" : ""}><span>${escapeHtml(item.name)}</span></label>`).join("")}</div></div><div class="field-help">展示全部教师类型；勾选即在首页显示，未勾选不显示。输入 3 时，每个已选类型按排序展示前 3 位老师；老师列表超过一屏时可左右横滑。</div>`; }
       if (module.type === "courses") return `<div class="field"><label>主标题</label><input name="title" maxlength="10" value="${escapeHtml(f.title)}" placeholder="请输入标题名称，10 字以内"></div><div class="field"><label>每类默认展示课程数</label><input name="displayCount" type="number" min="1" max="20" value="${escapeHtml(f.displayCount || 3)}" inputmode="numeric" placeholder="例如：3"></div><div class="teacher-type-field"><label>课程分类</label><div class="teacher-type-list">${state.courseTypes.map(item => `<label class="teacher-type-option"><input type="checkbox" data-course-type value="${item.id}" ${item.selected ? "checked" : ""}><span>${escapeHtml(item.name)}</span></label>`).join("")}</div></div><div class="field-help">输入 3 时，每个已选分类按排序展示前 3 门课程；课程超过一屏时可左右横滑。可多选分类，点击前台标签切换对应课程。</div>`;
       if (module.type === "quick") return `<div class="banner-carousel"><div class="banner-carousel-head"><span>首页快捷入口</span><small>最少 4 个，最多 10 个</small></div><div class="banner-carousel-list">${renderQuickEntries()}</div><button type="button" class="banner-add" data-action="quick-add" ${state.quickEntries.length >= 10 ? "disabled" : ""}>＋ 新增入口</button></div>`;
-      if (module.type === "bottom") return `<div class="banner-carousel-head"><span>底部导航配置</span><small>固定 5 个入口：首页、全部课程、全部老师、消息、我的</small></div>${renderBottomEntries()}<div class="field-help">每项可编辑前台展示标题、跳转页面和是否展示；首页默认选中且至少保留一个入口展示。</div>`;
+      if (module.type === "bottom") return `<div class="banner-carousel-head"><span>底部导航配置</span><small>固定 6 个入口：首页、全部课程、全部老师、会员、消息、我的</small></div>${renderBottomEntries()}<div class="field-help">每项可编辑前台展示标题、跳转页面和是否展示；首页默认选中且至少保留一个入口展示。</div>`;
       if (module.type === "wechat") return `<div class="form-preview" style="background:linear-gradient(135deg,#39c979,#11854c)">▣　公众号关注卡片预览</div><div class="quick-item-fields"><div class="quick-item-field"><label>主标题</label><input name="title" value="${escapeHtml(f.title)}" placeholder="填写前台展示主标题"></div><div class="quick-item-field"><label>副标题</label><input name="subtitle" value="${escapeHtml(f.subtitle)}" placeholder="填写前台展示副标题"></div><div class="quick-item-field"><label>按钮文案</label><input name="cta" value="${escapeHtml(f.cta)}" placeholder="例如：去关注"></div><div class="quick-item-field"><label>跳转链接</label><input name="url" value="${escapeHtml(f.url)}" placeholder="填写点击后的目标链接"></div><label class="bottom-visible"><input type="checkbox" name="visible" ${f.visible ? "checked" : ""}> 是否展示</label></div><div class="field-help">交互参考快捷入口配置；开启展示时，主标题、副标题、按钮文案和跳转链接均为必填。</div>`;
       return `<div class="form-grid">${common}<div class="field"><label>导航数量</label><input name="count" value="${module.count}" inputmode="numeric"></div><div class="field"><label>排序</label><input name="sort" value="1" inputmode="numeric"></div></div><div class="field-help">首页为固定默认选中项，不能关闭全部底部导航入口。</div>`;
     }
@@ -763,7 +760,7 @@
       const saveLabel = module.type === "banner" ? "保存，发布" : "保存";
       modalRoot.innerHTML = `<div class="modal-backdrop open" data-action="close-modal"><section class="modal ${module.type === "banner" || module.type === "trial" ? "banner-modal" : ""}" role="dialog" aria-modal="true" aria-label="${modalTitle}" data-modal="true"><div class="modal-head"><div><h2>${modalTitle}</h2><p>保存后进入草稿，不会立即影响家长端首页。</p></div><button class="close" data-action="close-modal" aria-label="关闭">×</button></div><form class="form" data-form="${module.id}">${formFields(module)}</form><div class="modal-foot"><button class="btn" data-action="close-modal">取消</button><button class="btn primary" data-action="save-modal" data-id="${module.id}">${saveLabel}</button></div></section></div>`;
     }
-    function render() { app.innerHTML = state.surface === "workbench" ? renderWorkbench() : state.surface === "course-picker" ? renderCoursePicker() : renderHome(); renderModal(); }
+    function render() { app.innerHTML = state.surface === "workbench" ? renderWorkbench() : state.surface === "blank-page" ? renderBlankPage() : state.surface === "course-picker" ? renderCoursePicker() : renderHome(); renderModal(); }
     function saveForm(id) {
       const module = state.draft.find(item => item.id === id);
       const form = document.querySelector(`[data-form="${id}"]`);
@@ -958,6 +955,7 @@
     function handleAction(action, el) {
       const id = el.dataset.id;
       if (action === "surface") { state.surface = el.dataset.value; render(); return; }
+      if (action === "blank-page") { state.surface = "blank-page"; state.modal = null; render(); return; }
       if (action === "select-module") { state.activeModule = id; state.surface = "workbench"; state.modal = id ? { id } : null; render(); return; }
       if (action === "view-home") { state.surface = "home"; state.homeMode = "published"; render(); return; }
       if (action === "view-workbench") { state.surface = "workbench"; render(); return; }
