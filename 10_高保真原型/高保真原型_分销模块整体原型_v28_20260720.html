@@ -1,0 +1,796 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>分销模块整体原型 v28</title>
+  <style>
+    :root{
+      --bg:#eef1f5;
+      --surface:#ffffff;
+      --ink:#20242b;
+      --muted:#6f7785;
+      --line:#d8dee8;
+      --nav:#151922;
+      --nav2:#222837;
+      --blue:#2f63d8;
+      --green:#15803d;
+      --danger:#b42318;
+      --warn:#9a6700;
+      --tag:#fff4c7;
+      --tagLine:#e0bd47;
+      --soft:#f7f8fa;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,"PingFang SC","Microsoft YaHei",sans-serif;color:var(--ink);background:var(--bg);font-size:14px}
+    button,input,select,textarea{font:inherit}
+    .shell{display:grid;grid-template-columns:260px minmax(560px,1fr) 360px;min-height:100vh}
+    .nav{background:var(--nav);color:#eef2ff;padding:18px 14px;position:sticky;top:0;height:100vh;overflow:auto}
+    .nav-title{font-size:16px;font-weight:800;margin-bottom:4px}
+    .nav-sub{font-size:12px;color:#aeb8cc;margin-bottom:18px;line-height:1.5}
+    .nav h3{font-size:12px;margin:18px 8px 8px;color:#9ca8bc;font-weight:700}
+    .nav button{width:100%;border:0;background:transparent;color:#d8deea;text-align:left;padding:8px 10px;border-radius:8px;cursor:pointer;line-height:1.3}
+    .nav button:hover{background:var(--nav2)}
+    .nav button.active{background:#eef2ff;color:#173a8a;font-weight:800}
+    .nav .l2{padding-left:22px}
+    .nav .l3{padding-left:38px}
+    .nav .l4{padding-left:54px}
+    .nav .l5{padding-left:70px}
+    .work{padding:22px;overflow:auto}
+    .tags{padding:22px 18px;background:#fbfcfe;border-left:1px solid var(--line);height:100vh;position:sticky;top:0;overflow:auto}
+    .page{display:none}
+    .page.active{display:block}
+    .page-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;gap:16px}
+    h1{margin:0 0 6px;font-size:22px}
+    h2{margin:0 0 12px;font-size:17px}
+    h3{margin:0 0 8px;font-size:14px}
+    p{margin:0 0 10px;line-height:1.55}
+    .muted{color:var(--muted)}
+    .pill{display:inline-flex;align-items:center;border-radius:999px;padding:3px 8px;font-size:12px;background:#e8edf5;color:#354054;white-space:nowrap}
+    .pill.ok{background:#dcfce7;color:#166534}
+    .pill.warn{background:#fef3c7;color:#92400e}
+    .pill.bad{background:#fee2e2;color:#991b1b}
+    .tag-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+    .btn{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:7px;padding:7px 12px;min-height:34px;display:inline-flex;align-items:center;justify-content:center;gap:6px;cursor:pointer}
+    .btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+    .btn.green{background:var(--green);border-color:var(--green);color:#fff}
+    .btn.danger{background:var(--danger);border-color:var(--danger);color:#fff}
+    .btn:disabled{background:#e5e7eb;border-color:#d1d5db;color:#8a93a3;cursor:not-allowed}
+    .canvas{display:flex;justify-content:center}
+    .phone{width:380px;border-radius:34px;background:#101318;padding:12px;box-shadow:0 16px 36px rgba(15,23,42,.22)}
+    .mobile-screen{min-height:690px;background:#f7f8fb;border-radius:24px;overflow:hidden}
+    .status{height:26px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 16px;font-size:11px;color:#111}
+    .m-title{height:48px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 12px;font-weight:800}
+    .m-body{padding:14px}
+    .card{background:#fff;border:1px solid #e3e8ef;border-radius:10px;padding:12px;margin-bottom:12px}
+    .row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid #edf1f6}
+    .row:last-child{border-bottom:0}
+    .amount{font-size:28px;font-weight:900;letter-spacing:0}
+    .metric-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .metric{background:#eef4ff;border:1px solid #dbe7ff;border-radius:9px;padding:12px}
+    button.metric{width:100%;text-align:left;color:var(--ink);cursor:pointer;font:inherit}
+    button.metric:hover,button.metric:focus-visible{border-color:var(--blue);box-shadow:0 0 0 2px #dbe7ff;outline:0}
+    .metric b{display:block;font-size:22px;margin-top:4px}
+    .field{border:1px solid #d2d9e3;border-radius:8px;background:#fff;padding:10px;margin:8px 0}.sms-row{display:flex;gap:8px;align-items:center}.sms-row .field{flex:1}
+    .admin{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 10px 26px rgba(15,23,42,.08)}
+    .admin-top{height:52px;background:#263143;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 18px}
+    .admin-main{display:grid;grid-template-columns:180px 1fr;min-height:630px}
+    .admin-menu{background:#f5f7fa;border-right:1px solid var(--line);padding:14px}
+    .admin-menu div{padding:9px 10px;border-radius:8px;color:#4b5565;margin-bottom:5px}
+    .admin-menu .on{background:#dfeaff;color:#1d4ed8;font-weight:800}
+    .admin-content{padding:16px;overflow:auto}
+    .toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+    .fake-input{border:1px solid #d1d7e0;border-radius:7px;padding:8px 10px;background:#fff;min-width:130px;color:#4b5565}
+    table{border-collapse:collapse;width:100%;background:#fff}
+    th,td{border:1px solid var(--line);padding:9px;text-align:left;vertical-align:middle}
+    th{background:#f3f5f8;color:#374151}
+    .result{display:none;margin:0 0 12px;padding:10px 12px;border-radius:8px;background:#ecfdf3;border:1px solid #a7f3c1;color:#14532d}
+    .result.show{display:block}
+    .selected-row td{background:#eef4ff}
+    .team-detail{margin-top:14px;border:1px solid var(--line);border-radius:10px;background:#fff;padding:14px}
+    .team-summary{display:grid;grid-template-columns:repeat(3,minmax(120px,1fr));gap:10px;margin:12px 0}
+    .team-summary div{border:1px solid #dce5f2;border-radius:8px;background:#f8fafc;padding:10px}
+    .tree-list{border:1px solid var(--line);border-radius:8px;overflow:hidden}
+    .tree-node{padding:10px 12px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:12px}
+    .tree-node:last-child{border-bottom:0}
+    .tree-node.child{padding-left:34px;background:#fbfcff}
+    .empty-state{border:1px dashed #cbd5e1;border-radius:8px;padding:14px;color:var(--muted);background:#f8fafc}
+    .member-card{padding:12px 0;border-bottom:1px solid #e8edf4}.member-card:last-child{border-bottom:0}.member-top{display:flex;justify-content:space-between;gap:8px;align-items:center}.member-meta{font-size:12px;color:var(--muted);margin-top:7px;line-height:1.55}.member-meta div{margin:2px 0}.member-meta b{color:#475569;font-weight:700}.member-actions{display:flex;gap:8px;margin-top:9px}.member-actions .btn{flex:1;padding:6px 8px;min-height:30px}.tabs{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line);margin:0 -12px 10px}.tab{border:0;background:#fff;padding:10px;color:var(--muted);cursor:pointer;font-weight:700}.tab.on{color:var(--blue);border-bottom:3px solid var(--blue)}.filter-row{display:flex;gap:7px;overflow:auto;margin-bottom:10px}.filter-btn{border:1px solid #dce4ef;background:#fff;border-radius:7px;padding:6px 9px;white-space:nowrap;cursor:pointer;color:#4b5565}.filter-btn.on{background:#eef4ff;color:#1d4ed8;border-color:#bcd0ff}.follow-item{border:1px solid #e2e8f0;border-left:3px solid #4c84f3;border-radius:7px;padding:10px;margin-bottom:9px}.follow-item.visit{border-left-color:#21a878}.follow-type{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--muted);margin-bottom:5px}.follow-source{font-size:12px;color:#3978e7;margin-top:6px}.hidden{display:none!important}
+    .tag-card{background:var(--tag);border:1px solid var(--tagLine);border-radius:10px;padding:12px;margin-bottom:12px}
+    .tag-card h2{font-size:15px;margin-bottom:8px;color:#664600}
+    .tag-card ul{padding-left:18px;margin:0}
+    .tag-card li{margin:6px 0;line-height:1.45}
+    .tag-table{width:100%;font-size:12px}
+    .tag-table th,.tag-table td{padding:6px;background:transparent}
+    .modal-mask{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(17,24,39,.45);z-index:30;padding:18px}
+    .modal-mask.show{display:flex}
+    .modal{width:min(560px,96vw);background:#fff;border-radius:12px;overflow:hidden;border:1px solid var(--line);box-shadow:0 22px 60px rgba(0,0,0,.24)}
+    .modal-head{height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid var(--line);font-weight:800}
+    .modal-body{padding:16px}
+    .field-grid{display:grid;grid-template-columns:128px 1fr;gap:8px;line-height:1.45}
+    .field-grid div:nth-child(odd){color:#6b7280}
+    .modal textarea{width:100%;min-height:76px;border:1px solid #d1d5db;border-radius:8px;padding:10px;margin-top:10px;resize:vertical}
+    .modal-actions{display:flex;justify-content:flex-end;gap:10px;padding:14px 16px;background:#f8fafc;border-top:1px solid var(--line)}
+    .mobile-follow-modal{width:min(380px,calc(100vw - 28px));border-radius:16px;border-color:#dfe5ee}
+    .mobile-follow-modal .modal-head{height:56px;padding:0 14px;font-size:17px}
+    .mobile-follow-modal .modal-body{padding:14px}
+    .mobile-follow-modal .field-grid{grid-template-columns:86px 1fr;gap:9px;font-size:14px}
+    .mobile-follow-modal .field-grid div:nth-child(odd){color:#64748b}
+    .mobile-follow-modal .field-grid div:nth-child(even){color:#18212f;font-weight:700}
+    .mobile-follow-modal .mobile-follow-form{margin-top:14px;border:1px solid #d8e0ea;border-radius:10px;padding:11px}
+    .mobile-follow-modal .mobile-follow-type{font-size:14px;color:#334155;margin-bottom:9px}
+    .mobile-follow-modal textarea{min-height:92px;margin:0;font:inherit;line-height:1.55}
+    .mobile-follow-modal .modal-actions{padding:12px 14px;justify-content:stretch}
+    .mobile-follow-modal .modal-actions .btn{flex:1}
+    .directory{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px}
+    @media(max-width:1180px){.shell{grid-template-columns:220px 1fr}.tags{grid-column:1/-1;position:static;height:auto}.work{overflow:visible}.admin-main{grid-template-columns:1fr}.admin-menu{display:none}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="nav">
+      <div class="nav-title">分销模块 v28</div>
+      <div class="nav-sub">按 v27 需求：提现中心 Tab 目录</div>
+      <h3>入口</h3>
+      <button class="active" data-page="entry">版本与目录</button>
+      <h3>移动端</h3>
+      <button data-page="m-profile">个人中心</button>
+      <button data-page="m-home" class="l2">创客中心首页</button>
+      <button data-page="m-team-list" class="l3">团队成员列表</button>
+      <button data-page="m-member" class="l3">成员详情页</button>
+      <button data-open-tab="follow" class="l4">跟进记录</button>
+      <button data-open-page="m-member" data-open-tab="follow" data-modal="followAdd" class="l5">新增跟进弹窗</button>
+      <button data-open-tab="contribution" class="l4">分润明细</button>
+      <button data-page="m-withdraw" class="l2">提现中心</button>
+      <button data-withdraw-tab="withdraw" class="l3">提现记录</button>
+      <button data-withdraw-tab="earnings" class="l3">收益记录</button>
+      <button data-page="m-apply" class="l3">提现申请</button>
+      <button data-page="m-withdraw-detail" class="l3">提现详情页</button>
+      <h3>PC 后台</h3>
+      <button data-page="pc-withdraw">后台提现申请</button>
+      <button data-page="pc-logs" class="l2">操作日志</button>
+      <button data-open-page="pc-withdraw" data-modal="withdrawPass" class="l2">审核弹窗</button>
+      <button data-open-page="pc-withdraw" data-modal="withdrawReject" class="l2">驳回提现弹窗</button>
+      <button data-open-page="pc-withdraw" data-modal="withdrawPaid" class="l2">标记打款成功弹窗</button>
+      <button data-open-page="pc-withdraw" data-modal="withdrawVoid" class="l2">作废已打款记录弹窗</button>
+      <button data-page="pc-rules">分销比例配置</button>
+      <button data-open-page="pc-rules" data-modal="ruleSave" class="l2">保存配置弹窗</button>
+      <button data-open-page="pc-rules" data-modal="ruleDisable" class="l2">停用配置弹窗</button>
+      <button data-open-page="pc-rules" data-modal="ruleEnable" class="l2">启用配置弹窗</button>
+      <button data-page="pc-rule-history" class="l2">历史版本记录</button>
+      <button data-page="pc-users">用户列表-团队列表</button>
+      <button data-open-page="pc-users" data-modal="userPass" class="l2">审核开通弹窗</button>
+      <button data-open-page="pc-users" data-modal="userReject" class="l2">拒绝申请弹窗</button>
+      <button data-open-page="pc-users" data-modal="userClose" class="l2">关闭权限弹窗</button>
+      <button data-open-page="pc-users" data-modal="followDisable" class="l2">跟进权限设置弹窗</button>
+    </aside>
+
+    <main class="work">
+      <section id="entry" class="page active">
+        <div class="page-head">
+          <div>
+            <h1>版本与目录</h1>
+            <p class="muted">本页是原型入口。业务页面从左侧导航进入。</p>
+          </div>
+      <span class="pill ok">v28 / 20260720</span>
+        </div>
+        <div class="directory">
+          <table>
+            <thead><tr><th>端</th><th>页面</th><th>页面用途</th><th>页面归属</th></tr></thead>
+            <tbody>
+              <tr><td>移动端</td><td>个人中心</td><td>展示个人中心基础信息和创客中心入口区域</td><td>移动端基础个人中心</td></tr>
+              <tr><td>移动端</td><td>创客中心首页</td><td>展示团队、收益、成员卡字段和提现入口</td><td>个人中心下</td></tr>
+              <tr><td>移动端</td><td>团队成员列表</td><td>按一星或二星团队范围查看对应成员</td><td>创客中心首页下</td></tr>
+              <tr><td>移动端</td><td>成员详情页</td><td>展示单个成员资料及其下级内容页</td><td>创客中心首页下</td></tr>
+              <tr><td>移动端</td><td>跟进记录 Tab</td><td>展示访问时间、来源人、分享来源、访问内容、筛选和人工跟进</td><td>成员详情页下</td></tr>
+              <tr><td>移动端</td><td>新增跟进弹窗</td><td>为当前成员录入人工跟进</td><td>成员详情页-跟进记录 Tab 下</td></tr>
+              <tr><td>移动端</td><td>分润明细 Tab</td><td>展示当前成员本人直接分润明细</td><td>成员详情页下</td></tr>
+              <tr><td>移动端</td><td>提现中心</td><td>展示可提现金额、收益记录、提现记录</td><td>创客中心首页下</td></tr>
+              <tr><td>移动端</td><td>提现记录 Tab</td><td>展示当前用户提现申请记录</td><td>提现中心下</td></tr>
+              <tr><td>移动端</td><td>收益记录 Tab</td><td>展示当前用户已确认分润收益记录</td><td>提现中心下</td></tr>
+              <tr><td>移动端</td><td>提现申请</td><td>填写提现金额、银行卡信息、短信验证码</td><td>提现中心下</td></tr>
+              <tr><td>移动端</td><td>提现详情页</td><td>展示单笔提现状态和处理结果</td><td>提现中心下</td></tr>
+              <tr><td>PC 后台</td><td>后台提现申请</td><td>查看申请单编号并处理提现申请</td><td>分销后台-提现管理</td></tr>
+              <tr><td>PC 后台</td><td>操作日志</td><td>独立查看操作人、操作时间、操作内容</td><td>后台提现申请下</td></tr>
+              <tr><td>PC 后台</td><td>审核弹窗</td><td>填写审核备注并确认进入待打款</td><td>后台提现申请下</td></tr>
+              <tr><td>PC 后台</td><td>驳回提现弹窗</td><td>填写驳回原因并驳回提现申请</td><td>后台提现申请下</td></tr>
+              <tr><td>PC 后台</td><td>标记打款成功弹窗</td><td>确认系统外打款完成并更新状态</td><td>后台提现申请下</td></tr>
+              <tr><td>PC 后台</td><td>作废已打款记录弹窗</td><td>处理已打款记录作废</td><td>后台提现申请下</td></tr>
+              <tr><td>PC 后台</td><td>分销比例配置</td><td>输入五类来源的一星/二星比例并启停配置</td><td>分销后台-分销配置</td></tr>
+              <tr><td>PC 后台</td><td>保存配置弹窗</td><td>确认保存五类来源比例并即时生效</td><td>分销比例配置下</td></tr>
+              <tr><td>PC 后台</td><td>停用配置弹窗</td><td>确认停用当前规则配置</td><td>分销比例配置下</td></tr>
+              <tr><td>PC 后台</td><td>启用配置弹窗</td><td>确认启用当前规则配置</td><td>分销比例配置下</td></tr>
+              <tr><td>PC 后台</td><td>历史版本记录</td><td>独立查看规则调整内容、操作人和操作时间</td><td>分销比例配置下</td></tr>
+              <tr><td>PC 后台</td><td>用户列表-团队列表</td><td>管理创客权限，查看团队关系</td><td>分销后台-用户管理</td></tr>
+              <tr><td>PC 后台</td><td>审核开通弹窗</td><td>确认开通当前用户创客权限</td><td>用户列表-团队列表下</td></tr>
+              <tr><td>PC 后台</td><td>拒绝申请弹窗</td><td>填写拒绝原因并拒绝申请</td><td>用户列表-团队列表下</td></tr>
+              <tr><td>PC 后台</td><td>关闭权限弹窗</td><td>确认关闭当前用户创客权限</td><td>用户列表-团队列表下</td></tr>
+              <tr><td>PC 后台</td><td>跟进权限设置弹窗</td><td>按单用户配置新增跟进权限</td><td>用户列表-团队列表下</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="m-profile" class="page">
+        <div class="page-head"><div><h1>个人中心</h1><p class="muted">移动端真实页面，创客中心入口在本页内。</p></div><span class="pill">移动端</span></div>
+        <div class="canvas"><div class="phone"><div class="mobile-screen">
+          <div class="status"><span>9:41</span><span>5G 100%</span></div>
+          <div class="m-title"><span></span><span>个人中心</span><span></span></div>
+          <div class="m-body">
+            <div class="card">
+              <strong>张同学家长</strong>
+              <p class="muted">家长账号 / 138****3201</p>
+            </div>
+            <div class="card">
+              <div class="row"><span>我的课程</span><span>›</span></div>
+              <div class="row"><span>订单记录</span><span>›</span></div>
+            </div>
+            <div class="card">
+              <span class="pill ok">已开通</span>
+              <h2 style="margin-top:12px">创客中心</h2>
+              <p class="muted">查看团队、收益与提现。</p>
+              <button class="btn primary" data-page="m-home" style="width:100%">进入创客中心</button>
+            </div>
+          </div>
+        </div></div></div>
+      </section>
+
+      <section id="m-home" class="page">
+        <div class="page-head"><div><h1>创客中心首页</h1><p class="muted">团队、收益和成员树合并展示。</p></div><span class="pill">移动端</span></div>
+        <div class="canvas"><div class="phone"><div class="mobile-screen">
+          <div class="status"><span>9:41</span><span>5G 100%</span></div>
+          <div class="m-title"><button class="btn" data-page="m-profile">返回</button><span>创客中心</span><span></span></div>
+          <div class="m-body">
+            <div class="card">
+              <p class="muted">可提现金额</p>
+              <div class="amount">¥1,280.00</div>
+              <div class="row"><span>锁定金额</span><strong>¥500.00</strong></div>
+              <div class="row"><span>待确认金额</span><strong>¥360.00</strong></div>
+              <button class="btn primary" data-page="m-withdraw" style="width:100%;margin-top:10px">提现</button>
+            </div>
+            <div class="metric-grid">
+              <button class="metric" data-page="m-team-list" data-team-filter="one"><span>一星团队</span><b>18</b></button>
+              <button class="metric" data-page="m-team-list" data-team-filter="two"><span>二星团队</span><b>42</b></button>
+            </div>
+            <div class="card">
+              <h2>团队成员</h2>
+              <div class="member-card" data-member-card tabindex="0" role="button">
+                <div class="member-top"><strong>李老师</strong><span class="pill ok">老师</span><span class="pill">一星成员</span></div>
+                <div class="member-meta"><div><b>电话：</b>139****7788</div><div><b>角色：</b>老师</div><div><b>地域：</b>西安</div><div><b>分润：</b>¥320.00</div><div><b>二星成员人数：</b>2</div><div><b>最近跟进：</b>优英语-小学英语伴读周末体验课</div><div><b>最近跟进时间：</b>2026-06-29 19:36:18</div></div>
+                <div class="member-actions"><button class="btn primary" data-page="m-member" data-open-follow>新增跟进</button></div>
+              </div>
+              <div style="padding-left:16px;border-left:3px solid #d8e4ff">
+                <div class="member-card" data-member-card tabindex="0" role="button"><div class="member-top"><strong>王同学家长</strong><span class="pill ok">家长</span><span class="pill">二星成员</span></div><div class="member-meta"><div><b>电话：</b>138****6601</div><div><b>角色：</b>家长</div><div><b>地域：</b>西安</div><div><b>分润：</b>¥80.00</div><div><b>二星成员人数：</b>0</div><div><b>最近跟进：</b>用户访问张教员老师详情页</div><div><b>最近跟进时间：</b>2026-06-21 19:36:09</div></div><div class="member-actions"><button class="btn primary" data-page="m-member" data-open-follow>新增跟进</button></div></div>
+                <div class="member-card" data-member-card tabindex="0" role="button"><div class="member-top"><strong>赵老师</strong><span class="pill ok">老师</span><span class="pill">二星成员</span></div><div class="member-meta"><div><b>电话：</b>137****5520</div><div><b>角色：</b>老师</div><div><b>地域：</b>西安</div><div><b>分润：</b>¥60.00</div><div><b>二星成员人数：</b>0</div><div><b>最近跟进：</b>优数学-初中数学考前冲刺全程课程</div><div><b>最近跟进时间：</b>2026-06-21 19:36:05</div></div><div class="member-actions"><button class="btn primary" data-page="m-member" data-open-follow>新增跟进</button></div></div>
+              </div>
+              <div class="member-card" data-member-card tabindex="0" role="button"><div class="member-top"><strong>陈同学家长</strong><span class="pill ok">合伙人</span><span class="pill">一星成员</span></div><div class="member-meta"><div><b>电话：</b>137****0911</div><div><b>角色：</b>合伙人</div><div><b>地域：</b>西安</div><div><b>分润：</b>¥120.00</div><div><b>二星成员人数：</b>0</div><div><b>最近跟进：</b>暂无人工跟进</div><div><b>最近跟进时间：</b>--</div></div><div class="member-actions"><button class="btn primary" data-page="m-member" data-open-follow>新增跟进</button></div></div>
+            </div>
+          </div>
+        </div></div></div>
+      </section>
+
+      <section id="m-team-list" class="page">
+        <div class="page-head"><div><h1>团队成员列表</h1><p class="muted">按首页团队统计卡进入对应层级的成员范围。</p></div><span class="pill">移动端</span></div>
+        <div class="canvas"><div class="phone"><div class="mobile-screen">
+          <div class="status"><span>9:41</span><span>5G 100%</span></div>
+          <div class="m-title"><button class="btn" data-page="m-home">返回</button><span id="teamListTitle">一星团队成员</span><span></span></div>
+          <div class="m-body">
+            <div class="card"><p class="muted" id="teamListHint">展示当前分销员直接推荐的一星团队成员。</p><div id="teamListRecords"></div></div>
+          </div>
+        </div></div></div>
+      </section>
+
+      <section id="m-member" class="page">
+        <div class="page-head"><div><h1>成员详情页</h1><p class="muted">单个成员资料、跟进与分润查看。</p></div><span class="pill">移动端</span></div>
+        <div class="canvas"><div class="phone"><div class="mobile-screen">
+          <div class="status"><span>9:41</span><span>5G 100%</span></div>
+          <div class="m-title"><button class="btn" data-page="m-home">返回</button><span>成员详情</span><span></span></div>
+          <div class="m-body">
+            <div id="memberFollowResult" class="result"></div>
+            <div class="card">
+              <div class="member-top"><strong>李老师</strong><button class="btn primary" data-modal="followAdd" id="memberFollowButton">新增跟进</button></div>
+              <p class="muted">138****7788 · 一星成员</p>
+              <div class="tag-row"><span class="pill ok">老师</span></div>
+              <div class="row"><span>地域</span><strong>西安</strong></div>
+              <div class="row"><span>分润</span><strong>¥320.00</strong></div>
+            </div>
+            <div class="card">
+              <div class="tabs"><button class="tab on" data-member-tab="follow">跟进记录</button><button class="tab" data-member-tab="contribution">分润明细</button></div>
+              <div id="memberFollowPanel">
+                <div class="filter-row"><button class="filter-btn on" data-follow-filter="all">全部</button><button class="filter-btn" data-follow-filter="teacher-detail">访问老师详情</button><button class="filter-btn" data-follow-filter="course-detail">访问课程详情</button><button class="filter-btn" data-follow-filter="teacher-register">注册成为老师</button><button class="filter-btn" data-follow-filter="user-register">注册成为用户</button><button class="filter-btn" data-follow-filter="manual">人工跟进</button></div>
+                <div id="followRecords">
+                  <div class="follow-item manual"><div class="follow-type"><strong>人工跟进</strong><span>访问时间：2026-06-29 19:36:18</span></div><div>来源人：张老师</div><div id="latestFollowText">访问内容：跟进内容：已电话沟通体验课安排，计划本周完成报名。</div><div class="follow-source">分享来源：用户新增跟进</div></div>
+                  <div class="follow-item teacher-detail"><div class="follow-type"><strong>访问老师详情</strong><span>访问时间：2026-06-28 11:20:09</span></div><div>来源人：李老师</div><div>访问内容：访问张教员老师详情页面</div><div class="follow-source">分享来源：二维码</div></div>
+                  <div class="follow-item course-detail"><div class="follow-type"><strong>访问课程详情</strong><span>访问时间：2026-06-27 16:08:42</span></div><div>来源人：王老师</div><div>访问内容：访问优数学-初中数学考前冲刺全程课程详情页面</div><div class="follow-source">分享来源：朋友圈链接</div></div>
+                  <div class="follow-item teacher-register"><div class="follow-type"><strong>注册成为老师</strong><span>访问时间：2026-06-25 09:18:36</span></div><div>来源人：赵老师</div><div>访问内容：注册成为老师</div><div class="follow-source">分享来源：好友分享链接</div></div>
+                  <div class="follow-item user-register"><div class="follow-type"><strong>注册成为用户</strong><span>访问时间：2026-06-24 14:02:17</span></div><div>来源人：用户本人</div><div>访问内容：注册成为用户</div><div class="follow-source">分享来源：用户自行访问</div></div>
+                  <div class="follow-item teacher-detail"><div class="follow-type"><strong>访问老师详情</strong><span>访问时间：2026-06-21 19:36:09</span></div><div>来源人：陈老师</div><div>访问内容：访问李老师详情页面</div><div class="follow-source">分享来源：好友分享链接</div></div>
+                </div>
+              </div>
+              <div id="memberContributionPanel" class="hidden">
+                <div class="row"><div>家长注册<p class="muted">来源：会员激活使用</p></div><strong>¥40.00</strong></div>
+                <div class="row"><div>销售课程分润<p class="muted">课程课消确认</p></div><strong>¥300.00</strong></div>
+                <div class="row"><div>购买会员分润<p class="muted">会员激活使用</p></div><strong>¥120.00</strong></div>
+                <div class="row"><div>老师注册分润<p class="muted">通过分享注册成为老师</p></div><strong>¥80.00</strong></div>
+                <div class="row"><div>课时分润<p class="muted">课时分润确认</p></div><strong>¥60.00</strong></div>
+              </div>
+            </div>
+          </div>
+        </div></div></div>
+      </section>
+
+      <section id="m-withdraw" class="page">
+        <div class="page-head"><div><h1>提现中心</h1><p class="muted">收益与提现记录。</p></div><span class="pill">移动端</span></div>
+        <div class="canvas"><div class="phone"><div class="mobile-screen">
+          <div class="status"><span>9:41</span><span>5G 100%</span></div>
+          <div class="m-title"><button class="btn" data-page="m-home">返回</button><span>提现中心</span><span></span></div>
+          <div class="m-body">
+            <div class="card">
+              <p class="muted">可提现金额</p>
+              <div class="amount">¥1,280.00</div>
+              <div class="row"><span>锁定金额</span><strong>¥500.00</strong></div>
+              <div class="row"><span>最低提现金额</span><strong>按后台配置</strong></div>
+              <button class="btn primary" data-page="m-apply" style="width:100%;margin-top:10px">申请提现</button>
+            </div>
+            <div class="card">
+              <div class="tabs"><button class="tab on" data-withdraw-tab="withdraw">提现记录</button><button class="tab" data-withdraw-tab="earnings">收益记录</button></div>
+              <div id="withdrawRecordsPanel">
+                <h2>提现记录</h2>
+                <div class="row"><div>¥500.00<p class="muted">审核中 / 2026-06-20</p></div><button class="btn" data-page="m-withdraw-detail">详情</button></div>
+                <div class="row"><div>¥600.00<p class="muted">已作废 / 2026-06-16</p></div><button class="btn" data-page="m-withdraw-detail">详情</button></div>
+                <div class="row"><div>¥300.00<p class="muted">已打款 / 2026-06-12</p></div><button class="btn" data-page="m-withdraw-detail">详情</button></div>
+              </div>
+              <div id="withdrawEarningsPanel" class="hidden">
+                <h2>收益记录</h2>
+                <div class="row"><div>课程购买分润<p class="muted">来自李老师 / 2026-06-19 16:20:08</p></div><strong>¥300.00</strong></div>
+                <div class="row"><div>购买会员分润<p class="muted">来自王同学家长 / 2026-06-18 10:12:32</p></div><strong>¥120.00</strong></div>
+              </div>
+            </div>
+          </div>
+        </div></div></div>
+      </section>
+
+      <section id="m-apply" class="page">
+        <div class="page-head"><div><h1>提现申请</h1><p class="muted">银行卡与短信验证。</p></div><span class="pill">移动端</span></div>
+        <div class="canvas"><div class="phone"><div class="mobile-screen">
+          <div class="status"><span>9:41</span><span>5G 100%</span></div>
+          <div class="m-title"><button class="btn" data-page="m-withdraw">返回</button><span>提现申请</span><span></span></div>
+          <div class="m-body">
+            <div class="card">
+              <p class="muted">可提现金额 ¥1,280.00 / 最低提现金额按后台配置</p>
+              <div class="field">提现金额：¥500.00</div>
+            </div>
+            <div class="card">
+              <h2>本次收款银行卡</h2>
+              <div class="field">开户银行：招商银行</div>
+              <div class="field">开户人姓名：张三</div>
+              <div class="field">银行卡号：6225 **** **** 1829</div>
+            </div>
+            <div class="card">
+              <div class="field">当前手机号：138****3201</div>
+              <div class="sms-row"><div class="field">短信验证码：123456</div><button id="sendSmsBtn" class="btn" data-sms-send>获取短信验证码</button></div>
+              <div id="smsResult" class="result"></div>
+              <button class="btn primary" data-page="m-withdraw" style="width:100%">提交提现申请</button>
+            </div>
+          </div>
+        </div></div></div>
+      </section>
+
+      <section id="m-withdraw-detail" class="page">
+        <div class="page-head"><div><h1>提现详情页</h1><p class="muted">单笔提现处理结果。</p></div><span class="pill">移动端</span></div>
+        <div class="canvas"><div class="phone"><div class="mobile-screen">
+          <div class="status"><span>9:41</span><span>5G 100%</span></div>
+          <div class="m-title"><button class="btn" data-page="m-withdraw">返回</button><span>提现详情</span><span></span></div>
+          <div class="m-body">
+            <div class="card"><p class="muted">原型状态查看</p><div class="filter-row"><button class="filter-btn on" data-withdraw-detail-status="pending">审核中</button><button class="filter-btn" data-withdraw-detail-status="rejected">已驳回</button><button class="filter-btn" data-withdraw-detail-status="payment">待打款</button><button class="filter-btn" data-withdraw-detail-status="paid">已打款</button><button class="filter-btn" data-withdraw-detail-status="voided">已作废</button></div></div>
+            <div id="withdrawDetailPanel" class="card"></div>
+          </div>
+        </div></div></div>
+      </section>
+
+      <section id="pc-withdraw" class="page">
+        <div class="page-head"><div><h1>后台提现申请</h1><p class="muted">提现审核与打款标记。</p></div><span class="pill">PC 后台</span></div>
+        <div class="admin">
+          <div class="admin-top"><strong>分销后台</strong><span>当前模块：提现管理</span></div>
+          <div class="admin-main">
+            <div class="admin-menu"><div class="on">提现申请</div><div>分销比例</div><div>用户团队</div></div>
+            <div class="admin-content">
+              <div class="toolbar"><div class="fake-input">状态：全部 ▾</div><div class="fake-input">申请人/手机号：模糊搜索</div><div class="fake-input">开始：2026-07-14 00:00</div><div class="fake-input">结束：2026-07-14 23:59:59</div></div>
+              <div id="withdrawResult" class="result"></div>
+              <table>
+                <thead><tr><th>申请单编号</th><th>申请人</th><th>联系方式</th><th>账户余额</th><th>新增提现申请金额</th><th>收款信息</th><th>状态</th><th>操作</th></tr></thead>
+                <tbody>
+                  <tr><td>2026071400001</td><td>张同学家长</td><td>138****3201</td><td>¥3,280.00</td><td>¥500.00</td><td>招商银行 / 张三 / 尾号1829</td><td><span id="withdrawStateA" class="pill warn">待审核</span></td><td><button class="btn primary" data-modal="withdrawPass">审核</button> <button class="btn danger" data-modal="withdrawReject">驳回</button></td></tr>
+                  <tr><td>2026071400002</td><td>李老师</td><td>139****7788</td><td>¥2,800.00</td><td>¥800.00</td><td>建设银行 / 李四 / 尾号0921</td><td><span id="withdrawStateB" class="pill warn">待打款</span></td><td><button class="btn green" data-modal="withdrawPaid">标记打款成功</button></td></tr>
+                  <tr><td>2026071400003</td><td>陈同学家长</td><td>137****0911</td><td>¥1,600.00</td><td>¥600.00</td><td>工商银行 / 陈五 / 尾号7210</td><td><span id="withdrawStateC" class="pill ok">已打款</span></td><td><button class="btn danger" data-modal="withdrawVoid">作废</button></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="pc-logs" class="page">
+        <div class="page-head"><div><h1>操作日志</h1><p class="muted">独立记录提现相关后台操作。</p></div><span class="pill">PC 后台</span></div>
+        <div class="admin">
+          <div class="admin-top"><strong>分销后台</strong><span>当前模块：操作日志</span></div>
+          <div class="admin-main">
+            <div class="admin-menu"><div>提现申请</div><div class="on">操作日志</div><div>分销比例</div><div>用户团队</div></div>
+            <div class="admin-content">
+              <div class="toolbar"><div class="fake-input">操作人姓名：模糊搜索</div><div class="fake-input">开始：2026-07-14 00:00</div><div class="fake-input">结束：2026-07-14 23:59:59</div></div>
+              <table><thead><tr><th>操作人</th><th>操作时间</th><th>操作内容</th></tr></thead><tbody>
+                <tr><td>财务A</td><td>2026-07-14 10:20:36</td><td>审核提现申请：张同学家长，审核通过，备注“资料已核验”</td></tr>
+                <tr><td>财务B</td><td>2026-07-14 11:08:42</td><td>标记打款成功：李老师，备注“线下转账完成”</td></tr>
+                <tr><td>运营A</td><td>2026-07-14 13:16:09</td><td>作废已打款记录：陈同学家长</td></tr>
+              </tbody></table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="pc-rules" class="page">
+        <div class="page-head"><div><h1>分销比例配置</h1><p class="muted">五类来源的一星/二星比例和启停状态。</p></div><span class="pill">PC 后台</span></div>
+        <div class="admin">
+          <div class="admin-top"><strong>分销后台</strong><span>当前模块：分销配置</span></div>
+          <div class="admin-main">
+            <div class="admin-menu"><div>提现申请</div><div class="on">分销比例</div><div>用户团队</div></div>
+            <div class="admin-content">
+              <div class="toolbar"><button class="btn primary" data-modal="ruleSave">保存配置</button><button class="btn" data-page="pc-rule-history">查看历史版本记录</button><div class="fake-input">保存后即时生效</div></div>
+              <div id="ruleResult" class="result"></div>
+              <table>
+                <thead><tr><th>来源</th><th>一星比例</th><th>二星比例</th><th>状态</th><th>操作</th></tr></thead>
+                <tbody>
+                  <tr><td>家长注册</td><td><input class="fake-input" value="10%" aria-label="家长注册一星比例"></td><td><input class="fake-input" value="3%" aria-label="家长注册二星比例"></td><td><span id="ruleStateA" class="pill ok">启用中</span></td><td><button class="btn danger" data-modal="ruleDisable">停用</button></td></tr>
+                  <tr><td>销售课程</td><td><input class="fake-input" value="8%" aria-label="销售课程一星比例"></td><td><input class="fake-input" value="2%" aria-label="销售课程二星比例"></td><td><span id="ruleStateB" class="pill warn">已停用</span></td><td><button class="btn green" data-modal="ruleEnable">启用</button></td></tr>
+                  <tr><td>购买会员</td><td><input class="fake-input" value="12%" aria-label="购买会员一星比例"></td><td><input class="fake-input" value="4%" aria-label="购买会员二星比例"></td><td><span class="pill ok">启用中</span></td><td><button class="btn danger" data-modal="ruleDisable">停用</button></td></tr>
+                  <tr><td>老师注册</td><td><input class="fake-input" value="6%" aria-label="老师注册一星比例"></td><td><input class="fake-input" value="2%" aria-label="老师注册二星比例"></td><td><span class="pill ok">启用中</span></td><td><button class="btn danger" data-modal="ruleDisable">停用</button></td></tr>
+                  <tr><td>课时分润</td><td><input class="fake-input" value="5%" aria-label="课时分润一星比例"></td><td><input class="fake-input" value="1%" aria-label="课时分润二星比例"></td><td><span class="pill ok">启用中</span></td><td><button class="btn danger" data-modal="ruleDisable">停用</button></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="pc-rule-history" class="page">
+        <div class="page-head"><div><h1>历史版本记录</h1><p class="muted">独立记录分销比例配置调整。</p></div><span class="pill">PC 后台</span></div>
+        <div class="admin">
+          <div class="admin-top"><strong>分销后台</strong><span>当前模块：分销配置历史</span></div>
+          <div class="admin-main">
+            <div class="admin-menu"><div>提现申请</div><div>分销比例</div><div class="on">历史版本</div><div>用户团队</div></div>
+            <div class="admin-content">
+              <div class="toolbar"><div class="fake-input">操作人姓名：模糊搜索</div><div class="fake-input">开始：2026-07-14 00:00</div><div class="fake-input">结束：2026-07-14 23:59:59</div></div>
+              <table><thead><tr><th>来源</th><th>层级</th><th>调整前</th><th>调整后</th><th>操作人</th><th>操作时间</th><th>调整内容</th></tr></thead><tbody>
+                <tr><td>销售课程</td><td>一星</td><td>6%</td><td>8%</td><td>运营A</td><td>2026-07-14 09:20:36</td><td>提高销售课程一星比例</td></tr>
+                <tr><td>购买会员</td><td>二星</td><td>3%</td><td>4%</td><td>运营A</td><td>2026-07-13 16:08:42</td><td>调整购买会员二星比例</td></tr>
+              </tbody></table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="pc-users" class="page">
+        <div class="page-head"><div><h1>用户列表-团队列表</h1><p class="muted">分销权限与团队关系。</p></div><span class="pill">PC 后台</span></div>
+        <div class="admin">
+          <div class="admin-top"><strong>分销后台</strong><span>当前模块：用户管理</span></div>
+          <div class="admin-main">
+            <div class="admin-menu"><div>提现申请</div><div>分销比例</div><div class="on">用户团队</div></div>
+            <div class="admin-content">
+              <div class="toolbar"><div class="fake-input">用户姓名/手机号</div><div class="fake-input">权限状态：全部</div></div>
+              <div id="userResult" class="result"></div>
+              <table>
+                <thead><tr><th>用户</th><th>角色</th><th>登录账号</th><th>团队摘要</th><th>创客权限</th><th>跟进权限</th><th>操作</th></tr></thead>
+                <tbody>
+                  <tr data-team-row="userA"><td>王同学家长</td><td>家长</td><td>138****6601</td><td>一星 0 / 二星 0</td><td><span id="userStateA" class="pill warn">待审核</span></td><td><span id="followPermissionA" class="pill bad">未开通</span></td><td><button class="btn" data-team="userA">查看团队</button> <button class="btn primary" data-modal="userPass">审核开通</button> <button class="btn danger" data-modal="userReject">拒绝</button> <button class="btn" data-modal="followEnable">跟进权限</button></td></tr>
+                  <tr data-team-row="userB" class="selected-row"><td>李老师</td><td>老师</td><td>139****7788</td><td>一星 18 / 二星 42</td><td><span id="userStateB" class="pill ok">已开通</span></td><td><span id="followPermissionB" class="pill ok">已开通</span></td><td><button class="btn" data-team="userB">查看团队</button> <button class="btn danger" data-modal="userClose">关闭权限</button> <button class="btn" data-modal="followDisable">跟进权限</button></td></tr>
+                </tbody>
+              </table>
+              <div class="team-detail" id="teamDetail">
+                <h2>团队详情</h2>
+                <p class="muted">选中上方用户后，在这里查看该用户的一星/二星团队明细。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <aside class="tags" id="tagPanel"></aside>
+  </div>
+
+  <div id="modalMask" class="modal-mask">
+    <div class="modal" id="businessModal">
+      <div class="modal-head"><span id="modalTitle">业务弹窗</span><button class="btn" id="modalClose">关闭</button></div>
+      <div class="modal-body">
+        <div id="modalFields" class="field-grid"></div>
+        <div id="modalInput"></div>
+      </div>
+      <div class="modal-actions"><button class="btn" id="modalCancel">取消</button><button class="btn primary" id="modalConfirm">确认</button></div>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const pages = [...document.querySelectorAll('.page')];
+      const nav = [...document.querySelectorAll('.nav [data-page]')];
+      const tabNav = [...document.querySelectorAll('.nav [data-open-tab]:not([data-modal])')];
+      const withdrawTabNav = [...document.querySelectorAll('[data-withdraw-tab]')];
+      const tagPanel = document.getElementById('tagPanel');
+      const tags = {
+        entry: [
+          ['版本规则', ['本版本按需求分析 v15 和入口权限控制 v2 调整。', '左侧为页面层级导航，中间为真实线框，右侧为黄色需求标签。']],
+          ['页面清单', ['页面清单列顺序固定为：端、页面、页面用途、页面归属。']],
+          ['目录规则', ['所有可点击且切换主要内容区的 Tab 作为所属页面下级目录节点展示。', '业务弹窗挂在所属页面或所属 Tab 下级；目录点击先进入所属内容，再打开弹窗。', '筛选、排序、状态、空态、无权限、提交成功/失败和按钮置灰不进入左侧导航。']]
+        ],
+        'm-profile': [
+          ['页面规则', ['创客中心入口区域属于个人中心本页，不再作为独立页面。', '入口权限与创客权限分开：入口可见不等于创客权限已开通。']],
+          ['按钮说明', ['已开通状态下，点击“进入创客中心”直接跳转到创客中心首页。', '申请开通和重新申请只改变个人中心内入口区域状态。']],
+          ['全部状态', ['未申请：展示申请开通按钮。', '待审核：展示申请已提交，不允许进入首页。', '已开通：主线框默认展示，点击进入创客中心首页。', '已拒绝：展示拒绝原因和重新申请按钮。', '已关闭：入口关闭，用户端不可进入创客中心。']]
+        ],
+        'm-home': [
+          ['页面规则', ['创客中心首页合并团队成员列表，直接展示团队树。', '家长注册、销售课程、购买会员、老师注册、课时分润属于计算口径，不生成移动端首页来源模块。']],
+          ['列表字段', ['成员卡角色展示家长、老师、合伙人。', '最近跟进展示最近一次跟进内容；最近跟进时间格式为 YYYY-MM-DD HH:mm:ss，精确到秒。', '地域由最近登录 IP 换算；分润为该成员本人已确认佣金中可提现口径金额。', '团队人数统计所有下级用户，不要求下级开通创客权限；二星团队必须归属在对应一星成员下。']],
+          ['按钮说明', ['点击“一星团队”统计卡进入团队成员列表，仅展示一星成员。', '点击“二星团队”统计卡进入团队成员列表，仅展示二星成员。', '点击整张成员卡进入成员详情页。', '有单用户跟进权限时，点击“新增跟进”先进入该成员详情，再打开新增跟进弹窗。', '点击“提现”进入提现中心。']],
+          ['全部状态', ['默认：展示收益概览、一星团队及其二星分组。', '无成员：团队区域展示空状态。', '一星成员无二星：在该成员下显示暂无数据。', '已关闭创客权限：用户端不可进入本页。']]
+        ],
+        'm-team-list': [
+          ['页面规则', ['团队成员列表为创客中心首页下级页面，用于承接团队统计卡的下钻查看。', '从一星团队统计卡进入时只展示一星成员；从二星团队统计卡进入时只展示二星成员。']],
+          ['列表字段', ['一星列表成员卡展示名称、电话（隐藏中间 4 位）、角色、地域、分润金额和二星成员人数。', '二星列表成员卡不展示二星成员人数。', '点击整张成员卡进入成员详情页。']],
+          ['页面边界', ['一星/二星是从首页统计卡带入的查看范围，不是独立左侧目录节点。', '团队统计仍包含所有下级用户，不要求成员已开通创客权限。']]
+        ],
+        'm-member': [
+          ['字段说明', ['成员基础信息来源于被推荐用户注册资料。', '角色来源于用户身份资料，展示家长、老师或合伙人，替代旧用户标签。', '地域来源于最近登录 IP 换算，示例展示城市：西安。', '分润明细来源于家长注册、销售课程、购买会员、老师注册、课时分润记录。']],
+          ['跟进规则', ['系统访问或注册事件满足记录条件时自动生成跟进记录；具备单用户跟进权限的分销员保存人工跟进后生成记录。', '每条记录必须完整展示访问时间、来源人、分享来源、访问内容四组信息，不因记录类型不同而省略字段。', '访问时间格式为 YYYY-MM-DD HH:mm:ss，精确到秒，默认按时间倒序展示。', '来源人规则：二维码/朋友圈链接/好友分享链接展示分享人或邀请人；用户自行访问展示用户本人；用户新增跟进展示跟进操作人。', '分享来源固定为二维码、朋友圈链接、好友分享链接、用户自行访问、用户新增跟进，仅用于展示来源途径，不作为筛选条件。', '访问内容固定为访问老师详情页面、访问课程详情页面、注册成为老师、注册成为用户、跟进内容；筛选按访问内容分类。', '新增跟进保存成功后，记录立即进入当前成员记录列表首位，并同步更新首页最近跟进内容和时间。']],
+          ['按钮说明', ['具备后台单用户跟进权限时，展示“新增跟进”。', '新增跟进采用移动端表单弹窗，展示当前成员信息、跟进类型和跟进内容。', '保存跟进内容和类型后，记录跟进人及操作时间，并同步刷新首页最近跟进。']],
+          ['页面规则', ['成员详情只展示当前成员本人直接分润，不包含其下级分润。', '地域仅作为成员基础信息展示，不参与分佣、团队层级、提现或权限判断。', '已注册、已买课、已购买会员仅作为成员业务状态和分润来源口径，不在用户端展示为标签。']],
+          ['待确认', ['IP 无法识别时的地域展示文案、展示层级后续 PRD 细化。', '系统访问记录的完整采集范围和保留时长后续 PRD 细化。']]
+        ],
+        'm-member-follow': [
+          ['Tab 目录规则', ['跟进记录是成员详情页下的可点击 Tab，必须在左侧目录展示。', '点击目录节点先进入成员详情页，再激活跟进记录。', '新增跟进弹窗归属到跟进记录 Tab 下级。']],
+          ['跟进规则', ['记录生成：系统访问/注册事件自动生成；人工跟进仅在权限校验通过且保存成功后生成。', '字段规则：访问时间、来源人、分享来源、访问内容四项均展示；访问时间精确到秒。', '来源人按分享人/邀请人、用户本人或跟进操作人展示；姓名脱敏规则进入后续 PRD。', '分享来源固定为二维码、朋友圈链接、好友分享链接、用户自行访问、用户新增跟进。', '访问内容固定为访问老师详情页面、访问课程详情页面、注册成为老师、注册成为用户、跟进内容；全部和 5 类内容属于筛选，不进入左侧目录。', '保存人工跟进后同步刷新成员详情记录和创客中心首页最近跟进。']]
+        ],
+        'm-member-contribution': [
+          ['Tab 目录规则', ['分润明细是成员详情页下的可点击 Tab，必须在左侧目录展示。', '点击目录节点先进入成员详情页，再激活分润明细。']],
+          ['页面规则', ['只展示当前成员本人直接分润，不包含下级分润。', '分润来源为家长注册、销售课程、购买会员、老师注册、课时分润。']]
+        ],
+        'm-withdraw': [
+          ['按钮说明', ['可提现金额达到最低提现金额且无未完成提现时，申请提现进入提现申请页。', '金额不足、存在未完成提现或权限已关闭时不跳转。', '提现记录和收益记录是提现中心下的两个可点击 Tab。', '点击提现记录中的详情进入提现详情页。']],
+          ['Tab 规则', ['提现记录 Tab 只展示提现申请和处理状态。', '收益记录 Tab 只展示已确认分润收益。', '两个 Tab 共用顶部金额区和申请提现入口；页面内切换时左侧目录同步。']],
+          ['页面规则', ['提交提现后立即锁定余额。', '最低提现金额由后台配置，不设置最高提现金额。', '用户端不展示固定到账时间。']]
+        ],
+        'm-withdraw-withdraw': [
+          ['Tab 规则', ['当前为提现记录 Tab，只展示用户提现申请记录。', '记录按申请时间倒序，点击记录详情进入提现详情页。', '顶部可提现金额、锁定金额、最低提现金额和申请提现入口在两个 Tab 共用。']]
+        ],
+        'm-withdraw-earnings': [
+          ['Tab 规则', ['当前为收益记录 Tab，只展示已确认分润收益记录。', '记录按收益确认时间倒序；未确认金额不进入收益记录。', '切换回提现记录 Tab 时，只恢复提现申请记录列表。']]
+        ],
+        'm-apply': [
+          ['字段说明', ['银行卡字段包含开户银行、开户人姓名、银行卡号。', '当前手机号以脱敏形式展示，例如 138****3201。', '短信验证码发送到当前展示的登录手机号。']],
+          ['按钮说明', ['点击“获取短信验证码”向当前手机号发送验证码，并在页面内反馈发送结果。', '提交前校验金额、银行卡信息和短信验证码。', '校验失败停留本页；成功后生成提现申请、锁定余额并返回提现中心。']],
+          ['页面规则', ['银行卡信息不做实名校验。', '本期不保存常用银行卡，只保存当次提现申请快照。']]
+        ],
+        'm-withdraw-detail': [
+          ['字段说明', ['提现状态和处理结果来源于后台处理动作。', '驳回时展示后台填写的驳回原因。']],
+          ['全部状态', ['审核中：后台收到申请，等待处理。', '已驳回：展示驳回原因。', '待打款：审核通过但尚未标记成功。', '已打款：后台已完成系统内标记。', '已作废：展示作废状态。']]
+        ],
+        'pc-withdraw': [
+          ['行按钮规则', ['待审核展示“审核”和“驳回”；待打款展示“标记打款成功”；已打款隐藏审核和标记打款成功，仅展示“作废”。', '审核和标记打款成功弹窗均包含 200 字以内备注说明。']],
+          ['页面规则', ['财务系统外执行打款，系统内只记录处理结果。', '操作日志为独立页面，不与提现申请列表混排。', '状态筛选、申请人/手机号模糊搜索、操作时间范围筛选均在本页完成；结束时间按 23:59:59。']],
+          ['目录规则', ['审核、驳回提现、标记打款成功、作废已打款记录弹窗均挂在后台提现申请下级；操作日志为同级独立页面。']]
+        ],
+        'pc-logs': [
+          ['页面规则', ['操作日志独立于提现申请列表。', '记录申请单编号、操作人、操作时间、操作内容，时间精确到秒。']],
+          ['筛选规则', ['支持操作人姓名和操作时间范围筛选；开始时间 00:00，结束时间 23:59:59。']]
+        ],
+        'pc-rules': [
+          ['配置规则', ['来源区分家长注册、销售课程、购买会员、老师注册、课时分润。', '一星比例和二星比例使用输入框配置。', '删除生效时间和规则版本字段，保存后即时生效。']],
+          ['分润归属案例', [
+            '关系口径：直接邀请为一星，间接邀请为二星；仅计算一星、二星，不产生三级及以上分润。',
+            '家长注册：A -> B 时，A 获家长注册一星分润；A -> B -> C 时，B 获家长注册一星分润，A 获家长注册二星分润；无邀请关系时不产生注册邀请分润。',
+            '老师注册：K -> G 时，K 获老师注册一星分润；A -> K -> G 时，K 获老师注册一星分润，A 获老师注册二星分润；老师注册确认后才触发。',
+            '购买会员：A -> B 时，B 激活会员后 A 获购买会员一星分润；A -> B -> C 时，C 激活会员后 B 获一星、A 获二星；C 通过 E 购买 1000 元卓越会员时，E 另获购买会员销售分润，B/A 仍按邀请层级获得注册分润。',
+            '购买课程：A -> B -> C 时，C 完成 39.9 元试听课课消确认，B 获一星分润 2 元、A 获二星分润 1 元；课程销售方另按销售课程比例获得销售分润。',
+            '老师上课：G 通过 K 注册成为老师并给 C 上课，G 获个人课时收入，K 获一星课时分润；若 A -> K -> G，A 另获二星课时分润；老师个人课时收入不等同于课时分润。',
+            '组合用例：A -> B -> C，C 先购买试听课再通过 E 激活会员，试听课和会员按各自来源分别记录，不合并为一条分润；A 同时作为邀请方和销售方时，也按不同来源分别记录。',
+            '异常边界：同一来源同一业务事件不重复计算；退款、撤销、课消取消本期不自动扣回，转人工处理；规则停用只影响后续事件；已绑定用户继续使用绑定时固化的规则版本。'
+          ]],
+          ['目录规则', ['保存配置、停用配置、启用配置弹窗均挂在分销比例配置下级；历史版本记录为独立页面。']],
+          ['状态规则', ['历史版本记录查看谁在什么时候调整了哪个来源和层级比例。']],
+          ['历史页面规则', ['历史版本记录独立展示操作人、操作时间、调整内容，支持人员姓名和操作时间范围筛选。']]
+        ],
+        'pc-rule-history': [
+          ['页面规则', ['历史版本记录独立展示谁在什么时候调整了哪个来源和层级比例。', '不与当前分销比例配置列表混排。']],
+          ['筛选规则', ['支持人员姓名和操作时间范围筛选；开始时间 00:00，结束时间 23:59:59。']]
+        ],
+        'pc-users': [
+          ['行按钮规则', ['查看团队用于选中当前用户并刷新下方团队详情区。', '审核开通、拒绝、关闭权限、跟进权限均操作当前用户行。', '拒绝原因必填，并在用户端入口展示。']],
+          ['权限规则', ['创客权限状态包含未申请、待审核、已开通、已拒绝、已关闭。', '关闭创客权限后，用户端不可进入创客中心，历史数据保留，历史收益/提现由后台人工处理。']],
+          ['区域规则', ['上方列表是用户筛选和权限管理入口，团队字段只展示数量摘要。', '下方团队详情区展示当前选中用户的一星/二星团队树形明细，不是重复列表。']],
+          ['权限规则', ['跟进权限按单个用户后台配置，不新增独立权限管理页面。', '当前已开通时点击跟进权限打开关闭提示；当前未开通时打开开通提示。确认后更新状态并同步移动端入口。']],
+          ['目录规则', ['审核开通、拒绝申请、关闭权限、跟进权限设置弹窗均挂在用户列表-团队列表下级。']]
+        ]
+      };
+      function renderTags(id){
+        const items = tags[id] || [];
+        tagPanel.innerHTML = items.map(([title, list]) => `
+          <section class="tag-card">
+            <h2>${title}</h2>
+            <ul>${list.map(item => `<li>${item}</li>`).join('')}</ul>
+          </section>
+        `).join('');
+      }
+      function showPage(id){
+        if(id === 'm-withdraw-withdraw' || id === 'm-withdraw-earnings') return showWithdrawTab(id.replace('m-withdraw-', ''));
+        if(id === 'm-member-follow' || id === 'm-member-contribution') return showMemberTab(id.replace('m-member-', ''));
+        if(!document.getElementById(id)) id = 'entry';
+        pages.forEach(page => page.classList.toggle('active', page.id === id));
+        nav.forEach(btn => btn.classList.toggle('active', btn.dataset.page === id));
+        tabNav.forEach(btn => btn.classList.remove('active'));
+        renderTags(id);
+        history.replaceState(null, '', '#' + id);
+        window.scrollTo({top:0, behavior:'instant'});
+        if(id === 'm-member') activateMemberTab('follow', false);
+        if(id === 'm-withdraw') activateWithdrawTab('withdraw', false);
+      }
+      function activateMemberTab(tab, updateHash = true){
+        const follow = tab === 'follow';
+        document.querySelectorAll('[data-member-tab]').forEach(btn => btn.classList.toggle('on', btn.dataset.memberTab === tab));
+        document.getElementById('memberFollowPanel').classList.toggle('hidden', !follow);
+        document.getElementById('memberContributionPanel').classList.toggle('hidden', follow);
+        nav.forEach(btn => btn.classList.toggle('active', btn.dataset.page === 'm-member'));
+        tabNav.forEach(btn => btn.classList.toggle('active', btn.dataset.openTab === tab));
+        renderTags('m-member-' + tab);
+        if(updateHash) history.replaceState(null, '', '#m-member-' + tab);
+      }
+      function showMemberTab(tab){
+        pages.forEach(page => page.classList.toggle('active', page.id === 'm-member'));
+        activateMemberTab(tab);
+        window.scrollTo({top:0, behavior:'instant'});
+      }
+      function activateWithdrawTab(tab, updateHash = true){
+        const withdraw = tab === 'withdraw';
+        document.querySelectorAll('[data-withdraw-tab]').forEach(btn => btn.classList.toggle('on', btn.dataset.withdrawTab === tab));
+        document.getElementById('withdrawRecordsPanel').classList.toggle('hidden', !withdraw);
+        document.getElementById('withdrawEarningsPanel').classList.toggle('hidden', withdraw);
+        nav.forEach(btn => btn.classList.toggle('active', btn.dataset.page === 'm-withdraw'));
+        tabNav.forEach(btn => btn.classList.remove('active'));
+        renderTags('m-withdraw-' + tab);
+        if(updateHash) history.replaceState(null, '', '#m-withdraw-' + tab);
+      }
+      function showWithdrawTab(tab){
+        pages.forEach(page => page.classList.toggle('active', page.id === 'm-withdraw'));
+        activateWithdrawTab(tab);
+        window.scrollTo({top:0, behavior:'instant'});
+      }
+      nav.forEach(btn => btn.addEventListener('click', () => showPage(btn.dataset.page)));
+      document.querySelectorAll('[data-page]').forEach(btn => btn.addEventListener('click', () => showPage(btn.dataset.page)));
+      tabNav.forEach(btn => btn.addEventListener('click', () => showMemberTab(btn.dataset.openTab)));
+      withdrawTabNav.forEach(btn => btn.addEventListener('click', () => showWithdrawTab(btn.dataset.withdrawTab)));
+      document.querySelectorAll('[data-open-page][data-modal]').forEach(btn => btn.addEventListener('click', () => {
+        if(btn.dataset.openTab) showMemberTab(btn.dataset.openTab); else showPage(btn.dataset.openPage);
+        openModal(btn.dataset.modal);
+      }));
+      showPage(location.hash ? location.hash.slice(1) : 'entry');
+
+      const actions = {
+        withdrawPass:{title:'审核确认',fields:{申请单编号:'2026071400001',申请人:'张同学家长',联系方式:'138****3201',账户余额:'¥3,280.00',新增提现申请金额:'¥500.00',收款银行:'招商银行',收款人:'张三',银行卡号:'尾号1829',当前状态:'待审核'},input:'审核备注：资料已核验。',maxLength:200,confirmText:'确认审核通过',effect(){setState('withdrawStateA','待打款','pill warn');showResult('withdrawResult','提现申请已更新为待打款。')}},
+        withdrawReject:{title:'驳回提现申请',fields:{申请单编号:'2026071400001',申请人:'张同学家长',提现金额:'¥500.00',当前状态:'待审核'},input:'驳回原因：银行卡信息不完整，请重新提交。',confirmText:'确认驳回',effect(){setState('withdrawStateA','已驳回','pill bad');showResult('withdrawResult','提现申请已驳回，用户端可查看原因。')}},
+        withdrawPaid:{title:'标记打款成功',fields:{申请单编号:'2026071400002',申请人:'李老师',联系方式:'139****7788',账户余额:'¥2,800.00',新增提现申请金额:'¥800.00',收款银行:'建设银行',收款人:'李四',银行卡号:'尾号0921',当前状态:'待打款'},input:'打款备注：线下转账已完成。',maxLength:200,confirmText:'确认已打款',effect(){setState('withdrawStateB','已打款','pill ok');showResult('withdrawResult','提现申请已标记为已打款。')}},
+        withdrawVoid:{title:'作废已打款记录',fields:{申请单编号:'2026071400003',申请人:'陈同学家长',联系方式:'137****0911',提现金额:'¥600.00',当前状态:'已打款'},input:'作废原因：线下打款记录异常，需作废处理。',confirmText:'确认作废',effect(){setState('withdrawStateC','已作废','pill bad');showResult('withdrawResult','已打款记录已作废，操作日志已记录。')}},
+        ruleSave:{title:'保存配置',fields:{配置来源:'家长注册 / 销售课程 / 购买会员 / 老师注册 / 课时分润',适用层级:'一星团队 / 二星团队',当前状态:'编辑中'},confirmText:'确认保存',effect(){showResult('ruleResult','五类来源比例已保存并即时生效。')}},
+        ruleDisable:{title:'停用配置确认',fields:{来源:'家长注册',一星比例:'10%',二星比例:'3%',当前状态:'启用中'},confirmText:'确认停用',effect(){setState('ruleStateA','已停用','pill warn');showResult('ruleResult','家长注册配置已停用，仅影响后续事件。')}},
+        ruleEnable:{title:'启用配置确认',fields:{来源:'销售课程',一星比例:'8%',二星比例:'2%',当前状态:'已停用'},confirmText:'确认启用',effect(){setState('ruleStateB','启用中','pill ok');showResult('ruleResult','销售课程来源配置已启用，并即时生效。')}},
+        userPass:{title:'审核开通确认',fields:{用户姓名:'王同学家长',登录账号:'138****6601',身份:'家长',当前权限状态:'待审核',申请时间:'2026-06-21 10:20'},confirmText:'确认开通',effect(){setState('userStateA','已开通','pill ok');showResult('userResult','用户分销权限已开通。')}},
+        userReject:{title:'拒绝申请',fields:{用户姓名:'王同学家长',登录账号:'138****6601',身份:'家长',当前权限状态:'待审核'},input:'拒绝原因：账号资料不完整，请补充后重新申请。',confirmText:'确认拒绝',effect(){setState('userStateA','已拒绝','pill bad');showResult('userResult','用户申请已拒绝，用户端可查看原因。')}},
+        userClose:{title:'关闭权限确认',fields:{用户姓名:'李老师',登录账号:'139****7788',角色:'老师',一星团队数:'18',二星团队数:'42',当前权限状态:'已开通'},confirmText:'确认关闭',effect(){setState('userStateB','已关闭','pill bad');showResult('userResult','用户分销权限已关闭。')}},
+        followEnable:{title:'开通跟进权限',fields:{用户姓名:'王同学家长',登录账号:'138****6601',角色:'家长',当前跟进权限:'未开通'},input:'开通说明：允许该用户新增团队成员跟进。',confirmText:'确认开通',effect(){setState('followPermissionA','已开通','pill ok');showResult('userResult','王同学家长的新增跟进权限已开通，移动端入口已同步更新。')}},
+        followDisable:{title:'关闭跟进权限',fields:{用户姓名:'李老师',登录账号:'139****7788',角色:'老师',当前跟进权限:'已开通'},input:'关闭说明：关闭后该用户不可新增团队成员跟进。',confirmText:'确认关闭',effect(){setState('followPermissionB','未开通','pill bad');showResult('userResult','李老师的新增跟进权限已关闭，移动端入口已同步更新。')}},
+        followAdd:{title:'新增跟进',mobile:true,fields:{成员姓名:'李老师',成员角色:'老师',团队层级:'一星成员',当前最近跟进:'优英语-小学英语伴读周末体验课'},input:'已电话沟通体验课安排，计划本周完成报名。',confirmText:'保存跟进',effect(){const text='已电话沟通体验课安排，计划本周完成报名。';const savedAt='2026-07-14 14:30:18';const latest=document.getElementById('latestFollowText');if(latest)latest.textContent=`来源人：张老师<br>访问内容：跟进内容：${text}`;const records=document.getElementById('followRecords');if(records)records.insertAdjacentHTML('afterbegin',`<div class="follow-item manual"><div class="follow-type"><strong>人工跟进</strong><span>访问时间：${savedAt}</span></div><div>来源人：张老师</div><div>访问内容：跟进内容：${text}</div><div class="follow-source">分享来源：用户新增跟进</div></div>`);document.querySelectorAll('.member-card').forEach(card=>{if(card.textContent.includes('李老师')){const meta=card.querySelector('.member-meta');if(meta)meta.innerHTML=`<div><b>最近跟进：</b>${text}</div><div><b>最近跟进时间：</b>${savedAt}</div><div><b>地域：</b>西安</div><div><b>分润：</b>¥320.00</div>`;}});showResult('memberFollowResult','跟进已保存，成员详情和首页最近跟进已同步更新。')}}
+      };
+      const mask = document.getElementById('modalMask');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalFields = document.getElementById('modalFields');
+      const modalInput = document.getElementById('modalInput');
+      const confirmBtn = document.getElementById('modalConfirm');
+      const businessModal = document.getElementById('businessModal');
+      let current = null;
+      function openModal(key){
+        const action = actions[key];
+        if(!action) return;
+        current = action;
+        businessModal.classList.toggle('mobile-follow-modal', Boolean(action.mobile));
+        modalTitle.textContent = action.title;
+        modalFields.innerHTML = Object.entries(action.fields).map(([k,v]) => `<div>${k}</div><div>${v}</div>`).join('');
+        modalInput.innerHTML = action.mobile
+          ? `<div class="mobile-follow-form"><div class="mobile-follow-type">跟进类型：人工跟进</div><textarea aria-label="跟进内容">${action.input}</textarea></div>`
+          : action.input ? `<textarea maxlength="${action.maxLength || ''}">${action.input}</textarea>` : '';
+        confirmBtn.textContent = action.confirmText || '确认';
+        mask.classList.add('show');
+      }
+      function closeModal(){mask.classList.remove('show');current=null}
+      document.querySelectorAll('[data-modal]:not([data-open-page])').forEach(btn => btn.addEventListener('click', () => openModal(btn.dataset.modal)));
+      document.getElementById('modalClose').addEventListener('click', closeModal);
+      document.getElementById('modalCancel').addEventListener('click', closeModal);
+      confirmBtn.addEventListener('click', () => { if(current && current.effect) current.effect(); closeModal(); });
+      mask.addEventListener('click', event => { if(event.target === mask) closeModal(); });
+      function setState(id,text,klass){const el=document.getElementById(id); if(el){el.textContent=text; el.className=klass;}}
+      function showResult(id,text){const el=document.getElementById(id); if(el){el.textContent=text; el.classList.add('show');}}
+      document.querySelector('[data-sms-send]')?.addEventListener('click', event => {const button=event.currentTarget;button.textContent='已发送';button.disabled=true;showResult('smsResult','验证码已发送至 138****3201，请查收短信。');});
+      document.querySelectorAll('[data-open-follow]').forEach(btn => btn.addEventListener('click', event => {event.preventDefault();event.stopPropagation();showMemberTab('follow');openModal('followAdd');}));
+      document.querySelectorAll('[data-member-card]').forEach(card => card.addEventListener('click', event => {if(event.target.closest('button')) return;showPage('m-member');}));
+      document.querySelectorAll('[data-member-card]').forEach(card => card.addEventListener('keydown', event => {if((event.key === 'Enter' || event.key === ' ') && !event.target.closest('button')){event.preventDefault();showPage('m-member');}}));
+      document.querySelectorAll('[data-member-tab]').forEach(btn => btn.addEventListener('click', () => showMemberTab(btn.dataset.memberTab)));
+      document.querySelectorAll('[data-follow-filter]').forEach(btn => btn.addEventListener('click', () => {const type=btn.dataset.followFilter;document.querySelectorAll('[data-follow-filter]').forEach(item=>item.classList.toggle('on',item===btn));document.querySelectorAll('.follow-item').forEach(item=>item.classList.toggle('hidden',type!=='all'&&!item.classList.contains(type)));}));
+      const withdrawDetailPanel = document.getElementById('withdrawDetailPanel');
+      const withdrawDetailStates = {
+        pending:{label:'审核中',klass:'warn',result:'后台已收到提现申请，等待审核。'},
+        rejected:{label:'已驳回',klass:'bad',result:'银行卡信息不完整，请补充后重新提交。',reason:'拒绝原因：银行卡信息不完整，请补充后重新提交。'},
+        payment:{label:'待打款',klass:'warn',result:'审核已通过，等待系统外执行打款。'},
+        paid:{label:'已打款',klass:'ok',result:'财务已完成系统外打款，并在系统内标记成功。'},
+        voided:{label:'已作废',klass:'bad',result:'该笔已打款记录已作废。'}
+      };
+      function renderWithdrawDetail(status){
+        const data = withdrawDetailStates[status] || withdrawDetailStates.pending;
+        if(withdrawDetailPanel) withdrawDetailPanel.innerHTML = `<div class="row"><span>提现金额</span><strong>¥500.00</strong></div><div class="row"><span>当前状态</span><span class="pill ${data.klass}">${data.label}</span></div><div class="row"><span>收款信息</span><span>招商银行 尾号1829</span></div><div class="row"><span>处理结果</span><span>${data.result}</span></div>${data.reason ? `<div class="row"><span>驳回原因</span><strong>${data.reason}</strong></div>` : ''}<div class="card"><h2>状态说明</h2><p class="muted">提现详情根据当前状态展示对应处理信息；用户端不展示固定到账时效。</p></div>`;
+      }
+      document.querySelectorAll('[data-withdraw-detail-status]').forEach(btn => btn.addEventListener('click', () => {const status=btn.dataset.withdrawDetailStatus;document.querySelectorAll('[data-withdraw-detail-status]').forEach(item=>item.classList.toggle('on',item===btn));renderWithdrawDetail(status);}));
+      renderWithdrawDetail('pending');
+      const teamListTitle = document.getElementById('teamListTitle');
+      const teamListHint = document.getElementById('teamListHint');
+      const teamListRecords = document.getElementById('teamListRecords');
+      const mobileTeams = {
+        one:[{name:'李老师',phone:'139****7788',role:'老师',area:'西安',contribution:'¥320.00',secondCount:2},{name:'陈同学家长',phone:'137****0911',role:'合伙人',area:'西安',contribution:'¥120.00',secondCount:0}],
+        two:[{name:'王同学家长',phone:'138****6601',role:'家长',area:'西安',contribution:'¥80.00',secondCount:0},{name:'赵老师',phone:'137****5520',role:'老师',area:'西安',contribution:'¥60.00',secondCount:0}]
+      };
+      function renderMobileTeamList(level){
+        const isOne = level === 'one';
+        if(teamListTitle) teamListTitle.textContent = isOne ? '一星团队成员' : '二星团队成员';
+        if(teamListHint) teamListHint.textContent = isOne ? '展示当前分销员直接推荐的一星团队成员。' : '展示一星团队成员直接推荐的二星团队成员。';
+        if(teamListRecords) teamListRecords.innerHTML = mobileTeams[level].map(item => `<div class="member-card" data-team-member tabindex="0" role="button"><div class="member-top"><strong>${item.name}</strong><span class="pill ok">${item.role}</span></div><div class="member-meta"><div><b>电话：</b>${item.phone}</div><div><b>角色：</b>${item.role}</div><div><b>地域：</b>${item.area}</div><div><b>分润：</b>${item.contribution}</div>${isOne ? `<div><b>二星成员人数：</b>${item.secondCount}</div>` : ''}</div></div>`).join('');
+      }
+      document.querySelectorAll('[data-team-filter]').forEach(btn => btn.addEventListener('click', () => renderMobileTeamList(btn.dataset.teamFilter)));
+      teamListRecords?.addEventListener('click', event => { if(event.target.closest('[data-team-member]')) showPage('m-member'); });
+      renderMobileTeamList('one');
+      const teamDetail = document.getElementById('teamDetail');
+      const teamData = {
+        userA:{name:'王同学家长', role:'家长', account:'138****6601', one:0, two:0, groups:[]},
+        userB:{name:'李老师', role:'老师', account:'139****7788', one:18, two:42, groups:[
+          {name:'张同学家长', account:'136****1201', contribution:'¥320.00', children:[
+            {name:'王同学家长', account:'138****6601', contribution:'¥80.00'},
+            {name:'赵老师', account:'137****5520', contribution:'¥60.00'}
+          ]},
+          {name:'陈同学家长', account:'135****7098', contribution:'¥120.00', children:[]}
+        ]}
+      };
+      function renderTeamDetail(key){
+        if(!teamDetail) return;
+        const data = teamData[key];
+        if(!data) return;
+        document.querySelectorAll('[data-team-row]').forEach(row => row.classList.toggle('selected-row', row.dataset.teamRow === key));
+        const summary = `
+          <h2>团队详情</h2>
+          <p class="muted">当前选中：${data.name} / ${data.role} / ${data.account}</p>
+          <div class="team-summary">
+            <div><span class="muted">一星团队</span><strong>${data.one}</strong></div>
+            <div><span class="muted">二星团队</span><strong>${data.two}</strong></div>
+            <div><span class="muted">展示范围</span><strong>一星/二星</strong></div>
+          </div>`;
+        if(!data.groups.length){
+          teamDetail.innerHTML = summary + '<div class="empty-state">当前用户暂无团队成员，团队详情为空。</div>';
+          return;
+        }
+        const rows = data.groups.map(group => {
+          const first = `<div class="tree-node"><div><strong>${group.name}</strong><p class="muted">一星团队 / ${group.account}</p></div><div>分润 ${group.contribution}</div></div>`;
+          const children = group.children.length
+            ? group.children.map(child => `<div class="tree-node child"><div>${child.name}<p class="muted">二星团队 / ${child.account}</p></div><div>分润 ${child.contribution}</div></div>`).join('')
+            : '<div class="tree-node child"><div class="muted">暂无二星团队</div><div></div></div>';
+          return first + children;
+        }).join('');
+        teamDetail.innerHTML = summary + `<div class="tree-list">${rows}</div>`;
+      }
+      document.querySelectorAll('[data-team]').forEach(btn => btn.addEventListener('click', () => renderTeamDetail(btn.dataset.team)));
+      renderTeamDetail('userB');
+    })();
+  </script>
+</body>
+</html>
