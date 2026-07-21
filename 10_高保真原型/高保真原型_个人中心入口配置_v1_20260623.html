@@ -377,7 +377,7 @@
       { name: "邀请家长报名", copy: "邀请家长报名", target: "https://example.com/invite-parent", image: true, parent: true, teacher: true },
       { name: "招募合伙人", copy: "招募合伙人", target: "合伙人招募页 /pages/partner-recruit", image: true, parent: true, teacher: true },
       { name: "创客中心", copy: "创客中心", target: "创客中心页 /pages/creator-center", image: false, parent: true, teacher: true },
-      { name: "会员开通", copy: "普通会员、卓越会员", target: "会员开通页 /pages/member-open", image: false, parent: true, teacher: false }
+      { name: "会员开通", copy: "普通会员、卓越会员", target: "会员开通页 /pages/member-open", image: false, parent: true, teacher: null }
     ];
 
     let currentPermissionKind = "parent";
@@ -427,12 +427,13 @@
               ? `<button class="btn ghost">上传图片</button><br><span class="muted">非必填，规格待定</span>`
               : `<span class="muted">不配置图片</span>`;
             const parentStatus = e.parent ? `<span class="tag green">家长端展示中</span>` : `<span class="tag amber">家长端已隐藏</span>`;
-            const teacherStatus = e.teacher ? `<span class="tag green">教师端展示中</span>` : `<span class="tag amber">教师端已隐藏</span>`;
+            const teacherControl = e.teacher === null ? `<span class="muted">不适用</span>` : `<span class="switch ${e.teacher ? "on" : ""}"></span>`;
+            const teacherStatus = e.teacher === null ? `<span class="tag">教师端不适用</span>` : e.teacher ? `<span class="tag green">教师端展示中</span>` : `<span class="tag amber">教师端已隐藏</span>`;
             return `<tr>
             <td><strong>${e.name}</strong>${e.name === "会员开通" ? `<br><span class="muted">普通会员、卓越会员合并配置</span>` : ""}</td>
             <td><input value="${e.copy}" aria-label="${e.name}前端展示文案"></td>
             <td><span class="switch ${e.parent ? "on" : ""}"></span></td>
-            <td><span class="switch ${e.teacher ? "on" : ""}"></span></td>
+            <td>${teacherControl}</td>
             <td class="target-field"><input value="${e.target}" aria-label="${e.name}跳转目标"></td>
             <td>${imageControl}</td>
             <td>${parentStatus}<br>${teacherStatus}</td>
@@ -471,8 +472,16 @@
       }
     };
 
-    function permissionRows() {
+    function permissionRows(kind) {
       return entries.map((e, idx) => {
+        if (kind === "teacher" && idx >= 5) {
+          return `<tr>
+            <td><strong>${e[0]}</strong><br><span class="muted">会员开通仅面向家长端</span></td>
+            <td><span class="tag">不适用</span></td>
+            <td><span class="muted">教师端不提供会员开通</span></td>
+            <td>不展示</td>
+          </tr>`;
+        }
         const override = idx === 4 ? "单独关闭" : idx === 6 ? "单独开启" : "继承全局";
         const tagClass = override === "单独关闭" ? "red" : override === "单独开启" ? "green" : "blue";
         const show = override === "单独关闭" ? "不展示" : "展示";
@@ -485,10 +494,10 @@
       }).join("");
     }
 
-    function permissionTable() {
+    function permissionTable(kind) {
       return `<div class="matrix permission-table"><table>
         <thead><tr><th>入口</th><th>当前规则</th><th>控制方式</th><th>最终展示</th></tr></thead>
-        <tbody>${permissionRows()}</tbody>
+        <tbody>${permissionRows(kind)}</tbody>
       </table></div>`;
     }
 
@@ -591,7 +600,7 @@
     function phoneProfile(role = "家长", mode = "default") {
       const isHidden = mode === "hidden";
       const hideCreator = isHidden;
-      const hideNormalVip = isHidden;
+      const hideNormalVip = role === "教师" || isHidden;
       const hidePremiumVip = role === "教师" || isHidden;
       return `<div class="phone-wrap"><div class="phone">
         <div class="phone-status"><span>23:58</span><span>●●● ▰</span></div>
@@ -633,7 +642,7 @@
       },
       "global-config"() {
         pageShell("PC后台：独立运营页", "全局配置家长端、教师端个人中心6组入口展示。", pcShell("operate", `<div class="card"><div class="card-title">个人中心入口全局配置</div>${configMatrix()}<div class="status-bar" id="saveStatus">配置已保存，前后端立刻生效。</div></div>`), [
-          ["页面规则", ["独立运营页是全局默认配置。", "家长端和教师端共用同一套前端展示文案和跳转目标。", "普通会员、卓越会员在本页合并为“会员开通”一项。"]],
+          ["页面规则", ["独立运营页是全局默认配置。", "家长端和教师端共用同一套前端展示文案和跳转目标。", "普通会员、卓越会员在本页合并为“会员开通”一项，且仅面向家长端。"]],
           ["字段规则", ["前端展示文案和跳转目标均直接输入。", "不再配置跳转类型。", "客户端状态分别展示家长端、教师端当前是否显示。"]],
           ["图片规则", ["招募老师、申请加盟、邀请家长报名、招募合伙人可配置入口图片。", "会员开通、创客中心不配置图片。", "可配置的图片非必填，未上传也可保存；规格待定。"]],
           ["按钮规则", ["点击“保存配置”打开确认弹窗。", "确认保存后展示保存成功状态，前后端立刻生效。"]],
@@ -652,10 +661,10 @@
         ]);
       },
       "teacher-control"() {
-        pageShell("PC后台：老师管理详情", "老师管理采用资料区权限控制按钮，点击弹窗配置单个老师的个人中心入口。", managerPage("teacher"), [
+        pageShell("PC后台：老师管理详情", "老师管理采用资料区权限控制按钮，点击弹窗配置单个老师的个人中心入口；会员开通在教师端不适用。", managerPage("teacher"), [
           ["页面结构", ["老师管理采用与家长管理一致的资料区按钮和弹窗交互。", "老师列表字段按老师身份适配，不照搬家长年级字段。"]],
           ["权限入口", ["“权限控制”按钮位于中间老师资料区。", "点击后打开个人中心入口权限控制弹窗。"]],
-          ["弹窗规则", ["弹窗内支持继承全局、单独开启、单独关闭。", "单用户配置优先于全局配置，只影响当前老师。", "保存权限后前后端立刻生效。"]]
+          ["弹窗规则", ["会员开通仅面向家长端，普通会员、卓越会员在老师权限弹窗中显示为不适用。", "其余入口支持继承全局、单独开启、单独关闭。", "单用户配置优先于全局配置，只影响当前老师。", "保存权限后前后端立刻生效。"]]
         ]);
       },
       "parent-profile"() {
@@ -666,8 +675,8 @@
         ]);
       },
       "teacher-profile"() {
-        pageShell("移动端：优坐标教师端个人中心", "教师端使用同一套文案、图片和跳转配置，展示结果按教师端开关和单用户规则决定。", phoneProfile("教师"), [
-          ["端差异", ["教师端与家长端共用配置内容。", "教师端可根据开关隐藏卓越会员等入口。"]],
+        pageShell("移动端：优坐标教师端个人中心", "教师端不展示会员开通卡片，其余入口展示结果按教师端开关和单用户规则决定。", phoneProfile("教师"), [
+          ["端差异", ["会员开通仅面向家长端，教师端不展示普通会员、卓越会员卡片。", "其余入口与家长端共用配置内容。"]],
           ["展示规则", ["最终展示结果 = 单用户控制优先，否则读取全局配置。"]]
         ]);
       },
@@ -709,7 +718,7 @@
         <div><span class="muted">控制对象</span><br><strong>${user.role}：${user.name}</strong>　<span class="muted">${user.phone}</span></div>
         <div><span class="tag blue">单用户优先于全局配置</span></div>
       </div>
-      ${permissionTable()}`;
+      ${permissionTable(kind)}`;
       document.getElementById("permissionModal").classList.add("show");
     }
     function closePermissionModal() {
