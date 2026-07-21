@@ -368,7 +368,7 @@
       ["招募合伙人", "招募合伙人", "固定页面", true, true],
       ["创客中心", "创客中心", "固定页面", true, true],
       ["普通会员", "普通会员卡", "固定页面", true, true],
-      ["尊享会员", "尊享会员卡", "固定页面", true, true]
+      ["卓越会员", "卓越会员卡", "固定页面", true, true]
     ];
 
     const jumpTargets = [
@@ -378,7 +378,7 @@
       { type: "固定页面", label: "选择固定页面", value: "合伙人招募页 /pages/partner-recruit" },
       { type: "固定页面", label: "选择固定页面", value: "创客中心页 /pages/creator-center" },
       { type: "固定页面", label: "选择固定页面", value: "普通会员页 /pages/vip-normal" },
-      { type: "固定页面", label: "选择固定页面", value: "尊享会员页 /pages/vip-premium" }
+      { type: "固定页面", label: "选择固定页面", value: "卓越会员页 /pages/vip-premium" }
     ];
 
     let currentPermissionKind = "parent";
@@ -605,7 +605,7 @@
           </section>
           <section class="vip-grid">
             ${hideNormalVip ? "" : `<div class="vip-card normal"><div class="vip-name">普通会员</div><div class="vip-big">VIP</div><div class="open">立即开通</div><div class="desc">一年内免费更换或另请其他老师</div></div>`}
-            ${hidePremiumVip ? "" : `<div class="vip-card premium"><div class="vip-name">尊享会员</div><div class="vip-big">SVIP</div><div class="open">立即开通</div><div class="desc">三年内免费更换或另请其他老师</div></div>`}
+            ${hidePremiumVip ? "" : `<div class="vip-card premium"><div class="vip-name">卓越会员</div><div class="vip-big">SVIP</div><div class="open">立即开通</div><div class="desc">三年内免费更换或另请其他老师</div></div>`}
           </section>
           <section class="quick-grid">
             ${isHidden ? "" : `<div class="quick-item"><div class="quick-icon green">▥</div><div>申请加盟</div></div>
@@ -624,7 +624,7 @@
       intro() {
         pageShell("版本与范围", "说明本轮原型输入、覆盖页面和关键规则。", `<div class="grid cols-2">
           <div class="card"><div class="card-title">原型范围</div><p>本轮覆盖 PC 后台配置、家长/老师单用户控制、移动端个人中心默认展示、入口隐藏态和历史链接不可访问状态。</p><p><span class="tag blue">Axure风格</span> <span class="tag green">可交互HTML</span></p></div>
-          <div class="card"><div class="card-title">6组入口</div><p>招募老师、申请加盟、邀请家长报名、招募合伙人、创客中心、会员开通。</p><p class="muted">会员开通下普通会员、尊享会员两张卡分别可控。</p></div>
+          <div class="card"><div class="card-title">6组入口</div><p>招募老师、申请加盟、邀请家长报名、招募合伙人、创客中心、会员开通。</p><p class="muted">会员开通下普通会员、卓越会员两张卡分别可控。</p></div>
           <div class="card"><div class="card-title">页面层级</div><p>入口 → PC后台配置 → 移动端个人中心 → 状态/异常页。</p></div>
           <div class="card"><div class="card-title">待确认</div><p>图片最终规格建议值仍待定，不阻塞本轮原型。</p></div>
         </div>`, [
@@ -634,7 +634,7 @@
       },
       "global-config"() {
         pageShell("PC后台：独立运营页", "全局配置家长端、教师端个人中心6组入口展示。", pcShell("operate", `<div class="card"><div class="card-title">个人中心入口全局配置</div>${configMatrix()}<div class="status-bar" id="saveStatus">配置已保存，前后端立刻生效。</div></div>`), [
-          ["页面规则", ["独立运营页是全局默认配置。", "家长端和教师端共用同一套文案、图片、跳转页面。", "普通会员、尊享会员两张卡分别可控。"]],
+          ["页面规则", ["独立运营页是全局默认配置。", "家长端和教师端共用同一套文案、图片、跳转页面。", "普通会员、卓越会员两张卡分别可控。"]],
           ["跳转联动", ["跳转类型必须与本行跳转目标一起配置。", "选择固定页面时填写或选择固定页面；选择表单时选择对应表单；选择外链时填写外链 URL。", "海报类承接按固定页面或运营页面处理。"]],
           ["图片规则", ["入口图片在每一行配置。", "图片非必填，未上传也可保存。", "图片最终规格建议值待定。"]],
           ["按钮规则", ["点击“保存配置”打开确认弹窗。", "确认保存后展示保存成功状态，前后端立刻生效。"]],
@@ -662,19 +662,19 @@
       "parent-profile"() {
         pageShell("移动端：优坐标家长端个人中心", "默认展示会员卡、四个入口、创客中心和我的服务。", phoneProfile("家长"), [
           ["真实UI范围", ["手机线框内只展示用户真实可见内容。", "规则说明均在黄色标签中。"]],
-          ["入口规则", ["6组入口按后台全局配置和单用户配置共同决定。", "普通会员、尊享会员两张卡分别可控。"]],
+          ["入口规则", ["6组入口按后台全局配置和单用户配置共同决定。", "普通会员、卓越会员两张卡分别可控。"]],
           ["跳转规则", ["入口点击目标来自后台配置：固定页面、表单、外链。"]]
         ]);
       },
       "teacher-profile"() {
         pageShell("移动端：优坐标教师端个人中心", "教师端使用同一套文案、图片和跳转配置，展示结果按教师端开关和单用户规则决定。", phoneProfile("教师"), [
-          ["端差异", ["教师端与家长端共用配置内容。", "教师端可根据开关隐藏尊享会员等入口。"]],
+          ["端差异", ["教师端与家长端共用配置内容。", "教师端可根据开关隐藏卓越会员等入口。"]],
           ["展示规则", ["最终展示结果 = 单用户控制优先，否则读取全局配置。"]]
         ]);
       },
       "hidden-state"() {
         pageShell("移动端：入口关闭后的隐藏态", "展示入口关闭后个人中心不再出现相关模块。", phoneProfile("家长", "hidden"), [
-          ["隐藏规则", ["创客中心关闭后隐藏团队卡、提现条和相关二级入口。", "普通会员卡、尊享会员卡可分别隐藏。", "四个圆形入口关闭后不占位展示。"]],
+          ["隐藏规则", ["创客中心关闭后隐藏团队卡、提现条和相关二级入口。", "普通会员卡、卓越会员卡可分别隐藏。", "四个圆形入口关闭后不占位展示。"]],
           ["状态说明", ["隐藏态属于同一页面状态，不进入左侧导航子节点；本页用于评审可视化。"]]
         ]);
       },
