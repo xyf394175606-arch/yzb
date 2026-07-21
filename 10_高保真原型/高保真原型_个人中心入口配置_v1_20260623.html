@@ -371,14 +371,13 @@
       ["卓越会员", "卓越会员卡", "固定页面", true, true]
     ];
 
-    const jumpTargets = [
-      { type: "固定页面", label: "选择固定页面", value: "老师入驻页 /pages/teacher-apply" },
-      { type: "表单", label: "选择表单", value: "加盟申请表" },
-      { type: "外链", label: "填写外链URL", value: "https://example.com/invite-parent" },
-      { type: "固定页面", label: "选择固定页面", value: "合伙人招募页 /pages/partner-recruit" },
-      { type: "固定页面", label: "选择固定页面", value: "创客中心页 /pages/creator-center" },
-      { type: "固定页面", label: "选择固定页面", value: "普通会员页 /pages/vip-normal" },
-      { type: "固定页面", label: "选择固定页面", value: "卓越会员页 /pages/vip-premium" }
+    const globalEntries = [
+      { name: "招募老师", copy: "邀请老师入驻", target: "老师入驻页 /pages/teacher-apply", image: true, parent: true, teacher: true },
+      { name: "申请加盟", copy: "申请加盟", target: "加盟申请表", image: true, parent: true, teacher: true },
+      { name: "邀请家长报名", copy: "邀请家长报名", target: "https://example.com/invite-parent", image: true, parent: true, teacher: true },
+      { name: "招募合伙人", copy: "招募合伙人", target: "合伙人招募页 /pages/partner-recruit", image: true, parent: true, teacher: true },
+      { name: "创客中心", copy: "创客中心", target: "创客中心页 /pages/creator-center", image: false, parent: true, teacher: true },
+      { name: "会员开通", copy: "普通会员、卓越会员", target: "会员开通页 /pages/member-open", image: false, parent: true, teacher: false }
     ];
 
     let currentPermissionKind = "parent";
@@ -421,22 +420,22 @@
 
     function configMatrix() {
       return `<div class="matrix"><table>
-        <thead><tr><th>配置组</th><th>前端展示文案</th><th>家长端</th><th>教师端</th><th>跳转类型</th><th>跳转目标</th><th>入口图片</th><th>状态</th></tr></thead>
+        <thead><tr><th>配置组</th><th>前端展示文案</th><th>家长端</th><th>教师端</th><th>跳转目标</th><th>入口图片</th><th>客户端状态</th></tr></thead>
         <tbody>
-          ${entries.map((e, idx) => {
-            const target = jumpTargets[idx];
-            const targetControl = target.type === "外链"
-              ? `<input value="${target.value}" aria-label="${target.label}">`
-              : `<select aria-label="${target.label}"><option>${target.value}</option></select>`;
+          ${globalEntries.map(e => {
+            const imageControl = e.image
+              ? `<button class="btn ghost">上传图片</button><br><span class="muted">非必填，规格待定</span>`
+              : `<span class="muted">不配置图片</span>`;
+            const parentStatus = e.parent ? `<span class="tag green">家长端展示中</span>` : `<span class="tag amber">家长端已隐藏</span>`;
+            const teacherStatus = e.teacher ? `<span class="tag green">教师端展示中</span>` : `<span class="tag amber">教师端已隐藏</span>`;
             return `<tr>
-            <td><strong>${e[0]}</strong>${idx >= 5 ? `<br><span class="muted">会员开通双卡独立控制</span>` : ""}</td>
-            <td>${e[1]}</td>
-            <td><span class="switch on"></span></td>
-            <td><span class="switch ${idx === 6 ? "" : "on"}"></span></td>
-            <td><select><option>${e[2]}</option><option>固定页面</option><option>表单</option><option>外链</option></select></td>
-            <td class="target-field">${targetControl}<span class="muted">${target.label}</span></td>
-            <td><button class="btn ghost">上传图片</button><br><span class="muted">非必填，规格待定</span></td>
-            <td><span class="tag ${idx === 6 ? "amber" : "green"}">${idx === 6 ? "教师端隐藏" : "展示中"}</span></td>
+            <td><strong>${e.name}</strong>${e.name === "会员开通" ? `<br><span class="muted">普通会员、卓越会员合并配置</span>` : ""}</td>
+            <td><input value="${e.copy}" aria-label="${e.name}前端展示文案"></td>
+            <td><span class="switch ${e.parent ? "on" : ""}"></span></td>
+            <td><span class="switch ${e.teacher ? "on" : ""}"></span></td>
+            <td class="target-field"><input value="${e.target}" aria-label="${e.name}跳转目标"></td>
+            <td>${imageControl}</td>
+            <td>${parentStatus}<br>${teacherStatus}</td>
           </tr>`;
           }).join("")}
         </tbody>
@@ -634,9 +633,9 @@
       },
       "global-config"() {
         pageShell("PC后台：独立运营页", "全局配置家长端、教师端个人中心6组入口展示。", pcShell("operate", `<div class="card"><div class="card-title">个人中心入口全局配置</div>${configMatrix()}<div class="status-bar" id="saveStatus">配置已保存，前后端立刻生效。</div></div>`), [
-          ["页面规则", ["独立运营页是全局默认配置。", "家长端和教师端共用同一套文案、图片、跳转页面。", "普通会员、卓越会员两张卡分别可控。"]],
-          ["跳转联动", ["跳转类型必须与本行跳转目标一起配置。", "选择固定页面时填写或选择固定页面；选择表单时选择对应表单；选择外链时填写外链 URL。", "海报类承接按固定页面或运营页面处理。"]],
-          ["图片规则", ["入口图片在每一行配置。", "图片非必填，未上传也可保存。", "图片最终规格建议值待定。"]],
+          ["页面规则", ["独立运营页是全局默认配置。", "家长端和教师端共用同一套前端展示文案和跳转目标。", "普通会员、卓越会员在本页合并为“会员开通”一项。"]],
+          ["字段规则", ["前端展示文案和跳转目标均直接输入。", "不再配置跳转类型。", "客户端状态分别展示家长端、教师端当前是否显示。"]],
+          ["图片规则", ["招募老师、申请加盟、邀请家长报名、招募合伙人可配置入口图片。", "会员开通、创客中心不配置图片。", "可配置的图片非必填，未上传也可保存；规格待定。"]],
           ["按钮规则", ["点击“保存配置”打开确认弹窗。", "确认保存后展示保存成功状态，前后端立刻生效。"]],
           ["待确认", ["图片最终规格建议值待定。"]]
         ], `<button class="btn primary" onclick="openModal()">保存配置</button>`);
