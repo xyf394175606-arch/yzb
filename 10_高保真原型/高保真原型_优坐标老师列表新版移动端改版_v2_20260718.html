@@ -2904,6 +2904,14 @@
       font-size: 13px;
     }
 
+    .teacher-table-wrap {
+      overflow-x: auto;
+    }
+
+    #page-admin-teachers .teacher-table {
+      min-width: 1660px;
+    }
+
     .teacher-table th,
     .teacher-table td {
       padding: 11px 10px;
@@ -3310,6 +3318,20 @@
       color: var(--pc-primary);
       font-size: 12px;
       line-height: 1.5;
+    }
+
+    .subsection-title {
+      margin: 18px 0 12px;
+      color: #243142;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    #displaySubjectChoices .config-chip,
+    #teacherGradeChoices .config-chip,
+    #teacherSubjectChoices .config-chip {
+      border: 0;
+      cursor: pointer;
     }
 
     .form-section {
@@ -3951,7 +3973,7 @@
             <div class="entry-item"><strong>页面 4：教师详情页</strong><span>由卡片和“更多”进入，展示教师资料、评价、简介、课程和购买操作。</span></div>
             <div class="entry-item"><strong>页面 5：确认订单页</strong><span>承接课程 SKU 与会员卡加购，联动计算课程会员价、会员卡金额和实付总价。</span></div>
             <div class="entry-item"><strong>页面 6：订单支付成功确认页</strong><span>支付成功后直达，展示订单编号、课程、老师、学员、会员方案、金额和后续约课说明。</span></div>
-            <div class="entry-item"><strong>页面 5：后台教师列表</strong><span>运营在 PC 后台筛选、查看、编辑、上下架、作废，并维护老师在各活动页面中的展示和排序配置。</span></div>
+            <div class="entry-item"><strong>页面 5：后台教师列表</strong><span>运营在 PC 后台筛选、查看、编辑、上下架、作废，并维护老师在默认及教师类型筛选结果中的排序。</span></div>
             <div class="entry-item"><strong>页面 8：教师类型维护页</strong><span>独立维护一级/二级教师类型及一级类型的首页 Icon 入口配置。</span></div>
             <div class="entry-item"><strong>页面 9：教师标签维护页</strong><span>独立维护教师展示标签，状态仅包含已启用、禁用，支持新增、编辑、启禁、删除权限和教师输入自动入库规则。</span></div>
             <div class="entry-item"><strong>页面 10：新增/编辑教师弹窗</strong><span>从教师列表打开大弹窗，按当前已确认分组配置前台教师详情展示内容。</span></div>
@@ -4525,37 +4547,35 @@
             <div class="pc-field"><label>审核状态</label><select class="pc-select"><option>全部</option><option>草稿</option><option>待审核</option><option>已通过</option><option>已驳回</option></select></div>
             <div class="pc-actions"><button class="pc-btn primary" type="button">查询</button><button class="pc-btn" type="button">重置</button></div>
           </div>
-          <div class="pc-rule-tip"><strong>活动页面展示排序：</strong>老师仅按各活动页面分别配置是否展示和排序值，例如高级教师、骨干教师、英语伴读。排序值统一为数值越大越靠前；下架或作废老师不参与活动页面展示。</div>
+          <div class="pc-rule-tip"><strong>前端展示排序：</strong>未选择教师类型时使用默认排序；选择一级或二级教师类型后，使用该类型范围内的独立排序。排序值统一为数值越大越靠前；下架或作废老师不参与前端展示。</div>
           <div class="region-publish-error" id="teacherRegionPublishError">请完善所在区域后再上架。所在区域需完整选择省、市、区县，不包含详细地址。</div>
+          <div class="teacher-table-wrap">
           <table class="teacher-table" aria-label="教师列表">
             <thead>
               <tr>
-                <th>教师</th><th>教师类型</th><th>主讲科目</th><th>教学经验</th><th>授课时长</th><th>收藏人数</th><th>关联课程数</th><th>展示状态</th><th>审核状态</th><th>前端展示配置</th><th>更新时间</th><th>操作</th>
+                <th>教师姓名</th><th>性别</th><th>年级</th><th>学科</th><th>教师类型</th><th>主讲科目</th><th>教学经验</th><th>授课时长</th><th>收藏人数</th><th>关联课程数</th><th>展示状态</th><th>审核状态</th><th>最近更新时间</th><th>操作</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td><div class="teacher-cell"><span class="pc-avatar"><img src="../work/优坐标教师详情截图资产_v1_20260703/教师头像_张琴琴_v1_20260703.png" alt="张琴琴头像"></span><div><strong>张琴琴</strong><span class="pc-name-tag">硕博</span><div class="hint">女 / 高中数学</div></div></div></td>
-                <td>骨干教员</td><td>高中数学、初中数学</td><td>6年</td><td>602</td><td>87</td><td>3</td><td><span class="status-pill">上架</span></td><td><span class="status-pill blue">已通过</span></td><td>活动页面3个</td><td>2026-07-05</td>
+                <td><strong>张琴琴</strong><div class="hint">138****8000</div></td><td>女</td><td id="adminTeacherGrade">高一、高二、高三</td><td id="adminTeacherSubject">数学</td><td>骨干教员 / 硕博</td><td>高中数学、初中数学</td><td>6年</td><td>602小时</td><td>87</td><td>3</td><td><span class="status-pill">上架</span></td><td><span class="status-pill blue">已通过</span></td><td>2026-07-05 16:20</td>
                 <td><div class="row-actions"><button class="link-btn" type="button" data-open-teacher-modal="view">查看</button><button class="link-btn" type="button" data-open-teacher-modal="edit">编辑</button><button class="link-btn" type="button">下架</button><button class="link-btn danger" type="button">作废</button><button class="link-btn" type="button" data-open-review-modal>全部评价</button><button class="link-btn" type="button" data-open-course-modal>关联课程</button><button class="link-btn" type="button" data-open-sort-modal>排序</button></div></td>
               </tr>
               <tr>
-                <td><div class="teacher-cell"><span class="pc-avatar"><img src="../work/优坐标老师列表截图资产_v1_20260702/老师头像_袁教员_v1_20260702.jpg" alt="袁教员头像"></span><div><strong>袁教员</strong><span class="pc-name-tag">硕博</span><div class="hint">男 / 数学竞赛</div></div></div></td>
-                <td>骨干教员</td><td>高中数学、竞赛</td><td>8年</td><td>1012</td><td>100</td><td>2</td><td><span class="status-pill">上架</span></td><td><span class="status-pill blue">已通过</span></td><td>活动页面2个</td><td>2026-07-04</td>
+                <td><strong>袁教员</strong><div class="hint">139****5218</div></td><td>男</td><td>高中、初中</td><td>数学、竞赛</td><td>骨干教员 / 硕博</td><td>高中数学、竞赛数学</td><td>8年</td><td>1012小时</td><td>100</td><td>2</td><td><span class="status-pill">上架</span></td><td><span class="status-pill blue">已通过</span></td><td>2026-07-04 10:36</td>
                 <td><div class="row-actions"><button class="link-btn" type="button" data-open-teacher-modal="view">查看</button><button class="link-btn" type="button" data-open-teacher-modal="edit">编辑</button><button class="link-btn" type="button">下架</button><button class="link-btn danger" type="button">作废</button><button class="link-btn" type="button" data-open-review-modal>全部评价</button><button class="link-btn" type="button" data-open-course-modal>关联课程</button><button class="link-btn" type="button" data-open-sort-modal>排序</button></div></td>
               </tr>
               <tr>
-                <td><div class="teacher-cell"><span class="pc-avatar"><img src="../work/优坐标老师列表截图资产_v1_20260702/老师头像_李教员_v1_20260702.jpg" alt="李教员头像"></span><div><strong>李教员</strong><div class="hint">女 / 初中英语</div></div></div></td>
-                <td>专业教员</td><td>初中英语、高中英语</td><td>6年</td><td>602</td><td>87</td><td>1</td><td><span class="status-pill gray">下架</span></td><td><span class="status-pill orange">待审核</span></td><td>下架不展示 / 活动页面配置保留</td><td>2026-07-03</td>
+                <td><strong>李教员</strong><div class="hint">137****6632</div></td><td>女</td><td>初中、高中</td><td>英语</td><td>专业教员 / 一线专业</td><td>初中英语、高中英语</td><td>6年</td><td>602小时</td><td>87</td><td>1</td><td><span class="status-pill gray">下架</span></td><td><span class="status-pill orange">待审核</span></td><td>2026-07-03 18:10</td>
                 <td><div class="row-actions"><button class="link-btn" type="button" data-open-teacher-modal="view">查看</button><button class="link-btn" type="button" data-open-teacher-modal="edit">编辑</button><button class="link-btn" type="button" data-publish-teacher>上架</button><button class="link-btn danger" type="button">作废</button><button class="link-btn" type="button" data-open-review-modal>全部评价</button><button class="link-btn" type="button" data-open-course-modal>关联课程</button><button class="link-btn" type="button" data-open-sort-modal>排序</button></div></td>
               </tr>
               <tr>
-                <td><div class="teacher-cell"><span class="pc-avatar">王</span><div><strong>王教员</strong><div class="hint">男 / 初中物理</div></div></div></td>
-                <td>骨干教员</td><td>初中物理、高中物理</td><td>10年</td><td>880</td><td>76</td><td>0</td><td><span class="status-pill gray">下架</span></td><td><span class="status-pill red">已驳回</span></td><td>下架不展示 / 未配置活动页面</td><td>2026-07-02</td>
+                <td><strong>王教员</strong><div class="hint">136****0917</div></td><td>男</td><td>初中、高中</td><td>物理</td><td>骨干教员 / 名校骨干</td><td>初中物理、高中物理</td><td>10年</td><td>880小时</td><td>76</td><td>0</td><td><span class="status-pill gray">下架</span></td><td><span class="status-pill red">已驳回</span></td><td>2026-07-02 09:45</td>
                 <td><div class="row-actions"><button class="link-btn" type="button" data-open-teacher-modal="view">查看</button><button class="link-btn" type="button" data-open-teacher-modal="edit">编辑</button><button class="link-btn" type="button">上架</button><button class="link-btn danger" type="button">作废</button><button class="link-btn" type="button" data-open-review-modal>全部评价</button><button class="link-btn" type="button" data-open-course-modal>关联课程</button><button class="link-btn" type="button" data-open-sort-modal>排序</button></div></td>
               </tr>
             </tbody>
           </table>
+          </div>
           <div class="pagination"><span>共 42 位教师，当前第 1 / 5 页</span><span>上一页　1　2　3　下一页</span></div>
         </div>
       </section>
@@ -4862,9 +4882,11 @@
                 <section class="form-section" id="section-auth-teaching">
                   <h3>4. 授课能力与资质</h3>
                   <div class="form-grid">
-                    <div class="pc-field"><label>授课学科</label><div class="chip-list"><span class="config-chip">高中数学</span><span class="config-chip">初中数学</span><span class="config-chip">初中物理</span><span class="config-chip">+ 选择字典</span></div><div class="sync-hint">认证资料中的授课学科为老师能力范围，页面展示资料中的主讲科目可按此结果映射展示。</div></div>
+                    <div class="pc-field"><label>年级 <small>可多选</small></label><div class="chip-list" id="teacherGradeChoices"><button class="config-chip active" type="button" data-auth-grade="高一" aria-pressed="true">高一</button><button class="config-chip active" type="button" data-auth-grade="高二" aria-pressed="true">高二</button><button class="config-chip active" type="button" data-auth-grade="高三" aria-pressed="true">高三</button><button class="config-chip" type="button" data-auth-grade="初一" aria-pressed="false">初一</button><button class="config-chip" type="button" data-auth-grade="初二" aria-pressed="false">初二</button><button class="config-chip" type="button" data-auth-grade="初三" aria-pressed="false">初三</button><button class="config-chip" type="button" data-auth-grade="小学一年级" aria-pressed="false">小学一年级</button><button class="config-chip" type="button" data-auth-grade="小学二年级" aria-pressed="false">小学二年级</button><button class="config-chip" type="button" data-auth-grade="小学三年级" aria-pressed="false">小学三年级</button><button class="config-chip" type="button" data-auth-grade="小学四年级" aria-pressed="false">小学四年级</button><button class="config-chip" type="button" data-auth-grade="小学五年级" aria-pressed="false">小学五年级</button><button class="config-chip" type="button" data-auth-grade="小学六年级" aria-pressed="false">小学六年级</button></div></div>
+                    <div class="pc-field"><label>学科 <small>可多选</small></label><div class="chip-list" id="teacherSubjectChoices"><button class="config-chip active" type="button" data-auth-subject="数学" aria-pressed="true">数学</button><button class="config-chip" type="button" data-auth-subject="语文" aria-pressed="false">语文</button><button class="config-chip" type="button" data-auth-subject="英语" aria-pressed="false">英语</button><button class="config-chip" type="button" data-auth-subject="物理" aria-pressed="false">物理</button><button class="config-chip" type="button" data-auth-subject="化学" aria-pressed="false">化学</button><button class="config-chip" type="button" data-auth-subject="生物" aria-pressed="false">生物</button></div></div>
                     <div class="pc-field"><label>授课方式</label><div class="chip-list"><span class="config-chip active">线上</span><span class="config-chip">线下</span><span class="config-chip">上门</span></div></div>
                   </div>
+                  <div class="sync-hint" id="teacherTeachingHint">年级和学科均从对应数据字典读取，可多选；保存后同步教师列表与前台列表筛选。认证资料中的学科为老师能力范围，页面展示资料中的主讲科目可按此结果映射展示。</div>
                 </section>
 
                 <section class="form-section" id="section-auth-images">
@@ -4883,63 +4905,55 @@
                 <section class="form-section" id="section-display-base">
                   <h3>1. 展示基础</h3>
                   <div class="form-grid">
-                    <div class="pc-field"><label>教师姓名 *</label><input class="pc-input" value="张琴琴" readonly><div class="sync-hint">同步自基本认证资料。</div></div>
+                    <div class="pc-field"><label>教师姓名 *</label><input class="pc-input" id="displayTeacherName" value="张琴琴"><div class="sync-hint">默认带入教师名称，可按前台展示口径修改。</div></div>
                     <div class="pc-field"><label>性别</label><select class="pc-select" disabled><option>女</option><option>男</option></select><div class="sync-hint">同步自基本认证资料。</div></div>
                     <div class="pc-field"><label>教师头像 *</label><div class="upload-box">展示已同步头像 / 缺失按性别默认头像</div><div class="sync-hint">图片来源于基本认证资料中的教师头像。</div></div>
                     <div class="pc-field"><label>教师类型 *</label><select class="pc-select" id="teacherPrimaryType"><option>骨干教员</option><option>专业教员</option></select></div>
                     <div class="pc-field"><label>二级类型 <small>非必填</small></label><select class="pc-select" id="teacherSecondType" aria-label="教师二级类型"></select></div>
-                    <div class="pc-field"><label>教师状态</label><select class="pc-select"><option>已通过</option><option>草稿</option><option>待审核</option><option>已驳回</option></select></div>
+                    <div class="pc-field"><label>教学经验（年）</label><input class="pc-input" id="displayTeachingExperience" value="6"></div>
+                    <div class="pc-field"><label>授课时长（小时） <small>统计只读</small></label><input class="pc-input" value="602" readonly></div>
+                    <div class="pc-field"><label>基础收藏人数 <small>统计只读</small></label><input class="pc-input" id="displayBaseFavorites" value="87" readonly></div>
+                    <div class="pc-field"><label>虚拟收藏人数</label><input class="pc-input" id="displayVirtualFavorites" type="number" min="0" value="0"><div class="sync-hint">可填写虚拟人数；前台展示为基础收藏人数与虚拟收藏人数之和。</div></div>
                   </div>
                   <div class="hint">教师类型和二级类型均从“教师类型维护页”读取；二级类型跟随一级类型联动刷新且非必填，可选择“不选择二级类型”。下架类型不可新选，历史老师已配置的下架类型保留展示并提示“类型已下架”。当前样例：骨干教员下含“硕博、名校骨干”，专业教员下含“一线专业、基础巩固”。前端展示与排序不在教师资料弹窗维护，统一从教师列表行内“排序”入口配置。</div>
                 </section>
 
-                <section class="form-section" id="section-display-metrics">
-                  <h3>2. 展示标签与指标</h3>
-                  <div class="form-grid">
-                    <div class="pc-field"><label>教学经验</label><input class="pc-input" id="displayTeachingExperience" value="6 年"></div>
-                    <div class="pc-field"><label>授课时长 <small>统计只读</small></label><input class="pc-input" value="602" readonly><div class="sync-hint">读取已完成授课时长统计，不在教师资料中手工维护。</div></div>
-                    <div class="pc-field"><label>收藏人数 <small>统计只读</small></label><input class="pc-input" value="87" readonly><div class="sync-hint">读取家长收藏统计，不在教师资料中手工维护。</div></div>
-                    <div class="pc-field"><label>主讲科目</label><div class="chip-list"><span class="config-chip">高中数学</span><span class="config-chip">初中数学</span><span class="config-chip">初中物理</span></div><div class="sync-hint">主讲科目可映射自认证资料中的授课学科，并配置前台实际展示范围。</div></div>
-                    <div class="pc-field"><label>教师标签</label><div class="chip-list"><span class="config-chip">培育名校学子 ×</span><span class="config-chip">零投诉 ×</span><span class="config-chip">211 ×</span><span class="config-chip">高好评率 ×</span><span class="config-chip active">+ 输入新标签</span></div><div class="sync-hint">从教师标签维护页读取已启用标签；教师端输入不存在的标签，保存后自动写入标签库，默认已启用。</div></div>
-                  </div>
-                  <div class="hint">教学经验由展示资料维护；授课时长、收藏人数、家长评分均为业务统计只读字段，指标为空时前台不展示对应项。教师标签来自教师标签维护页，已启用标签可选，禁用标签不可新选；历史已配置的禁用标签保留并提示状态。</div>
-                </section>
-
                 <section class="form-section" id="section-display-suitable">
-                  <h3>3. 适合这样的孩子</h3>
-                  <label class="inline-checkbox"><input type="checkbox" id="displaySuitableChildrenVisible" checked> 在前端展示</label>
+                  <h3>2. 广告位</h3>
+                  <div class="form-grid"><div class="pc-field"><label>广告位主标题</label><input class="pc-input" id="displaySuitableChildrenTitle" value="适合这样的孩子" maxlength="50"></div><div class="pc-field"><label>广告位展示</label><label class="inline-checkbox"><input type="checkbox" id="displaySuitableChildrenVisible" checked> 在前端展示</label></div></div>
                   <div class="config-table-wrap">
                     <table class="config-table" aria-label="适合的孩子配置表">
-                      <thead><tr><th style="width: 110px;">Icon</th><th>标题</th><th>说明</th><th style="width: 10%;">排序</th><th style="width: 12%;">是否展示</th><th style="width: 10%;">操作</th></tr></thead>
-                      <tbody>
-                        <tr><td><label class="case-icon-upload"><span class="case-icon-preview">▣</span><span>已上传<br>点击更换</span><input type="file" accept="image/*" aria-label="基础薄弱 Icon"></label></td><td><input class="pc-input" value="基础薄弱"></td><td><input class="pc-input" value="课内知识不牢，基础题易失分"></td><td><input class="pc-input" value="1"></td><td><select class="pc-select"><option>展示</option><option>隐藏</option></select></td><td><button class="link-btn danger" type="button">删除</button></td></tr>
-                        <tr><td><label class="case-icon-upload"><span class="case-icon-preview">↗</span><span>已上传<br>点击更换</span><input type="file" accept="image/*" aria-label="中考提分 Icon"></label></td><td><input class="pc-input" value="中考提分"></td><td><input class="pc-input" value="成绩进入瓶颈期，需要查漏补缺"></td><td><input class="pc-input" value="2"></td><td><select class="pc-select"><option>展示</option><option>隐藏</option></select></td><td><button class="link-btn danger" type="button">删除</button></td></tr>
-                        <tr><td><label class="case-icon-upload"><span class="case-icon-preview">✿</span><span>已上传<br>点击更换</span><input type="file" accept="image/*" aria-label="数学思维提升 Icon"></label></td><td><input class="pc-input" value="数学思维提升"></td><td><input class="pc-input" value="综合题、推理题容易卡住"></td><td><input class="pc-input" value="3"></td><td><select class="pc-select"><option>展示</option><option>隐藏</option></select></td><td><button class="link-btn danger" type="button">删除</button></td></tr>
+                      <thead><tr><th style="width: 110px;">Icon</th><th>主标题</th><th>副标题</th><th style="width: 12%;">是否展示</th><th style="width: 10%;">操作</th></tr></thead>
+                      <tbody id="suitableChildRows">
+                        <tr><td><label class="case-icon-upload"><span class="case-icon-preview">▣</span><span>已上传<br>点击更换</span><input type="file" accept="image/*" aria-label="基础薄弱 Icon"></label></td><td><input class="pc-input" value="基础薄弱"></td><td><input class="pc-input" value="课内知识不牢，基础题易失分"></td><td><select class="pc-select"><option>展示</option><option>隐藏</option></select></td><td><button class="link-btn danger" type="button">删除</button></td></tr>
+                        <tr><td><label class="case-icon-upload"><span class="case-icon-preview">↗</span><span>已上传<br>点击更换</span><input type="file" accept="image/*" aria-label="中考提分 Icon"></label></td><td><input class="pc-input" value="中考提分"></td><td><input class="pc-input" value="成绩进入瓶颈期，需要查漏补缺"></td><td><select class="pc-select"><option>展示</option><option>隐藏</option></select></td><td><button class="link-btn danger" type="button">删除</button></td></tr>
+                        <tr><td><label class="case-icon-upload"><span class="case-icon-preview">✿</span><span>已上传<br>点击更换</span><input type="file" accept="image/*" aria-label="数学思维提升 Icon"></label></td><td><input class="pc-input" value="数学思维提升"></td><td><input class="pc-input" value="综合题、推理题容易卡住"></td><td><select class="pc-select"><option>展示</option><option>隐藏</option></select></td><td><button class="link-btn danger" type="button">删除</button></td></tr>
                       </tbody>
                     </table>
                   </div>
-                  <div class="hint">默认关闭。开启后，前台最多展示排序靠前的 3 条；每条独立维护 Icon、标题、说明、排序和展示状态。</div>
+                  <div class="hint">默认预置 3 个广告位，可新增、删除或关闭整组展示；前台按表格顺序展示已启用广告位。</div>
+                  <button class="pc-btn" id="addSuitableChild" type="button">新增广告位</button>
                 </section>
 
                 <section class="form-section" id="section-display-intro">
-                  <h3>4. 教师简介</h3>
+                  <h3>3. 教师简介</h3>
                   <div class="form-grid one">
-                    <div class="pc-field"><label>个人简介 *</label><textarea class="pc-textarea" id="displayIntroduction">本人从事教学 9 年，是校区认证优秀师资。长期钻研题型考点，擅长分层教学，针对基础薄弱、拔高冲刺不同学生定制学习方案。</textarea></div>
+                    <div class="pc-field"><label>个人简介 <small>200 字以内</small></label><textarea class="pc-textarea" id="displayIntroduction" maxlength="200">本人从事教学 9 年，是校区认证优秀师资。长期钻研题型考点，擅长分层教学，针对基础薄弱、拔高冲刺不同学生定制学习方案。</textarea></div>
+                    <div class="pc-field"><label>主讲科目 <small>最多 5 个</small></label><div class="chip-list" id="displaySubjectChoices"><button class="config-chip active" type="button" data-display-subject="高中数学">高中数学</button><button class="config-chip active" type="button" data-display-subject="初中数学">初中数学</button><button class="config-chip active" type="button" data-display-subject="初中物理">初中物理</button><button class="config-chip" type="button" data-display-subject="高中物理">高中物理</button><button class="config-chip" type="button" data-display-subject="小学数学">小学数学</button><button class="config-chip" type="button" data-display-subject="初中化学">初中化学</button></div><div class="sync-hint" id="displaySubjectHint">点击选择前台主讲科目，可多选，最多选择 5 个。</div></div>
                   </div>
                 </section>
 
                 <section class="form-section" id="section-display-achievements">
-                  <h3>5. 教学成果（部分）</h3>
+                  <h3>4. 教学成果</h3>
                   <div class="form-grid">
-                    <div class="pc-field"><label>教学经验</label><input class="pc-input" value="6 年"><div class="sync-hint">用于教师头部指标展示。</div></div>
-                    <div class="pc-field"><label>授课时长 <small>统计只读</small></label><input class="pc-input" value="602" readonly><div class="sync-hint">读取已完成授课时长统计，用于新版教学成果展示。</div></div>
-                    <div class="pc-field"><label>提分率</label><input class="pc-input" id="displayImprovementRate" value="87%"><div class="sync-hint">用于教学成果卡片展示。</div></div>
-                    <div class="pc-field"><label>家长评分 <small>统计只读</small></label><input class="pc-input" value="4.9" readonly><div class="sync-hint">读取全部评价汇总评分。</div></div>
+                    <div class="pc-field"><label>主标题 <small>50 字以内</small></label><input class="pc-input" id="displayAchievementTitle" value="教学成果（部分）" maxlength="50"></div>
+                    <div class="pc-field"><label>展示状态 <small>系统控制</small></label><input class="pc-input" value="展示（默认）" readonly><div class="sync-hint">教学成果模块默认展示，不在教师资料中关闭。</div></div>
+                    <div class="pc-field"><label>授课时长（小时） <small>统计只读</small></label><input class="pc-input" value="602" readonly></div>
+                    <div class="pc-field"><label>提分率</label><input class="pc-input" id="displayImprovementRate" value="87%"></div>
+                    <div class="pc-field"><label>家长评分 <small>统计只读</small></label><input class="pc-input" value="4.9" readonly></div>
                   </div>
-                </section>
-
-                <section class="form-section" id="section-display-cases">
-                  <h3>6. 提分案例</h3>
+                  <div id="section-display-cases">
+                  <h3 class="subsection-title">提分案例</h3>
                   <div class="config-table-wrap">
                     <table class="config-table" aria-label="教学经验案例配置表">
                       <thead>
@@ -4982,6 +4996,7 @@
                   </div>
                   <div class="hint">每条案例独立维护主标题、副标题、强化副标题、Icon 和展示状态；前台按表格顺序展示。</div>
                   <button class="pc-btn" id="addTeachingCase" type="button">新增案例</button>
+                  </div>
                 </section>
 
               </div>
@@ -5087,21 +5102,20 @@
                 </div>
               </section>
               <section class="form-section">
-                <h3>活动页面展示排序</h3>
+                <h3>教师类型排序</h3>
                 <div class="config-table-wrap">
-                  <table class="config-table compact" aria-label="活动页面展示排序配置">
+                  <table class="config-table compact" aria-label="教师类型排序配置">
                     <thead>
                       <tr>
-                        <th style="width: 150px;">活动页面</th>
-                        <th style="width: 110px;">是否展示</th>
+                        <th style="width: 210px;">排序范围</th>
                         <th style="width: 120px;">排序值</th>
-                        <th>展示条件说明</th>
+                        <th>应用说明</th>
                       </tr>
                     </thead>
-                    <tbody id="activitySortRows"></tbody>
+                    <tbody id="teacherTypeSortRows"></tbody>
                   </table>
                 </div>
-                <div class="hint">每个活动页面可单独控制是否展示和排序；未配置某个活动页面时，该老师不在该页面展示。</div>
+                <div class="hint">未选择教师类型时使用默认排序；选择教师类型后，仅在该类型的筛选结果中按对应排序值排序。当前老师仅维护其已关联的一级/二级教师类型。</div>
               </section>
             </div>
           </div>
@@ -5355,10 +5369,10 @@
       </div>
 
       <div class="note-page" id="note-list">
-        <div class="note-card"><h3>页面规则</h3><ul><li>默认按推荐排序展示老师列表。</li><li>学科、年级筛选项调用后台字典并支持多选，点击确认后刷新列表。</li><li>教员类型为一级、二级联动筛选：一级默认全部，读取教师类型维护页中的上架一级类型；二级默认全部，并跟随一级类型展示对应上架二级类型。</li><li>一级与二级类型存在关联关系：骨干教员展示骨干教员下的二级分类，专业教员展示专业教员下的二级分类；分类不再来自普通数据字典。</li><li>收藏为列表筛选/排序入口；具体展开逻辑待确认。</li><li>列表不展示“擅长科目”。</li></ul></div>
+        <div class="note-card"><h3>页面规则</h3><ul><li>默认按推荐排序展示老师列表。</li><li>学科、年级筛选项调用后台字典并支持多选，任一筛选条件变化后立即刷新老师卡。</li><li>教员类型为一级、二级联动筛选：一级默认全部，读取教师类型维护页中的上架一级类型；二级默认全部，并跟随一级类型展示对应上架二级类型。</li><li>一级与二级类型存在关联关系：骨干教员展示骨干教员下的二级分类，专业教员展示专业教员下的二级分类；分类不再来自普通数据字典。</li><li>筛选后没有符合条件的老师时，回退展示全部老师，并按当前排序规则重新排序。</li><li>收藏为列表筛选/排序入口；具体展开逻辑待确认。</li><li>列表不展示“擅长科目”。</li></ul></div>
         <div class="note-card"><h3>字段说明</h3><ul><li>授课时长、收藏人数为业务统计只读数据；缺失时不展示。</li><li>标签过多时按设计图换行展示，不再限制只展示 3 个。</li><li>头像缺失时按性别展示默认头像；一级教员类型分专业教员、骨干教员，并在姓名旁展示。</li><li>硕博来自骨干教员下的二级类型；老师配置到该二级类型时，在头像右上角展示“硕博”。</li><li>身份标签、资质标签、年级科目标签来源待数据交互阶段补充。</li></ul></div>
         <div class="note-card"><h3>按钮说明</h3><ul><li>返回：返回上一页，具体历史栈由小程序决定。</li><li>学科/年级确认：按多选条件刷新列表。</li><li>教员类型确认：按“一级类型 + 二级类型”刷新列表；默认全部，选择一级后刷新二级分类，选择二级后确认生效。</li><li>收藏：筛选收藏老师或按收藏维度过滤，具体规则待确认。</li><li>老师卡片：进入教师详情页。</li><li>更多：进入教师详情页。</li></ul></div>
-        <div class="note-card"><h3>全部状态</h3><div class="state-demo"><div class="state-chip"><strong>默认：</strong>展示推荐老师列表。</div><div class="state-chip"><strong>加载：</strong>展示骨架屏。</div><div class="state-chip"><strong>空态：</strong>暂无符合条件的老师，可更换学科或年级后再查看。</div><div class="state-chip"><strong>错误：</strong>当前网络不稳定，老师列表暂时加载失败。请点击重新加载再试。</div><div class="state-chip"><strong>无权限：</strong>当前账号暂不能查看全部老师列表，请切换家长身份或联系平台客服处理。</div></div></div>
+        <div class="note-card"><h3>全部状态</h3><div class="state-demo"><div class="state-chip"><strong>默认：</strong>展示推荐老师列表。</div><div class="state-chip"><strong>加载：</strong>展示骨架屏。</div><div class="state-chip"><strong>筛选无匹配：</strong>自动展示全部老师，并保留当前排序规则。</div><div class="state-chip"><strong>错误：</strong>当前网络不稳定，老师列表暂时加载失败。请点击重新加载再试。</div><div class="state-chip"><strong>无权限：</strong>当前账号暂不能查看全部老师列表，请切换家长身份或联系平台客服处理。</div></div></div>
       </div>
 
       <div class="note-page" id="note-home">
@@ -5368,7 +5382,7 @@
       </div>
 
       <div class="note-page" id="note-type-activity">
-        <div class="note-card"><h3>页面规则</h3><ul><li>教师类型活动页由首页 Icon 入口进入，标题和副标题读取该一级类型的首页展示配置。</li><li>页面只展示一级类型匹配、已上架、未作废且已配置该活动页展示的老师。</li><li>活动页内老师按教师列表行内“前端展示排序”中该活动页面的排序值从大到小展示。</li></ul></div>
+        <div class="note-card"><h3>页面规则</h3><ul><li>教师类型活动页由首页 Icon 入口进入，标题和副标题读取该一级类型的首页展示配置。</li><li>页面只展示一级类型匹配、已上架、未作废且允许前端展示的老师。</li><li>页面内老师按教师列表行内“前端展示排序”中该教师类型的排序值从大到小展示。</li></ul></div>
         <div class="note-card"><h3>字段说明</h3><ul><li>活动页展示老师头像、姓名、主讲科目、教学经验和授课时长。</li><li>二级类型仅作为教师身份信息，不生成独立活动页入口。</li></ul></div>
         <div class="note-card"><h3>状态规则</h3><ul><li>无符合条件老师时展示活动页空态。</li><li>返回按钮回到首页。</li></ul></div>
       </div>
@@ -5419,8 +5433,8 @@
 
       <div class="note-page" id="note-admin-teachers">
         <div class="note-card"><h3>页面规则</h3><ul><li>后台入口定为教师列表，不单独新增“教师详情配置”页面。</li><li>新增、编辑、查看教师资料都从列表页打开大弹窗。</li><li>列表用于运营管理老师，支持筛选、查看、编辑、上下架、作废、维护前端展示排序配置。</li><li>下架教师后，前台老师列表和详情页不可见；作废为逻辑删除，作废后老师数据不再对前台展示。</li></ul></div>
-        <div class="note-card"><h3>字段说明</h3><ul><li>列表展示教师头像、教师姓名、一级教师类型、二级类型、主讲科目、教学经验、授课时长、收藏人数、关联课程数、展示状态、审核状态、前端展示配置、更新时间。</li><li>前端展示配置为摘要字段，仅展示已配置的活动页面数量。</li><li>手机号、身份证号、企业微信绑定、学历背景、资质证明等属于教师认证资料，只在查看/编辑弹窗中维护，不在列表默认展示。</li><li>一级教师类型和二级类型来自教师类型维护页；二级类型按一级类型联动，后台筛选可查看上架和下架类型。</li><li>授课时长、收藏人数为业务统计只读数据，统计更新后同步刷新列表与教师详情页。</li><li>关联课程弹窗按已关联课程表展示字段：课程信息、分类/学科、年级、课程类型、单价、价格、操作。</li><li>新增关联课程弹窗复用同一字段结构，并增加筛选字段：课程名称/ID、分类/学科、年级、课程类型。</li><li>关联课程中的课程基础信息均来自课程管理；课程价格、封面、课时、SKU 等基础信息不在教师关联弹窗维护。</li><li>全部评价、关联课程、前端展示排序不放在教师资料弹窗内，统一从列表操作进入。</li><li>前端展示排序仅按活动页面分别维护，不配置首页或全部教师列表页排序。</li><li>排序规则统一为数值越大越靠前；同一活动页面内按该页面自己的排序值展示。</li></ul></div>
-        <div class="note-card"><h3>按钮说明</h3><ul><li>新增教师：打开新增教师资料弹窗，默认进入“基本认证资料”Tab，填写后点击保存直接保存资料。</li><li>查看：打开只读弹窗，用于核对认证资料与页面展示资料配置。</li><li>编辑：打开双 Tab 教师资料弹窗，分别维护认证资料与页面展示资料。</li><li>全部评价：打开独立评价弹窗；评价内容按表格维护，列为头像、姓名、评价星、排序、评价内容、创建时间、操作。</li><li>新增评价：在评价表格底部追加一条空白评价行，运营填写头像、姓名、星级、排序和评价内容后，点击保存全部评价统一保存。</li><li>全部评价头像：真实评价优先使用用户头像；后台补充的假数据可选择随机头像或默认头像。</li><li>全部评价操作列中的隐藏/展示仅控制该条评价内容是否在前台详情页展示，不影响评价记录、评价总数、评分和星级汇总；删除才移除记录。</li><li>关联课程：打开独立关联课程弹窗，查看当前老师已关联课程，并可新增关联课程或删除已关联课程。</li><li>新增关联课程：打开二级弹窗，从平台课程管理中选择已创建课程并关联到当前老师。</li><li>新增弹窗中的关联：选择一门可关联课程；已关联课程显示“已关联”且不可重复关联。</li><li>确认关联：关闭新增关联课程弹窗，回到关联课程弹窗，并刷新已关联课程列表和课程数量。</li><li>删除：取消当前老师与课程的关联，不删除课程管理中的课程；删除后刷新已关联课程数量。</li><li>课程统一为平台创建；关联课程弹窗不允许修改课程价格、封面、课时包等课程基础信息。</li><li>排序：打开前端展示排序弹窗，仅维护各活动页面中的展示和排序。</li><li>前端展示排序保存：关闭弹窗，刷新教师列表中的前端展示配置摘要。</li><li>上架/下架：改变前台展示状态。</li><li>作废：逻辑删除，作废后老师不再对前台展示，后台可按作废状态留痕。</li></ul></div>
+        <div class="note-card"><h3>字段说明</h3><ul><li>列表按以下顺序展示：教师姓名、性别、年级、学科、教师类型、主讲科目、教学经验、授课时长、收藏人数、关联课程数、展示状态、审核状态、最近更新时间。</li><li>教师姓名读取基本认证资料中的真实姓名；同一单元格同时展示登录手机号，并将中间四位脱敏。性别、年级、学科、主讲科目和教学经验均读取新增/编辑教师资料。</li><li>教师类型读取教师类型维护页：已选二级类型时以“一级类型 / 二级类型”组合展示；未选二级类型时仅展示一级类型。</li><li>授课时长、基础收藏人数来自业务统计，虚拟收藏人数来自页面展示资料；列表收藏人数展示两者合计，均为只读结果。关联课程数按当前已关联课程数量汇总。</li><li>展示状态反映老师是否上架；审核状态反映当前审核结果；最近更新时间展示教师资料或展示资料最后一次保存时间。</li><li>身份证号、学历背景、资质证明等认证明细不在列表展示，只在查看/编辑弹窗中维护。</li><li>关联课程弹窗按已关联课程表展示字段：课程信息、分类/学科、年级、课程类型、单价、价格、操作。</li><li>新增关联课程弹窗复用同一字段结构，并增加筛选字段：课程名称/ID、分类/学科、年级、课程类型。</li><li>关联课程中的课程基础信息均来自课程管理；课程价格、封面、课时、SKU 等基础信息不在教师关联弹窗维护。</li><li>全部评价、关联课程、前端展示排序不放在教师资料弹窗内，统一从列表操作进入。</li><li>前端展示排序按未选择教师类型的默认范围、当前老师的一级类型和二级类型分别维护；前台选择对应类型时使用该类型排序，排序值越大越靠前。</li></ul></div>
+        <div class="note-card"><h3>按钮说明</h3><ul><li>新增教师：打开新增教师资料弹窗，默认进入“基本认证资料”Tab，填写后点击保存直接保存资料。</li><li>查看：打开只读弹窗，用于核对认证资料与页面展示资料配置。</li><li>编辑：打开双 Tab 教师资料弹窗，分别维护认证资料与页面展示资料。</li><li>下架：将当前已上架老师切换为下架，前台老师列表和详情页即时不可见；下架不删除后台资料和教师类型排序配置。</li><li>作废：逻辑删除，作废后老师不再对前台展示，后台可按作废状态留痕。</li><li>全部评价：打开独立评价弹窗；评价内容按表格维护，列为头像、姓名、评价星、排序、评价内容、创建时间、操作。</li><li>新增评价：在评价表格底部追加一条空白评价行，运营填写头像、姓名、星级、排序和评价内容后，点击保存全部评价统一保存。</li><li>全部评价头像：真实评价优先使用用户头像；后台补充的假数据可选择随机头像或默认头像。</li><li>全部评价操作列中的隐藏/展示仅控制该条评价内容是否在前台详情页展示，不影响评价记录、评价总数、评分和星级汇总；删除才移除记录。</li><li>关联课程：打开独立关联课程弹窗，查看当前老师已关联课程，并可新增关联课程或删除已关联课程。</li><li>新增关联课程：打开二级弹窗，从平台课程管理中选择已创建课程并关联到当前老师。</li><li>新增弹窗中的关联：选择一门可关联课程；已关联课程显示“已关联”且不可重复关联。</li><li>确认关联：关闭新增关联课程弹窗，回到关联课程弹窗，并刷新已关联课程列表和课程数量。</li><li>删除：取消当前老师与课程的关联，不删除课程管理中的课程；删除后刷新已关联课程数量。</li><li>课程统一为平台创建；关联课程弹窗不允许修改课程价格、封面、课时包等课程基础信息。</li><li>排序：打开前端展示排序弹窗，维护默认排序及当前教师类型排序；保存后在前台对应筛选结果中生效。</li></ul></div>
         <div class="note-card"><h3>权限与状态</h3><ul><li>老师账号可编辑自己的入驻资料和自行关联课程。</li><li>运营账号可审核、修改、上下架、维护前端展示排序配置，也可帮助教师关联课程。</li><li>课程价格和课程基础信息只允许在平台课程配置中维护。</li><li>审核状态包含草稿、待审核、已通过、已驳回；展示状态包含上架、下架。</li></ul></div>
       </div>
 
@@ -5431,11 +5445,10 @@
       </div>
 
       <div class="note-page" id="note-admin-sort-modal">
-        <div class="note-card"><h3>页面规则</h3><ul><li>前端展示排序弹窗归属教师列表，仅用于配置当前老师在各活动页面中的展示与排序。</li><li>不在本弹窗配置首页展示、首页排序或全部教师列表页排序。</li><li>排序配置不放入新增/编辑教师资料弹窗，统一从教师列表行内“排序”进入。</li><li>保存后刷新教师列表中的“前端展示配置”摘要。</li></ul></div>
-        <div class="note-card"><h3>字段说明</h3><ul><li>教师摘要：展示头像、姓名、一级/二级类型和当前展示状态，用于确认正在配置的老师。</li><li>活动页面表格读取已配置首页展示的一级教师类型，页面名称取该类型的首页展示主标题。</li><li>表格包含活动页面、是否展示、排序值、展示条件说明；不再使用静态活动页面名称。</li></ul></div>
-        <div class="note-card"><h3>按钮说明</h3><ul><li>取消/关闭：关闭弹窗，不保存本次修改，回到教师列表说明。</li><li>保存：保存当前老师的前端展示排序配置，关闭弹窗，并刷新教师列表中的前端展示配置摘要。</li></ul></div>
-        <div class="note-card"><h3>排序规则</h3><ul><li>排序值统一为数值越大越靠前。</li><li>活动页面按页面逐行配置是否展示和排序值；未配置某个活动页面时，该老师不在该页面展示。</li></ul></div>
-        <div class="note-card"><h3>状态规则</h3><ul><li>下架或作废老师不参与活动页面展示排序。</li><li>重新上架后可继续使用已保存的活动页面配置。</li><li>活动页面来源后续可接活动页面配置，本弹窗只维护老师在页面中的展示与排序。</li></ul></div>
+        <div class="note-card"><h3>页面规则</h3><ul><li>前端展示排序弹窗归属教师列表，用于配置当前老师在默认教师列表及教师类型筛选结果中的排序。</li><li>不在本弹窗配置首页入口、首页 Icon 排序或活动页面展示开关。</li><li>排序配置不放入新增/编辑教师资料弹窗，统一从教师列表行内“排序”进入。</li><li>保存后刷新前台对应教师类型筛选结果；教师列表不单列展示排序配置摘要。</li></ul></div>
+        <div class="note-card"><h3>字段说明</h3><ul><li>教师摘要：展示头像、姓名、一级/二级类型和当前展示状态，用于确认正在配置的老师。</li><li>排序范围固定包含“默认排序（未选择教师类型）”；当前老师已关联一级类型时显示该一级类型排序，已关联二级类型时再显示该二级类型排序。</li><li>当前老师不属于某个教师类型时，不维护该类型的排序值。例如张琴琴属于骨干教员 / 硕博，不显示专业教员排序。</li><li>表格字段包含排序范围、排序值和应用说明，不提供是否展示开关。</li></ul></div>
+        <div class="note-card"><h3>按钮说明</h3><ul><li>取消/关闭：关闭弹窗，不保存本次修改，回到教师列表说明。</li><li>保存：保存默认及当前教师类型排序值，关闭弹窗，并刷新前台对应筛选结果。</li></ul></div>
+        <div class="note-card"><h3>排序规则</h3><ul><li>排序值统一为数值越大越靠前。</li><li>家长未选择教师类型时，使用默认排序；选择一级类型或二级类型时，优先使用该类型范围内的排序值。</li><li>下架或作废老师不参与前端展示排序；重新上架后继续使用已保存排序。</li></ul></div>
       </div>
 
       <div class="note-page" id="note-admin-course-modal">
@@ -5503,7 +5516,7 @@
       <div class="note-page" id="note-admin-teacher-modal">
         <div class="note-card"><h3>本次变更：教师所在区域</h3><ul><li>基本认证资料 / 实名与身份新增所在区域：省、市、区县三级级联选择。</li><li>不录入详细地址；保存教师资料时可暂不填写，但教师上架或前台展示前必须补齐三级区域。</li><li>省份变化清空城市与区县，城市变化清空区县；查看态只读，编辑态可修改。</li><li>字段供开发对接：teachingRegionProvince、teachingRegionCity、teachingRegionDistrict 及对应名称展示字段。</li></ul></div>
         <div class="note-card"><h3>页面规则</h3><ul><li>新增/编辑教师使用大弹窗承载，保留基本认证资料、页面展示资料两个顶层 Tab。</li><li>当前方案中认证资料用于老师入驻、实名、登录和资质核验；页面展示资料用于前台老师列表与详情页展示。</li><li>全部评价、关联课程已拆到教师列表操作入口，不再放在教师资料弹窗内。</li><li>移除两个顶层 Tab 内的左侧锚点导航，字段按分组从上到下连续展示，切换顶层 Tab 不影响底部操作按钮。</li></ul></div>
-        <div class="note-card"><h3>字段说明</h3><ul><li>基本认证资料包含：手机号、绑定企业微信号、身份证号、所在区域、毕业院校、最高学历、年龄、授课方式、授课学科。</li><li>微信 OpenID、企业微信 OpenID 不再采集；身份证号为非必填字段。</li><li>认证图片资料统一维护教师头像、教师形象照片、资质证明。</li><li>页面展示资料按详情页顺序维护：展示基础、展示标签与指标、适合这样的孩子、教师简介、教学成果、提分案例；授课特色已删除，咨询顾问不在本弹窗维护。</li><li>适合这样的孩子总开关默认关闭；教师简介不设展示开关；提分案例维护主标题、副标题、强化副标题、Icon 与展示状态。</li><li>教师姓名、性别、教师头像、授课学科/主讲科目等可共用同一数据源，但不在两个 Tab 中混排展示。</li><li>一级教师类型与二级类型均从教师类型维护页读取；二级类型非必填，未选择时前台不展示二级类型标识。</li><li>教师标签来自教师标签维护页，已启用标签可选；展示状态、售卖状态不在教师资料弹窗维护。</li></ul></div>
+        <div class="note-card"><h3>字段说明</h3><ul><li>基本认证资料包含：手机号、绑定企业微信号、身份证号、所在区域、毕业院校、最高学历、年龄、年级、学科、授课方式。</li><li>年级与学科分别从年级、学科数据字典读取，均可多选；保存后同步后台教师列表的年级、学科列，并作为前台老师列表的筛选来源。</li><li>微信 OpenID、企业微信 OpenID 不再采集；身份证号为非必填字段。</li><li>认证图片资料统一维护教师头像、教师形象照片、资质证明。</li><li>页面展示资料收敛为四组：展示基础、广告位、教师简介、教学成果；授课特色已删除，咨询顾问不在本弹窗维护。</li><li>展示基础维护展示姓名、类型、经验、授课时长及虚拟收藏；教师审核状态和上下架状态不在本弹窗展示或维护，统一在教师列表中查看和处理。</li><li>广告位默认预置 3 条，可新增、删除或关闭整组展示；个人简介最多 200 字；主讲科目最多选择 5 个；教学成果标题最多 50 字且模块由系统默认展示。</li><li>提分案例维护主标题、副标题、强化副标题、Icon 与展示状态。</li><li>一级教师类型与二级类型均从教师类型维护页读取；二级类型非必填，未选择时前台不展示二级类型标识。</li></ul></div>
         <div class="note-card"><h3>前台展示规则</h3><ul><li>指标缺失时前台不展示对应指标。</li><li>教师标签来自教师标签维护页，并按后台排序展示；禁用标签不可新选。</li><li>一级教师类型展示在头像身份条。</li><li>二级类型标识有填写则展示在教员姓名后；未填写则不展示、不占位。</li><li>教师头像用于列表/卡片/基础展示；教师形象照片用于详情页形象展示。</li><li>授课学科为认证资料中的老师能力范围；主讲科目为页面展示资料中的前台展示口径，可由授课学科映射。</li><li>教学经验案例前台默认展示前 3 条，更多通过查看更多展开或进入更多内容。</li><li>评价模块读取“全部评价”入口配置，可展示真实评价和后台补充的假数据；无评价时展示“暂无评价”。</li><li>购买课程区读取“关联课程”入口配置；关联课程统一为平台创建，老师关联后详情页展示课程并支持用户下单购买。未关联可售课程时教师不可上架。</li></ul></div>
         <div class="note-card"><h3>按钮说明</h3><ul><li>取消：关闭弹窗，不保存。</li><li>保存：直接保存当前教师资料字段，不再区分保存草稿和提交审核。</li><li>保存后关闭弹窗或停留当前弹窗由实际后台交互确认，当前原型按“保存成功并刷新教师列表”理解。</li><li>保存教师资料不处理关联课程和评价展示。</li><li>关联课程、展示状态、上架/下架需从教师列表操作里的“关联课程”入口处理。</li></ul></div>
       </div>
@@ -5534,7 +5547,7 @@
     const typeActivityTitle = document.getElementById('typeActivityTitle');
     const typeActivitySubtitle = document.getElementById('typeActivitySubtitle');
     const typeActivityTeacherList = document.getElementById('typeActivityTeacherList');
-    const activitySortRows = document.getElementById('activitySortRows');
+    const teacherTypeSortRows = document.getElementById('teacherTypeSortRows');
     const teacherTagModal = document.getElementById('teacherTagModal');
     const teacherTagModalTitle = document.getElementById('teacherTagModalTitle');
     const tagNameInput = document.getElementById('tagNameInput');
@@ -5650,6 +5663,8 @@
       '骨干教员': ['硕博', '名校骨干'],
       '专业教员': ['一线专业', '基础巩固']
     };
+    const currentSortTeacher = { primaryType: '骨干教员', secondaryType: '硕博' };
+    const teacherTypeSortConfig = { default: 1000, '骨干教员': 980, '骨干教员 / 硕博': 960 };
     const teachingRegionDict = {
       '北京市': { '北京市': ['海淀区', '朝阳区', '西城区'] },
       '上海市': { '上海市': ['浦东新区', '徐汇区', '静安区'] },
@@ -5716,16 +5731,20 @@
         : '<div class="activity-empty">当前活动页暂无可展示老师</div>';
     }
 
-    function renderActivitySortRows() {
-      if (!activitySortRows) return;
-      activitySortRows.innerHTML = getVisibleHomeTypes().map((item, index) => `
+    function renderTeacherTypeSortRows() {
+      if (!teacherTypeSortRows) return;
+      const scopes = [
+        { key: 'default', name: '默认排序（未选择教师类型）', description: '前台未选择教师类型时，所有符合前台展示条件的老师按此排序展示。' },
+        { key: currentSortTeacher.primaryType, name: `${currentSortTeacher.primaryType}排序`, description: `前台选择“${currentSortTeacher.primaryType}”时，当前老师按此排序展示。` },
+        ...(currentSortTeacher.secondaryType ? [{ key: `${currentSortTeacher.primaryType} / ${currentSortTeacher.secondaryType}`, name: `${currentSortTeacher.primaryType} / ${currentSortTeacher.secondaryType}排序`, description: `前台选择“${currentSortTeacher.primaryType} / ${currentSortTeacher.secondaryType}”时，当前老师按此排序展示。` }] : [])
+      ];
+      teacherTypeSortRows.innerHTML = scopes.map(scope => `
         <tr>
-          <td>${item.homeTitle}</td>
-          <td><select class="pc-select" aria-label="${item.homeTitle}是否展示"><option>展示</option><option>不展示</option></select></td>
-          <td><input class="pc-input" value="${990 - index * 30}" aria-label="${item.homeTitle}排序值"></td>
-          <td>仅一级类型为“${item.typeName}”、老师已上架且未作废时，可进入该活动页面。</td>
+          <td>${scope.name}</td>
+          <td><input class="pc-input" type="number" min="0" value="${teacherTypeSortConfig[scope.key] || 0}" data-teacher-type-sort="${scope.key}" aria-label="${scope.name}排序值"></td>
+          <td>${scope.description}</td>
         </tr>
-      `).join('') || '<tr><td colspan="4" class="muted">暂无已配置首页展示的一级教师类型</td></tr>';
+      `).join('');
     }
 
     function syncTypeHomeConfigFields() {
@@ -6437,7 +6456,7 @@
     pageButtons.forEach(btn => btn.addEventListener('click', () => showPage(btn.dataset.page)));
     renderHomeTypeEntries();
     renderTypeActivity();
-    renderActivitySortRows();
+    renderTeacherTypeSortRows();
     ensureRelationButtons();
     refreshTeacherSecondType();
     initializeTeachingRegion();
@@ -6475,6 +6494,46 @@
     document.getElementById('teachingCaseRows')?.addEventListener('click', event => {
       const deleteButton = event.target.closest('.link-btn.danger');
       if (deleteButton) deleteButton.closest('tr')?.remove();
+    });
+    document.getElementById('addSuitableChild')?.addEventListener('click', () => {
+      const rows = document.getElementById('suitableChildRows');
+      if (!rows) return;
+      const row = document.createElement('tr');
+      row.innerHTML = `<td><label class="case-icon-upload"><span class="case-icon-preview">+</span><span>上传 Icon<br>点击选择</span><input type="file" accept="image/*" aria-label="新增广告位 Icon"></label></td>
+        <td><input class="pc-input" placeholder="请输入主标题"></td>
+        <td><input class="pc-input" placeholder="请输入副标题"></td>
+        <td><select class="pc-select"><option>展示</option><option>隐藏</option></select></td>
+        <td><button class="link-btn danger" type="button">删除</button></td>`;
+      rows.append(row);
+      bindCaseIconUpload(row.querySelector('input[type="file"]'));
+    });
+    document.getElementById('suitableChildRows')?.addEventListener('click', event => {
+      const deleteButton = event.target.closest('.link-btn.danger');
+      if (deleteButton) deleteButton.closest('tr')?.remove();
+    });
+    document.getElementById('displaySubjectChoices')?.addEventListener('click', event => {
+      const chip = event.target.closest('[data-display-subject]');
+      if (!chip) return;
+      const selected = document.querySelectorAll('#displaySubjectChoices .config-chip.active');
+      const hint = document.getElementById('displaySubjectHint');
+      if (!chip.classList.contains('active') && selected.length >= 5) {
+        if (hint) hint.textContent = '最多选择 5 个主讲科目。';
+        return;
+      }
+      chip.classList.toggle('active');
+      if (hint) hint.textContent = `已选择 ${document.querySelectorAll('#displaySubjectChoices .config-chip.active').length} 个主讲科目，最多选择 5 个。`;
+    });
+    ['teacherGradeChoices', 'teacherSubjectChoices'].forEach(containerId => {
+      document.getElementById(containerId)?.addEventListener('click', event => {
+        const chip = event.target.closest('.config-chip');
+        if (!chip) return;
+        chip.classList.toggle('active');
+        chip.setAttribute('aria-pressed', String(chip.classList.contains('active')));
+        const grades = [...document.querySelectorAll('#teacherGradeChoices .config-chip.active')].map(item => item.dataset.authGrade);
+        const subjects = [...document.querySelectorAll('#teacherSubjectChoices .config-chip.active')].map(item => item.dataset.authSubject);
+        const hint = document.getElementById('teacherTeachingHint');
+        if (hint) hint.textContent = `已选择 ${grades.length} 个年级、${subjects.length} 个学科；保存后同步教师列表与前台列表筛选。`;
+      });
     });
     document.querySelectorAll('[data-publish-teacher]').forEach(button => {
       button.addEventListener('click', () => {
@@ -6696,6 +6755,15 @@
           teacherRegionPublishError?.classList.add('show');
           showPage('admin-teachers');
           return;
+        }
+        document.querySelectorAll('[data-teacher-type-sort]').forEach(input => {
+          teacherTypeSortConfig[input.dataset.teacherTypeSort] = Math.max(0, Number(input.value) || 0);
+        });
+        const listTeacher = window.v2TeacherListData?.find(teacher => teacher.name === '张琴琴');
+        if (listTeacher) {
+          listTeacher.displayOrder = teacherTypeSortConfig.default;
+          listTeacher.typeSorts = { ...listTeacher.typeSorts, '骨干教员': teacherTypeSortConfig['骨干教员'], '骨干教员 / 硕博': teacherTypeSortConfig['骨干教员 / 硕博'] };
+          window.renderV2TeacherList?.();
         }
         closeBusinessModals();
         if (location.hash === '#admin-sort-modal') showPage('admin-teachers');
@@ -7015,19 +7083,19 @@
       if (!listPage || !detailPage) return;
 
       const teachers = window.v2TeacherListData || [
-        { name: '袁教员', image: '../work/优坐标老师列表截图资产_v1_20260702/老师头像_袁教员_v1_20260702.jpg', grade: '小学', subject: '数学', type: '骨干教员', graduationSchool: '清华大学', highestEducation: '硕士研究生', showSchoolOnTeacherList: true, showEducationOnTeacherList: true, years: 8, tags: ['985', '小升初', '基础补强'], intro: '兼顾基础补弱与竞赛拓展，帮助学生建立完整的数学思维体系。', rating: 4.9, hours: 1012, favorites: 343 },
-        { name: '袁教员', image: '../work/优坐标老师列表截图资产_v1_20260702/老师头像_张教员_v1_20260702.jpg', grade: '高中', subject: '数学', type: '骨干教员', graduationSchool: '北京师范大学', highestEducation: '', showSchoolOnTeacherList: true, showEducationOnTeacherList: false, years: 8, tags: ['211', '分层教学', '高考提分'], intro: '兼顾基础补强与竞赛拓展，帮助学生建立完整的数学思维体系。', rating: 4.9, hours: 1012, favorites: 343 },
-        { name: '袁教员', image: '../work/优坐标教师详情截图资产_v1_20260703/教师头像_张琴琴_v1_20260703.png', grade: '高中', subject: '化学', type: '骨干教员', graduationSchool: '', highestEducation: '本科', showSchoolOnTeacherList: false, showEducationOnTeacherList: true, years: 8, tags: ['分层教学', '高考提分'], intro: '总结历年生物、化学、地理经典考题，总结答题技巧，告别死记硬背。', rating: 4.9, hours: 1012, favorites: 343 },
-        { name: '张琴琴', image: '../work/优坐标教师详情截图资产_v1_20260703/教师头像_张琴琴_v1_20260703.png', grade: '高中', subject: '数学', type: '骨干教员', graduationSchool: '陕西师范大学', highestEducation: '硕士研究生', showSchoolOnTeacherList: true, showEducationOnTeacherList: true, years: 6, tags: ['培育名校学子', '零投诉'], intro: '长期钻研题型考点，擅长分层教学，为不同基础学生制定学习方案。', rating: 4.9, hours: 602, favorites: 87 }
+        { name: '袁教员', image: '../work/优坐标老师列表截图资产_v1_20260702/老师头像_袁教员_v1_20260702.jpg', grade: '小学', subject: '数学', type: '骨干教员', graduationSchool: '清华大学', highestEducation: '硕士研究生', showSchoolOnTeacherList: true, showEducationOnTeacherList: true, years: 8, tags: ['985', '小升初', '基础补强'], intro: '兼顾基础补弱与竞赛拓展，帮助学生建立完整的数学思维体系。', rating: 4.9, hours: 1012, favorites: 343, displayOrder: 980, typeSorts: { '骨干教员': 980 } },
+        { name: '袁教员', image: '../work/优坐标老师列表截图资产_v1_20260702/老师头像_张教员_v1_20260702.jpg', grade: '高中', subject: '数学', type: '骨干教员', graduationSchool: '北京师范大学', highestEducation: '', showSchoolOnTeacherList: true, showEducationOnTeacherList: false, years: 8, tags: ['211', '分层教学', '高考提分'], intro: '兼顾基础补强与竞赛拓展，帮助学生建立完整的数学思维体系。', rating: 4.9, hours: 1012, favorites: 343, displayOrder: 960, typeSorts: { '骨干教员': 960 } },
+        { name: '袁教员', image: '../work/优坐标教师详情截图资产_v1_20260703/教师头像_张琴琴_v1_20260703.png', grade: '高中', subject: '化学', type: '骨干教员', graduationSchool: '', highestEducation: '本科', showSchoolOnTeacherList: false, showEducationOnTeacherList: true, years: 8, tags: ['分层教学', '高考提分'], intro: '总结历年生物、化学、地理经典考题，总结答题技巧，告别死记硬背。', rating: 4.9, hours: 1012, favorites: 343, displayOrder: 940, typeSorts: { '骨干教员': 940 } },
+        { name: '张琴琴', image: '../work/优坐标教师详情截图资产_v1_20260703/教师头像_张琴琴_v1_20260703.png', grade: '高中', subject: '数学', type: '骨干教员', graduationSchool: '陕西师范大学', highestEducation: '硕士研究生', showSchoolOnTeacherList: true, showEducationOnTeacherList: true, years: 6, tags: ['培育名校学子', '零投诉'], intro: '长期钻研题型考点，擅长分层教学，为不同基础学生制定学习方案。', rating: 4.9, hours: 602, favorites: 87, displayOrder: 1000, typeSorts: { '骨干教员': 980, '骨干教员 / 硕博': 960 } }
       ];
       window.v2TeacherListData = teachers;
 
       const listNote = document.getElementById('note-list');
-      if (listNote) listNote.innerHTML = `<div class="note-card"><h3>本次变更：新版教师列表</h3><ul><li>页面按新版截图重构为单张教师卡列表，顶部筛选为年级、学科、教员类型、综合排序。</li><li>综合排序支持综合、评分、已授课时长、收藏数；不再提供“收藏”独立筛选。</li><li>教师卡展示头像、教员类型、主讲学段/科目、学历与教学经验、标签、简介、评分、已授课时长和收藏数。</li></ul></div><div class="note-card"><h3>学历展示规则</h3><ul><li>毕业院校、最高学历均读取教师基本认证资料，各自通过展示复选框控制是否出现在教师列表。</li><li>两项都勾选时按“毕业院校 | 最高学历”展示；仅勾选一项时只展示该项；两项都不勾选时隐藏学历信息。</li><li>学历信息在教学经验前展示；隐藏学历时教学经验左移，不保留分隔符或空白占位。</li></ul></div><div class="note-card"><h3>按钮与状态</h3><ul><li>筛选或排序变化后立即刷新老师卡列表。</li><li>点击教师卡进入教师详情页；无符合条件数据时展示空态。</li></ul></div>`;
+      if (listNote) listNote.innerHTML = `<div class="note-card"><h3>筛选条件</h3><ul><li>年级：通过年级数据字典调用，按照老师资料中已配置的授课年级筛选。</li><li>学科：通过学科数据字典调用，按照老师资料中已配置的授课学科筛选。</li><li>教员类型：通过教师类型维护调用，支持一级类型及其二级类型；二级类型未配置时不作为前台分类展示。</li><li>任一筛选条件变化后立即刷新老师卡；没有符合条件老师时自动展示全部老师，并保留当前排序规则。</li></ul></div><div class="note-card"><h3>综合排序规则</h3><ul><li>综合：按运营维护的前端展示顺序从大到小展示。</li><li>评分：按家长评分从高到低展示；评分相同时，再按前端展示顺序从大到小展示。</li><li>授课时长：按已完成授课时长从高到低展示；时长相同时，再按前端展示顺序从大到小展示。</li><li>收藏：按收藏人数从高到低展示；收藏人数相同时，再按前端展示顺序从大到小展示。</li></ul></div><div class="note-card"><h3>老师卡展示与状态</h3><ul><li>头像来自认证图片资料；姓名、教员类型、主讲学段/科目、教学经验、简介来自教师基本资料和页面展示资料。</li><li>毕业院校和最高学历来自基本认证资料，各自通过“在前端教师列表展示”控制。两项都勾选时组合展示，只勾选一项时仅展示该项，均未勾选时不展示学历信息。</li><li>教师标签来自教师标签维护；评分、已授课时长、收藏人数来自评价汇总和业务统计。收藏人数包含基础收藏人数及已配置的虚拟收藏人数。</li><li>只展示已上架、未作废且允许前台展示的老师；点击老师卡进入对应教师详情页。教师资料或统计数据保存后，列表卡对应内容立即刷新。</li></ul></div>`;
       const detailNote = document.getElementById('note-detail');
-      if (detailNote) detailNote.innerHTML = `<div class="note-card"><h3>本次变更：字段来源统一</h3><ul><li>详情页以教师资料、课程关联、评价汇总、业务统计和教师顾问配置为唯一数据来源，不再使用整张截图或页面内独立固定字段。</li><li>教师头像、姓名、类型、认证标识、所在区域、教学经验、简介、主讲科目、适合孩子、提分率和提分案例读取教师资料。</li><li>授课时长、收藏人数、评分与星级分布读取业务统计或全部评价；购买课程读取已关联、可售且允许前台展示的课程。</li></ul></div><div class="note-card"><h3>展示与交互规则</h3><ul><li>模块仅在有有效数据且配置为展示时出现；字段缺失时隐藏对应项，不显示固定示例或空白占位。</li><li>课程卡上的预约体验/立即购买已明确课程，直接带入当前课程进入确认订单页。</li><li>底部顾问名片、打电话、在线询读取当前教师顾问配置；顾问配置不完整或关闭展示时，整个顾问底栏不展示。</li></ul></div>`;
+      if (detailNote) detailNote.innerHTML = `<div class="note-card"><h3>教师头部</h3><ul><li>展示姓名由编辑教师的页面展示资料提供；未单独填写展示姓名时，使用教师基本认证资料中的教师名称。</li><li>头像来自认证图片资料；认证标识和教师类型来自教师类型维护及教师资料配置。</li><li>教学经验来自页面展示资料；授课时长来自已完成授课统计。</li><li>收藏人数由基础收藏人数与后台填写的虚拟收藏人数合计展示；基础收藏人数不可编辑。</li><li>所在区域来自基本认证资料；未填写时前端不展示该信息。</li></ul></div><div class="note-card"><h3>教师介绍</h3><ul><li>广告位由页面展示资料维护：填写广告位主标题、每条 Icon、主标题、副标题和展示状态。关闭整组展示时，详情页不显示“适合这样的孩子”。</li><li>教师简介和主讲科目由页面展示资料维护。个人简介最多 200 字，有内容即展示；主讲科目最多选择 5 个，未选择时不展示。</li><li>教学成果主标题与提分率由页面展示资料维护；授课时长、家长评分为统计结果。教学成果模块由系统默认展示。</li><li>提分案例由页面展示资料维护主标题、副标题、强化副标题、Icon 和展示状态；隐藏案例不在详情页展示。</li></ul></div><div class="note-card"><h3>关联内容与状态</h3><ul><li>家长评价来自全部评价维护和评价汇总。隐藏某条评价只影响详情页评价内容，不影响评分、星级分布和评价总数。</li><li>购买课程来自教师关联课程和课程管理，仅展示已关联、可售且允许前台展示的课程；无符合条件课程时不展示购买课程内容。</li><li>顾问底栏来自教师关联的咨询顾问资料。顾问姓名、电话和在线咨询配置完整且允许展示时，才显示打电话和在线询入口。</li><li>教师未上架、已作废或关闭前台展示时，不进入前台教师详情页。</li></ul></div>`;
       const teacherModalNote = document.getElementById('note-admin-teacher-modal');
-      if (teacherModalNote) teacherModalNote.innerHTML = `<div class="note-card"><h3>本次变更：认证资料精简</h3><ul><li>账号与登录仅保留手机号、绑定企业微信号；微信 OpenID、企业微信 OpenID 不再采集或展示。</li><li>身份证号调整为非必填；所在区域仍可暂不填写，但上架或前台展示前必须补齐。</li><li>教师头像、教师形象照片、资质证明统一归入认证图片资料；授课能力与资质只保留授课学科、授课方式等能力字段。</li></ul></div><div class="note-card"><h3>本次变更：详情页字段顺序</h3><ul><li>页面展示资料按详情页顺序维护：展示基础、展示标签与指标、适合这样的孩子、教师简介、教学成果、提分案例。</li><li>适合这样的孩子增加总展示开关，默认关闭；打开后前台才展示已启用且排序靠前的 3 条。</li><li>教师简介不设展示开关，有内容即展示；提分案例维护主标题、副标题、强化副标题、Icon、是否展示和删除操作；授课特色已删除。</li><li>咨询顾问不在编辑教师弹窗维护，顾问资料与关联关系由独立维护入口承接；底部操作保持取消、保存。</li></ul></div>`;
+      if (teacherModalNote) teacherModalNote.innerHTML = `<div class="note-card"><h3>本次变更：认证资料精简</h3><ul><li>账号与登录仅保留手机号、绑定企业微信号；微信 OpenID、企业微信 OpenID 不再采集或展示。</li><li>身份证号调整为非必填；所在区域仍可暂不填写，但上架或前台展示前必须补齐。</li><li>基本认证资料新增年级、学科两个多选项，均通过数据字典选择；保存后同步后台教师列表和前台老师列表筛选。</li><li>教师头像、教师形象照片、资质证明统一归入认证图片资料；授课能力与资质保留年级、学科与授课方式。</li></ul></div><div class="note-card"><h3>本次变更：页面展示资料</h3><ul><li>展示资料按详情页顺序收敛为展示基础、广告位、教师简介、教学成果四组。</li><li>教师审核状态、上架和下架状态只在教师列表中查看和处理，页面展示资料不再展示该字段。</li><li>广告位默认预置 3 条，支持新增、删除、单条隐藏及整组关闭；主讲科目最多选择 5 个，个人简介最多 200 字。</li><li>展示姓名、虚拟收藏人数、广告位标题、教学成果标题均保存后刷新详情页；教学成果模块默认展示。</li><li>提分案例维护主标题、副标题、强化副标题、Icon、是否展示和删除操作；底部操作保持取消、保存。</li></ul></div>`;
 
       listPage.innerHTML = `<h1 class="canvas-title">全部老师列表页 V2</h1><div class="phone-wrap"><div class="phone v2-phone"><div class="v2-mobile-scroll"><header class="v2-topbar"><div class="status"><span>23:58</span><span class="status-icons"><span class="cell-bars"><span></span><span></span><span></span><span></span></span><span class="wifi"></span><span class="battery"></span></span></div><div class="v2-mobile-nav"><button class="v2-back" type="button" data-v2-back>‹</button><strong class="v2-mobile-title">全部老师</strong><div class="v2-capsule">••• <b></b></div></div></header><div class="v2-filter-bar"><select data-v2-filter="grade" aria-label="年级"><option value="全部">年级</option><option value="小学">小学</option><option value="初中">初中</option><option value="高中">高中</option></select><select data-v2-filter="subject" aria-label="学科"><option value="全部">学科</option><option value="数学">数学</option><option value="英语">英语</option><option value="化学">化学</option></select><select data-v2-filter="type" aria-label="教员类型"><option value="全部">教员类型</option><option value="骨干教员">骨干教员</option><option value="专业教员">专业教员</option></select><select data-v2-sort aria-label="综合排序"><option value="综合">综合</option><option value="评分">评分</option><option value="授课">授课</option><option value="收藏">收藏</option></select></div><main class="v2-teacher-list" id="v2TeacherList"></main></div></div></div>`;
 
@@ -7043,10 +7111,15 @@
         return [education && `⌁ ${education}`, teacher.years && `◈ ${teacher.years}年教学经验`].filter(Boolean).join('　|　');
       };
       const renderList = () => {
-        const shown = teachers.filter(teacher => (state.grade === '全部' || teacher.grade === state.grade) && (state.subject === '全部' || teacher.subject === state.subject) && (state.type === '全部' || teacher.type === state.type));
+        const filteredTeachers = teachers.filter(teacher => (state.grade === '全部' || teacher.grade === state.grade) && (state.subject === '全部' || teacher.subject === state.subject) && (state.type === '全部' || teacher.type === state.type));
+        const shown = filteredTeachers.length ? filteredTeachers : [...teachers];
         const sortKey = { 评分: 'rating', 授课: 'hours', 收藏: 'favorites' }[state.sort];
-        if (sortKey) shown.sort((a, b) => b[sortKey] - a[sortKey]);
-        list.innerHTML = shown.length ? shown.map(teacher => `<article class="v2-teacher-card" data-v2-teacher><div class="v2-teacher-top"><div class="v2-avatar-wrap"><img src="${teacher.image}" alt="${teacher.name}头像"><span class="v2-avatar-ribbon">硕博</span></div><div><div class="v2-teacher-name">${teacher.name}<span class="v2-type-badge">${teacher.type}</span></div><div class="v2-subject">${teacher.grade}${teacher.subject} / ${teacher.grade}${teacher.subject}</div>${credentialText(teacher) ? `<div class="v2-credential">${credentialText(teacher)}</div>` : ''}<div class="v2-chip-row">${teacher.tags.slice(0, 2).map(tag => `<span class="v2-chip">${tag}</span>`).join('')}</div></div></div><p class="v2-teacher-summary">${teacher.intro}</p><div class="v2-teacher-stats"><span>☆ ${teacher.rating}</span><span>▣ 已授课${teacher.hours}小时</span><span>♡ ${teacher.favorites}人收藏</span></div></article>`).join('') : '<div class="v2-section"><p class="v2-copy">暂无符合条件的老师，请调整筛选条件后再试。</p></div>';
+        shown.sort((a, b) => {
+          const primaryDifference = sortKey ? b[sortKey] - a[sortKey] : 0;
+          const sortValue = teacher => state.type === '全部' ? teacher.displayOrder : (teacher.typeSorts?.[state.type] ?? teacher.displayOrder);
+          return primaryDifference || sortValue(b) - sortValue(a);
+        });
+        list.innerHTML = shown.map(teacher => `<article class="v2-teacher-card" data-v2-teacher><div class="v2-teacher-top"><div class="v2-avatar-wrap"><img src="${teacher.image}" alt="${teacher.name}头像"><span class="v2-avatar-ribbon">硕博</span></div><div><div class="v2-teacher-name">${teacher.name}<span class="v2-type-badge">${teacher.type}</span></div><div class="v2-subject">${teacher.grade}${teacher.subject} / ${teacher.grade}${teacher.subject}</div>${credentialText(teacher) ? `<div class="v2-credential">${credentialText(teacher)}</div>` : ''}<div class="v2-chip-row">${teacher.tags.slice(0, 2).map(tag => `<span class="v2-chip">${tag}</span>`).join('')}</div></div></div><p class="v2-teacher-summary">${teacher.intro}</p><div class="v2-teacher-stats"><span>☆ ${teacher.rating}</span><span>▣ 已授课${teacher.hours}小时</span><span>♡ ${teacher.favorites}人收藏</span></div></article>`).join('');
         list.querySelectorAll('[data-v2-teacher]').forEach(card => card.addEventListener('click', () => showPage('detail')));
       };
       window.renderV2TeacherList = renderList;
@@ -7105,7 +7178,9 @@
           teachingExperience: '6年', introduction: '本人从事数学教学 9 年，是校区认证优秀师资。长期钻研题型考点，擅长分层教学，针对基础薄弱、拔高冲刺不同学生定制学习方案。课堂通俗易懂，注重培养逻辑推理与解题思路。',
           subjects: ['高中数学', '初中数学', '初中物理']
         },
-        statistics: { teachingHours: 602, favorites: 87, improvementRate: '87%', rating: 4.9, reviewCount: 66, ratingDistribution: [{ label: '5星', value: 95 }, { label: '4星', value: 5 }, { label: '3星', value: 0 }, { label: '2星', value: 0 }, { label: '1星', value: 0 }] },
+        statistics: { teachingHours: 602, baseFavorites: 87, virtualFavorites: 0, favorites: 87, improvementRate: '87%', rating: 4.9, reviewCount: 66, ratingDistribution: [{ label: '5星', value: 95 }, { label: '4星', value: 5 }, { label: '3星', value: 0 }, { label: '2星', value: 0 }, { label: '1星', value: 0 }] },
+        suitableChildrenTitle: '适合这样的孩子',
+        achievementTitle: '教学成果（部分）',
         suitableChildrenVisible: true,
         suitableChildren: [
           { icon: '▣', title: '基础薄弱', description: '课内知识不牢，基础题易失分', sort: 1, visible: true },
@@ -7135,7 +7210,7 @@
       const courses = teacherDetailData.courses.filter(item => item.sellable && item.frontVisible);
       const adviserReady = adviser.visible && adviser.name && adviser.phone && adviser.chatSessionId;
       const metric = (value, label) => value === '' || value === null || value === undefined ? '' : `<div><strong>${value}</strong><span>${label}</span></div>`;
-      const fitHtml = suitableChildren.length ? `<section class="v2-section"><h3>适合这样的孩子</h3><div class="v2-fit-grid">${suitableChildren.map(item => `<div class="v2-fit-item"><div class="v2-fit-icon">${item.icon}</div><strong>${item.title}</strong><span>${item.description.replace('，', '<br>')}</span></div>`).join('')}</div></section>` : '';
+      const fitHtml = suitableChildren.length ? `<section class="v2-section"><h3>${teacherDetailData.suitableChildrenTitle || '适合这样的孩子'}</h3><div class="v2-fit-grid">${suitableChildren.map(item => `<div class="v2-fit-item"><div class="v2-fit-icon">${item.icon}</div><strong>${item.title}</strong><span>${item.description.replace('，', '<br>')}</span></div>`).join('')}</div></section>` : '';
       const introHtml = profile.introduction ? `<div class="v2-inline-title"><i>人</i>个人简介</div><p class="v2-copy">${profile.introduction}</p>` : '';
       const subjectsHtml = profile.subjects.length ? `<div class="v2-inline-title"><i>书</i>主讲科目</div><div class="v2-subject-tags">${profile.subjects.map(subject => `<span>${subject}</span>`).join('')}</div>` : '';
       const casesHtml = cases.length ? `<div class="v2-inline-title"><i>↗</i>提分案例</div>${cases.map(item => `<article class="v2-case"><div><small>${item.subtitle}</small><strong>${item.mainTitle}</strong><b>${item.emphasizedSubtitle}</b></div><span class="v2-case-icon">${item.icon}</span></article>`).join('')}` : '';
@@ -7144,7 +7219,7 @@
       const coursesHtml = courses.length ? `<section class="v2-section" id="v2CoursesSection"><h3>购买课程</h3>${courses.map(course => `<article class="v2-course"><div class="v2-course-cover"><span class="v2-course-type" style="background:${course.typeColor}">${course.type}</span><img src="${course.cover}" alt="${course.name}"></div><div><div class="v2-course-name">${course.name}</div>${course.meta.map(meta => `<div class="v2-course-meta">${meta}</div>`).join('')}<div class="v2-course-price-row"><span class="v2-course-price">¥ <b>${course.price}</b></span><button class="v2-course-btn" type="button" data-v2-buy="${course.id}">${course.action}</button></div></div></article>`).join('')}</section>` : '';
       const adviserHtml = adviserReady ? `<footer class="v2-consult-footer"><div class="v2-adviser"><span class="v2-adviser-avatar">${adviser.avatar}</span><div><strong>${adviser.name}</strong><span>● ${adviser.wechatStatus}</span></div></div><button class="v2-footer-btn" type="button" data-v2-call>打电话</button><button class="v2-footer-btn primary" type="button" data-v2-chat>在线询</button></footer>` : '';
 
-      detailPage.innerHTML = `<h1 class="canvas-title">教师详情页 V2</h1><div class="phone-wrap"><div class="phone v2-phone"><div class="v2-mobile-scroll v2-detail-scroll" id="v2DetailScroll"><header class="v2-topbar"><div class="status"><span>23:58</span><span class="status-icons"><span class="cell-bars"><span></span><span></span><span></span><span></span></span><span class="wifi"></span><span class="battery"></span></span></div><div class="v2-mobile-nav"><button class="v2-back" type="button" data-v2-detail-back>‹</button><strong class="v2-mobile-title"></strong><div class="v2-capsule">••• <b></b></div></div></header><section class="v2-profile-card" id="v2TeacherIntro"><div class="v2-avatar-wrap"><img src="${profile.avatar}" alt="${profile.name}头像"><span class="v2-avatar-ribbon">${profile.certificationBadge}</span></div><div><div class="v2-profile-name">${profile.displayName || profile.name}教员 <span class="v2-type-badge">${profile.type}</span></div>${profile.region ? `<div class="v2-profile-region">${profile.region}</div>` : ''}<div class="v2-profile-metrics">${metric(profile.teachingExperience, '教学经验')}${metric(statistics.teachingHours, '授课时长')}${metric(statistics.favorites, '收藏人数')}</div></div></section>${fitHtml}<nav class="v2-tabs" aria-label="新版教师详情锚点"><button class="v2-tab active" type="button" data-v2-tab="intro">老师介绍</button>${statistics.reviewCount ? `<button class="v2-tab" type="button" data-v2-tab="reviews">家长评价（${statistics.reviewCount}）</button>` : ''}${courses.length ? '<button class="v2-tab" type="button" data-v2-tab="courses">购买课程</button>' : ''}</nav><section class="v2-section" id="v2IntroSection"><h3>教师简介</h3>${introHtml}${subjectsHtml}</section><section class="v2-section"><div class="v2-section-head"><h3>教学成果（部分）</h3></div><div class="v2-outcome-grid">${metric(statistics.teachingHours, '授课时长')}${metric(statistics.improvementRate, '提分率')}${metric(statistics.rating, '家长评分')}</div>${casesHtml}</section>${reviewHtml}${coursesHtml}</div>${adviserHtml}<div class="v2-overlay" id="v2CallOverlay"><div class="v2-sheet"><h3>联系顾问${adviser.name}</h3><p>确认后将调用系统电话能力，拨打顾问联系电话。</p><div class="v2-sheet-actions"><button type="button" data-v2-close>取消</button><a href="tel:${adviser.phone}" class="primary">确认拨打</a></div></div></div><div class="v2-overlay" id="v2ChatOverlay"><div class="v2-sheet"><h3>在线咨询</h3><p>${adviser.name}将为您解答课程、体验预约与适配建议。本原型展示咨询入口，不展开真实会话服务。</p><div class="v2-sheet-actions"><button type="button" data-v2-close>取消</button><button type="button" class="primary" data-v2-close data-chat-session="${adviser.chatSessionId}">进入咨询</button></div></div></div></div></div>`;
+      detailPage.innerHTML = `<h1 class="canvas-title">教师详情页 V2</h1><div class="phone-wrap"><div class="phone v2-phone"><div class="v2-mobile-scroll v2-detail-scroll" id="v2DetailScroll"><header class="v2-topbar"><div class="status"><span>23:58</span><span class="status-icons"><span class="cell-bars"><span></span><span></span><span></span><span></span></span><span class="wifi"></span><span class="battery"></span></span></div><div class="v2-mobile-nav"><button class="v2-back" type="button" data-v2-detail-back>‹</button><strong class="v2-mobile-title"></strong><div class="v2-capsule">••• <b></b></div></div></header><section class="v2-profile-card" id="v2TeacherIntro"><div class="v2-avatar-wrap"><img src="${profile.avatar}" alt="${profile.name}头像"><span class="v2-avatar-ribbon">${profile.certificationBadge}</span></div><div><div class="v2-profile-name">${profile.displayName || profile.name}教员 <span class="v2-type-badge">${profile.type}</span></div>${profile.region ? `<div class="v2-profile-region">${profile.region}</div>` : ''}<div class="v2-profile-metrics">${metric(profile.teachingExperience, '教学经验')}${metric(statistics.teachingHours, '授课时长')}${metric(statistics.favorites, '收藏人数')}</div></div></section>${fitHtml}<nav class="v2-tabs" aria-label="新版教师详情锚点"><button class="v2-tab active" type="button" data-v2-tab="intro">老师介绍</button>${statistics.reviewCount ? `<button class="v2-tab" type="button" data-v2-tab="reviews">家长评价（${statistics.reviewCount}）</button>` : ''}${courses.length ? '<button class="v2-tab" type="button" data-v2-tab="courses">购买课程</button>' : ''}</nav><section class="v2-section" id="v2IntroSection"><h3>教师简介</h3>${introHtml}${subjectsHtml}</section><section class="v2-section"><div class="v2-section-head"><h3>${teacherDetailData.achievementTitle || '教学成果（部分）'}</h3></div><div class="v2-outcome-grid">${metric(statistics.teachingHours, '授课时长')}${metric(statistics.improvementRate, '提分率')}${metric(statistics.rating, '家长评分')}</div>${casesHtml}</section>${reviewHtml}${coursesHtml}</div>${adviserHtml}<div class="v2-overlay" id="v2CallOverlay"><div class="v2-sheet"><h3>联系顾问${adviser.name}</h3><p>确认后将调用系统电话能力，拨打顾问联系电话。</p><div class="v2-sheet-actions"><button type="button" data-v2-close>取消</button><a href="tel:${adviser.phone}" class="primary">确认拨打</a></div></div></div><div class="v2-overlay" id="v2ChatOverlay"><div class="v2-sheet"><h3>在线咨询</h3><p>${adviser.name}将为您解答课程、体验预约与适配建议。本原型展示咨询入口，不展开真实会话服务。</p><div class="v2-sheet-actions"><button type="button" data-v2-close>取消</button><button type="button" class="primary" data-v2-close data-chat-session="${adviser.chatSessionId}">进入咨询</button></div></div></div></div></div>`;
       const detailCapsule = detailPage.querySelector('.v2-detail-scroll .v2-capsule');
       if (detailCapsule) detailCapsule.outerHTML = '<div class="v2-detail-actions"><button class="v2-share" type="button">分享</button><button class="v2-circle" type="button" aria-label="收藏">♡</button><div class="v2-capsule">••• <b></b></div></div>';
 
@@ -7173,20 +7248,33 @@
       const data = window.v2TeacherDetailData;
       if (!data) return;
       const listTeacher = window.v2TeacherListData?.find(teacher => teacher.name === '张琴琴');
+      const selectedGrades = [...document.querySelectorAll('#teacherGradeChoices .config-chip.active')].map(chip => chip.dataset.authGrade);
+      const selectedSubjects = [...document.querySelectorAll('#teacherSubjectChoices .config-chip.active')].map(chip => chip.dataset.authSubject);
+      document.getElementById('adminTeacherGrade').textContent = selectedGrades.join('、') || '-';
+      document.getElementById('adminTeacherSubject').textContent = selectedSubjects.join('、') || '-';
       if (listTeacher) {
         listTeacher.graduationSchool = document.getElementById('teacherGraduationSchool')?.value.trim() || '';
         listTeacher.highestEducation = document.getElementById('teacherHighestEducation')?.value || '';
         listTeacher.showSchoolOnTeacherList = Boolean(document.getElementById('showSchoolOnTeacherList')?.checked);
         listTeacher.showEducationOnTeacherList = Boolean(document.getElementById('showEducationOnTeacherList')?.checked);
+        listTeacher.grade = selectedGrades.some(item => item.startsWith('高')) ? '高中' : selectedGrades.some(item => item.startsWith('初')) ? '初中' : selectedGrades.length ? '小学' : '';
+        listTeacher.subject = selectedSubjects[0] || '';
         window.renderV2TeacherList?.();
       }
+      data.profile.displayName = document.getElementById('displayTeacherName')?.value.trim() || data.profile.name;
       data.profile.teachingExperience = document.getElementById('displayTeachingExperience')?.value.trim() || '';
       data.profile.introduction = document.getElementById('displayIntroduction')?.value.trim() || '';
+      data.profile.subjects = [...document.querySelectorAll('#displaySubjectChoices .config-chip.active')].map(chip => chip.dataset.displaySubject);
+      data.statistics.baseFavorites = Number(document.getElementById('displayBaseFavorites')?.value) || 0;
+      data.statistics.virtualFavorites = Math.max(0, Number(document.getElementById('displayVirtualFavorites')?.value) || 0);
+      data.statistics.favorites = data.statistics.baseFavorites + data.statistics.virtualFavorites;
       data.statistics.improvementRate = document.getElementById('displayImprovementRate')?.value.trim() || '';
+      data.achievementTitle = document.getElementById('displayAchievementTitle')?.value.trim() || '教学成果（部分）';
       data.suitableChildrenVisible = Boolean(document.getElementById('displaySuitableChildrenVisible')?.checked);
-      data.suitableChildren = [...document.querySelectorAll('#section-display-suitable tbody tr')].map((row, index) => {
+      data.suitableChildrenTitle = document.getElementById('displaySuitableChildrenTitle')?.value.trim() || '适合这样的孩子';
+      data.suitableChildren = [...document.querySelectorAll('#suitableChildRows tr')].map((row, index) => {
         const fields = row.querySelectorAll('.pc-input');
-        return { icon: data.suitableChildren[index]?.icon || '▣', title: fields[0]?.value.trim() || '', description: fields[1]?.value.trim() || '', sort: Number(fields[2]?.value) || 0, visible: row.querySelector('select')?.value === '展示' };
+        return { icon: data.suitableChildren[index]?.icon || '▣', title: fields[0]?.value.trim() || '', description: fields[1]?.value.trim() || '', sort: index + 1, visible: row.querySelector('select')?.value === '展示' };
       });
       data.improvementCases = [...document.querySelectorAll('#teachingCaseRows tr')].map((row, index) => {
         const fields = row.querySelectorAll('.pc-input');
