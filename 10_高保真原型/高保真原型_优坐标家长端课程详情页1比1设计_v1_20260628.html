@@ -1355,6 +1355,10 @@
         color: #12b76a;
         font-weight: 700;
       }
+      .status-disabled {
+        color: #98a2b3;
+        font-weight: 700;
+      }
       .admin-actions {
         display: flex;
         gap: 10px;
@@ -2063,61 +2067,244 @@
           grid-template-columns: 1fr;
         }
       }
+
+      /* PrototypeShell：直接复用 K12 已确认统一工作台外壳。 */
+      :root {
+        --bg: #f2f6fb;
+        --panel: #ffffff;
+        --text: #172033;
+        --muted: #738197;
+        --line: #dde7f2;
+        --primary: #2675ed;
+        --warning: #fff8cf;
+        --warning-border: #e3c94f;
+        --orange: #ff841f;
+        --shadow: 0 14px 35px rgba(47, 75, 112, 0.10);
+      }
+      body {
+        display: block;
+        min-height: 100vh;
+        padding: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+        font-size: 14px;
+      }
+      .prototype {
+        min-height: 100vh;
+        display: grid;
+        grid-template-rows: 64px minmax(0, 1fr);
+      }
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        min-height: 64px;
+        padding: 0 24px;
+        color: #fff;
+        background: #172337;
+      }
+      .brand,
+      .user {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        white-space: nowrap;
+      }
+      .brand { min-width: 0; }
+      .brand-mark {
+        width: 34px;
+        height: 34px;
+        display: grid;
+        place-items: center;
+        border-radius: 9px;
+        background: linear-gradient(135deg, #4b9eff, #2e63db);
+        color: #fff;
+        font-size: 16px;
+        font-weight: 900;
+      }
+      .brand-title { font-size: 16px; font-weight: 800; white-space: nowrap; }
+      .brand-sub { margin-left: 8px; color: #aebbd0; font-size: 12px; white-space: nowrap; }
+      .user { color: #cbd5e1; }
+      .avatar {
+        width: 30px;
+        height: 30px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background: #d9e8ff;
+        color: #2362c8;
+        font-size: 12px;
+        font-weight: 900;
+      }
+      .shell {
+        display: grid;
+        grid-template-columns: 238px minmax(680px, 1fr) 310px;
+        min-height: calc(100vh - 64px);
+      }
+      .sidebar {
+        position: relative;
+        z-index: 21;
+        width: auto;
+        max-width: none;
+        min-height: 0;
+        padding: 18px 14px;
+        border: 0;
+        border-right: 1px solid var(--line);
+        border-radius: 0;
+        background: #f8fbff;
+        box-shadow: none;
+        overflow: auto;
+      }
+      .side-heading {
+        padding: 4px 9px 16px;
+        border-bottom: 1px solid var(--line);
+      }
+      .side-title { color: var(--text); font-size: 14px; font-weight: 800; }
+      .side-note { margin-top: 5px; color: var(--muted); font-size: 12px; line-height: 1.5; }
+      .nav-group { margin-top: 18px; }
+      .nav-label {
+        margin-top: 10px;
+        padding: 0 9px 7px;
+        color: #8c9aaf;
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+      }
+      .nav-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 9px;
+        width: 100%;
+        min-height: 0;
+        padding: 10px 11px;
+        border: 0;
+        border-radius: 8px;
+        background: transparent;
+        color: #4f6077;
+        box-shadow: none;
+        text-align: left;
+      }
+      .nav-item:hover { border: 0; background: #eef5ff; color: var(--primary); }
+      .nav-item.active { border: 0; background: #eaf3ff; color: #1554c3; font-weight: 800; }
+      .nav-item small { color: #9ba8ba; font-size: 11px; }
+      .nav-item.active small { color: var(--primary); }
+      .nav-child { margin: 2px 0 4px 20px; border-left: 1px dashed #cbd8e7; padding-left: 8px; }
+      .nav-child .nav-item { padding: 8px 9px; font-size: 12px; }
+      .main {
+        min-width: 0;
+        min-height: calc(100vh - 64px);
+        padding: 22px;
+        background: var(--bg);
+        overflow: auto;
+      }
+      .page-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; margin-bottom: 16px; }
+      .eyebrow { color: var(--primary); font-size: 12px; font-weight: 800; letter-spacing: 0.08em; }
+      .page-title { margin: 4px 0 0; color: var(--text); font-size: 24px; line-height: 1.25; }
+      .page-sub { margin: 7px 0 0; color: var(--muted); font-size: 14px; }
+      .workspace { display: grid; min-width: 0; }
+      .stage { width: 100%; min-height: 844px; display: grid; place-items: center; }
+      .notes {
+        position: relative;
+        z-index: 21;
+        width: auto;
+        max-width: none;
+        min-height: 0;
+        padding: 18px 14px;
+        border: 0;
+        border-left: 1px solid var(--line);
+        border-radius: 0;
+        background: #fffdf0;
+        box-shadow: none;
+        overflow: auto;
+      }
+      .notes-head { padding: 4px 2px 14px; border-bottom: 1px solid #eee4b8; }
+      .notes-title { color: #42370c; font-size: 14px; font-weight: 900; }
+      .notes-desc { margin-top: 5px; color: #8c7c3f; font-size: 12px; line-height: 1.45; }
+      .notes-body { height: auto; padding: 14px 0 0; overflow: visible; }
+      .note-card {
+        margin-bottom: 10px;
+        padding: 11px 12px;
+        border: 1px solid var(--warning-border);
+        border-radius: 8px;
+        background: var(--warning);
+      }
+      .note-card + .note-card { margin-top: 0; }
+      .note-card strong { color: #42370c; font-size: 12px; }
+      .note-card p,
+      .note-card li { color: #594d1c; font-size: 12px; line-height: 1.55; }
+      .field-qa-item { border-radius: 7px; background: #fff7d8; }
+      .modal-mask {
+        z-index: 20;
+        background: rgba(17, 29, 49, 0.45);
+      }
+      .popup-panel {
+        width: min(860px, 100%);
+        max-height: calc(100vh - 40px);
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+        border-radius: 10px;
+        box-shadow: 0 24px 70px rgba(12, 25, 46, 0.28);
+      }
+      .popup-body { min-height: 0; overflow: auto; }
+      @media (max-width: 1180px) {
+        .shell { grid-template-columns: 210px minmax(630px, 1fr); }
+        .notes { display: none; }
+      }
+      @media (max-width: 860px) {
+        .topbar { padding: 0 12px; }
+        .brand-sub, .user { display: none; }
+        .shell { display: block; }
+        .sidebar { display: none; }
+        .stage { min-height: calc(100vh - 64px); padding: 15px; }
+      }
     </style>
   </head>
   <body>
-    <aside class="sidebar">
-      <div class="sidebar-head">
-        <div class="sidebar-title">优坐标家长端</div>
-        <div class="sidebar-desc">课程购买模块原型目录。左侧只放页面层级，状态和规则统一放右侧黄色说明区。</div>
+    <div class="prototype">
+      <header class="topbar">
+        <div class="brand"><span class="brand-mark">优</span><div class="brand-copy"><span class="brand-title">优坐标运营后台</span><span class="brand-sub">课程购买原型中心</span></div></div>
+        <div class="user"><span>评审模式</span><i class="avatar">管</i></div>
+      </header>
+      <div class="shell">
+    <aside class="sidebar" aria-label="原型页面导航">
+      <div class="side-heading">
+        <div class="side-title">优坐标后台</div>
+        <div class="side-note">课程购买模块原型评审</div>
       </div>
-      <div class="tree">
-        <div class="tree-label">家长端课程购买模块</div>
-        <button class="tree-btn active" data-target="page-detail">
-          <strong>课程详情页</strong>
-          <span>1:1 体验课成交承接页</span>
-        </button>
-        <button class="tree-btn" data-target="page-order">
-          <strong>确认订单页</strong>
-          <span>订单确认与立即支付承接</span>
-        </button>
-        <button class="tree-btn" data-target="page-review">
-          <strong>课程评价列表页</strong>
-          <span>查看更多评价占位页</span>
-        </button>
-        <button class="tree-btn" data-target="page-login">
-          <strong>登录页</strong>
-          <span>收藏 / 分享 / 客服登录拦截</span>
-        </button>
-        <button class="tree-btn" data-target="page-service">
-          <strong>客服会话页</strong>
-          <span>咨询承接占位页</span>
-        </button>
-        <button class="tree-btn" data-target="page-recommend">
-          <strong>推荐课程详情页</strong>
-          <span>点击推荐课程后的详情页</span>
-        </button>
-        <div class="tree-label">后台课程管理模块</div>
-        <button class="tree-btn" data-target="page-admin-list">
-          <strong>课程管理后台列表页</strong>
-          <span>管理课程详情页投放课程</span>
-        </button>
-        <button class="tree-btn" data-target="page-admin-edit">
-          <strong>编辑课程页</strong>
-          <span>新增 / 编辑课程本体内容</span>
-        </button>
-        <button class="tree-btn" data-target="page-admin-comment-popup">
-          <strong>评论管理弹窗</strong>
-          <span>课程列表操作列进入</span>
-        </button>
-        <button class="tree-btn" data-target="page-admin-recommend-popup">
-          <strong>推荐课程选择弹窗</strong>
-          <span>选择关联课程并回挂详情页</span>
-        </button>
-      </div>
+      <nav>
+        <section class="nav-group">
+          <div class="nav-label">家长端课程购买</div>
+          <button class="nav-item active" data-target="page-detail"><span>课程详情页</span><small>主</small></button>
+          <button class="nav-item" data-target="page-order"><span>确认订单页</span><small>单</small></button>
+          <button class="nav-item" data-target="page-review"><span>课程评价列表页</span><small>评</small></button>
+          <button class="nav-item" data-target="page-login"><span>登录页</span><small>鉴</small></button>
+          <button class="nav-item" data-target="page-service"><span>客服会话页</span><small>服</small></button>
+          <button class="nav-item" data-target="page-recommend"><span>推荐课程详情页</span><small>荐</small></button>
+        </section>
+        <section class="nav-group">
+          <div class="nav-label">后台课程管理</div>
+          <button class="nav-item" data-target="page-admin-list"><span>课程管理列表页</span><small>表</small></button>
+          <div class="nav-child">
+            <button class="nav-item" data-target="page-admin-edit"><span>编辑课程页</span><small>编</small></button>
+            <button class="nav-item" data-target="page-admin-comment-popup"><span>评论管理弹窗</span><small>评</small></button>
+            <button class="nav-item" data-target="page-admin-recommend-popup"><span>关联课程弹窗</span><small>联</small></button>
+          </div>
+        </section>
+      </nav>
     </aside>
 
-    <main class="stage">
+    <main class="main">
+      <div class="page-head">
+        <div>
+          <div class="eyebrow">COURSE PURCHASE PROTOTYPE</div>
+          <h1 class="page-title" id="pageTitle">课程详情页</h1>
+          <p class="page-sub" id="pageSub">体验课详情成交承接与后台课程管理评审。</p>
+        </div>
+      </div>
+      <section class="workspace"><div class="stage">
       <section class="page mobile-page active" id="page-detail">
         <div class="phone">
           <div class="status">
@@ -2598,6 +2785,8 @@
                     <div class="admin-actions">
                       <button class="text-link">详情</button>
                       <button class="text-link" data-target="page-admin-comment-popup">评论管理</button>
+                      <button class="text-link" data-target="page-admin-recommend-popup">关联课程</button>
+                      <button class="text-link">禁用</button>
                       <button class="text-link" data-target="page-admin-edit">编辑</button>
                     </div>
                   </div>
@@ -2629,10 +2818,12 @@
                     <div><span class="price-pill pill-purple">试听课</span> 60min x 1节</div>
                     <div class="rating-cell">★★★★★ <span>4.8</span></div>
                     <div class="teacher-cell">2位</div>
-                    <div class="status-green">启用</div>
+                    <div class="status-disabled">禁用</div>
                     <div class="admin-actions">
                       <button class="text-link">详情</button>
                       <button class="text-link" data-target="page-admin-comment-popup">评论管理</button>
+                      <button class="text-link" data-target="page-admin-recommend-popup">关联课程</button>
+                      <button class="text-link">启用</button>
                       <button class="text-link" data-target="page-admin-edit">编辑</button>
                     </div>
                   </div>
@@ -2668,6 +2859,8 @@
                     <div class="admin-actions">
                       <button class="text-link">详情</button>
                       <button class="text-link" data-target="page-admin-comment-popup">评论管理</button>
+                      <button class="text-link" data-target="page-admin-recommend-popup">关联课程</button>
+                      <button class="text-link">禁用</button>
                       <button class="text-link" data-target="page-admin-edit">编辑</button>
                     </div>
                   </div>
@@ -2703,6 +2896,8 @@
                     <div class="admin-actions">
                       <button class="text-link">详情</button>
                       <button class="text-link" data-target="page-admin-comment-popup">评论管理</button>
+                      <button class="text-link" data-target="page-admin-recommend-popup">关联课程</button>
+                      <button class="text-link">禁用</button>
                       <button class="text-link" data-target="page-admin-edit">编辑</button>
                     </div>
                   </div>
@@ -2738,6 +2933,8 @@
                     <div class="admin-actions">
                       <button class="text-link">详情</button>
                       <button class="text-link" data-target="page-admin-comment-popup">评论管理</button>
+                      <button class="text-link" data-target="page-admin-recommend-popup">关联课程</button>
+                      <button class="text-link">禁用</button>
                       <button class="text-link" data-target="page-admin-edit">编辑</button>
                     </div>
                   </div>
@@ -2910,52 +3107,6 @@
                     </div>
                   </div>
                 </div>
-                  <div class="display-config-panel">
-                  <div class="display-config-head">
-                    <strong>前端展示配置</strong>
-                    <span>本区仅保留精选好课配置；课程评价 / 评论相关功能统一从课程管理列表页“评论管理”入口维护。</span>
-                  </div>
-                  <div class="config-block" style="border-bottom:0;">
-                    <strong>精选好课配置</strong>
-                    <span>通过课程选择弹窗关联精选好课。确认关联后，在下方展示已关联课程信息并支持手动排序；前台默认最多展示4个关联课程，无关联课程时不展示该模块，点击加载更多可查看全部关联课程。</span>
-                    <div class="config-tags">
-                      <span class="config-tag">精选好课：2门</span>
-                      <span class="config-tag">默认展示：最多4个</span>
-                      <span class="config-tag">排序：手动排序</span>
-                      <span class="config-tag">跳转目标：课程详情页</span>
-                      <span class="config-tag">无关联：隐藏模块</span>
-                      <span class="config-tag">展示开关：开启</span>
-                    </div>
-                    <div class="config-action-row">
-                      <button class="admin-btn" data-target="page-admin-recommend-popup">选择课程</button>
-                      <button class="mini-ghost-btn">批量移除</button>
-                    </div>
-                    <div class="recommend-result-list">
-                      <div class="recommend-result-item">
-                        <div class="recommend-thumb">拼读优选<br />体验课</div>
-                        <div class="recommend-main">
-                          <strong>优选英语-单词拼读体验课</strong>
-                          <span>课程ID：39012 · 语言 / 英语 · 体验价￥39.9 · 销量3k+</span>
-                        </div>
-                        <div class="recommend-actions">
-                          <div class="recommend-sort">排序 1</div>
-                          <button class="text-link">移除</button>
-                        </div>
-                      </div>
-                      <div class="recommend-result-item">
-                        <div class="recommend-thumb">自然拼读<br />体验课</div>
-                        <div class="recommend-main">
-                          <strong>优选英语-自然拼读启蒙体验课</strong>
-                          <span>课程ID：39013 · 语言 / 英语 · 体验价￥39.9 · 销量2.6k+</span>
-                        </div>
-                        <div class="recommend-actions">
-                          <div class="recommend-sort">排序 2</div>
-                          <button class="text-link">移除</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -3073,19 +3224,19 @@
       <section class="page pc-page" id="page-admin-recommend-popup">
         <div class="pc-shell">
           <div class="pc-topbar">
-            <div class="pc-title">优坐标后台 · 编辑课程</div>
-            <button class="admin-btn" data-target="page-admin-edit">返回编辑课程</button>
+            <div class="pc-title">优坐标后台 · 课程管理</div>
+            <button class="admin-btn" data-target="page-admin-list">返回课程列表</button>
           </div>
           <div class="pc-content admin-page">
             <div class="edit-shell">
               <div class="edit-modal">
                 <div class="edit-close">×</div>
-                <div class="edit-title">编辑课程</div>
+                <div class="edit-title">课程列表</div>
                 <div class="modal-mask active">
                   <div class="popup-panel">
                     <div class="popup-head">
-                      <strong>选择推荐课程</strong>
-                      <button class="text-link" data-target="page-admin-edit">关闭</button>
+                      <strong>关联课程 - 优选英语-单词拼读体验课【1V1专业教练伴学直播课】</strong>
+                      <button class="text-link" data-target="page-admin-list">关闭</button>
                     </div>
                     <div class="popup-body">
                       <div class="popup-filters">
@@ -3165,10 +3316,10 @@
                       </div>
                     </div>
                     <div class="popup-foot">
-                      <span style="color:#667085;font-size:12px;">已选择 2 门课程，确认后将建立推荐关联并回显到编辑课程页。</span>
+                      <span style="color:#667085;font-size:12px;">已选择 2 门课程，确认后将为当前课程建立关联课程关系，用于前台精选好课展示。</span>
                       <div class="recommend-actions">
-                        <button class="admin-ghost-btn" data-target="page-admin-edit">取消</button>
-                        <button class="admin-btn" data-target="page-admin-edit">确认关联</button>
+                        <button class="admin-ghost-btn" data-target="page-admin-list">取消</button>
+                        <button class="admin-btn" data-target="page-admin-list">确认关联</button>
                       </div>
                     </div>
                   </div>
@@ -3178,12 +3329,13 @@
           </div>
         </div>
       </section>
+      </div></section>
     </main>
 
     <aside class="notes">
       <div class="notes-head">
-        <div class="notes-title">右侧黄色说明区</div>
-        <div class="notes-desc">字段规则、按钮结果、页面定位、平台默认能力和状态说明统一放这里，不放进手机页面线框。</div>
+        <div class="notes-title">需求说明</div>
+        <div class="notes-desc" id="notesSub">当前页面：课程详情页</div>
       </div>
 
       <div class="notes-body active" data-page-notes="page-detail">
@@ -3203,7 +3355,7 @@
             <li>评价摘要与评价总数：通过后台课程管理列表页操作列的“评论管理”弹窗维护，当前按后台自定义评论假数据展示。</li>
             <li>价格区右侧第一行文案：按适用年级首选项 + 所选科目组合生成。</li>
             <li>课程封面图：同时作为前台详情首屏主视觉和推荐课程卡片封面来源。</li>
-            <li>精选好课：通过后台编辑课程页中的推荐课程配置维护关联课程列表、顺序、销量和跳转目标；前台默认最多展示4个，无关联课程时不展示，加载更多可查看全部关联课程。</li>
+            <li>精选好课：通过后台课程管理列表页操作列的“关联课程”弹窗维护关联课程列表、顺序、销量和跳转目标；前台默认最多展示4个，无关联课程时不展示，加载更多可查看全部关联课程。</li>
           </ul>
         </div>
         <div class="note-card">
@@ -3320,11 +3472,11 @@
       <div class="notes-body" data-page-notes="page-admin-list">
         <div class="note-card">
           <strong>页面职责</strong>
-          <p>后台课程管理列表页用于维护课程清单、筛选课程范围，并通过“编辑”进入课程编辑页，通过“评论管理”进入当前课程评论管理弹窗。它是后台课程与评论运营入口页。</p>
+          <p>后台课程管理列表页用于维护课程清单、筛选课程范围，并通过“编辑”进入课程编辑页，通过“评论管理”进入当前课程评论管理弹窗，通过“关联课程”进入当前课程关联课程弹窗。它是后台课程、评论和关联课程运营入口页。</p>
         </div>
         <div class="note-card">
           <strong>列表操作</strong>
-          <p>列表对齐真实后台管理页结构，需展示课程信息、分类/学科、适用年级、单价、价格、课时时长、评分、关联老师、状态，并通过“详情 / 评论管理 / 编辑”完成查看、评论维护和课程编辑。</p>
+          <p>列表对齐真实后台管理页结构，需展示课程信息、分类/学科、适用年级、单价、价格、课时时长、评分、关联老师、状态，并通过“详情 / 评论管理 / 关联课程 / 启用或禁用 / 编辑”完成查看、评论维护、关联课程维护、状态切换和课程编辑。</p>
         </div>
         <div class="note-card">
           <strong>筛选规则</strong>
@@ -3333,7 +3485,7 @@
             <li>课程类别：下拉单选，来源于数字字典；默认“所有类别”。</li>
             <li>科目：下拉单选，来源于数字字典；默认“所有科目”。</li>
             <li>年级：下拉单选或多选，来源于适用年级字典；默认“所有年级”。</li>
-            <li>课程状态：下拉单选，包含启用、停用等状态；默认“所有状态”。</li>
+            <li>课程状态：下拉单选，包含启用、禁用状态；默认“所有状态”。</li>
             <li>课程类型：下拉单选，包含试听课、正课；默认“所有类型”。</li>
             <li>搜索：按当前筛选条件刷新课程列表。</li>
             <li>重置：清空筛选条件并恢复默认列表。</li>
@@ -3352,7 +3504,7 @@
             <li>课时时长：展示课程类型、单节时长和总课时数。</li>
             <li>评分：展示后台配置或统计评分。</li>
             <li>关联老师：展示当前关联老师数量。</li>
-            <li>状态：展示课程启用/停用状态。</li>
+            <li>状态：展示课程启用/禁用状态；新建课程保存后默认进入禁用状态。</li>
           </ul>
         </div>
         <div class="note-card">
@@ -3362,7 +3514,10 @@
             <li>新增课程：进入编辑课程页，用于创建新课程，本轮复用编辑页表达。</li>
             <li>详情：查看当前行课程详情，本轮仅作为列表操作入口展示。</li>
             <li>评论管理：打开当前行课程的评论管理弹窗，用于新增、编辑、启用、停用或删除评论假数据。</li>
-            <li>编辑：进入当前行对应的编辑课程页，编辑后驱动前台课程详情展示。</li>
+            <li>关联课程：打开当前行课程的关联课程弹窗，用于选择关联课程并维护前台精选好课展示。</li>
+            <li>启用：仅在禁用课程行展示，点击后将课程状态切换为启用，课程可进入前台展示或售卖链路。</li>
+            <li>禁用：仅在启用课程行展示，点击后将课程状态切换为禁用，前台按业务规则隐藏或不可购买。</li>
+            <li>编辑：进入当前行对应的编辑课程页，只编辑课程内容和价格字段，不在编辑页操作启用/禁用。</li>
             <li>刷新图标：按当前筛选条件重新加载列表。</li>
             <li>密度/全屏/列设置类图标：按后台标准列表工具处理，本轮不展开独立业务规则。</li>
             <li>分页：切换页码或每页条数后刷新课程列表。</li>
@@ -3370,14 +3525,14 @@
         </div>
         <div class="note-card">
           <strong>与前台关系</strong>
-          <p>该页提供课程编辑和评论管理入口。家长端课程详情页的标题、标签、价格、详情图和推荐课程由编辑课程页维护；评价摘要与评价总数由课程列表页的评论管理弹窗维护；滚动成交带按前端展示规则处理。</p>
+          <p>该页提供课程编辑、评论管理、关联课程和启用/禁用入口。家长端课程详情页的标题、标签、价格和详情图由编辑课程页维护；课程状态只在列表页切换，新建课程默认禁用；评价摘要与评价总数由课程列表页的评论管理弹窗维护；精选好课由课程列表页的关联课程弹窗维护；滚动成交带按前端展示规则处理。</p>
         </div>
       </div>
 
       <div class="notes-body" data-page-notes="page-admin-edit">
         <div class="note-card">
           <strong>页面职责</strong>
-          <p>后台编辑课程页用于维护课程基础字段、价格字段、课程介绍图片、课程标签、封面图和精选好课配置。课程评价 / 评论相关功能不在本页维护，统一从课程管理列表页“评论管理”入口进入。</p>
+          <p>后台编辑课程页用于维护课程基础字段、价格字段、课程介绍图片、课程标签和封面图。课程评价 / 评论、关联课程和启用 / 禁用状态不在本页维护，统一从课程管理列表页对应操作入口进入。新增课程保存后默认禁用，需要回到列表页手动启用。</p>
         </div>
         <div class="note-card">
           <strong>字段逐项说明</strong>
@@ -3409,10 +3564,6 @@
             <div class="field-qa-item">
               <strong>课程配置 / 价格字段</strong>
               <p>字段定义：试听课/正课类型与价格展示来源。规则：课程配置为单选；单价、会员单价、平台服务费、总课时数、原价、会员价、单节课时长为数值输入；虚拟销量、虚拟评分为前台信任增强字段。交互方式：单选切换 + 数值输入。影响：同步影响前台价格区、后台列表与推荐展示。</p>
-            </div>
-            <div class="field-qa-item">
-              <strong>前端展示配置</strong>
-              <p>字段定义：用于维护精选好课展示规则。规则：精选好课通过弹窗选择课程后建立关联，前台默认最多展示4个，无关联时隐藏。交互方式：配置块维护 + 弹窗选择关联。影响：决定前台精选好课展示结果。评价摘要不在编辑课程页维护。</p>
             </div>
           </div>
         </div>
@@ -3451,26 +3602,30 @@
       <div class="notes-body" data-page-notes="page-admin-recommend-popup">
         <div class="note-card">
           <strong>弹窗职责</strong>
-          <p>该弹窗用于给当前课程选择精选好课。运营在弹窗中搜索、筛选并多选课程，确认后建立推荐关联。</p>
+          <p>该弹窗由课程管理列表页操作列“关联课程”打开，用于给当前课程选择精选好课。运营在弹窗中搜索、筛选并多选课程，确认后建立推荐关联。</p>
         </div>
         <div class="note-card">
           <strong>交互规则</strong>
           <ul>
             <li>支持按课程名称、课程类别、所属学科、课程状态筛选候选课程。</li>
-            <li>支持多选关联，确认后回到编辑课程页下方展示已关联课程。</li>
+            <li>支持多选关联，确认后返回课程管理列表页，关联结果用于当前课程前台精选好课展示。</li>
             <li>已关联结果展示课程名称、封面、分类/学科、价格、排序值和移除操作。</li>
-            <li>推荐顺序由编辑课程页中的排序值控制，前台按该顺序展示精选好课。</li>
+            <li>推荐顺序由关联课程弹窗中的排序值控制，前台按该顺序展示精选好课。</li>
             <li>前台默认最多展示4个关联课程；超过4个时通过“加载更多”查看全部关联课程。</li>
             <li>当前课程没有关联课程时，前台不展示精选好课模块。</li>
           </ul>
         </div>
       </div>
     </aside>
+      </div>
+    </div>
 
     <script>
-      const pageButtons = document.querySelectorAll(".tree-btn");
+      const pageButtons = document.querySelectorAll(".nav-item[data-target]");
       const pages = document.querySelectorAll(".page");
       const notes = document.querySelectorAll(".notes-body");
+      const pageTitle = document.getElementById("pageTitle");
+      const notesSub = document.getElementById("notesSub");
       const actionTargets = document.querySelectorAll("[data-target]");
       const detailScroll = document.getElementById("detailScroll");
       const anchorButtons = document.querySelectorAll(".anchor-btn");
@@ -3485,6 +3640,10 @@
         pages.forEach((page) => page.classList.toggle("active", page.id === pageId));
         pageButtons.forEach((btn) => btn.classList.toggle("active", btn.dataset.target === pageId));
         notes.forEach((note) => note.classList.toggle("active", note.dataset.pageNotes === pageId));
+        const currentButton = document.querySelector(`.nav-item[data-target="${pageId}"]`);
+        const currentLabel = currentButton ? currentButton.querySelector("span")?.textContent : "课程详情页";
+        pageTitle.textContent = currentLabel;
+        notesSub.textContent = `当前页面：${currentLabel}`;
         if (pageId === "page-detail") {
           detailScroll.scrollTop = 0;
           setActiveAnchor("anchor-experience");
