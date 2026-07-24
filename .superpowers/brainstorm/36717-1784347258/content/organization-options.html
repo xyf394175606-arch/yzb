@@ -1,0 +1,50 @@
+<h2>组件库如何组织</h2>
+<p class="subtitle">先选择组件索引的主入口，后续所有 Codex 原型任务都按此入口检索。</p>
+
+<div class="cards">
+  <div class="card" data-choice="taxonomy" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup">
+        <div class="mockup-header">基础分类</div>
+        <div class="mockup-body">
+          <div class="mock-nav">基础 · 表单 · 数据 · 反馈 · 导航</div>
+          <div style="display:flex;gap:8px;margin-top:12px">
+            <div class="mock-sidebar">按钮<br>输入框<br>弹窗<br>表格<br>分页</div>
+            <div class="mock-content"><button class="mock-button">主要按钮</button><input class="mock-input" placeholder="输入框"><div class="placeholder">默认 / 加载 / 错误 / 禁用</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body"><h3>A · 按组件分类</h3><p>最接近截图中的组件展示台，查找稳定、适合建立白名单和状态矩阵。</p></div>
+  </div>
+  <div class="card" data-choice="scenes" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup">
+        <div class="mockup-header">业务场景</div>
+        <div class="mockup-body">
+          <div class="mock-nav">后台首页 · 列表页 · 详情页 · 配置页</div>
+          <div style="display:flex;gap:8px;margin-top:12px">
+            <div class="mock-sidebar">教师管理<br>课程配置<br>订单处理</div>
+            <div class="mock-content"><div class="placeholder">筛选 + 表格 + 分页</div><button class="mock-button">编辑</button><button class="mock-button">保存</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body"><h3>B · 按页面场景</h3><p>更适合直接生成页面，但容易把基础组件规则藏在业务模板里。</p></div>
+  </div>
+  <div class="card" data-choice="layers" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mockup">
+        <div class="mockup-header">双层索引</div>
+        <div class="mockup-body">
+          <div class="mock-nav">基础组件 ↔ 业务模板</div>
+          <div style="display:flex;gap:8px;margin-top:12px">
+            <div class="mock-sidebar">按钮<br>弹窗<br>表格</div>
+            <div class="mock-content"><div class="placeholder">列表页模板<br><small>由筛选、表格、状态、分页组合</small></div><button class="mock-button">查看模板</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body"><h3>C · 基础组件 + 业务模板</h3><p>同时满足组件复用和页面生成，维护边界最清晰，但首期索引要设计两层关系。</p></div>
+  </div>
+</div>
